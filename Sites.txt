@@ -1,13 +1,12 @@
 ----- Outils -----
-http://www.kuleuven.be/english/news/several-top-websites-use-device-fingerprinting-to-secretly-track-users
-
+http://homes.esat.kuleuven.be/~gacar/fpdetective/
 
 ----- Politique ; Débats -----
 http://www.eteignezvotreordinateur.com/fin-lanonymat-les-internautes-belges/
 http://www.wired.com/opinion/2013/06/why-i-have-nothing-to-hide-is-the-wrong-way-to-think-about-surveillance/
 
-
 ----- Divers -----
+http://www.kuleuven.be/english/news/several-top-websites-use-device-fingerprinting-to-secretly-track-users
 http://www.developpez.com/actu/61617/Google-souhaiterait-remplacer-les-cookies-par-un-identifiant-unique-les-entreprises-de-publicite-en-ligne-crient-au-scandale/
 http://technewsfeeder.com/nsa-tracks-google-ads-to-find-tor-users/
 http://www.developpez.com/actu/62332/Le-reseau-Tor-a-resiste-a-la-NSA-son-directeur-veut-dediaboliser-l-agence-de-securite/
