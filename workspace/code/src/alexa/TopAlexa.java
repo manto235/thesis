@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import alexa.Website;
+
 public class TopAlexa {
 	private ArrayList<Website> websites;
 
@@ -53,5 +55,4 @@ public class TopAlexa {
 					+ "> Please, download it at http://www.alexa.com/topsites");
 		}
 	}
-
 }
