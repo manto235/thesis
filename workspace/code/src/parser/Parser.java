@@ -73,9 +73,9 @@ public class Parser {
 			System.out.println("> First entry (URL response) : " + firstEntry.getResponse());*/
 
 			for (HarEntry entry : entriesList) {
-				System.out.println("Entry (request URL) : " + entry.getRequest().getUrl());
+				//System.out.println("Entry (request URL) : " + entry.getRequest().getUrl());
 				//System.out.println("-- Entry (response) : " + entry.getResponse());
-				System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
+				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
 
 			/*List<HarPage> pages = log.getPages().getPages();

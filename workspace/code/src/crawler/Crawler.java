@@ -115,12 +115,7 @@ public class Crawler {
 		initializeProxyandDriver(port);
 
 		for(Website website : websites.getWebsites()) {
-			int attempts = 1;
-			System.out.println(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempts + ").");
-			try {
-				statusLogFile.write(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempts + ").");
-				statusLogFile.newLine();
-			} catch (IOException ioe) {}
+			int attempt = 0;
 
 			// Write the HAR file
 			//String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl();
@@ -134,17 +129,21 @@ public class Crawler {
 					statusLogFile.newLine();
 				} catch (IOException ioe) {}
 			}*/
-
-			writeFiles(website, directoryName);
-
-			// We check if the file is OK
-			boolean fileOK = checkHARfile(website, directoryName);
-			// If this is not the case and the attempts are <= 3, we try again
-			if(!fileOK && attempts <= 3) {
-				writeFiles(website, directoryName);
-				fileOK = checkHARfile(website, directoryName);
-				attempts++;
+			boolean fileOK;
+			do {
+				attempt++;
+				writeFiles(website, directoryName, attempt);
+				// We check if the file is OK
+				fileOK = checkHARfile(website, directoryName, attempt);
+				if(attempt != 0) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {}
+				}
 			}
+
+			// If this is not the case and the attempts are <= 3, we try again
+			while(!fileOK && attempt <= 3);
 
 			// Write the IMG file
 			/*List<WebElement> allImages = driver.findElements(By.tagName("img"));
@@ -174,7 +173,13 @@ public class Crawler {
 		haltProxyAndDriver();
 	}
 
-	public static void writeFiles(Website website, String directoryName) {
+	public static void writeFiles(Website website, String directoryName, int attempt) {
+		System.out.println(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
+		try {
+			statusLogFile.write(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
+			statusLogFile.newLine();
+		} catch (IOException ioe) {}
+
 		// Create a new HAR with the appropriate label
 		proxy.newHar(website.getUrl());
 		// Open the website
@@ -182,7 +187,7 @@ public class Crawler {
 		// Get the HAR data
 		Har har = proxy.getHar();
 
-		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl();
+		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl() + attempt;
 
 		// Write the HAR file
 		File output = new File(filename + "_HAR");
@@ -214,9 +219,9 @@ public class Crawler {
 		}
 	}
 
-	public static boolean checkHARfile(Website website, String directoryName) {
+	public static boolean checkHARfile(Website website, String directoryName, int attempt) {
 		boolean status = true;
-		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl();
+		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl() + attempt;
 		File file = new File(filename + "_HAR");
 		HarFileReader r = new HarFileReader();
 		try {
