@@ -67,10 +67,10 @@ public class start {
 							int endIndex = parseEndIndex(cmd.getOptionValue("ei"));
 
 							System.out.println("Launching crawler...\n"
-									+ "directory: " + cmd.getOptionValue("dir") + "\n"
-									+ "port: " + port + ", file : " + file
-									+ ", begin index: " + beginIndex + ", end index: " + endIndex);
-							Crawler.launchCrawler(directory, port, beginIndex, endIndex);
+									+ "   directory: " + cmd.getOptionValue("dir") + "\n"
+									+ "   port: " + port + ", file : " + file + "\n"
+									+ "   begin index: " + beginIndex + ", end index: " + endIndex);
+							Crawler.launchCrawler(directory, port, file, beginIndex, endIndex);
 
 							if(mode.equals("cp")) {
 								System.out.println("Launching parser...\n"
@@ -78,7 +78,7 @@ public class start {
 								Parser.launchParser(directory);
 							}
 						} catch (Exception e) {
-							System.out.println("Cannot launch the crawler. Check the arguments.");
+							System.out.println("Cannot launch the crawler.");
 							return;
 						}
 					}
@@ -106,7 +106,7 @@ public class start {
 	public static String parseDirectory(String path) throws Exception {
 		File directory = new File(path);
 		if(!directory.isDirectory()) {
-			System.out.println("Directory not found!");
+			System.out.println("Directory not found! Check your -dir argument.");
 			throw new Exception();
 		}
 		return path;
@@ -151,7 +151,7 @@ public class start {
 	public static String parseFile(String path) throws Exception {
 		File file = new File(path);
 		if(!file.isFile()) {
-			System.out.println("File not found!");
+			System.out.println("File not found! Check your -file argument.");
 			throw new Exception();
 		}
 		else {

@@ -9,16 +9,16 @@ import alexa.Website;
 public class TopAlexa {
 	private ArrayList<Website> websites;
 
-	public TopAlexa(int begin, int end) {
+	public TopAlexa(String file, int begin, int end) {
 		websites = new ArrayList<Website>();
-		read(begin, end);
+		read(file, begin, end);
 	}
 
 	public ArrayList<Website> getWebsites() {
 		return websites;
 	}
 
-	private void read(int begin, int end) {
+	private void read(String file, int begin, int end) {
 		if(begin <= 0) {
 			System.out.println("The range starts at 1");
 			return;
@@ -33,7 +33,7 @@ public class TopAlexa {
 		}
 
 		try {
-			Scanner scanner = new Scanner(new File("top-1m.csv"));
+			Scanner scanner = new Scanner(new File(file));
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				String[] tokens = line.split(",");

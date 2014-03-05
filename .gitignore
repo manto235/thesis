@@ -2,3 +2,5 @@ workspace/.metadata
 workspace/RemoteSystemsTempFiles
 workspace/code/output
 workspace/code/target
+workspace/code/errors.txt
+workspace/code/log.txt

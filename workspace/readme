@@ -1,7 +1,10 @@
 === Readme ===
+
+*** Install ***
+Note: this project has been developped in Eclipse.
 - Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
 
-- Add the following lines after </build> in order to install Selenium (Firefox Driver) and Browsermob:
+- Add the following lines in the file pom.xml after </build> in order to install Selenium (Firefox Driver) and Browsermob:
   <dependencies>
    <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
@@ -16,6 +19,12 @@
   </dependencies>
 
 - Download HarLib (from https://sites.google.com/site/frogthinkerorg/projects/harlib) and add harlib-jackson-xxx.jar to the classpath.
-In Eclipse:
+- Download Apache Commons CLI (from http://commons.apache.org/proper/commons-cli/) and add commons-cli-xx.jar to the classpath.
+
+How to add a library in Eclipse:
 > Right click on the project => Properties.
-> Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the file downloaded before.
+> Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the jar files downloaded before.
+
+*** Run ***
+Launch "java -jar Code.jar" followed by the arguments.
+Note: launch "java -jar Code.jar -h" in order to get help.
