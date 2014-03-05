@@ -1,3 +1,5 @@
+package crawler;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -57,12 +59,10 @@ public class Crawler {
 		}
 	}
 
-	public static void main(String[] args) {
-		String directoryName = "output";
-		initializeProxyandDriver(4444); // Port 4444
-
+	public static void launchCrawler(String directoryName, int port, int begin_index, int end_index) {
+		// Check if the directory exists and creates it if needed
 		File directory = new File(directoryName);
-		if (!directory.isDirectory()) {
+		if(!directory.isDirectory()) {
 			if(directory.mkdirs()) {
 				System.out.println("Info: a directory named \"" + directoryName + "\" has been created");
 			}
@@ -74,7 +74,9 @@ public class Crawler {
 			}
 		}
 
-		TopAlexa websites = new TopAlexa(0,5);
+		TopAlexa websites = new TopAlexa(begin_index, end_index);
+
+		initializeProxyandDriver(port);
 
 		for(Website website : websites.getWebsites()) {
 			System.out.println("Crawling website #" + website.getPosition() + " - " + website.getUrl());

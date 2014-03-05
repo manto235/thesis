@@ -17,5 +17,5 @@
 
 - Download HarLib (from https://sites.google.com/site/frogthinkerorg/projects/harlib) and add harlib-jackson-xxx.jar to the classpath.
 In Eclipse:
-> Right click on the projet => Properties.
+> Right click on the project => Properties.
 > Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the file downloaded before.

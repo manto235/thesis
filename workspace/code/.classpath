@@ -17,5 +17,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/home/antoine/thesis/workspace/code/lib/harlib-jackson-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/antoine/thesis/workspace/code/lib/commons-cli-1.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

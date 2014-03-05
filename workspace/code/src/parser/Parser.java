@@ -1,3 +1,5 @@
+package parser;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,21 +22,25 @@ public class Parser {
 	public static ArrayList<File> loadFiles(String directoryName) {
 		System.out.print("Loading the files from directory \"" + directoryName + "\"... ");
 		File directory = new File(directoryName);
+		if(!directory.isDirectory()) {
+			System.out.println("The directory does not exist!");
+			System.exit(1);
+		}
+
 		File[] files = directory.listFiles();
 		ArrayList<File> filesList = new ArrayList<File>();
-		
+
 		for (File file : files) {
-			if (file.isFile()) {
+			if(file.isFile()) {
 				filesList.add(file);
 			}
 		}
-		
+
 		System.out.println("Done!");
 		return filesList;
 	}
 
-	public static void main (String[] args) {
-		String directoryName = "output";
+	public static void launchParser(String directoryName) {
 		ArrayList<File> filesList = loadFiles(directoryName);
 
 		for (File file : filesList) {
