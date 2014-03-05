@@ -21,6 +21,7 @@ import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import edu.umass.cs.benchlab.har.tools.HarFileReader;
 import alexa.TopAlexa;
 import alexa.Website;
 
@@ -65,8 +66,8 @@ public class Crawler {
 		catch (Exception e) {
 			System.out.println(dateFormat.format(new Date()) +  " - Error: cannot initialize the proxy and the driver.");
 			try {
-				errorLogFile.write(dateFormat.format(new Date()) +  " - Error: cannot initialize the proxy and the driver.");
-				errorLogFile.newLine();
+				statusLogFile.write(dateFormat.format(new Date()) +  " - Error: cannot initialize the proxy and the driver.");
+				statusLogFile.newLine();
 			} catch (IOException ioe) {}
 		}
 	}
@@ -100,9 +101,9 @@ public class Crawler {
 				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the outputs.\n"
 						+ "> Please, create a directory named \"" + directoryName + "\".");
 				try {
-					errorLogFile.write(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the outputs.\n"
+					statusLogFile.write(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the outputs.\n"
 							+ "> Please, create a directory named \"" + directoryName + "\".");
-					errorLogFile.newLine();
+					statusLogFile.newLine();
 				}  catch (IOException ioe) {}
 				haltProxyAndDriver();
 				return;
@@ -114,36 +115,39 @@ public class Crawler {
 		initializeProxyandDriver(port);
 
 		for(Website website : websites.getWebsites()) {
-			System.out.println(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl());
+			int attempts = 1;
+			System.out.println(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempts + ").");
 			try {
-				statusLogFile.write(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl());
+				statusLogFile.write(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempts + ").");
 				statusLogFile.newLine();
 			} catch (IOException ioe) {}
 
-			// Create a new HAR with the appropriate label
-			proxy.newHar(website.getUrl());
-
-			// Open the website
-			driver.get("http://" + website.getUrl());
-
-			// Get the HAR data
-			Har har = proxy.getHar();
-
 			// Write the HAR file
-			String filename = directory + "/" + website.getPosition() + "-" + website.getUrl();
-			File output = new File(filename + "_HAR");
+			//String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl();
+			/*File output = new File(filename + "_HAR");
 			try {
 				har.writeTo(output);
 			} catch (Exception e) {
 				System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_HAR.");
 				try {
-					errorLogFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_HAR.");
-					errorLogFile.newLine();
+					statusLogFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_HAR.");
+					statusLogFile.newLine();
 				} catch (IOException ioe) {}
+			}*/
+
+			writeFiles(website, directoryName);
+
+			// We check if the file is OK
+			boolean fileOK = checkHARfile(website, directoryName);
+			// If this is not the case and the attempts are <= 3, we try again
+			if(!fileOK && attempts <= 3) {
+				writeFiles(website, directoryName);
+				fileOK = checkHARfile(website, directoryName);
+				attempts++;
 			}
 
 			// Write the IMG file
-			List<WebElement> allImages = driver.findElements(By.tagName("img"));
+			/*List<WebElement> allImages = driver.findElements(By.tagName("img"));
 			try {
 				BufferedWriter images = new BufferedWriter(new FileWriter(new File(filename + "_IMG"), false));
 				for (WebElement image: allImages) {
@@ -154,10 +158,10 @@ public class Crawler {
 			} catch (Exception e) {
 				System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_IMG.");
 				try {
-					errorLogFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_IMG.");
-					errorLogFile.newLine();
+					statusLogFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_IMG.");
+					statusLogFile.newLine();
 				} catch (IOException ioe) {}
-			}
+			}*/
 		}
 
 		// Close the logs files
@@ -168,6 +172,66 @@ public class Crawler {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs files.\n> They may be corrupted.");
 		}
 		haltProxyAndDriver();
+	}
+
+	public static void writeFiles(Website website, String directoryName) {
+		// Create a new HAR with the appropriate label
+		proxy.newHar(website.getUrl());
+		// Open the website
+		driver.get("http://" + website.getUrl());
+		// Get the HAR data
+		Har har = proxy.getHar();
+
+		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl();
+
+		// Write the HAR file
+		File output = new File(filename + "_HAR");
+		try {
+			har.writeTo(output);
+		} catch (Exception e) {
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_HAR.");
+			try {
+				statusLogFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_HAR.");
+				statusLogFile.newLine();
+			} catch (IOException ioe) {}
+		}
+
+		// Write the IMG file
+		List<WebElement> allImages = driver.findElements(By.tagName("img"));
+		try {
+			BufferedWriter images = new BufferedWriter(new FileWriter(new File(filename + "_IMG"), false));
+			for (WebElement image: allImages) {
+				images.write(image.getAttribute("src") + "," + image.getAttribute("height") + "," + image.getAttribute("width") + "," + image.isDisplayed() + "," + image.isEnabled());
+				images.newLine();
+			}
+			images.close();
+		} catch (Exception e) {
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_IMG.");
+			try {
+				statusLogFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_IMG.");
+				statusLogFile.newLine();
+			} catch (IOException ioe) {}
+		}
+	}
+
+	public static boolean checkHARfile(Website website, String directoryName) {
+		boolean status = true;
+		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl();
+		File file = new File(filename + "_HAR");
+		HarFileReader r = new HarFileReader();
+		try {
+			r.readHarFile(file);
+		} catch (Exception e) {
+			System.out.println(dateFormat.format(new Date()) + " - Error: file " + filename + " is wrong.");
+			try {
+				status = false;
+				statusLogFile.write(dateFormat.format(new Date()) + " - Error: file " + filename + " is wrong.");
+				statusLogFile.newLine();
+				errorLogFile.write(website.getUrl());
+				errorLogFile.newLine();
+			} catch (IOException ioe) {}
+		}
+		return status;
 	}
 
 	/**
@@ -186,8 +250,8 @@ public class Crawler {
 		driver.quit();
 		System.out.println(dateFormat.format(new Date()) + " - Info: the proxy has been stopped successfully.");
 		try {
-			errorLogFile.write(dateFormat.format(new Date()) + " - Info: the proxy has been stopped successfully.");
-			errorLogFile.newLine();
+			statusLogFile.write(dateFormat.format(new Date()) + " - Info: the proxy has been stopped successfully.");
+			statusLogFile.newLine();
 		} catch (IOException ioe) {}
 	}
 }
