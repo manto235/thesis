@@ -24,7 +24,8 @@ public class start {
 
 		CommandLineParser parser = new PosixParser();
 		try {
-			cmd = parser.parse( options, args);
+			cmd = parser.parse(options, args);
+			// Help
 			if(cmd.hasOption("h")) {
 				String help = "Launch with the following arguments: -mode [mode] -dir [directory] -port [port] -file [file] -bi [begin index] -ei [end index]\n"
 						+ "If the mode is \"crawler\" or \"crawler & parser\", add the following arguments: port, file, bi and ei.\n"
@@ -33,31 +34,25 @@ public class start {
 				HelpFormatter formatter = new HelpFormatter();
 				formatter.printHelp("java -jar Code.jar", options);
 			}
-			// Required: mode
+			// Mode (required)
 			else if(!cmd.hasOption("mode")) {
 				System.out.println("Mode is required!\nLaunch with -h for help");
 			}
-			// Required: directory
+			// Directory (required)
 			else if(!cmd.hasOption("dir")) {
 				System.out.println("Directory is required!");
 			}
 			else {
-				String directory = cmd.getOptionValue("dir");
-				//String directory;
-				/*try {
-					directory = parseDirectory(cmd.getOptionValue("dir"));
-				} catch (Exception e1) {
-					System.out.println("An error occurred. Check the directory argument.");
-					return;
-				}*/
 				String mode = cmd.getOptionValue("mode");
+				String directory = cmd.getOptionValue("dir");
 
+				// Mode: parser
 				if(mode.equals("p")) {
 					System.out.println("Launching parser...\n"
 							+ "directory: " + cmd.getOptionValue("dir"));
 					Parser.launchParser(directory);
 				}
-
+				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
 					if(checkArgsCrawler(cmd.hasOption("port"), cmd.hasOption("file"), cmd.hasOption("bi"), cmd.hasOption("ei"))) {
 						try {
@@ -72,6 +67,7 @@ public class start {
 									+ "   begin index: " + beginIndex + ", end index: " + endIndex);
 							Crawler.launchCrawler(directory, port, file, beginIndex, endIndex);
 
+							// Mode: crawler & parser
 							if(mode.equals("cp")) {
 								System.out.println("Launching parser...\n"
 										+ "directory: " + cmd.getOptionValue("dir"));
@@ -98,7 +94,7 @@ public class start {
 	/**
 	 * Checks if the path corresponds to a directory and if it exists.
 	 * If the directory does not exist, a message is printed in the console.
-	 * 
+	 *
 	 * @param path the path to check
 	 * @return the path if the directory exists, throws an exception otherwise
 	 * @throws Exception 
@@ -112,21 +108,32 @@ public class start {
 		return path;
 	}
 
-	public static boolean checkArgsCrawler(boolean port, boolean f, boolean b, boolean e) {
+	/**
+	 * Checks if arguments are missing for the crawler mode.
+	 * Prints the list of missing arguments in the console.
+	 *
+	 * @param port
+	 * @param file
+	 * @param bi
+	 * @param ei
+	 * @return true if no argument is missing, false otherwise
+	 */
+	public static boolean checkArgsCrawler(boolean port, boolean file, boolean bi, boolean ei) {
 		String message = "The following arguments are missing:\n";
 		if(!port) message += " - port of the proxy\n";
-		if(!f) message += " - path to the top-1m.csv file\n";
-		if(!b) message += " - begin index\n";
-		if(!e) message += " - end index\n";
+		if(!file) message += " - path to the top-1m.csv file\n";
+		if(!bi) message += " - begin index\n";
+		if(!ei) message += " - end index\n";
 
-		boolean check = port & f & b & e;
+		boolean check = port & file & bi & ei;
 		if(!check) System.out.print(message);
 		return check;
 	}
 
 	/**
 	 * Parses the port received as argument.
-	 * 
+	 * If the port is not an integer, a message is printed in the console.
+	 *
 	 * @param port the port as a String
 	 * @return the port as an int
 	 * @throws Exception
@@ -143,7 +150,7 @@ public class start {
 	/**
 	 * Checks if the path corresponds to a file and if it exists.
 	 * If the file does not exist, a message is printed in the console.
-	 * 
+	 *
 	 * @param path the path to check
 	 * @return the path if the file exists, throws an exception otherwise
 	 * @throws Exception 
@@ -161,7 +168,8 @@ public class start {
 
 	/**
 	 * Parses the begin index received as argument.
-	 * 
+	 * If the index is not an integer, a message is printed in the console.
+	 *
 	 * @param index the index as a String
 	 * @return the index as an int
 	 * @throws Exception
@@ -177,7 +185,8 @@ public class start {
 
 	/**
 	 * Parses the end index received as argument.
-	 * 
+	 * If the index is not an integer, a message is printed in the console.
+	 *
 	 * @param index the index as a String
 	 * @return the index as an int
 	 * @throws Exception
