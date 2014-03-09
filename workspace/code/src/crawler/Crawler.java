@@ -58,16 +58,10 @@ public class Crawler {
 			// Start the browser up
 			driver = new FirefoxDriver(capabilities);
 
-			System.out.println(dateFormat.format(new Date()) + " - Info: ProxyServer and WebDriver are ready.");
-			logsFile.write(dateFormat.format(new Date()) + " - Info: ProxyServer and WebDriver are ready.");
-			logsFile.newLine();
+			logMessage("Info: ProxyServer and WebDriver are ready.");
 		}
 		catch (Exception e) {
-			System.out.println(dateFormat.format(new Date()) +  " - Error: cannot initialize the proxy and the driver.");
-			try {
-				logsFile.write(dateFormat.format(new Date()) +  " - Error: cannot initialize the proxy and the driver.");
-				logsFile.newLine();
-			} catch (IOException ioe) {}
+			logMessage("Error: cannot initialize the proxy and the driver.");
 		}
 	}
 
@@ -84,7 +78,7 @@ public class Crawler {
 			logsFile.write(start);
 			logsFile.newLine();
 		} catch (IOException e) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs files.\n> Please check your file system permissions.");
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n> Please check your file system permissions.");
 			return;
 		}
 
@@ -92,20 +86,11 @@ public class Crawler {
 		File directory = new File(directoryName);
 		if(!directory.isDirectory()) {
 			if(directory.mkdirs()) {
-				System.out.println(dateFormat.format(new Date()) + " - Info: a directory named \"" + directoryName + "\" has been created.");
-				try{
-					logsFile.write(dateFormat.format(new Date()) + " - Info: a directory named \"" + directoryName + "\" has been created.");
-					logsFile.newLine();
-				} catch (IOException ioe) {}
+				logMessage("Info: a directory named \"" + directoryName + "\" has been created.");
 			}
 			else {
-				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the outputs.\n"
+				logMessage("Error: cannot create the directory containing the outputs.\n"
 						+ "> Please, create a directory named \"" + directoryName + "\".");
-				try {
-					logsFile.write(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the outputs.\n"
-							+ "> Please, create a directory named \"" + directoryName + "\".");
-					logsFile.newLine();
-				}  catch (IOException ioe) {}
 				haltProxyAndDriver();
 				return;
 			}
@@ -133,21 +118,17 @@ public class Crawler {
 			while(!fileOK && attempt <= attempts);
 		}
 
-		// Close the logs files
+		// Close the logs file
 		try {
 			logsFile.close();
 		} catch (IOException e) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs files.\n> They may be corrupted.");
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
 		}
 		haltProxyAndDriver();
 	}
 
 	public static void writeFiles(Website website, String directoryName, int attempt) {
-		System.out.println(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
-		try {
-			logsFile.write(dateFormat.format(new Date()) + " - Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
-			logsFile.newLine();
-		} catch (IOException ioe) {}
+		logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
 
 		// Create a new HAR with the appropriate label
 		proxy.newHar(website.getUrl());
@@ -163,11 +144,7 @@ public class Crawler {
 		try {
 			har.writeTo(output);
 		} catch (Exception e) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_HAR.");
-			try {
-				logsFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_HAR.");
-				logsFile.newLine();
-			} catch (IOException ioe) {}
+			logMessage("Error: cannot write the file: " + filename + "_HAR.");
 		}
 
 		// Write the IMG file
@@ -180,11 +157,7 @@ public class Crawler {
 			}
 			images.close();
 		} catch (Exception e) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_IMG.");
-			try {
-				logsFile.write(dateFormat.format(new Date()) + " - Error: cannot write the file: " + filename + "_IMG.");
-				logsFile.newLine();
-			} catch (IOException ioe) {}
+			logMessage("Error: cannot write the file: " + filename + "_IMG.");
 		}
 	}
 
@@ -196,12 +169,7 @@ public class Crawler {
 		try {
 			r.readHarFile(file);
 		} catch (Exception e) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: file " + filename + " is wrong.");
-			try {
-				status = false;
-				logsFile.write(dateFormat.format(new Date()) + " - Error: file " + filename + " is wrong.");
-				logsFile.newLine();
-			} catch (IOException ioe) {}
+			logMessage("Error: file " + filename + " is wrong.");
 		}
 		return status;
 	}
@@ -213,17 +181,24 @@ public class Crawler {
 		try {
 			proxy.stop();
 		} catch (Exception e) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: the proxy was not stopped successfully.");
-			try {
-				logsFile.write(dateFormat.format(new Date()) + " - Error: the proxy was not stopped successfully.");
-				logsFile.newLine();
-			} catch (IOException ioe) {}
+			logMessage("Error: the proxy was not stopped successfully.");
 		}
 		driver.quit();
-		System.out.println(dateFormat.format(new Date()) + " - Info: the proxy has been stopped successfully.");
+		logMessage("Info: the proxy has been stopped successfully.");
+	}
+
+	/**
+	 * Prints a message in the console and writes a message in the log file.
+	 * @param message the message to print and write
+	 */
+	public static void logMessage(String message) {
+		System.out.println(dateFormat.format(new Date()) + " - " + message);
 		try {
-			logsFile.write(dateFormat.format(new Date()) + " - Info: the proxy has been stopped successfully.");
+			logsFile.write(dateFormat.format(new Date()) + " - " + message);
 			logsFile.newLine();
-		} catch (IOException ioe) {}
+		} catch (IOException ioe) {
+			System.out.println("The message was not successfully written in the log file.");
+		}
+
 	}
 }
