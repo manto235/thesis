@@ -27,6 +27,7 @@ import alexa.Website;
 
 public class Crawler {
 
+	private static boolean debug;
 	private static ProxyServer proxy;
 	private static WebDriver driver;
 	private static BufferedWriter logsFile;
@@ -62,12 +63,15 @@ public class Crawler {
 		}
 		catch (Exception e) {
 			logMessage("Error: cannot initialize the proxy and the driver.");
+			if(debug) e.printStackTrace();
 			haltProxyAndDriver();
+			closeLogFile();
 			System.exit(1);
 		}
 	}
 
-	public static void launchCrawler(String directoryName, int port, String file, int beginIndex, int endIndex, int attempts) {
+	public static void launchCrawler(String directoryName, int port, String file, int beginIndex, int endIndex, int attempts, boolean showDebug) {
+		debug = showDebug;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
 				+ "   directory: " + directoryName + "\n"
@@ -79,9 +83,10 @@ public class Crawler {
 			logsFile = new BufferedWriter(new FileWriter(new File("logs.txt"), true));
 			logsFile.write(start);
 			logsFile.newLine();
-		} catch (IOException e) {
+		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n> Please check your file system permissions.");
-			return;
+			System.out.println("The crawler will however continue...");
+			if(debug) ioe.printStackTrace();
 		}
 
 		// Check if the directory exists and creates it if needed
@@ -94,7 +99,8 @@ public class Crawler {
 				logMessage("Error: cannot create the directory containing the outputs.\n"
 						+ "> Please, create a directory named \"" + directoryName + "\".");
 				haltProxyAndDriver();
-				return;
+				closeLogFile();
+				System.exit(1);
 			}
 		}
 
@@ -112,7 +118,9 @@ public class Crawler {
 					try {
 						System.out.println("Waiting for 3 seconds...");
 						Thread.sleep(3000);
-					} catch (InterruptedException e) {}
+					} catch (InterruptedException e) {
+						if(debug) e.printStackTrace();
+					}
 				}
 				writeFiles(website, directoryName, attempt);
 				// We check if the file is OK
@@ -124,13 +132,7 @@ public class Crawler {
 		}
 
 		haltProxyAndDriver();
-
-		// Close the logs file
-		try {
-			logsFile.close();
-		} catch (IOException e) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
-		}
+		closeLogFile();
 	}
 
 	public static void writeFiles(Website website, String directoryName, int attempt) {
@@ -151,6 +153,7 @@ public class Crawler {
 			har.writeTo(output);
 		} catch (Exception e) {
 			logMessage("Error: cannot write the file: " + filename + "_HAR.");
+			if(debug) e.printStackTrace();
 		}
 
 		// Write the IMG file
@@ -164,6 +167,7 @@ public class Crawler {
 			images.close();
 		} catch (Exception e) {
 			logMessage("Error: cannot write the file: " + filename + "_IMG.");
+			if(debug) e.printStackTrace();
 		}
 	}
 
@@ -177,6 +181,7 @@ public class Crawler {
 		} catch (Exception e) {
 			logMessage("Error: file " + filename + " is wrong.");
 			status = false;
+			if(debug) e.printStackTrace();
 		}
 		return status;
 	}
@@ -187,11 +192,12 @@ public class Crawler {
 	public static void haltProxyAndDriver() {
 		try {
 			proxy.stop();
+			driver.quit();
+			logMessage("Info: the proxy or/and the driver have been halted successfully.");
 		} catch (Exception e) {
-			logMessage("Error: the proxy was not stopped successfully.");
+			logMessage("Error: the proxy or/and the driver were not halted successfully.");
+			if(debug) e.printStackTrace();
 		}
-		driver.quit();
-		logMessage("Info: the proxy has been stopped successfully.");
 	}
 
 	/**
@@ -205,7 +211,20 @@ public class Crawler {
 			logsFile.newLine();
 		} catch (IOException ioe) {
 			System.out.println("The message was not successfully written in the log file.");
+			if(debug) ioe.printStackTrace();
 		}
+	}
 
+	/**
+	 * 	Closes the logs file.
+	 *  If a problem occurs, prints a message in the console.
+	 */
+	public static void closeLogFile() {
+		try {
+			logsFile.close();
+		} catch (IOException ioe) {
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
+			if(debug) ioe.printStackTrace();
+		}
 	}
 }

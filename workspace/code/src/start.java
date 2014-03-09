@@ -21,6 +21,7 @@ public class start {
 		options.addOption("bi", true, "required for crawler: begin index in the Alexa Top file");
 		options.addOption("ei", true, "required for crawler: end index in the Alexa Top file");
 		options.addOption("a", true, "optional for crawler: number of attempts per website");
+		options.addOption("debug", false, "debug");
 		options.addOption("h", false, "help");
 
 		CommandLineParser parser = new PosixParser();
@@ -66,7 +67,7 @@ public class start {
 								attempts = parseAttempts(cmd.getOptionValue("a"));
 							}
 
-							Crawler.launchCrawler(directory, port, file, beginIndex, endIndex, attempts);
+							Crawler.launchCrawler(directory, port, file, beginIndex, endIndex, attempts, cmd.hasOption("debug"));
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
@@ -75,8 +76,8 @@ public class start {
 								Parser.launchParser(directory);
 							}
 						} catch (Exception e) {
-							System.out.println("Cannot launch the crawler.");
-							return;
+							System.out.println("An error occurred with the crawler.");
+							System.exit(1);
 						}
 					}
 
