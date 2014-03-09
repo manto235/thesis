@@ -14,12 +14,13 @@ public class start {
 	public static void main (String[] args) {
 		CommandLine cmd;
 		Options options = new Options();
-		options.addOption("mode", true, "c (crawler), p (parser) or cp (crawler & parser)");
-		options.addOption("dir", true, "directory containing the files generated (crawler mode) or the files to parse (parser mode)");
-		options.addOption("port", true, "port of the proxy");
-		options.addOption("file", true, "path to the top-1m.csv file (Alexa Top file)");
-		options.addOption("bi", true, "begin index in the Alexa Top file");
-		options.addOption("ei", true, "end index in the Alexa Top file");
+		options.addOption("mode", true, "required: c (crawler), p (parser) or cp (crawler & parser)");
+		options.addOption("dir", true, "required: directory containing the files generated (crawler mode) or the files to parse (parser mode)");
+		options.addOption("port", true, "required for crawler: port of the proxy");
+		options.addOption("file", true, "required for crawler: path to the Alexa Top file (top-1m.csv)");
+		options.addOption("bi", true, "required for crawler: begin index in the Alexa Top file");
+		options.addOption("ei", true, "required for crawler: end index in the Alexa Top file");
+		options.addOption("a", true, "optional for crawler: number of attempts per website");
 		options.addOption("h", false, "help");
 
 		CommandLineParser parser = new PosixParser();
@@ -54,18 +55,18 @@ public class start {
 				}
 				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
-					if(checkArgsCrawler(cmd.hasOption("port"), cmd.hasOption("file"), cmd.hasOption("bi"), cmd.hasOption("ei"))) {
+					if(checkRequiredArgsCrawler(cmd.hasOption("port"), cmd.hasOption("file"), cmd.hasOption("bi"), cmd.hasOption("ei"))) {
 						try {
 							int port = parsePort(cmd.getOptionValue("port"));
 							String file = parseFile(cmd.getOptionValue("file"));
 							int beginIndex = parseBeginIndex(cmd.getOptionValue("bi"));
 							int endIndex = parseEndIndex(cmd.getOptionValue("ei"));
+							int attempts = 1; // 1 by default
+							if(cmd.hasOption("a")) {
+								attempts = parseAttempts(cmd.getOptionValue("a"));
+							}
 
-							System.out.println("Launching crawler...\n"
-									+ "   directory: " + cmd.getOptionValue("dir") + "\n"
-									+ "   port: " + port + ", file : " + file + "\n"
-									+ "   begin index: " + beginIndex + ", end index: " + endIndex);
-							Crawler.launchCrawler(directory, port, file, beginIndex, endIndex);
+							Crawler.launchCrawler(directory, port, file, beginIndex, endIndex, attempts);
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
@@ -109,16 +110,16 @@ public class start {
 	}
 
 	/**
-	 * Checks if arguments are missing for the crawler mode.
+	 * Checks if required arguments are missing for the crawler mode.
 	 * Prints the list of missing arguments in the console.
 	 *
 	 * @param port
 	 * @param file
 	 * @param bi
 	 * @param ei
-	 * @return true if no argument is missing, false otherwise
+	 * @return true if no required argument is missing, false otherwise
 	 */
-	public static boolean checkArgsCrawler(boolean port, boolean file, boolean bi, boolean ei) {
+	public static boolean checkRequiredArgsCrawler(boolean port, boolean file, boolean bi, boolean ei) {
 		String message = "The following arguments are missing:\n";
 		if(!port) message += " - port of the proxy\n";
 		if(!file) message += " - path to the top-1m.csv file\n";
@@ -196,6 +197,23 @@ public class start {
 			return Integer.parseInt(index);
 		} catch (Exception e) {
 			System.out.println("End index must be an integer!");
+			throw new Exception();
+		}
+	}
+
+	/**
+	 * Parses the number of attempts received as argument.
+	 * If the number of attempts is not an integer, a message is printed in the console.
+	 *
+	 * @param attempts the number of attempts as a String
+	 * @return the number of attempts as an int
+	 * @throws Exception
+	 */
+	public static int parseAttempts(String attempts) throws Exception {
+		try {
+			return Integer.parseInt(attempts);
+		} catch (Exception e) {
+			System.out.println("Number of attempts must be an integer!");
 			throw new Exception();
 		}
 	}

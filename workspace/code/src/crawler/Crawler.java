@@ -71,14 +71,17 @@ public class Crawler {
 		}
 	}
 
-	public static void launchCrawler(String directoryName, int port, String file, int beginIndex, int endIndex) {
+	public static void launchCrawler(String directoryName, int port, String file, int beginIndex, int endIndex, int attempts) {
+		String start = "----------------------------------------\n"
+				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
+				+ "   directory: " + directoryName + "\n"
+				+ "   port: " + port + ", file : " + file + "\n"
+				+ "   begin index: " + beginIndex + ", end index: " + endIndex + "\n"
+				+ "   number of attempts per website: " + attempts;
+		System.out.println(start);
 		try {
 			logsFile = new BufferedWriter(new FileWriter(new File("logs.txt"), true));
-			logsFile.write("----------------------------------------\n"
-					+ dateFormat.format(new Date()) + " - Launching crawler...\n"
-					+ "   directory: " + directoryName + "\n"
-					+ "   port: " + port + ", file : " + file + "\n"
-					+ "   begin index: " + beginIndex + ", end index: " + endIndex);
+			logsFile.write(start);
 			logsFile.newLine();
 		} catch (IOException e) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs files.\n> Please check your file system permissions.");
@@ -113,20 +116,21 @@ public class Crawler {
 		initializeProxyandDriver(port);
 
 		for(Website website : websites.getWebsites()) {
-			int attempt = 0;
+			int attempt = 1;
 			boolean fileOK;
 			do {
-				attempt++;
 				writeFiles(website, directoryName, attempt);
 				// We check if the file is OK
 				fileOK = checkHARfile(website, directoryName, attempt);
-				if(attempt != 0) {
+				if(attempt != 1) {
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(3000);
+						System.out.println("Waiting for 3 seconds");
 					} catch (InterruptedException e) {}
 				}
+				attempt++;
 			}
-			while(!fileOK && attempt <= 3);
+			while(!fileOK && attempt <= attempts);
 		}
 
 		// Close the logs files
