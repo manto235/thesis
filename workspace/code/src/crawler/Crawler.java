@@ -104,19 +104,23 @@ public class Crawler {
 			int attempt = 1;
 			boolean fileOK;
 			do {
+				// If this is not the first attempt, wait for 3 seconds
+				if(attempt != 1) {
+					try {
+						System.out.println("Waiting for 3 seconds...");
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {}
+				}
 				writeFiles(website, directoryName, attempt);
 				// We check if the file is OK
 				fileOK = checkHARfile(website, directoryName, attempt);
-				if(attempt != 1) {
-					try {
-						Thread.sleep(3000);
-						System.out.println("Waiting for 3 seconds");
-					} catch (InterruptedException e) {}
-				}
+
 				attempt++;
 			}
 			while(!fileOK && attempt <= attempts);
 		}
+
+		haltProxyAndDriver();
 
 		// Close the logs file
 		try {
@@ -124,7 +128,6 @@ public class Crawler {
 		} catch (IOException e) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
 		}
-		haltProxyAndDriver();
 	}
 
 	public static void writeFiles(Website website, String directoryName, int attempt) {
@@ -170,6 +173,7 @@ public class Crawler {
 			r.readHarFile(file);
 		} catch (Exception e) {
 			logMessage("Error: file " + filename + " is wrong.");
+			status = false;
 		}
 		return status;
 	}
