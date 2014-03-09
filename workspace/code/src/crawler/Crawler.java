@@ -62,6 +62,8 @@ public class Crawler {
 		}
 		catch (Exception e) {
 			logMessage("Error: cannot initialize the proxy and the driver.");
+			haltProxyAndDriver();
+			System.exit(1);
 		}
 	}
 
@@ -98,6 +100,7 @@ public class Crawler {
 
 		// Get the list of websites and initialize the proxy & the driver
 		TopAlexa websites = new TopAlexa(file, beginIndex, endIndex);
+
 		initializeProxyandDriver(port);
 
 		for(Website website : websites.getWebsites()) {
