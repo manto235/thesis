@@ -26,5 +26,10 @@ How to add a library in Eclipse:
 > Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the jar files downloaded before.
 
 *** Run ***
+To do once:
+- create a new profile in Firefox named Selenium
+- add the certificate (cybervillainsCA.cer) to the profile in Firefox
+
+
 Launch "java -jar Code.jar" followed by the arguments.
 Note: launch "java -jar Code.jar -h" in order to get help.
