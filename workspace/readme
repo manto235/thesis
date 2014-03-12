@@ -1,6 +1,6 @@
 === Readme ===
 
-*** Install ***
+***** Install *****
 Note: this project has been developped in Eclipse.
 - Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
 
@@ -25,11 +25,19 @@ How to add a library in Eclipse:
 > Right click on the project => Properties.
 > Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the jar files downloaded before.
 
-*** Run ***
-To do once:
+
+***** Before run (to do once) *****
 - create a new profile in Firefox named Selenium
 - add the certificate (cybervillainsCA.cer) to the profile in Firefox
 
+How to do on Linux:
+* Create a profile:
+firefox -CreateProfile Selenium
 
+* Install an extension:
+firefox -install-global-extension /path/to/extension
+
+
+***** Run *****
 Launch "java -jar Code.jar" followed by the arguments.
-Note: launch "java -jar Code.jar -h" in order to get help.
+Note: launch "java -jar Code.jar -h" to get help and the list of arguments.
