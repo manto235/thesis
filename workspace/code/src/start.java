@@ -77,6 +77,7 @@ public class start {
 							}
 						} catch (Exception e) {
 							System.out.println("An error occurred with the crawler.");
+							if(cmd.hasOption("debug")) e.printStackTrace();
 							System.exit(1);
 						}
 					}
