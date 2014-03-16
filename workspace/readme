@@ -1,7 +1,9 @@
 === Readme ===
 
-*** Install ***
+********** INSTALL **********
 Note: this project has been developped in Eclipse.
+
+_____ Eclipse _____
 - Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
 
 - Add the following lines in the file pom.xml after </build> in order to install Selenium (Firefox Driver) and Browsermob:
@@ -18,18 +20,23 @@ Note: this project has been developped in Eclipse.
    </dependency>
   </dependencies>
 
-- Download HarLib (from https://sites.google.com/site/frogthinkerorg/projects/harlib) and add harlib-jackson-xxx.jar to the classpath.
+- Download HarLib (from https://sites.google.com/site/frogthinkerorg/projects/harlib) and add harlib-nodoc-xxx.jar to the classpath (Jackson is already included with the other libs).
 - Download Apache Commons CLI (from http://commons.apache.org/proper/commons-cli/) and add commons-cli-xx.jar to the classpath.
 
 How to add a library in Eclipse:
 > Right click on the project => Properties.
 > Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the jar files downloaded before.
 
-*** Run ***
-To do once:
-- create a new profile in Firefox named Selenium
-- add the certificate (cybervillainsCA.cer) to the profile in Firefox
+_____ Firefox _____
+- create a new profile in Firefox:
+  => run firefox -P
+- add the certificate (cybervillainsCA.cer) to the profile in Firefox (2 methods):
+  A) go to "Edit" => "Preferences" => "Advanced" tab => "Certificates" subtab and install the certificate
+  B) find your profile in /home/XXX/.mozilla and replace the file "cert8.db" with the one provided here
+- install Firebug: https://getfirebug.com/
+- install NetExport: https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport
 
 
+********** RUN **********
 Launch "java -jar Code.jar" followed by the arguments.
-Note: launch "java -jar Code.jar -h" in order to get help.
+Note: launch "java -jar Code.jar -h" to get help.
