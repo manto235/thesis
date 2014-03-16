@@ -13,6 +13,7 @@ import edu.umass.cs.benchlab.har.tools.HarFileReader;
 
 public class Parser {
 
+	static int count = 0;
 	/**
 	 * Loads the files from a directory
 	 * 
@@ -45,32 +46,27 @@ public class Parser {
 
 		for (File file : filesList) {
 			System.out.println("Parsing " + file.getName() + "...");
-			if(file.getName().split("_")[1].equals("IMG")) {
-				System.out.println("IMG file");
-				parseIMGfile(file);
-			}
-			else if(file.getName().split("_")[1].equals("HAR")) {
-				System.out.println("HAR file");
-				parseHARfile(file);
-			}
+			parseHARfile(file);
 		}
+		System.out.println("TOTAL FAIL : " + count);
 	}
 
 	public static void parseHARfile(File file) {
 		try {
 			HarFileReader r = new HarFileReader();
-			HarLog log = r.readHarFile(file);
+			//HarLog log = r.readHarFile(file);
+
+			List<HarWarning> warnings = new ArrayList<HarWarning>();
+			HarLog log = r.readHarFile(file, warnings);
+			for (HarWarning w : warnings)
+				System.out.println("File: " + file.getName() + " - Warning: " + w);
+
 			//HarFileWriter w = new HarFileWriter();
 
 			// Access all elements as objects
 			//HarBrowser browser = log.getBrowser();
 			HarEntries entries = log.getEntries();
 			List<HarEntry> entriesList = entries.getEntries();
-
-			/*HarEntry firstEntry = entriesList.get(0);
-			System.out.println("> First entry (IP) : " + firstEntry.getServerIPAddress());
-			System.out.println("> First entry (URL request) : " + firstEntry.getRequest().getUrl());
-			System.out.println("> First entry (URL response) : " + firstEntry.getResponse());*/
 
 			for (HarEntry entry : entriesList) {
 				//System.out.println("Entry (request URL) : " + entry.getRequest().getUrl());
@@ -95,6 +91,7 @@ public class Parser {
 		{
 			e.printStackTrace();
 			System.out.println("Parsing error (HAR) : " + file.getName());
+			count++;
 		}
 		catch (IOException e)
 		{
