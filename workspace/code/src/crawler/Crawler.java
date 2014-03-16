@@ -6,65 +6,69 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import net.lightbody.bmp.core.har.Har;
-import net.lightbody.bmp.proxy.ProxyServer;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.Proxy;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import edu.umass.cs.benchlab.har.tools.HarFileReader;
 import alexa.TopAlexa;
 import alexa.Website;
 
 public class Crawler {
 
 	private static boolean debug;
-	private static ProxyServer proxy;
 	private static WebDriver driver;
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 	/**
-	 * Initialize the proxy and the driver.
+	 * Initialize the driver.
 	 * 
-	 * @param port: the port used by the proxy.
+	 * @param directoryName: the directory in which the files will be written.
 	 */
-	public static void initializeProxyandDriver(int port) {
+	public static void initializeDriver(String directoryName) {
 		try {
-			proxy = new ProxyServer(port);
-			// Start the proxy
-			proxy.start();
-			proxy.setCaptureHeaders(true);
-			proxy.setCaptureContent(true);
-			// Get the Selenium proxy object
-			Proxy seleniumProxy = proxy.seleniumProxy();
-
 			// Configure it as a desired capability
 			FirefoxProfile profile = new ProfilesIni().getProfile("Selenium");
 			profile.setAcceptUntrustedCertificates(true);
 			profile.setAssumeUntrustedCertificateIssuer(true);
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability(FirefoxDriver.PROFILE, profile);
-			capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+
+			// ----- Firebug + NetExport -----
+			// Set default Firefox preferences
+			profile.setPreference("app.update.enabled", false);
+			String domain = "extensions.firebug.";
+
+			// Set default Firebug preferences
+			profile.setPreference(domain + "allPagesActivation", "on");
+			profile.setPreference(domain + "breakOnErrors", false);
+			profile.setPreference(domain + "showBreakNotification", false);
+			profile.setPreference(domain + "defaultPanelName", "net");
+			profile.setPreference(domain + "net.enableSites", true);
+
+			// Set default NetExport preferences
+			profile.setPreference(domain + "netexport.alwaysEnableAutoExport", true);
+			profile.setPreference(domain + "netexport.showPreview", false);
+			profile.setPreference(domain + "netexport.defaultLogDir", System.getProperty("user.dir")+"/"+directoryName);
 
 			// Start the browser up
 			driver = new FirefoxDriver(capabilities);
+			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 
-			logMessage("Info: ProxyServer and WebDriver are ready.");
+			// Wait till Firebug is loaded
+			Thread.sleep(5000);
+
+			logMessage("Info: WebDriver is ready.");
 		}
 		catch (Exception e) {
-			logMessage("Error: cannot initialize the proxy and the driver.");
+			logMessage("Error: cannot initialize the driver.");
 			if(debug) e.printStackTrace();
-			haltProxyAndDriver();
+			haltDriver();
 			closeLogFile();
 			System.exit(1);
 		}
@@ -74,8 +78,7 @@ public class Crawler {
 		debug = showDebug;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
-				+ "   directory: " + directoryName + "\n"
-				+ "   port: " + port + ", file : " + file + "\n"
+				+ "   directory: " + directoryName + ", file: " + file + "\n"
 				+ "   begin index: " + beginIndex + ", end index: " + endIndex + "\n"
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
@@ -98,104 +101,59 @@ public class Crawler {
 			else {
 				logMessage("Error: cannot create the directory containing the outputs.\n"
 						+ "> Please, create a directory named \"" + directoryName + "\".");
-				haltProxyAndDriver();
+				haltDriver();
 				closeLogFile();
 				System.exit(1);
 			}
 		}
 
-		// Get the list of websites and initialize the proxy & the driver
+		// Get the list of websites and initialize the driver
 		TopAlexa websites = new TopAlexa(file, beginIndex, endIndex);
-
-		initializeProxyandDriver(port);
+		initializeDriver(directoryName);
 
 		for(Website website : websites.getWebsites()) {
+			boolean success;
 			int attempt = 1;
-			boolean fileOK;
+
 			do {
-				// If this is not the first attempt, wait for 3 seconds
-				if(attempt != 1) {
+				try {
+					logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
+					driver.get("http://" + website.getUrl());
+					Thread.sleep(5000);
+					success = true;
+
+					// Wait till HAR is exported
 					try {
-						System.out.println("Waiting for 3 seconds...");
+						System.out.println("Waiting 3 seconds for the HAR file to be exported...");
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						if(debug) e.printStackTrace();
 					}
+				} catch (Exception e) {
+					logMessage("Error: website " + website.getUrl() + " was not successfully loaded.");
+					attempt++;
+					success = false;
+					if(debug) {
+						if(e instanceof TimeoutException) System.out.println("TIMEOUT");
+						else e.printStackTrace();
+					}
 				}
-				writeFiles(website, directoryName, attempt);
-				// We check if the file is OK
-				fileOK = checkHARfile(website, directoryName, attempt);
-
-				attempt++;
-			}
-			while(!fileOK && attempt <= attempts);
+			} while(attempt <= attempts && !success);
 		}
 
-		haltProxyAndDriver();
+		haltDriver();
 		closeLogFile();
 	}
 
-	public static void writeFiles(Website website, String directoryName, int attempt) {
-		logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
-
-		// Create a new HAR with the appropriate label
-		proxy.newHar(website.getUrl());
-		// Open the website
-		driver.get("http://" + website.getUrl());
-		// Get the HAR data
-		Har har = proxy.getHar();
-
-		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl() + attempt;
-
-		// Write the HAR file
-		File output = new File(filename + "_HAR");
-		try {
-			har.writeTo(output);
-		} catch (Exception e) {
-			logMessage("Error: cannot write the file: " + filename + "_HAR.");
-			if(debug) e.printStackTrace();
-		}
-
-		// Write the IMG file
-		List<WebElement> allImages = driver.findElements(By.tagName("img"));
-		try {
-			BufferedWriter images = new BufferedWriter(new FileWriter(new File(filename + "_IMG"), false));
-			for (WebElement image: allImages) {
-				images.write(image.getAttribute("src") + "," + image.getAttribute("height") + "," + image.getAttribute("width") + "," + image.isDisplayed() + "," + image.isEnabled());
-				images.newLine();
-			}
-			images.close();
-		} catch (Exception e) {
-			logMessage("Error: cannot write the file: " + filename + "_IMG.");
-			if(debug) e.printStackTrace();
-		}
-	}
-
-	public static boolean checkHARfile(Website website, String directoryName, int attempt) {
-		boolean status = true;
-		String filename = directoryName + "/" + website.getPosition() + "-" + website.getUrl() + attempt;
-		File file = new File(filename + "_HAR");
-		HarFileReader r = new HarFileReader();
-		try {
-			r.readHarFile(file);
-		} catch (Exception e) {
-			logMessage("Error: file " + filename + " is wrong.");
-			status = false;
-			if(debug) e.printStackTrace();
-		}
-		return status;
-	}
-
 	/**
-	 * Stops the proxy and quits the driver.
+	 * Quits the driver.
 	 */
-	public static void haltProxyAndDriver() {
+	public static void haltDriver() {
 		try {
-			proxy.stop();
 			driver.quit();
-			logMessage("Info: the proxy or/and the driver have been halted successfully.");
+			logMessage("Info: the driver has been halted successfully.");
 		} catch (Exception e) {
-			logMessage("Error: the proxy or/and the driver were not halted successfully.");
+			logMessage("Error: the driver was not halted successfully.");
 			if(debug) e.printStackTrace();
 		}
 	}
