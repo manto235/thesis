@@ -54,8 +54,6 @@ public class Parser {
 	public static void parseHARfile(File file) {
 		try {
 			HarFileReader r = new HarFileReader();
-			//HarLog log = r.readHarFile(file);
-
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
 			HarLog log = r.readHarFile(file, warnings);
 			for (HarWarning w : warnings)
@@ -98,18 +96,6 @@ public class Parser {
 			e.printStackTrace();
 			System.out.println("IO exception (HAR) : " + file.getName());
 		}
-	}
-
-	public static void parseIMGfile(File file) {
-		// UTILISE PAR LE PARSER D'IMAGES
-		/*try {
-			URL url = new URL(src);
-			System.out.println(url.getHost());
-			//if(url.getHost())
-			System.out.println(src);
-		} catch (MalformedURLException e) {
-			System.out.println("Error while creating the URL");
-		}*/
 	}
 
 }
