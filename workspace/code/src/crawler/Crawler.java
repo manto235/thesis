@@ -30,10 +30,10 @@ public class Crawler {
 	 * 
 	 * @param directoryName: the directory in which the files will be written.
 	 */
-	public static void initializeDriver(String directoryName) {
+	public static void initializeDriver(String directoryName, String ffprofile) {
 		try {
 			// Configure it as a desired capability
-			FirefoxProfile profile = new ProfilesIni().getProfile("Selenium");
+			FirefoxProfile profile = new ProfilesIni().getProfile(ffprofile);
 			profile.setAcceptUntrustedCertificates(true);
 			profile.setAssumeUntrustedCertificateIssuer(true);
 			DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -74,12 +74,13 @@ public class Crawler {
 		}
 	}
 
-	public static void launchCrawler(String directoryName, int port, String file, int beginIndex, int endIndex, int attempts, boolean showDebug) {
+	public static void launchCrawler(String directoryName, String ffprofile, String file, int beginIndex, int endIndex, int attempts, boolean showDebug) {
 		debug = showDebug;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
 				+ "   directory: " + directoryName + ", file: " + file + "\n"
 				+ "   begin index: " + beginIndex + ", end index: " + endIndex + "\n"
+				+ "   Firefox profile: " + ffprofile + "\n"
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
 		try {
@@ -109,7 +110,7 @@ public class Crawler {
 
 		// Get the list of websites and initialize the driver
 		TopAlexa websites = new TopAlexa(file, beginIndex, endIndex);
-		initializeDriver(directoryName);
+		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {
 			boolean success;
