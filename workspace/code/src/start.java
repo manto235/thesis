@@ -50,9 +50,7 @@ public class start {
 
 				// Mode: parser
 				if(mode.equals("p")) {
-					System.out.println("Launching parser...\n"
-							+ "directory: " + cmd.getOptionValue("dir"));
-					Parser.launchParser(directory);
+					Parser.launchParser(directory, cmd.hasOption("debug"));
 				}
 				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
@@ -70,9 +68,7 @@ public class start {
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
-								System.out.println("Launching parser...\n"
-										+ "directory: " + cmd.getOptionValue("dir"));
-								Parser.launchParser(directory);
+								Parser.launchParser(directory, cmd.hasOption("debug"));
 							}
 						} catch (Exception e) {
 							System.out.println("An error occurred with the crawler.");

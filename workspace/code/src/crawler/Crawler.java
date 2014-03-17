@@ -94,7 +94,7 @@ public class Crawler {
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
 		try {
-			logsFile = new BufferedWriter(new FileWriter(new File("logs.txt"), true));
+			logsFile = new BufferedWriter(new FileWriter(new File("logs_crawler.txt"), true));
 			logsFile.write(start);
 			logsFile.newLine();
 		} catch (IOException ioe) {
