@@ -65,6 +65,13 @@ public class Crawler {
 
 			logMessage("Info: WebDriver is ready.");
 		}
+		catch (NullPointerException e) {
+			logMessage("Error: the Firerox profile " + ffprofile + " has not been found.");
+			if(debug) e.printStackTrace();
+			haltDriver();
+			closeLogFile();
+			System.exit(1);
+		}
 		catch (Exception e) {
 			logMessage("Error: cannot initialize the driver.");
 			if(debug) e.printStackTrace();
@@ -150,12 +157,14 @@ public class Crawler {
 	 * Quits the driver.
 	 */
 	public static void haltDriver() {
-		try {
-			driver.quit();
-			logMessage("Info: the driver has been halted successfully.");
-		} catch (Exception e) {
-			logMessage("Error: the driver was not halted successfully.");
-			if(debug) e.printStackTrace();
+		if(driver != null) {
+			try {
+				driver.quit();
+				logMessage("Info: the driver has been halted successfully.");
+			} catch (Exception e) {
+				logMessage("Error: the driver was not halted successfully.");
+				if(debug) e.printStackTrace();
+			}
 		}
 	}
 
