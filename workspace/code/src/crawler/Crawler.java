@@ -50,6 +50,9 @@ public class Crawler {
 			profile.setPreference(domain + "showBreakNotification", false);
 			profile.setPreference(domain + "defaultPanelName", "net");
 			profile.setPreference(domain + "net.enableSites", true);
+			profile.setPreference(domain + "console.enableSites", false);
+			profile.setPreference(domain + "cookies.enableSites", false);
+			profile.setPreference(domain + "script.enableSites", false);
 
 			// Set default NetExport preferences
 			profile.setPreference(domain + "netexport.alwaysEnableAutoExport", true);
