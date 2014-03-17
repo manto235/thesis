@@ -29,15 +29,26 @@ How to add a library in Eclipse:
 
 _____ Firefox _____
 - create a new profile in Firefox (2 methods):
-  A) With GUI: run firefox -P
-  B) Without GUI: firefox -CreateProfile Selenium
+  A) With GUI
+     > firefox -P
+  B) Without GUI
+     > firefox -CreateProfile Selenium
 - add the certificate (cybervillainsCA.cer) to the profile in Firefox (2 methods):
   A) go to "Edit" => "Preferences" => "Advanced" tab => "Certificates" subtab and install the certificate
   B) find your profile in /home/XXX/.mozilla and replace the file "cert8.db" with the one provided here
 - install Firebug: https://getfirebug.com/
 - install NetExport: https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport
 
-If you want to install the extensions without a GUI: firefox -install-global-extension /path/to/extension
+Note: if you want to install the extensions without a GUI 
+      > firefox -install-global-extension /path/to/extension
+
+_____ NetExport _____
+- In your Firefox profile (home/XXX/.mozilla/firefox/YYY/extensions), find netexport@getfirebug.com.xpi
+- Open the archive and edit the file /chrome/content/netexport/harBuilder.js
+- Comment the lines 200 ("if (!timings._timeStamps)") to 211 ("});")
+
+--- Why ? ---
+These lines generate a field that is not standard in the HAR spec and makes HarLib to detect the files as corrupted.
 
 
 ********** RUN **********
