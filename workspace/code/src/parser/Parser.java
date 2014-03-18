@@ -73,10 +73,13 @@ public class Parser {
 			logMessage("Info: parsing " + file.getName() + "...");
 			parseHARfile(file);
 		}
+		
 		logMessage(" ----- Summary -----");
 		logMessage("  " + filesList.size() + " files");
 		logMessage("  " + countFails + " fails");
 		logMessage("  " + countSuccesses + " successes");
+		
+		closeLogFile();
 	}
 
 	public static void parseHARfile(File file) {
@@ -95,18 +98,10 @@ public class Parser {
 			List<HarEntry> entriesList = entries.getEntries();
 
 			for (HarEntry entry : entriesList) {
-				//System.out.println("Entry (request URL) : " + entry.getRequest().getUrl());
+				System.out.println("Entry (request URL) : " + entry.getRequest().getUrl());
 				//System.out.println("-- Entry (response) : " + entry.getResponse());
 				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
-
-			/*List<HarPage> pages = log.getPages().getPages();
-			for (HarPage page : pages)
-			{
-				System.out.println("page start time: " + ISO8601DateFormatter.format(page.getStartedDateTime()));
-				System.out.println("page id: " + page.getId());
-				System.out.println("page title: "+page.getTitle());
-			}*/
 
 			// Once you are done manipulating the objects, write back to a file
 			//System.out.println("Writing " + fileName + ".parsed");
