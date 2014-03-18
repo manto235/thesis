@@ -73,12 +73,12 @@ public class Parser {
 			logMessage("Info: parsing " + file.getName() + "...");
 			parseHARfile(file);
 		}
-		
+
 		logMessage(" ----- Summary -----");
 		logMessage("  " + filesList.size() + " files");
 		logMessage("  " + countFails + " fails");
 		logMessage("  " + countSuccesses + " successes");
-		
+
 		closeLogFile();
 	}
 
