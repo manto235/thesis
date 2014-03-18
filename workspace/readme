@@ -3,6 +3,7 @@
 ********** INSTALL **********
 Note: this project has been developped in Eclipse.
 
+
 _____ Eclipse _____
 - Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
 
@@ -27,20 +28,28 @@ How to add a library in Eclipse:
 > Right click on the project => Properties.
 > Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the jar files downloaded before.
 
+
 _____ Firefox _____
 - create a new profile in Firefox (2 methods):
   A) With GUI
      > firefox -P
   B) Without GUI
-     > firefox -CreateProfile Selenium
-- add the certificate (cybervillainsCA.cer) to the profile in Firefox (2 methods):
+     > firefox -CreateProfile <profile>
+
+- run Firefox in order to create the files of your profile
+  > firefox -P <profile>
+
+- (Optional) add the certificate (cybervillainsCA.cer) to the profile in Firefox (2 methods):
   A) go to "Edit" => "Preferences" => "Advanced" tab => "Certificates" subtab and install the certificate
   B) find your profile in /home/XXX/.mozilla and replace the file "cert8.db" with the one provided here
+
 - install Firebug: https://getfirebug.com/
+
 - install NetExport: https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport
 
 Note: if you want to install the extensions without a GUI 
       > firefox -install-global-extension /path/to/extension
+
 
 _____ NetExport _____
 - In your Firefox profile (home/XXX/.mozilla/firefox/YYY/extensions), find netexport@getfirebug.com.xpi
