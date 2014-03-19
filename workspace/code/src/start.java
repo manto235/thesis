@@ -16,7 +16,7 @@ public class start {
 		Options options = new Options();
 		options.addOption("mode", true, "required: c (crawler), p (parser) or cp (crawler & parser)");
 		options.addOption("dir", true, "required: directory containing the files generated (crawler mode) or the files to parse (parser mode)");
-		options.addOption("port", true, "required for crawler: port of the proxy");
+		options.addOption("ffprofile", true, "required for crawler: name of the Firefox profile");
 		options.addOption("file", true, "required for crawler: path to the Alexa Top file (top-1m.csv)");
 		options.addOption("bi", true, "required for crawler: begin index in the Alexa Top file");
 		options.addOption("ei", true, "required for crawler: end index in the Alexa Top file");
@@ -29,8 +29,8 @@ public class start {
 			cmd = parser.parse(options, args);
 			// Help
 			if(cmd.hasOption("h")) {
-				String help = "Launch with the following arguments: -mode [mode] -dir [directory] -port [port] -file [file] -bi [begin index] -ei [end index]\n"
-						+ "If the mode is \"crawler\" or \"crawler & parser\", add the following arguments: port, file, bi and ei.\n"
+				String help = "Launch with the following arguments: -mode [mode] -dir [directory] -ffprofile [profile] -file [file] -bi [begin index] -ei [end index]\n"
+						+ "If the mode is \"crawler\" or \"crawler & parser\", add the following arguments: ffprofile, file, bi and ei.\n"
 						+ "The indexes correspond to the range of websites to visit in the Alexa Top file.\n";
 				System.out.println(help);
 				HelpFormatter formatter = new HelpFormatter();
@@ -50,15 +50,12 @@ public class start {
 
 				// Mode: parser
 				if(mode.equals("p")) {
-					System.out.println("Launching parser...\n"
-							+ "directory: " + cmd.getOptionValue("dir"));
-					Parser.launchParser(directory);
+					Parser.launchParser(directory, cmd.hasOption("debug"));
 				}
 				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
-					if(checkRequiredArgsCrawler(cmd.hasOption("port"), cmd.hasOption("file"), cmd.hasOption("bi"), cmd.hasOption("ei"))) {
+					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("file"), cmd.hasOption("bi"), cmd.hasOption("ei"))) {
 						try {
-							int port = parsePort(cmd.getOptionValue("port"));
 							String file = parseFile(cmd.getOptionValue("file"));
 							int beginIndex = parseBeginIndex(cmd.getOptionValue("bi"));
 							int endIndex = parseEndIndex(cmd.getOptionValue("ei"));
@@ -67,16 +64,15 @@ public class start {
 								attempts = parseAttempts(cmd.getOptionValue("a"));
 							}
 
-							Crawler.launchCrawler(directory, port, file, beginIndex, endIndex, attempts, cmd.hasOption("debug"));
+							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), file, beginIndex, endIndex, attempts, cmd.hasOption("debug"));
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
-								System.out.println("Launching parser...\n"
-										+ "directory: " + cmd.getOptionValue("dir"));
-								Parser.launchParser(directory);
+								Parser.launchParser(directory, cmd.hasOption("debug"));
 							}
 						} catch (Exception e) {
 							System.out.println("An error occurred with the crawler.");
+							if(cmd.hasOption("debug")) e.printStackTrace();
 							System.exit(1);
 						}
 					}
@@ -114,39 +110,22 @@ public class start {
 	 * Checks if required arguments are missing for the crawler mode.
 	 * Prints the list of missing arguments in the console.
 	 *
-	 * @param port
+	 * @param ffprofile
 	 * @param file
 	 * @param bi
 	 * @param ei
 	 * @return true if no required argument is missing, false otherwise
 	 */
-	public static boolean checkRequiredArgsCrawler(boolean port, boolean file, boolean bi, boolean ei) {
+	public static boolean checkRequiredArgsCrawler(boolean ffprofile, boolean file, boolean bi, boolean ei) {
 		String message = "The following arguments are missing:\n";
-		if(!port) message += " - port of the proxy\n";
+		if(!ffprofile) message += " - name of the Firefox profile\n";
 		if(!file) message += " - path to the top-1m.csv file\n";
 		if(!bi) message += " - begin index\n";
 		if(!ei) message += " - end index\n";
 
-		boolean check = port & file & bi & ei;
+		boolean check = ffprofile & file & bi & ei;
 		if(!check) System.out.print(message);
 		return check;
-	}
-
-	/**
-	 * Parses the port received as argument.
-	 * If the port is not an integer, a message is printed in the console.
-	 *
-	 * @param port the port as a String
-	 * @return the port as an int
-	 * @throws Exception
-	 */
-	public static int parsePort(String port) throws Exception {
-		try {
-			return Integer.parseInt(port);
-		} catch (Exception e) {
-			System.out.println("Port must be an integer!");
-			throw new Exception();
-		}
 	}
 
 	/**

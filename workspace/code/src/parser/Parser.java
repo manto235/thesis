@@ -1,8 +1,12 @@
 package parser;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.JsonParseException;
@@ -13,6 +17,12 @@ import edu.umass.cs.benchlab.har.tools.HarFileReader;
 
 public class Parser {
 
+	private static boolean debug;
+	private static BufferedWriter logsFile;
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+	static int countFails = 0;
+	static int countSuccesses = 0;
+
 	/**
 	 * Loads the files from a directory
 	 * 
@@ -20,10 +30,10 @@ public class Parser {
 	 * @return an ArrayList<File> containing all the files of the directory
 	 */
 	public static ArrayList<File> loadFiles(String directoryName) {
-		System.out.print("Loading the files from directory \"" + directoryName + "\"... ");
+		logMessage("Info: loading the files from directory \"" + directoryName + "\"... ");
 		File directory = new File(directoryName);
 		if(!directory.isDirectory()) {
-			System.out.println("The directory does not exist!");
+			logMessage("Error: the directory does not exist!");
 			System.exit(1);
 		}
 
@@ -36,30 +46,50 @@ public class Parser {
 			}
 		}
 
-		System.out.println("Done!");
+		logMessage("      Done!");
 		return filesList;
 	}
 
-	public static void launchParser(String directoryName) {
+	public static void launchParser(String directoryName, boolean showDebug) {
+		debug = showDebug;
+		String start = "----------------------------------------\n"
+				+ dateFormat.format(new Date()) + " - Launching parser...\n"
+				+ "   directory: " + directoryName + "\n";
+		System.out.println(start);
+		try {
+			logsFile = new BufferedWriter(new FileWriter(new File("logs_parser.txt"), true));
+			logsFile.write(start);
+			logsFile.newLine();
+		} catch (IOException ioe) {
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n> Please check your file system permissions.");
+			System.out.println("The parser will however continue...");
+			if(debug) ioe.printStackTrace();
+		}
+
+		// Load the list of files
 		ArrayList<File> filesList = loadFiles(directoryName);
 
 		for (File file : filesList) {
-			System.out.println("Parsing " + file.getName() + "...");
-			if(file.getName().split("_")[1].equals("IMG")) {
-				System.out.println("IMG file");
-				parseIMGfile(file);
-			}
-			else if(file.getName().split("_")[1].equals("HAR")) {
-				System.out.println("HAR file");
-				parseHARfile(file);
-			}
+			logMessage("Info: parsing " + file.getName() + "...");
+			parseHARfile(file);
 		}
+
+		logMessage(" ----- Summary -----");
+		logMessage("  " + filesList.size() + " files");
+		logMessage("  " + countFails + " fails");
+		logMessage("  " + countSuccesses + " successes");
+
+		closeLogFile();
 	}
 
 	public static void parseHARfile(File file) {
 		try {
 			HarFileReader r = new HarFileReader();
-			HarLog log = r.readHarFile(file);
+			List<HarWarning> warnings = new ArrayList<HarWarning>();
+			HarLog log = r.readHarFile(file, warnings);
+			for (HarWarning w : warnings)
+				System.out.println("File: " + file.getName() + " - Warning: " + w);
+
 			//HarFileWriter w = new HarFileWriter();
 
 			// Access all elements as objects
@@ -67,52 +97,57 @@ public class Parser {
 			HarEntries entries = log.getEntries();
 			List<HarEntry> entriesList = entries.getEntries();
 
-			/*HarEntry firstEntry = entriesList.get(0);
-			System.out.println("> First entry (IP) : " + firstEntry.getServerIPAddress());
-			System.out.println("> First entry (URL request) : " + firstEntry.getRequest().getUrl());
-			System.out.println("> First entry (URL response) : " + firstEntry.getResponse());*/
-
 			for (HarEntry entry : entriesList) {
-				//System.out.println("Entry (request URL) : " + entry.getRequest().getUrl());
+				System.out.println("Entry (request URL) : " + entry.getRequest().getUrl());
 				//System.out.println("-- Entry (response) : " + entry.getResponse());
 				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
-
-			/*List<HarPage> pages = log.getPages().getPages();
-			for (HarPage page : pages)
-			{
-				System.out.println("page start time: " + ISO8601DateFormatter.format(page.getStartedDateTime()));
-				System.out.println("page id: " + page.getId());
-				System.out.println("page title: "+page.getTitle());
-			}*/
 
 			// Once you are done manipulating the objects, write back to a file
 			//System.out.println("Writing " + fileName + ".parsed");
 			//File f2 = new File(fileName + ".parsed");
 			//w.writeHarFile(log, f2);
+			countSuccesses++;
 		}
 		catch (JsonParseException e)
 		{
 			e.printStackTrace();
-			System.out.println("Parsing error (HAR) : " + file.getName());
+			System.out.println("Parsing error : " + file.getName());
+			countFails++;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			System.out.println("IO exception (HAR) : " + file.getName());
+			System.out.println("IO exception : " + file.getName());
 		}
 	}
 
-	public static void parseIMGfile(File file) {
-		// UTILISE PAR LE PARSER D'IMAGES
-		/*try {
-			URL url = new URL(src);
-			System.out.println(url.getHost());
-			//if(url.getHost())
-			System.out.println(src);
-		} catch (MalformedURLException e) {
-			System.out.println("Error while creating the URL");
-		}*/
+	/**
+	 * Prints a message in the console and writes a message in the log file.
+	 * @param message the message to print and write
+	 */
+	public static void logMessage(String message) {
+		System.out.println(dateFormat.format(new Date()) + " - " + message);
+		try {
+			logsFile.write(dateFormat.format(new Date()) + " - " + message);
+			logsFile.newLine();
+		} catch (IOException ioe) {
+			System.out.println("The message was not successfully written in the log file.");
+			if(debug) ioe.printStackTrace();
+		}
+	}
+
+	/**
+	 * 	Closes the logs file.
+	 *  If a problem occurs, prints a message in the console.
+	 */
+	public static void closeLogFile() {
+		try {
+			logsFile.close();
+		} catch (IOException ioe) {
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
+			if(debug) ioe.printStackTrace();
+		}
 	}
 
 }

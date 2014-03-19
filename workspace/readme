@@ -1,7 +1,10 @@
 === Readme ===
 
-***** Install *****
+********** INSTALL **********
 Note: this project has been developped in Eclipse.
+
+
+_____ Eclipse _____
 - Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
 
 - Add the following lines in the file pom.xml after </build> in order to install Selenium (Firefox Driver) and Browsermob:
@@ -12,9 +15,9 @@ Note: this project has been developped in Eclipse.
     <version>2.40.0</version>
    </dependency>
    <dependency>
-    <groupId>net.lightbody.bmp</groupId>
-    <artifactId>browsermob-proxy</artifactId>
-    <version>2.0-beta-9</version>
+    <groupId>dnsjava</groupId>
+    <artifactId>dnsjava</artifactId>
+    <version>2.1.6</version>
    </dependency>
   </dependencies>
 
@@ -26,18 +29,37 @@ How to add a library in Eclipse:
 > Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the jar files downloaded before.
 
 
-***** Before run (to do once) *****
-- create a new profile in Firefox named Selenium
-- add the certificate (cybervillainsCA.cer) to the profile in Firefox
+_____ Firefox _____
+- create a new profile in Firefox (2 methods):
+  A) With GUI
+     > firefox -P
+  B) Without GUI
+     > firefox -CreateProfile <profile>
 
-How to do on Linux:
-* Create a profile:
-firefox -CreateProfile Selenium
+- run Firefox in order to create the files of your profile
+  > firefox -P <profile>
 
-* Install an extension:
-firefox -install-global-extension /path/to/extension
+- (Optional) add the certificate (cybervillainsCA.cer) to the profile in Firefox (2 methods):
+  A) go to "Edit" => "Preferences" => "Advanced" tab => "Certificates" subtab and install the certificate
+  B) find your profile in /home/XXX/.mozilla and replace the file "cert8.db" with the one provided here
+
+- install Firebug: https://getfirebug.com/
+
+- install NetExport: https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport
+
+Note: if you want to install the extensions without a GUI 
+      > firefox -install-global-extension /path/to/extension
 
 
-***** Run *****
+_____ NetExport _____
+- In your Firefox profile (home/XXX/.mozilla/firefox/YYY/extensions), find netexport@getfirebug.com.xpi
+- Open the archive and edit the file /chrome/content/netexport/harBuilder.js
+- Comment the lines 200 ("if (!timings._timeStamps)") to 211 ("});")
+
+--- Why ? ---
+These lines generate a field that is not standard in the HAR spec and makes HarLib to detect the files as corrupted.
+
+
+********** RUN **********
 Launch "java -jar Code.jar" followed by the arguments.
 Note: launch "java -jar Code.jar -h" to get help and the list of arguments.
