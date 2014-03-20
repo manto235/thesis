@@ -1,0 +1,26 @@
+- Lancer le top 1000 (top d'un jour donné, pas mis à jour quotidiennement) tous les jours : analyse à long terme des modifications.
+- Demander l'historique de la base de données de Ghostery : voir si les sites adaptent leurs trackers
+
+-----
+
+Pistes de solution pour la comparaison des sites qui appartiennent au même domaine
+=> utiliser le https avec une extension
+=> nmap : permet de récupérer les certificats
+
+-----
+
+Faire le classement des plus gros trackers et les analyser afin de faire une extension FF qui permettra de les fausser (à faire en dernier)
+
+-----
+
+DNT : voir les sites qui acceptent DNT et voir s'ils respectent quand on le désactive (différence avec et sans).
+
+-----
+
+Ne pas se contenter des cookies Flash mais aussi regarder plus loin
+
+-----
+
+Faire le plan des chapitres avant les vacances de Pâques
+Ecrire les chapitres avant la fin des vacances Pâques (éviter le rush des mémorants pour les lecteurs)
+
