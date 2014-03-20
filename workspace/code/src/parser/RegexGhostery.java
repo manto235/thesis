@@ -25,7 +25,7 @@ public class RegexGhostery {
 			Scanner scanner = new Scanner(new File("bugs.json"));
 			scanner.useDelimiter("\\{");
 
-			BufferedWriter patterns = new BufferedWriter(new FileWriter(new File("Patterns.txt"), false));
+			//BufferedWriter patterns = new BufferedWriter(new FileWriter(new File("Patterns.txt"), false));
 
 			scanner.next(); // Skip the copyright note
 			int count = 0;
@@ -99,7 +99,7 @@ public class RegexGhostery {
 			}
 
 			scanner.close();
-			patterns.close();
+			//patterns.close();
 
 			String version = content.split("\"bugsVersion\":")[1];
 			version = version.substring(0, version.length()-1); // Remove the "{"
