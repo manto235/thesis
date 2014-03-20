@@ -1,0 +1,144 @@
+\documentclass{beamer}
+  \usepackage[utf8]{inputenc}
+  \usepackage[frenchb]{babel}
+  \usepackage[T1]{fontenc}
+  %\usepackage[latin1]{inputenc}
+  \usetheme{Warsaw}
+
+  \title{Avancement mémoire}
+  \author{Antoine Marchal}
+
+  \begin{document}
+
+  \begin{frame}
+  \titlepage
+  \end{frame}
+
+  \section*{Plan}
+  \begin{frame}
+  \frametitle{Plan}
+    \tableofcontents[]
+  \end{frame} 
+
+  \section{Présentation brève}
+  \begin{frame}
+  \frametitle{Présentation brève}
+  La première étape de ce mémoire était d'identifier les moyens qui sont utilisés pour nous tracer sur Internet.
+  
+  Il se focalise sur le traçage au niveau du client (navigateur web) via notamment:
+    \begin{itemize}
+      \item Les cookies web
+      \item Les scripts JavaScript
+      \item Les images chargées depuis des sites tiers
+      \item Flash
+      \item ...
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+  \frametitle{Quels sites nous tracent ?}
+  Afin de se rendre compte de l'étendue de ce traçage, l'élaboration d'un outil était nécessaire.
+   \begin{itemize}
+    \item Il est réalisé en Java
+    \item Il se compose de deux modules principaux et indépendants:
+      \begin{itemize}
+        \item Crawler
+        \item Parser
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+  
+  \section{Crawler}
+  \subsection{Implémentation}
+  \begin{frame}
+  \frametitle{Crawler}
+    \begin{itemize}
+      \item Il utilise Selenium afin de lancer une instance de Firefox
+      \item Cette instance de Firefox est munie de deux extensions:
+        \begin{itemize}
+          \item Firebug : récupère tous les éléments chargés sur la page
+          \item NetExport (extension de Firebug) : exporte au format HAR
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+  
+  \subsection{Problèmes rencontrés}
+  \begin{frame}
+  \frametitle{Crawler : problèmes rencontrés}
+    \begin{itemize}
+      \item Selenium ne permettait pas de récupérer tous les éléments
+      
+      => J'ai alors mis en place un proxy
+      \item Cependant, le proxy ne permettait pas d'exécuter du JavaScript et beaucoup de sites n'étaient alors pas traités correctement (entre 20 et 30\% des sites sur le TOP 100)
+      
+      => J'ai finalement décidé de supprimer le proxy et d'utiliser les extensions Firefox citées précédemment
+    \end{itemize}
+  \end{frame}
+  
+  \subsection{En pratique}
+  \begin{frame}
+  \frametitle{Crawler : en pratique}
+  J'ai lancé le crawler sur le TOP 1000 et cela a pris environ 5h
+    \begin{itemize}
+    \item Sur une machine de la salle Intel
+    \item Avec Xvfb (émulation de X)
+    \item Une seule remarque : le stockage des fichiers occupe beaucoup d'espace disque
+    \end{itemize}
+  \end{frame}
+  
+  \section{Parser}
+  \subsection{Implémentation}
+  \begin{frame}
+  \frametitle{Parser}
+  Le parser permet de traiter les fichiers HAR et d'identifier les sites qui utilisent (potentiellement ou pas) des trackers.
+  
+  Il y a des aspects différents:
+  \begin{itemize}
+    \item Identifier les éléments chargés par le site et comparer avec une base de données de trackers (Ghostery*) => fiable
+    \item Déterminer si les éléments chargés par le site sont stockés sur des serveurs tiers (utilisation des DNS) => moins fiable
+    \item Identifier (provenance) les cookies créés sur le machine
+    
+  \end{itemize}
+  
+  *J'ai demandé à Ghostery la permission d'utiliser leur base de données de trackers.
+  \end{frame}
+  
+  
+  \subsection{Problèmes rencontrés}
+  \begin{frame}
+  \frametitle{Parser : problèmes rencontrés}
+    \begin{itemize}
+      \item Certains sites hébergent leur contenu sur un autre domaine
+      
+      => La solution est alors d'utiliser les DNS mais cela peut entraîner des faux positifs
+    \end{itemize}
+  \end{frame}
+  
+  \subsection{En pratique}
+  \begin{frame}
+  \frametitle{Parser : en pratique}
+  J'ai lancé le parser sur le TOP 200 et cela a pris moins de 5 min
+    \begin{itemize}
+    \item Sur laptop personnel
+    \item Au niveau de l'implémentation, seule la vérification par rapport à la base de données de trackers est terminée
+    \end{itemize}
+  \end{frame}
+  
+  \section{La suite}
+  \begin{frame}
+  \frametitle{La suite}
+    \begin{itemize}
+      \item Installer des extensions censées protéger la vie privée et relancer le programme sur cette instance particulière de Firefox 
+      \item Regarder si le nombre de trackers varie par pays (TOP 100 de pays différents)
+      \item Déterminer le pourcentage de sites se conformant au DNT
+      \item Récupérer et identifier les cookies Flash
+      \item ...
+    \end{itemize}
+  \end{frame}
+  
+  \section{Démonstration}
+  \begin{frame}
+  \frametitle{Démonstration}
+  \end{frame}
+
+  \end{document}
