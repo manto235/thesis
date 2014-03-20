@@ -66,17 +66,17 @@ public class Crawler {
 			// Wait till Firebug is loaded
 			Thread.sleep(5000);
 
-			logMessage("Info: WebDriver is ready.");
+			logMessage("Info: WebDriver is ready.", true);
 		}
 		catch (NullPointerException e) {
-			logMessage("Error: the Firerox profile " + ffprofile + " has not been found.");
+			logMessage("Error: the Firerox profile " + ffprofile + " has not been found.", true);
 			if(debug) e.printStackTrace();
 			haltDriver();
 			closeLogFile();
 			System.exit(1);
 		}
 		catch (Exception e) {
-			logMessage("Error: cannot initialize the driver.");
+			logMessage("Error: cannot initialize the driver.", true);
 			if(debug) e.printStackTrace();
 			haltDriver();
 			closeLogFile();
@@ -107,11 +107,11 @@ public class Crawler {
 		File directory = new File(directoryName);
 		if(!directory.isDirectory()) {
 			if(directory.mkdirs()) {
-				logMessage("Info: a directory named \"" + directoryName + "\" has been created.");
+				logMessage("Info: a directory named \"" + directoryName + "\" has been created.", true);
 			}
 			else {
 				logMessage("Error: cannot create the directory containing the outputs.\n"
-						+ "> Please, create a directory named \"" + directoryName + "\".");
+						+ "> Please, create a directory named \"" + directoryName + "\".", true);
 				haltDriver();
 				closeLogFile();
 				System.exit(1);
@@ -128,20 +128,20 @@ public class Crawler {
 
 			do {
 				try {
-					logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").");
+					logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").", true);
 					driver.get("http://" + website.getUrl());
 					Thread.sleep(5000);
 					success = true;
 
 					// Wait till HAR is exported
 					try {
-						System.out.println("Waiting 3 seconds for the HAR file to be exported...");
+						System.out.println("                        Waiting 3 seconds for the HAR file to be exported...");
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						if(debug) e.printStackTrace();
 					}
 				} catch (Exception e) {
-					logMessage("Error: website " + website.getUrl() + " was not successfully loaded.");
+					logMessage("Error: website " + website.getUrl() + " was not successfully loaded.", true);
 					attempt++;
 					success = false;
 					if(debug) {
@@ -163,9 +163,9 @@ public class Crawler {
 		if(driver != null) {
 			try {
 				driver.quit();
-				logMessage("Info: the driver has been halted successfully.");
+				logMessage("Info: the driver has been halted successfully.", true);
 			} catch (Exception e) {
-				logMessage("Error: the driver was not halted successfully.");
+				logMessage("Error: the driver was not halted successfully.", true);
 				if(debug) e.printStackTrace();
 			}
 		}
@@ -174,11 +174,15 @@ public class Crawler {
 	/**
 	 * Prints a message in the console and writes a message in the log file.
 	 * @param message the message to print and write
+	 * @param showTime add the time before the message
 	 */
-	public static void logMessage(String message) {
-		System.out.println(dateFormat.format(new Date()) + " - " + message);
+	public static void logMessage(String message, boolean showTime) {
+		if(showTime) {
+			message = dateFormat.format(new Date()) + " - " + message;
+		}
+		System.out.println(message);
 		try {
-			logsFile.write(dateFormat.format(new Date()) + " - " + message);
+			logsFile.write(message);
 			logsFile.newLine();
 		} catch (IOException ioe) {
 			System.out.println("The message was not successfully written in the log file.");
