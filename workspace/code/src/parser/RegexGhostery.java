@@ -1,22 +1,20 @@
 package parser;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 
 public class RegexGhostery {
-	private ArrayList<String> regex = new ArrayList<String>();
+	private Map<String, String> regex = new HashMap<String, String>();
 
 	public RegexGhostery() {
 		read();
 	}
 
-	public ArrayList<String> getRegex() {
+	public Map<String, String> getRegex() {
 		return regex;
 	}
 
@@ -44,7 +42,7 @@ public class RegexGhostery {
 
 				line = line.replace("\\\\", ""); // Remove "\\"
 				//System.out.println(line + "=" + name);
-				regex.add(line);
+				regex.put(line, name);
 
 				/*
 				// It's a simple URL
@@ -71,7 +69,7 @@ public class RegexGhostery {
 							patterns.write(line.substring(0, orSymbol) + "=" + name);
 							patterns.newLine();
 							// Remove the URL at the beginning from the line
-							line = line.substring(orSymbol+1, line.length()); 
+							line = line.substring(orSymbol+1, line.length());
 						}
 						// Get the last URL
 						mapUrls.put(line, name);
@@ -108,9 +106,6 @@ public class RegexGhostery {
 		}
 		catch (FileNotFoundException e) {
 			System.out.println("File not found (bugs.json is required in the same folder).");
-		}
-		catch (IOException e) {
-			System.out.println("Can't write the output file.");
 		}
 	}
 }

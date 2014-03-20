@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +25,8 @@ public class Parser {
 	private static boolean verbose;
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-	private static ArrayList<String> regexGhostery;
+	private static Map<String, String> regexGhostery;
+	private static Map<String, Integer> trackersStats;
 	private static int countFails = 0;
 	private static int countSuccesses = 0;
 
@@ -79,6 +82,12 @@ public class Parser {
 			System.exit(1);
 		}
 
+		// Initialize the Map for the trackers statistics
+		trackersStats = new HashMap<String, Integer>();
+		for(String trackerName : regexGhostery.values()) {
+			trackersStats.put(trackerName, 0);
+		}
+
 		// Load the list of files
 		ArrayList<File> filesList = loadFiles(directoryName);
 
@@ -93,6 +102,9 @@ public class Parser {
 		logMessage("  " + countSuccesses + " successes", false);
 
 		closeLogFile();
+
+		// TODO
+		showStats();
 	}
 
 	public static void parseHARfile(File file) {
@@ -144,17 +156,25 @@ public class Parser {
 
 	public static int checkRegexGhostery(String url) {
 		int trackersFound = 0;
-		for(String singleRegex : regexGhostery) {
+		for(String singleRegex : regexGhostery.keySet()) {
 			Pattern pattern = Pattern.compile(singleRegex);
 			Matcher matcher = pattern.matcher(url);
 			if(matcher.find()) {
 				if(verbose) {
-					logMessage("    Tracker found: " + url + " <= " + singleRegex, false);
+					logMessage("    Tracker found: " + url + "\n"
+							+ "        " + singleRegex + " from " + regexGhostery.get(singleRegex), false);
 				}
 				trackersFound++;
 			}
 		}
 		return trackersFound;
+	}
+
+	public static void showStats() {
+		System.out.println("Size: " + trackersStats.size());
+		for(String name : trackersStats.keySet()) {
+			System.out.println(name + " : " + trackersStats.get(name));
+		}
 	}
 
 	/**
