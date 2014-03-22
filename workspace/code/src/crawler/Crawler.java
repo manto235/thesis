@@ -15,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import crawler.TopAlexa;
 import crawler.Website;
@@ -59,6 +60,7 @@ public class Crawler {
 
 			// Set default NetExport preferences
 			profile.setPreference(domain + "netexport.alwaysEnableAutoExport", true);
+			profile.setPreference(domain + "netexport.compress", false);
 			profile.setPreference(domain + "netexport.showPreview", false);
 			profile.setPreference(domain + "netexport.defaultLogDir", System.getProperty("user.dir")+"/"+directoryName);
 
@@ -126,14 +128,13 @@ public class Crawler {
 		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {
-			boolean success;
+			boolean success = false;
 			int attempt = 1;
 
 			do {
 				try {
 					logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").", true);
 					driver.get("http://" + website.getUrl());
-					success = true;
 
 					// Wait till HAR is exported
 					try {
@@ -142,10 +143,10 @@ public class Crawler {
 					} catch (InterruptedException e) {
 						if(debug) e.printStackTrace();
 					}
-				} catch (Exception e) {
-					logMessage("                        Error: website " + website.getUrl() + " was not successfully loaded.", false);
+					success = true;
+				} catch (TimeoutException e) {
+					logMessage("             >>>>>>>>>> Error: website " + website.getUrl() + " was not successfully loaded.", false);
 					attempt++;
-					success = false;
 					// Add the website to the list of potentially failed website at the 2nd attempt
 					if(attempt == 2) {
 						websitesPotentiallyFailed.add(website.getUrl());
@@ -154,6 +155,18 @@ public class Crawler {
 						if(e instanceof TimeoutException) System.out.println("TIMEOUT");
 						else e.printStackTrace();
 					}
+					try {
+						driver.get("about:blank");
+						Thread.sleep(5000); // It's necessary to give time to the browser
+					} catch (InterruptedException ie) {
+						if(debug) ie.printStackTrace();
+					}
+				} catch (UnreachableBrowserException e) {
+					logMessage("Critical error: cannot communicate with the remote browser. Don't close Firefox!", true);
+					if(debug) e.printStackTrace();
+					//haltDriver();
+					closeLogFile();
+					System.exit(1);
 				}
 			} while(attempt <= attempts && !success);
 
