@@ -21,7 +21,8 @@ public class start {
 		options.addOption("bi", true, "required for crawler: begin index in the Alexa Top file");
 		options.addOption("ei", true, "required for crawler: end index in the Alexa Top file");
 		options.addOption("a", true, "optional for crawler: number of attempts per website");
-		options.addOption("verbose", false, "optional for parser: verbose mode (print a lot)");
+		options.addOption("trackers", false, "optional for parser: show all trackers (print a lot)");
+		options.addOption("stats", false, "optional for parser: show stats of trackers entities");
 		options.addOption("debug", false, "debug");
 		options.addOption("h", false, "help");
 
@@ -51,7 +52,7 @@ public class start {
 
 				// Mode: parser
 				if(mode.equals("p")) {
-					Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("verbose"));
+					Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"), cmd.hasOption("stats"));
 				}
 				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
@@ -69,7 +70,7 @@ public class start {
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
-								Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("verbose"));
+								Parser.launchParser(directory, cmd.hasOption("debug"),  cmd.hasOption("trackers"), cmd.hasOption("stats"));
 							}
 						} catch (Exception e) {
 							System.out.println("An error occurred with the crawler.");
