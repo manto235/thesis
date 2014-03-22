@@ -33,7 +33,6 @@ public class Parser {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
 	private static Map<String, Integer> trackersStats;
-	private static int countFails = 0;
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
@@ -123,11 +122,11 @@ public class Parser {
 		else {
 			logMessage(filesList.size() + " file", false);
 		}
-		if(countFails > 1) {
-			logMessage(countFails + " fails", false);
+		if(filesFailed.size() > 1) {
+			logMessage(filesFailed.size() + " fails", false);
 		}
 		else {
-			logMessage(countFails + " fail", false);
+			logMessage(filesFailed.size() + " fail", false);
 		}
 		if(countSuccesses > 1) {
 			logMessage(countSuccesses + " successes", false);
@@ -182,7 +181,6 @@ public class Parser {
 		{
 			if(showDebug) e.printStackTrace();
 			logMessage("             >>>>>>>>>> Parsing error : " + file.getName(), false);
-			countFails++;
 			filesFailed.add(file.getName());
 			return 0;
 		}
@@ -190,7 +188,6 @@ public class Parser {
 		{
 			if(showDebug) e.printStackTrace();
 			logMessage("             >>>>>>>>>> IO exception : " + file.getName(), false);
-			countFails++;
 			filesFailed.add(file.getName());
 			return 0;
 		}
