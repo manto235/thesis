@@ -1,4 +1,4 @@
-package alexa;
+package crawler;
 
 /**
  * Object representing a website.

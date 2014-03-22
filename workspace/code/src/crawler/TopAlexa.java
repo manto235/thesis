@@ -1,10 +1,10 @@
-package alexa;
+package crawler;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import alexa.Website;
+import crawler.Website;
 
 /**
  * Object representing a list of websites.
