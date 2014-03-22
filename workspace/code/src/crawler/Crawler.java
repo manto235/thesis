@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +25,8 @@ public class Crawler {
 	private static WebDriver driver;
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+	private static ArrayList<String> websitesFailed = new ArrayList<String>();
+	private static ArrayList<String> websitesPotentiallyFailed = new ArrayList<String>();
 
 	/**
 	 * Initialize the driver.
@@ -130,29 +133,56 @@ public class Crawler {
 				try {
 					logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl() + " (attempt #" + attempt + ").", true);
 					driver.get("http://" + website.getUrl());
-					Thread.sleep(5000);
 					success = true;
 
 					// Wait till HAR is exported
 					try {
-						System.out.println("                        Waiting 3 seconds for the HAR file to be exported...");
-						Thread.sleep(3000);
+						System.out.println("                        Waiting 10 seconds for the HAR file to be exported...");
+						Thread.sleep(10000);
 					} catch (InterruptedException e) {
 						if(debug) e.printStackTrace();
 					}
 				} catch (Exception e) {
-					logMessage("Error: website " + website.getUrl() + " was not successfully loaded.", true);
+					logMessage("                        Error: website " + website.getUrl() + " was not successfully loaded.", false);
 					attempt++;
 					success = false;
+					// Add the website to the list of potentially failed website at the 2nd attempt
+					if(attempt == 2) {
+						websitesPotentiallyFailed.add(website.getUrl());
+					}
 					if(debug) {
 						if(e instanceof TimeoutException) System.out.println("TIMEOUT");
 						else e.printStackTrace();
 					}
 				}
 			} while(attempt <= attempts && !success);
+
+			// The website failed after several attempts
+			if(attempt >= attempts && !success) {
+				websitesFailed.add(website.getUrl());
+				websitesPotentiallyFailed.remove(website.getUrl());
+			}
 		}
 
+		logMessage("Info: the crawling of the websites is done!", true);
 		haltDriver();
+
+		if(!websitesPotentiallyFailed.isEmpty()) {
+			logMessage("", false);
+			logMessage("The following websites potentially failed (more than one attempt):", false);
+			for(String websitePotentiallyFailed : websitesPotentiallyFailed) {
+				logMessage(websitePotentiallyFailed, false);
+			}
+		}
+
+		if(!websitesFailed.isEmpty()) {
+			logMessage("", false);
+			logMessage("The following websites failed:", false);
+			for(String websiteFailed : websitesFailed) {
+				logMessage(websiteFailed, false);
+			}
+		}
+
 		closeLogFile();
 	}
 

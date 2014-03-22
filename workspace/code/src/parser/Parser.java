@@ -117,10 +117,10 @@ public class Parser {
 		logMessage("", false);
 		logMessage("----- Summary -----", false);
 		if(filesList.size() > 1) {
-			logMessage(filesList.size() + " files", false);
+			logMessage("> " + filesList.size() + " files", false);
 		}
 		else {
-			logMessage(filesList.size() + " file", false);
+			logMessage("> " + filesList.size() + " file", false);
 		}
 		if(filesFailed.size() > 1) {
 			logMessage(filesFailed.size() + " fails", false);
