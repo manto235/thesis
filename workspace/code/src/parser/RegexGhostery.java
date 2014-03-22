@@ -10,11 +10,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RegexGhostery {
-	private Map<String, String> regex = new HashMap<String, String>();
+	private Map<String, String> regex;
 	private int bugsVersion;
 	private boolean success;
 
 	public RegexGhostery() {
+		regex = new HashMap<String, String>();
 		loadTrackers();
 	}
 
