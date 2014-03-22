@@ -35,6 +35,7 @@ public class Parser {
 	private static Map<String, Integer> trackersStats;
 	private static int countFails = 0;
 	private static int countSuccesses = 0;
+	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
 	/**
 	 * Loads the files from a directory
@@ -110,29 +111,37 @@ public class Parser {
 		logMessage("Info: the parsing of the files is done!", true);
 		logMessage("                        Total number of trackers: " + totalTrackersCount, false);
 
+		// Stats
 		if(showStats) showStats();
 
+		// Summary
 		logMessage("", false);
 		logMessage("----- Summary -----", false);
 		if(filesList.size() > 1) {
-			logMessage("|  " + filesList.size() + " files", false);
+			logMessage(filesList.size() + " files", false);
 		}
 		else {
-			logMessage("|  " + filesList.size() + " file", false);
+			logMessage(filesList.size() + " file", false);
 		}
 		if(countFails > 1) {
-			logMessage("|  " + countFails + " fails", false);
+			logMessage(countFails + " fails", false);
 		}
 		else {
-			logMessage("|  " + countFails + " fail", false);
+			logMessage(countFails + " fail", false);
 		}
 		if(countSuccesses > 1) {
-			logMessage("|  " + countSuccesses + " successes", false);
+			logMessage(countSuccesses + " successes", false);
 		}
 		else {
-			logMessage("|  " + countSuccesses + " success", false);
+			logMessage(countSuccesses + " success", false);
 		}
-		logMessage("-------------------", false);
+
+		// Fails
+		logMessage("", false);
+		logMessage("----- Fails -----", false);
+		for(String fileFailed : filesFailed) {
+			logMessage(fileFailed, false);
+		}
 
 		closeLogFile();
 	}
@@ -174,6 +183,7 @@ public class Parser {
 			if(showDebug) e.printStackTrace();
 			logMessage("             >>>>>>>>>> Parsing error : " + file.getName(), false);
 			countFails++;
+			filesFailed.add(file.getName());
 			return 0;
 		}
 		catch (IOException e)
@@ -181,11 +191,10 @@ public class Parser {
 			if(showDebug) e.printStackTrace();
 			logMessage("             >>>>>>>>>> IO exception : " + file.getName(), false);
 			countFails++;
+			filesFailed.add(file.getName());
 			return 0;
 		}
 	}
-
-
 
 	public static int checkRegexGhostery(String url) {
 		int trackersFound = 0;
@@ -216,7 +225,7 @@ public class Parser {
 		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
 			@Override
 			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-				return -o1.getValue().compareTo(o2.getValue());
+				return o2.getValue().compareTo(o1.getValue());
 			}
 		});
 
