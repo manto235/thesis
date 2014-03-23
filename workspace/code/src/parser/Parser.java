@@ -36,33 +36,6 @@ public class Parser {
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
-	/**
-	 * Loads the files from a directory
-	 * 
-	 * @param directoryName: the directory containing the files to load
-	 * @return an ArrayList<File> containing all the files of the directory
-	 */
-	public static ArrayList<File> loadFiles(String directoryName) {
-		logMessage("Info: loading the files from directory \"" + directoryName + "\"... ", true);
-		File directory = new File(directoryName);
-		if(!directory.isDirectory()) {
-			logMessage("Error: the directory does not exist!", true);
-			closeLogFile();
-			System.exit(1);
-		}
-
-		File[] files = directory.listFiles();
-		ArrayList<File> filesList = new ArrayList<File>();
-
-		for (File file : files) {
-			if(file.isFile()) {
-				filesList.add(file);
-			}
-		}
-
-		return filesList;
-	}
-
 	public static void launchParser(String directoryName, boolean debug, boolean trackers, boolean stats) {
 		showDebug = debug;
 		showTrackers = trackers;
@@ -76,7 +49,8 @@ public class Parser {
 			logsFile.write(start);
 			logsFile.newLine();
 		} catch (IOException ioe) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n> Please check your file system permissions.");
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
+					+ "> Please check your file system permissions.");
 			System.out.println("The parser will however continue...");
 			if(showDebug) ioe.printStackTrace();
 		}
@@ -143,6 +117,33 @@ public class Parser {
 		}
 
 		closeLogFile();
+	}
+
+	/**
+	 * Loads the files from a directory
+	 *
+	 * @param directoryName: the directory containing the files to load
+	 * @return an ArrayList<File> containing all the files of the directory
+	 */
+	public static ArrayList<File> loadFiles(String directoryName) {
+		logMessage("Info: loading the files from directory \"" + directoryName + "\"... ", true);
+		File directory = new File(directoryName);
+		if(!directory.isDirectory()) {
+			logMessage("Error: the directory does not exist!", true);
+			closeLogFile();
+			System.exit(1);
+		}
+
+		File[] files = directory.listFiles();
+		ArrayList<File> filesList = new ArrayList<File>();
+
+		for (File file : files) {
+			if(file.isFile()) {
+				filesList.add(file);
+			}
+		}
+
+		return filesList;
 	}
 
 	public static int parseHARfile(File file) {
