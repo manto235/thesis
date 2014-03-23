@@ -86,8 +86,9 @@ public class start {
 			}
 
 		} catch (ParseException e) {
-			System.out.println("Arguments not recognized!\n"
-					+ "Launch with -h for help");
+			System.out.println("Arguments not recognized!");
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("java -jar Code.jar", options);
 		}
 	}
 
