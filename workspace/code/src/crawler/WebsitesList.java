@@ -7,7 +7,7 @@ import java.util.Scanner;
 import crawler.Website;
 
 /**
- * Object representing a list of websites.
+ * Object containing a list of websites.
  *
  */
 public class WebsitesList {
@@ -17,12 +17,12 @@ public class WebsitesList {
 	 * Constructor.
 	 *
 	 * @param file: the name of the websites file.
-	 * @param begin: the beginning index of the range.
-	 * @param end: the ending index of the range.
+	 * @param start: the start index of the range.
+	 * @param end: the end index of the range.
 	 */
-	public WebsitesList(String file, int begin, int end) {
+	public WebsitesList(String file, int start, int end) {
 		websites = new ArrayList<Website>();
-		read(file, begin, end);
+		read(file, start, end);
 	}
 
 	/**
@@ -38,17 +38,18 @@ public class WebsitesList {
 	 * Reads and parses the websites file.
 	 *
 	 * @param file: the name of the websites file.
-	 * @param begin: the beginning index of the range.
-	 * @param end: the ending index of the range.
+	 * @param start: the start index of the range.
+	 * @param end: the end index of the range.
 	 */
-	private void read(String file, int begin, int end) {
-		if(begin <= 0) {
+	private void read(String file, int start, int end) {
+		if(start <= 0) {
 			System.out.println("The range starts at 1");
 		}
-		else if(begin > 1000000 || end > 1000000) {
+		// Only needed for Alexa topsites file
+		/*else if(start > 1000000 || end > 1000000) {
 			System.out.println("The range ends at 1000000");
-		}
-		else if(begin > end) {
+		}*/
+		else if(start > end) {
 			System.out.println("The range is incorrect");
 		}
 		else {
@@ -61,7 +62,7 @@ public class WebsitesList {
 					String url = tokens[1];
 
 					// Position is in the good range: add the website
-					if(position >= begin && position <= end) {
+					if(position >= start && position <= end) {
 						Website website = new Website(position, url);
 						websites.add(website);
 					}

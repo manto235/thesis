@@ -89,12 +89,12 @@ public class Crawler {
 		}
 	}
 
-	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile, int beginIndex, int endIndex, int attempts, boolean showDebug) {
+	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile, int startIndex, int endIndex, int attempts, boolean showDebug) {
 		debug = showDebug;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
 				+ "   directory: " + directoryName + ", websites file: " + websitesFile + "\n"
-				+ "   begin index: " + beginIndex + ", end index: " + endIndex + "\n"
+				+ "   start index: " + startIndex + ", end index: " + endIndex + "\n"
 				+ "   Firefox profile: " + ffprofile + "\n"
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
@@ -124,7 +124,7 @@ public class Crawler {
 		}
 
 		// Get the list of websites and initialize the driver
-		WebsitesList websites = new WebsitesList(websitesFile, beginIndex, endIndex);
+		WebsitesList websites = new WebsitesList(websitesFile, startIndex, endIndex);
 		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {

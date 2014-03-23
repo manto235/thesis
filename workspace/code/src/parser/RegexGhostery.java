@@ -9,28 +9,54 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Object containing a list of trackers.
+ *
+ */
 public class RegexGhostery {
 	private Map<String, String> regex;
 	private int bugsVersion;
 	private boolean success;
 
+	/**
+	 * Constructor.
+	 */
 	public RegexGhostery() {
 		regex = new HashMap<String, String>();
 		loadTrackers();
 	}
 
+	/**
+	 *
+	 * @return the Map containing the trackers patterns as keys and the trackers names as values.
+	 */
 	public Map<String, String> getRegex() {
 		return regex;
 	}
 
+	/**
+	 *
+	 * @return the version of the bugs file
+	 */
 	public int getBugsVersion() {
 		return bugsVersion;
 	}
 
+	/**
+	 *
+	 * @return true if the bugs file has been successfully loaded
+	 */
 	public boolean isSuccess() {
 		return success;
 	}
 
+	/**
+	 * Loads the list of trackers from the Ghostery website.
+	 *
+	 * Fill up the Map "regex",
+	 * writes the current version of the file in the integer "bugsVersion" and
+	 * indicates if the process finished successfully in the boolean "success".
+	 */
 	private void loadTrackers() {
 		try {
 			URL url = new URL("https://www.ghostery.com/update/bugs?format=json");

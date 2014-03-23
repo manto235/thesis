@@ -1,7 +1,7 @@
 package crawler;
 
 /**
- * Object representing a website.
+ * Object containing a website.
  *
  */
 public class Website {
@@ -12,7 +12,7 @@ public class Website {
 	 * Constructor.
 	 *
 	 * @param position the website's position in the websites file.
-	 * @param url the website's url.
+	 * @param url the website's URL.
 	 */
 	public Website(int position, String url) {
 		this.position = position;
@@ -22,16 +22,16 @@ public class Website {
 	/**
 	 * Gets the position of the website.
 	 *
-	 * @return an integer containing the position.
+	 * @return an Integer containing the position.
 	 */
 	public int getPosition() {
 		return position;
 	}
 
 	/**
-	 * Get the url of the website.
+	 * Gets the URL of the website.
 	 *
-	 * @return a String containing the url.
+	 * @return a String containing the URL.
 	 */
 	public String getUrl() {
 		return url;

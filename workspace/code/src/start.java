@@ -18,7 +18,7 @@ public class start {
 		options.addOption("dir", true, "required: directory containing the files generated (crawler mode) or the files to parse (parser mode)");
 		options.addOption("ffprofile", true, "crawler (required): name of the Firefox profile");
 		options.addOption("websites", true, "crawler (required): path to the websites file");
-		options.addOption("start", true, "crawler (required): begin index in the websites file");
+		options.addOption("start", true, "crawler (required): start index in the websites file");
 		options.addOption("end", true, "crawler (required): end index in the websites file");
 		options.addOption("a", true, "crawler (optional): number of attempts per website");
 		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
@@ -59,14 +59,14 @@ public class start {
 					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("websites"), cmd.hasOption("start"), cmd.hasOption("end"))) {
 						try {
 							String websites = parseFile(cmd.getOptionValue("websites"));
-							int beginIndex = parseStartIndex(cmd.getOptionValue("start"));
+							int startIndex = parseStartIndex(cmd.getOptionValue("start"));
 							int endIndex = parseEndIndex(cmd.getOptionValue("end"));
 							int attempts = 1; // 1 by default
 							if(cmd.hasOption("a")) {
 								attempts = parseAttempts(cmd.getOptionValue("a"));
 							}
 
-							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, beginIndex, endIndex, attempts, cmd.hasOption("debug"));
+							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, startIndex, endIndex, attempts, cmd.hasOption("debug"));
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
