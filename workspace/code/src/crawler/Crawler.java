@@ -17,7 +17,7 @@ import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
-import crawler.TopAlexa;
+import crawler.WebsitesList;
 import crawler.Website;
 
 public class Crawler {
@@ -89,11 +89,11 @@ public class Crawler {
 		}
 	}
 
-	public static void launchCrawler(String directoryName, String ffprofile, String alexaFileName, int beginIndex, int endIndex, int attempts, boolean showDebug) {
+	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile, int beginIndex, int endIndex, int attempts, boolean showDebug) {
 		debug = showDebug;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
-				+ "   directory: " + directoryName + ", Alexa file: " + alexaFileName + "\n"
+				+ "   directory: " + directoryName + ", websites file: " + websitesFile + "\n"
 				+ "   begin index: " + beginIndex + ", end index: " + endIndex + "\n"
 				+ "   Firefox profile: " + ffprofile + "\n"
 				+ "   number of attempts per website: " + attempts;
@@ -124,7 +124,7 @@ public class Crawler {
 		}
 
 		// Get the list of websites and initialize the driver
-		TopAlexa websites = new TopAlexa(alexaFileName, beginIndex, endIndex);
+		WebsitesList websites = new WebsitesList(websitesFile, beginIndex, endIndex);
 		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {

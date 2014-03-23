@@ -16,14 +16,14 @@ public class start {
 		Options options = new Options();
 		options.addOption("mode", true, "required: c (crawler), p (parser) or cp (crawler & parser)");
 		options.addOption("dir", true, "required: directory containing the files generated (crawler mode) or the files to parse (parser mode)");
-		options.addOption("ffprofile", true, "required for crawler: name of the Firefox profile");
-		options.addOption("file", true, "required for crawler: path to the Alexa Top file (top-1m.csv)");
-		options.addOption("bi", true, "required for crawler: begin index in the Alexa Top file");
-		options.addOption("ei", true, "required for crawler: end index in the Alexa Top file");
-		options.addOption("a", true, "optional for crawler: number of attempts per website");
-		options.addOption("trackers", false, "optional for parser: show all trackers (print a lot)");
-		options.addOption("stats", false, "optional for parser: show stats of trackers entities");
-		options.addOption("debug", false, "debug");
+		options.addOption("ffprofile", true, "crawler (required): name of the Firefox profile");
+		options.addOption("websites", true, "crawler (required): path to the websites file");
+		options.addOption("start", true, "crawler (required): begin index in the websites file");
+		options.addOption("end", true, "crawler (required): end index in the websites file");
+		options.addOption("a", true, "crawler (optional): number of attempts per website");
+		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
+		options.addOption("stats", false, "parser (optional): show stats of trackers entities");
+		options.addOption("debug", false, "enable the debug messages");
 		options.addOption("h", false, "help");
 
 		CommandLineParser parser = new PosixParser();
@@ -31,9 +31,9 @@ public class start {
 			cmd = parser.parse(options, args);
 			// Help
 			if(cmd.hasOption("h")) {
-				String help = "Launch with the following arguments: -mode [mode] -dir [directory] -ffprofile [profile] -file [file] -bi [begin index] -ei [end index]\n"
-						+ "If the mode is \"crawler\" or \"crawler & parser\", add the following arguments: ffprofile, file, bi and ei.\n"
-						+ "The indexes correspond to the range of websites to visit in the Alexa Top file.\n";
+				String help = "Launch with the following arguments: -mode [mode] -dir [directory]\n"
+						+ "If the mode uses the crawler, add the following arguments: -ffprofile [profile] -websites [file] -start [index] -end [index]\n"
+						+ "The indexes correspond to the range of websites to visit from the websites file.\n";
 				System.out.println(help);
 				HelpFormatter formatter = new HelpFormatter();
 				formatter.printHelp("java -jar Code.jar", options);
@@ -44,7 +44,7 @@ public class start {
 			}
 			// Directory (required)
 			else if(!cmd.hasOption("dir")) {
-				System.out.println("Directory is required!");
+				System.out.println("Directory is required!\nLaunch with -h for help");
 			}
 			else {
 				String mode = cmd.getOptionValue("mode");
@@ -56,17 +56,17 @@ public class start {
 				}
 				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
-					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("file"), cmd.hasOption("bi"), cmd.hasOption("ei"))) {
+					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("websites"), cmd.hasOption("start"), cmd.hasOption("end"))) {
 						try {
-							String file = parseFile(cmd.getOptionValue("file"));
-							int beginIndex = parseBeginIndex(cmd.getOptionValue("bi"));
-							int endIndex = parseEndIndex(cmd.getOptionValue("ei"));
+							String websites = parseFile(cmd.getOptionValue("websites"));
+							int beginIndex = parseBeginIndex(cmd.getOptionValue("start"));
+							int endIndex = parseEndIndex(cmd.getOptionValue("end"));
 							int attempts = 1; // 1 by default
 							if(cmd.hasOption("a")) {
 								attempts = parseAttempts(cmd.getOptionValue("a"));
 							}
 
-							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), file, beginIndex, endIndex, attempts, cmd.hasOption("debug"));
+							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, beginIndex, endIndex, attempts, cmd.hasOption("debug"));
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
@@ -113,19 +113,19 @@ public class start {
 	 * Prints the list of missing arguments in the console.
 	 *
 	 * @param ffprofile
-	 * @param file
-	 * @param bi
-	 * @param ei
+	 * @param websites
+	 * @param start
+	 * @param end
 	 * @return true if no required argument is missing, false otherwise
 	 */
-	public static boolean checkRequiredArgsCrawler(boolean ffprofile, boolean file, boolean bi, boolean ei) {
+	public static boolean checkRequiredArgsCrawler(boolean ffprofile, boolean websites, boolean start, boolean end) {
 		String message = "The following arguments are missing:\n";
 		if(!ffprofile) message += " - name of the Firefox profile\n";
-		if(!file) message += " - path to the top-1m.csv file\n";
-		if(!bi) message += " - begin index\n";
-		if(!ei) message += " - end index\n";
+		if(!websites) message += " - path to the websites file\n";
+		if(!start) message += " - start index\n";
+		if(!end) message += " - end index\n";
 
-		boolean check = ffprofile & file & bi & ei;
+		boolean check = ffprofile & websites & start & end;
 		if(!check) System.out.print(message);
 		return check;
 	}
@@ -141,7 +141,7 @@ public class start {
 	public static String parseFile(String path) throws Exception {
 		File file = new File(path);
 		if(!file.isFile()) {
-			System.out.println("File not found! Check your -file argument.");
+			System.out.println("File not found! Check your -websites argument.");
 			throw new Exception();
 		}
 		else {
@@ -150,18 +150,18 @@ public class start {
 	}
 
 	/**
-	 * Parses the begin index received as argument.
+	 * Parses the start index received as argument.
 	 * If the index is not an integer, a message is printed in the console.
 	 *
 	 * @param index the index as a String
-	 * @return the index as an int
+	 * @return the index as an Integer
 	 * @throws Exception
 	 */
 	public static int parseBeginIndex(String index) throws Exception {
 		try {
 			return Integer.parseInt(index);
 		} catch (Exception e) {
-			System.out.println("Begin index must be an integer!");
+			System.out.println("Start index must be an integer!");
 			throw new Exception();
 		}
 	}
@@ -171,7 +171,7 @@ public class start {
 	 * If the index is not an integer, a message is printed in the console.
 	 *
 	 * @param index the index as a String
-	 * @return the index as an int
+	 * @return the index as an Integer
 	 * @throws Exception
 	 */
 	public static int parseEndIndex(String index) throws Exception {
@@ -188,7 +188,7 @@ public class start {
 	 * If the number of attempts is not an integer, a message is printed in the console.
 	 *
 	 * @param attempts the number of attempts as a String
-	 * @return the number of attempts as an int
+	 * @return the number of attempts as an Integer
 	 * @throws Exception
 	 */
 	public static int parseAttempts(String attempts) throws Exception {

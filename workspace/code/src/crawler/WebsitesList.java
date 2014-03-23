@@ -10,17 +10,17 @@ import crawler.Website;
  * Object representing a list of websites.
  *
  */
-public class TopAlexa {
+public class WebsitesList {
 	private ArrayList<Website> websites;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param file: the name of the Alexa Top file.
+	 * @param file: the name of the websites file.
 	 * @param begin: the beginning index of the range.
 	 * @param end: the ending index of the range.
 	 */
-	public TopAlexa(String file, int begin, int end) {
+	public WebsitesList(String file, int begin, int end) {
 		websites = new ArrayList<Website>();
 		read(file, begin, end);
 	}
@@ -35,9 +35,9 @@ public class TopAlexa {
 	}
 
 	/**
-	 * Reads the parses the Alexa Top file.
+	 * Reads and parses the websites file.
 	 *
-	 * @param file: the name of the Alexa Top file.
+	 * @param file: the name of the websites file.
 	 * @param begin: the beginning index of the range.
 	 * @param end: the ending index of the range.
 	 */
@@ -72,8 +72,8 @@ public class TopAlexa {
 				}
 				scanner.close();
 			} catch (Exception e) {
-				System.out.println("An error occurred while accessing the Alexa Top file.\n"
-						+ "> Please, download it at http://www.alexa.com/topsites");
+				System.out.println("An error occurred while accessing the websites file.\n"
+						+ "> You can download a list at http://www.alexa.com/topsites");
 			}
 		}
 	}

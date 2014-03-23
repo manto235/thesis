@@ -11,7 +11,7 @@ public class Website {
 	/**
 	 * Constructor.
 	 *
-	 * @param position the website's position in the Alexa Top file.
+	 * @param position the website's position in the websites file.
 	 * @param url the website's url.
 	 */
 	public Website(int position, String url) {
