@@ -138,8 +138,8 @@ public class Crawler {
 
 					// Wait till HAR is exported
 					try {
-						System.out.println("                        Waiting 10 seconds for the HAR file to be exported...");
-						Thread.sleep(10000);
+						System.out.println("                        Waiting 8 seconds for the HAR file to be exported...");
+						Thread.sleep(8000);
 					} catch (InterruptedException e) {
 						if(debug) e.printStackTrace();
 					}
