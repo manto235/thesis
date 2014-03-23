@@ -103,7 +103,7 @@ public class Parser {
 
 		int totalTrackersCount = 0;
 		for (File file : filesList) {
-			logMessage("Info: parsing " + file.getName() + "...", true);
+			logMessage("Parsing " + file.getName() + "...", true);
 			totalTrackersCount += parseHARfile(file);
 		}
 

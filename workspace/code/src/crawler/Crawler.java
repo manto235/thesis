@@ -89,11 +89,11 @@ public class Crawler {
 		}
 	}
 
-	public static void launchCrawler(String directoryName, String ffprofile, String file, int beginIndex, int endIndex, int attempts, boolean showDebug) {
+	public static void launchCrawler(String directoryName, String ffprofile, String alexaFileName, int beginIndex, int endIndex, int attempts, boolean showDebug) {
 		debug = showDebug;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
-				+ "   directory: " + directoryName + ", file: " + file + "\n"
+				+ "   directory: " + directoryName + ", Alexa file: " + alexaFileName + "\n"
 				+ "   begin index: " + beginIndex + ", end index: " + endIndex + "\n"
 				+ "   Firefox profile: " + ffprofile + "\n"
 				+ "   number of attempts per website: " + attempts;
@@ -124,7 +124,7 @@ public class Crawler {
 		}
 
 		// Get the list of websites and initialize the driver
-		TopAlexa websites = new TopAlexa(file, beginIndex, endIndex);
+		TopAlexa websites = new TopAlexa(alexaFileName, beginIndex, endIndex);
 		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {
@@ -179,6 +179,14 @@ public class Crawler {
 
 		logMessage("Info: the crawling of the websites is done!", true);
 		haltDriver();
+
+		// Delete useless files ("about:blank" in retry)
+		for (File file : directory.listFiles()) {
+			String filename = file.getName();
+			if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
+				file.delete();
+			}
+		}
 
 		if(!websitesPotentiallyFailed.isEmpty()) {
 			logMessage("", false);
