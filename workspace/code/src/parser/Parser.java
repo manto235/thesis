@@ -58,13 +58,13 @@ public class Parser {
 		// Load the regex from Ghostery
 		regexGhostery = new RegexGhostery();
 		if(!regexGhostery.isSuccess()) {
-			logMessage("Error: the list of trackers could not be retrieved.", true);
+			logMessage("Error: the list of trackers could not be retrieved.", 1);
 			closeLogFile();
 			System.exit(1);
 		}
-		logMessage("Info: the database of trackers has been loaded from Ghostery.", true);
-		logMessage("                        Version of bugs: " + regexGhostery.getBugsVersion(), false);
-		logMessage("                        Number of elements: " + regexGhostery.getRegex().size(), false);
+		logMessage("Info: the database of trackers has been loaded from Ghostery.", 1);
+		logMessage("Version of bugs: " + regexGhostery.getBugsVersion(), 2);
+		logMessage("Number of elements: " + regexGhostery.getRegex().size(), 2);
 
 		// Initialize the Map for the trackers statistics
 		trackersStats = new HashMap<String, Integer>();
@@ -77,43 +77,43 @@ public class Parser {
 
 		int totalTrackersCount = 0;
 		for (File file : filesList) {
-			logMessage("Parsing " + file.getName() + "...", true);
+			logMessage("Parsing " + file.getName() + "...", 1);
 			totalTrackersCount += parseHARfile(file);
 		}
 
-		logMessage("Info: the parsing of the files is done!", true);
-		logMessage("                        Total number of trackers: " + totalTrackersCount, false);
+		logMessage("Info: the parsing of the files is done!", 1);
+		logMessage("Total number of trackers: " + totalTrackersCount, 2);
 
 		// Stats
 		if(showStats) showStats();
 
 		// Summary
-		logMessage("", false);
-		logMessage("----- Summary -----", false);
+		logMessage("", 0);
+		logMessage("----- Summary -----", 0);
 		if(filesList.size() > 1) {
-			logMessage("> " + filesList.size() + " files", false);
+			logMessage("> " + filesList.size() + " files", 0);
 		}
 		else {
-			logMessage("> " + filesList.size() + " file", false);
+			logMessage("> " + filesList.size() + " file", 0);
 		}
 		if(filesFailed.size() > 1) {
-			logMessage(filesFailed.size() + " fails", false);
+			logMessage(filesFailed.size() + " fails", 0);
 		}
 		else {
-			logMessage(filesFailed.size() + " fail", false);
+			logMessage(filesFailed.size() + " fail", 0);
 		}
 		if(countSuccesses > 1) {
-			logMessage(countSuccesses + " successes", false);
+			logMessage(countSuccesses + " successes", 0);
 		}
 		else {
-			logMessage(countSuccesses + " success", false);
+			logMessage(countSuccesses + " success", 0);
 		}
 
 		// Fails
-		logMessage("", false);
-		logMessage("----- Fails -----", false);
+		logMessage("", 0);
+		logMessage("----- Fails -----", 0);
 		for(String fileFailed : filesFailed) {
-			logMessage(fileFailed, false);
+			logMessage(fileFailed, 0);
 		}
 
 		closeLogFile();
@@ -126,10 +126,10 @@ public class Parser {
 	 * @return an ArrayList<File> containing all the files of the directory
 	 */
 	public static ArrayList<File> loadFiles(String directoryName) {
-		logMessage("Info: loading the files from directory \"" + directoryName + "\"... ", true);
+		logMessage("Info: loading the files from directory \"" + directoryName + "\"... ", 1);
 		File directory = new File(directoryName);
 		if(!directory.isDirectory()) {
-			logMessage("Error: the directory does not exist!", true);
+			logMessage("Error: the directory does not exist!", 1);
 			closeLogFile();
 			System.exit(1);
 		}
@@ -152,7 +152,7 @@ public class Parser {
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
 			HarLog log = r.readHarFile(file, warnings);
 			for (HarWarning w : warnings)
-				logMessage("             >>>>>>>>>> Warning: " + w, false);
+				logMessage("Warning: " + w, 3);
 
 			//HarFileWriter w = new HarFileWriter();
 
@@ -169,7 +169,7 @@ public class Parser {
 				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
 
-			logMessage("                        Number of trackers found: " + trackersFound, false);
+			logMessage("Number of trackers found: " + trackersFound, 2);
 
 			// Once you are done manipulating the objects, write back to a file
 			//System.out.println("Writing " + fileName + ".parsed");
@@ -181,14 +181,14 @@ public class Parser {
 		catch (JsonParseException e)
 		{
 			if(showDebug) e.printStackTrace();
-			logMessage("             >>>>>>>>>> Parsing error : " + file.getName(), false);
+			logMessage("Parsing error : " + file.getName(), 3);
 			filesFailed.add(file.getName());
 			return 0;
 		}
 		catch (IOException e)
 		{
 			if(showDebug) e.printStackTrace();
-			logMessage("             >>>>>>>>>> IO exception : " + file.getName(), false);
+			logMessage("IO exception : " + file.getName(), 3);
 			filesFailed.add(file.getName());
 			return 0;
 		}
@@ -205,7 +205,7 @@ public class Parser {
 				trackersStats.put(regex.get(singleRegex), trackerCount+1);
 				if(showTrackers) {
 					logMessage("    Tracker found: " + url + "\n"
-							+ "        " + singleRegex + " from " + regex.get(singleRegex), false);
+							+ "        " + singleRegex + " from " + regex.get(singleRegex), 0);
 				}
 				trackersFound++;
 			}
@@ -214,10 +214,10 @@ public class Parser {
 	}
 
 	public static void showStats() {
-		logMessage("", false);
-		logMessage("----- Statistics -----", false);
+		logMessage("", 0);
+		logMessage("----- Statistics -----", 0);
 
-		logMessage("> Number of trackers entities: " + trackersStats.size(), false);
+		logMessage("> Number of trackers entities: " + trackersStats.size(), 0);
 
 		List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(trackersStats.entrySet());
 		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
@@ -235,19 +235,26 @@ public class Parser {
 		for(String name : sortedTrackersStats.keySet()) {
 			int trackerCount;
 			if((trackerCount = trackersStats.get(name)) != 0)
-				logMessage(name + ": " + trackerCount, false);
+				logMessage(name + ": " + trackerCount, 0);
 		}
 	}
 
 	/**
 	 * Prints a message in the console and writes a message in the log file.
 	 * @param message the message to print and write
-	 * @param showTime add the time before the message
+	 * @param type type of the message: 0 = normal; 1 = show time; 2 = add spaces; 3 = error.
+	 * 		normal: just show the message
+	 *		show time: add the time before the message
+	 *		add spaces: add spaces to offset the lack of time before the message
+	 *		error: add spaces and ">" to focus on an error
 	 */
-	public static void logMessage(String message, boolean showTime) {
-		if(showTime) {
-			message = dateFormat.format(new Date()) + " - " + message;
+	public static void logMessage(String message, int type) {
+		switch(type) {
+		case 1: message = dateFormat.format(new Date()) + " - " + message; break;
+		case 2: message = "                        " + message; break;
+		case 3: message = "             >>>>>>>>>> " + message; break;
 		}
+
 		System.out.println(message);
 		try {
 			logsFile.write(message);

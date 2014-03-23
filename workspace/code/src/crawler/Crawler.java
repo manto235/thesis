@@ -54,11 +54,11 @@ public class Crawler {
 		File directory = new File(directoryName);
 		if(!directory.isDirectory()) {
 			if(directory.mkdirs()) {
-				logMessage("Info: a directory named \"" + directoryName + "\" has been created.", true);
+				logMessage("Info: a directory named \"" + directoryName + "\" has been created.", 1);
 			}
 			else {
 				logMessage("Error: cannot create the directory containing the outputs.\n"
-						+ "> Please, create a directory named \"" + directoryName + "\".", true);
+						+ "> Please, create a directory named \"" + directoryName + "\".", 1);
 				haltDriver();
 				closeLogFile();
 				System.exit(1);
@@ -76,7 +76,7 @@ public class Crawler {
 			do {
 				try {
 					logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl()
-							+ " (attempt #" + attempt + ").", true);
+							+ " (attempt #" + attempt + ").", 1);
 					driver.get("http://" + website.getUrl());
 
 					// Wait till HAR is exported
@@ -89,8 +89,8 @@ public class Crawler {
 					}
 					success = true;
 				} catch (TimeoutException e) {
-					logMessage("             >>>>>>>>>> Error: website " + website.getUrl()
-							+ " was not successfully loaded.", false);
+					logMessage("Error: website " + website.getUrl()
+							+ " was not successfully loaded.", 3);
 					attempt++;
 					// Add the website to the list of potentially failed website at the 2nd attempt
 					if(attempt == 2) {
@@ -108,7 +108,7 @@ public class Crawler {
 					}
 				} catch (UnreachableBrowserException e) {
 					logMessage("Critical error: cannot communicate with the remote browser."
-							+ " Don't close Firefox!", true);
+							+ " Don't close Firefox!", 1);
 					if(debug) e.printStackTrace();
 					//haltDriver();
 					closeLogFile();
@@ -123,7 +123,7 @@ public class Crawler {
 			}
 		}
 
-		logMessage("Info: the crawling of the websites is done!", true);
+		logMessage("Info: the crawling of the websites is done!", 1);
 		haltDriver();
 
 		// Delete useless files ("about:blank" in retry)
@@ -135,18 +135,18 @@ public class Crawler {
 		}
 
 		if(!websitesPotentiallyFailed.isEmpty()) {
-			logMessage("", false);
-			logMessage("The following websites potentially failed (more than one attempt):", false);
+			logMessage("", 0);
+			logMessage("The following websites potentially failed (more than one attempt):", 0);
 			for(String websitePotentiallyFailed : websitesPotentiallyFailed) {
-				logMessage(websitePotentiallyFailed, false);
+				logMessage(websitePotentiallyFailed, 0);
 			}
 		}
 
 		if(!websitesFailed.isEmpty()) {
-			logMessage("", false);
-			logMessage("The following websites failed:", false);
+			logMessage("", 0);
+			logMessage("The following websites failed:", 0);
 			for(String websiteFailed : websitesFailed) {
-				logMessage(websiteFailed, false);
+				logMessage(websiteFailed, 0);
 			}
 		}
 
@@ -196,17 +196,17 @@ public class Crawler {
 			// Wait till Firebug is loaded
 			Thread.sleep(5000);
 
-			logMessage("Info: WebDriver is ready.", true);
+			logMessage("Info: WebDriver is ready.", 1);
 		}
 		catch (NullPointerException e) {
-			logMessage("Error: the Firerox profile " + ffprofile + " has not been found.", true);
+			logMessage("Error: the Firerox profile " + ffprofile + " has not been found.", 1);
 			if(debug) e.printStackTrace();
 			haltDriver();
 			closeLogFile();
 			System.exit(1);
 		}
 		catch (Exception e) {
-			logMessage("Error: cannot initialize the driver.", true);
+			logMessage("Error: cannot initialize the driver.", 1);
 			if(debug) e.printStackTrace();
 			haltDriver();
 			closeLogFile();
@@ -221,9 +221,9 @@ public class Crawler {
 		if(driver != null) {
 			try {
 				driver.quit();
-				logMessage("Info: the driver has been halted successfully.", true);
+				logMessage("Info: the driver has been halted successfully.", 1);
 			} catch (Exception e) {
-				logMessage("Error: the driver was not halted successfully.", true);
+				logMessage("Error: the driver was not halted successfully.", 1);
 				if(debug) e.printStackTrace();
 			}
 		}
@@ -232,12 +232,19 @@ public class Crawler {
 	/**
 	 * Prints a message in the console and writes a message in the log file.
 	 * @param message the message to print and write
-	 * @param showTime add the time before the message
+	 * @param type type of the message: 0 = normal; 1 = show time; 2 = add spaces; 3 = error.
+	 * 		normal: just show the message
+	 *		show time: add the time before the message
+	 *		add spaces: add spaces to offset the lack of time before the message
+	 *		error: add spaces and ">" to focus on an error
 	 */
-	public static void logMessage(String message, boolean showTime) {
-		if(showTime) {
-			message = dateFormat.format(new Date()) + " - " + message;
+	public static void logMessage(String message, int type) {
+		switch(type) {
+		case 1: message = dateFormat.format(new Date()) + " - " + message; break;
+		case 2: message = "                        " + message; break;
+		case 3: message = "             >>>>>>>>>> " + message; break;
 		}
+
 		System.out.println(message);
 		try {
 			logsFile.write(message);
