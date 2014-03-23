@@ -59,7 +59,7 @@ public class start {
 					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("websites"), cmd.hasOption("start"), cmd.hasOption("end"))) {
 						try {
 							String websites = parseFile(cmd.getOptionValue("websites"));
-							int beginIndex = parseBeginIndex(cmd.getOptionValue("start"));
+							int beginIndex = parseStartIndex(cmd.getOptionValue("start"));
 							int endIndex = parseEndIndex(cmd.getOptionValue("end"));
 							int attempts = 1; // 1 by default
 							if(cmd.hasOption("a")) {
@@ -157,7 +157,7 @@ public class start {
 	 * @return the index as an Integer
 	 * @throws Exception
 	 */
-	public static int parseBeginIndex(String index) throws Exception {
+	public static int parseStartIndex(String index) throws Exception {
 		try {
 			return Integer.parseInt(index);
 		} catch (Exception e) {
