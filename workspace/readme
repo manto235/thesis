@@ -52,9 +52,6 @@ _____ Firefox _____
 
 - install NetExport: https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport
 
-Note: if you want to install the extensions without a GUI 
-      > firefox -install-global-extension /path/to/extension
-
 
 _____ NetExport _____
 - In your Firefox profile (home/XXX/.mozilla/firefox/YYY/extensions), find netexport@getfirebug.com.xpi
