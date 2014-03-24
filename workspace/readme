@@ -6,6 +6,9 @@ Note: this project has been developped in Eclipse.
 
 _____ Eclipse _____
 - Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
+  > In Eclipse; Help > Install New Software...
+  > Fill the "Work with" field with: http://download.eclipse.org/technology/m2e/releases
+  > Install m2e
 
 - Add the following lines in the file pom.xml after </build> in order to install Selenium (Firefox Driver), dnsjava and Jackson:
   <dependencies>
