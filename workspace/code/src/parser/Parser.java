@@ -28,7 +28,6 @@ public class Parser {
 
 	private static boolean showDebug;
 	private static boolean showTrackers;
-	private static boolean showStats;
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
@@ -36,21 +35,29 @@ public class Parser {
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
-	public static void launchParser(String directoryName, boolean debug, boolean trackers, boolean stats) {
+	public static void launchParser(String directoryName, boolean debug, boolean trackers) {
 		showDebug = debug;
 		showTrackers = trackers;
-		showStats = stats;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching parser...\n"
 				+ "   directory: " + directoryName;
 		System.out.println(start);
 		try {
-			logsFile = new BufferedWriter(new FileWriter(new File("logs_parser.txt"), true));
+			File logParser = new File(directoryName+"/logs/log_parser.txt");
+			File logsDirectory = logParser.getParentFile();
+			if(!logsDirectory.isDirectory()) {
+				if(!logsDirectory.mkdirs()) {
+					System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the logs folder.\n"
+							+ "> Please check your file system permissions.");
+				}
+			}
+			logsFile = new BufferedWriter(new FileWriter(logParser, true));
 			logsFile.write(start);
 			logsFile.newLine();
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
 					+ "> Please check your file system permissions.");
+			// TODO stop program if error
 			System.out.println("The parser will however continue...");
 			if(showDebug) ioe.printStackTrace();
 		}
@@ -85,7 +92,7 @@ public class Parser {
 		logMessage("Total number of trackers: " + totalTrackersCount, 2);
 
 		// Stats
-		if(showStats) showStats();
+		computeStats(directoryName);
 
 		// Summary
 		logMessage("", 0);
@@ -213,29 +220,35 @@ public class Parser {
 		return trackersFound;
 	}
 
-	public static void showStats() {
-		logMessage("", 0);
-		logMessage("----- Statistics -----", 0);
+	public static void computeStats(String directoryName) {
+		try {
+			BufferedWriter statsTrackers = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.txt"), false));
 
-		logMessage("> Number of trackers entities: " + trackersStats.size(), 0);
+			statsTrackers.write("----- Statistics of trackers -----");
+			statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
 
-		List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(trackersStats.entrySet());
-		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
-			@Override
-			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-				return o2.getValue().compareTo(o1.getValue());
+			List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(trackersStats.entrySet());
+			Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+				@Override
+				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+					return o2.getValue().compareTo(o1.getValue());
+				}
+			});
+
+			Map<String, Integer> sortedTrackersStats = new LinkedHashMap<String, Integer>();
+			for(Map.Entry<String, Integer> entry: entries){
+				sortedTrackersStats.put(entry.getKey(), entry.getValue());
 			}
-		});
 
-		Map<String, Integer> sortedTrackersStats = new LinkedHashMap<String, Integer>();
-		for(Map.Entry<String, Integer> entry: entries){
-			sortedTrackersStats.put(entry.getKey(), entry.getValue());
-		}
-
-		for(String name : sortedTrackersStats.keySet()) {
-			int trackerCount;
-			if((trackerCount = trackersStats.get(name)) != 0)
-				logMessage(name + ": " + trackerCount, 0);
+			for(String name : sortedTrackersStats.keySet()) {
+				int trackerCount;
+				if((trackerCount = trackersStats.get(name)) != 0)
+					logMessage(name + ": " + trackerCount, 0);
+			}
+			statsTrackers.close();
+		} catch (IOException e) {
+			logMessage("Error: cannot create the stats file", 1);
+			if(showDebug) e.printStackTrace();
 		}
 	}
 

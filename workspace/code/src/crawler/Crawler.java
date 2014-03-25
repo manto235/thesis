@@ -40,7 +40,17 @@ public class Crawler {
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
 		try {
-			logsFile = new BufferedWriter(new FileWriter(new File("logs_crawler.txt"), true));
+
+
+			if(!checkDirectories(directoryName)) {
+				System.out.println("Error: cannot create the directory containing the outputs.\n"
+						+ "> Please check your file system permissions.");
+				haltDriver();
+				closeLogFile();
+				System.exit(1);
+			}
+
+			logsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/logs_crawler.txt"), true));
 			logsFile.write(start);
 			logsFile.newLine();
 		} catch (IOException ioe) {
@@ -48,21 +58,6 @@ public class Crawler {
 					+ "> Please check your file system permissions.");
 			System.out.println("The crawler will however continue...");
 			if(debug) ioe.printStackTrace();
-		}
-
-		// Check if the directory exists and creates it if needed
-		File directory = new File(directoryName);
-		if(!directory.isDirectory()) {
-			if(directory.mkdirs()) {
-				logMessage("Info: a directory named \"" + directoryName + "\" has been created.", 1);
-			}
-			else {
-				logMessage("Error: cannot create the directory containing the outputs.\n"
-						+ "> Please, create a directory named \"" + directoryName + "\".", 1);
-				haltDriver();
-				closeLogFile();
-				System.exit(1);
-			}
 		}
 
 		// Get the list of websites and initialize the driver
@@ -127,7 +122,7 @@ public class Crawler {
 		haltDriver();
 
 		// Delete useless files ("about:blank" in retry)
-		for (File file : directory.listFiles()) {
+		for (File file : new File(directoryName).listFiles()) {
 			String filename = file.getName();
 			if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
 				file.delete();
@@ -151,6 +146,43 @@ public class Crawler {
 		}
 
 		closeLogFile();
+	}
+
+	/**
+	 * Check if the directories exist and create them if needed
+	 *
+	 * @param directoryName the directory to check
+	 * @return true if the directories exists (or have been created), false otherwise
+	 */
+	public static boolean checkDirectories(String directoryName) {
+		boolean directoriesOK = true;
+
+		File directory = new File(directoryName);
+		File logsDirectory = new File(directoryName + "/logs/");
+
+		// The directory does not exist: create both the directory and the logs subdirectory
+		if(!directory.isDirectory()) {
+			if(logsDirectory.mkdirs()) {
+				System.out.println("Info: a directory named \"" + directoryName + "\" has been created.\n"
+						+ "      a subdirectory named \"logs\" has also been created.");
+			}
+			else {
+				directoriesOK = false;
+			}
+		}
+		// The directory already exists: check if the logs subdirectory also exist
+		else {
+			if(!logsDirectory.isDirectory()) {
+				if(logsDirectory.mkdirs()) {
+					System.out.println("Info: a subdirectory named \"logs\" has been created.");
+				}
+				else {
+					directoriesOK = false;
+				}
+			}
+		}
+
+		return directoriesOK;
 	}
 
 	/**

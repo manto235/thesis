@@ -22,7 +22,6 @@ public class start {
 		options.addOption("end", true, "crawler (required): end index in the websites file");
 		options.addOption("a", true, "crawler (optional): number of attempts per website");
 		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
-		options.addOption("stats", false, "parser (optional): show stats of trackers entities");
 		options.addOption("debug", false, "enable the debug messages");
 		options.addOption("h", false, "help");
 
@@ -52,7 +51,13 @@ public class start {
 
 				// Mode: parser
 				if(mode.equals("p")) {
-					Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"), cmd.hasOption("stats"));
+					if(!new File(directory).isDirectory()) {
+						System.out.println("Directory not found! Check your -dir argument.");
+						System.exit(1);
+					}
+					else {
+						Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"));
+					}
 				}
 				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
@@ -70,7 +75,7 @@ public class start {
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
-								Parser.launchParser(directory, cmd.hasOption("debug"),  cmd.hasOption("trackers"), cmd.hasOption("stats"));
+								Parser.launchParser(directory, cmd.hasOption("debug"),  cmd.hasOption("trackers"));
 							}
 						} catch (Exception e) {
 							System.out.println("An error occurred with the crawler.");
@@ -90,23 +95,6 @@ public class start {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("java -jar Code.jar", options);
 		}
-	}
-
-	/**
-	 * Checks if the path corresponds to a directory and if it exists.
-	 * If the directory does not exist, a message is printed in the console.
-	 *
-	 * @param path the path to check
-	 * @return the path if the directory exists, throws an exception otherwise
-	 * @throws Exception 
-	 */
-	public static String parseDirectory(String path) throws Exception {
-		File directory = new File(path);
-		if(!directory.isDirectory()) {
-			System.out.println("Directory not found! Check your -dir argument.");
-			throw new Exception();
-		}
-		return path;
 	}
 
 	/**
