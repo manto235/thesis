@@ -40,8 +40,6 @@ public class Crawler {
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
 		try {
-
-
 			if(!checkDirectories(directoryName)) {
 				System.out.println("Error: cannot create the directory containing the outputs.\n"
 						+ "> Please check your file system permissions.");
@@ -61,7 +59,9 @@ public class Crawler {
 		}
 
 		// Get the list of websites and initialize the driver
+		logMessage("Loading the list of websites...", 1);
 		WebsitesList websites = new WebsitesList(websitesFile, startIndex, endIndex);
+		logMessage("Initializing the driver...", 1);
 		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {
@@ -123,9 +123,11 @@ public class Crawler {
 
 		// Delete useless files ("about:blank" in retry)
 		for (File file : new File(directoryName).listFiles()) {
-			String filename = file.getName();
-			if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
-				file.delete();
+			if(file.isFile()) {
+				String filename = file.getName();
+				if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
+					file.delete();
+				}
 			}
 		}
 
