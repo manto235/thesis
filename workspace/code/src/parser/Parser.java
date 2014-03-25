@@ -222,10 +222,12 @@ public class Parser {
 
 	public static void computeStats(String directoryName) {
 		try {
-			BufferedWriter statsTrackers = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.txt"), false));
+			BufferedWriter statsTrackers = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.csv"), false));
 
-			statsTrackers.write("----- Statistics of trackers -----");
-			statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
+			//statsTrackers.write("----- Statistics of trackers -----");
+			//statsTrackers.newLine();
+			//statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
+			//statsTrackers.newLine();
 
 			List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(trackersStats.entrySet());
 			Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
@@ -241,9 +243,11 @@ public class Parser {
 			}
 
 			for(String name : sortedTrackersStats.keySet()) {
-				int trackerCount;
-				if((trackerCount = trackersStats.get(name)) != 0)
-					logMessage(name + ": " + trackerCount, 0);
+				int trackerCount = trackersStats.get(name);
+				if(trackerCount != 0) {
+					statsTrackers.write(name + "=" + trackerCount);
+					statsTrackers.newLine();
+				}
 			}
 			statsTrackers.close();
 		} catch (IOException e) {

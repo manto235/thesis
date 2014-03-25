@@ -66,8 +66,8 @@ public class RegexGhostery {
 			Iterator<JsonNode> bugsElements = rootNode.get("bugs").iterator();
 			while (bugsElements.hasNext()) {
 				JsonNode bug = bugsElements.next();
-				String pattern = bug.get("pattern").asText().replace("\\", "");
-				String name = bug.get("name").asText();
+				String pattern = bug.get("pattern").asText().replace("\\", ""); // Remove the backslashes
+				String name = bug.get("name").asText().replace(",", " "); // Remove the commas
 				regex.put(pattern, name);
 			}
 
