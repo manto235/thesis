@@ -32,6 +32,7 @@ public class Parser {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
 	private static Map<String, Integer> trackersStats;
+	private static Map<String, Integer> websitesStats;
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
@@ -78,6 +79,9 @@ public class Parser {
 		for(String trackerName : regexGhostery.getRegex().values()) {
 			trackersStats.put(trackerName, 0);
 		}
+
+		// Initialize the Map for the websites statistics
+		websitesStats = new HashMap<String, Integer>();
 
 		// Load the list of files
 		ArrayList<File> filesList = loadFiles(directoryName);
@@ -153,8 +157,14 @@ public class Parser {
 		return filesList;
 	}
 
+	/**
+	 * Called for each website
+	 * @param file
+	 * @return
+	 */
 	public static int parseHARfile(File file) {
 		try {
+			String fileName = file.getName();
 			HarFileReader r = new HarFileReader();
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
 			HarLog log = r.readHarFile(file, warnings);
@@ -176,6 +186,7 @@ public class Parser {
 				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
 
+			websitesStats.put(fileName, trackersFound);
 			logMessage("Number of trackers found: " + trackersFound, 2);
 
 			// Once you are done manipulating the objects, write back to a file
@@ -201,6 +212,11 @@ public class Parser {
 		}
 	}
 
+	/**
+	 * Called for each URL
+	 * @param url
+	 * @return
+	 */
 	public static int checkRegexGhostery(String url) {
 		int trackersFound = 0;
 		Map<String, String> regex = regexGhostery.getRegex();
@@ -222,15 +238,16 @@ public class Parser {
 
 	public static void computeStats(String directoryName) {
 		try {
-			BufferedWriter statsTrackers = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.csv"), false));
+			// TRACKERS
+			BufferedWriter trackersStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.csv"), false));
 
 			//statsTrackers.write("----- Statistics of trackers -----");
 			//statsTrackers.newLine();
 			//statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
 			//statsTrackers.newLine();
 
-			List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(trackersStats.entrySet());
-			Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+			List<Map.Entry<String, Integer>> trackersEntries = new LinkedList<Map.Entry<String, Integer>>(trackersStats.entrySet());
+			Collections.sort(trackersEntries, new Comparator<Map.Entry<String, Integer>>() {
 				@Override
 				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
 					return o2.getValue().compareTo(o1.getValue());
@@ -238,18 +255,43 @@ public class Parser {
 			});
 
 			Map<String, Integer> sortedTrackersStats = new LinkedHashMap<String, Integer>();
-			for(Map.Entry<String, Integer> entry: entries){
+			for(Map.Entry<String, Integer> entry: trackersEntries){
 				sortedTrackersStats.put(entry.getKey(), entry.getValue());
 			}
 
 			for(String name : sortedTrackersStats.keySet()) {
 				int trackerCount = trackersStats.get(name);
 				if(trackerCount != 0) {
-					statsTrackers.write(name + "=" + trackerCount);
-					statsTrackers.newLine();
+					trackersStatsFile.write(name + "," + trackerCount);
+					trackersStatsFile.newLine();
 				}
 			}
-			statsTrackers.close();
+			trackersStatsFile.close();
+
+			// WEBSITES
+			BufferedWriter websitesStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_websites.csv"), false));
+
+			List<Map.Entry<String, Integer>> websitesEntries = new LinkedList<Map.Entry<String, Integer>>(websitesStats.entrySet());
+			Collections.sort(websitesEntries, new Comparator<Map.Entry<String, Integer>>() {
+				@Override
+				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+					return o2.getValue().compareTo(o1.getValue());
+				}
+			});
+
+			Map<String, Integer> sortedWebsitesStats = new LinkedHashMap<String, Integer>();
+			for(Map.Entry<String, Integer> entry: websitesEntries){
+				sortedWebsitesStats.put(entry.getKey(), entry.getValue());
+			}
+
+			for(String name : sortedWebsitesStats.keySet()) {
+				int trackerCount = websitesStats.get(name);
+				if(trackerCount != 0) {
+					websitesStatsFile.write(name + "," + trackerCount);
+					websitesStatsFile.newLine();
+				}
+			}
+			websitesStatsFile.close();
 		} catch (IOException e) {
 			logMessage("Error: cannot create the stats file", 1);
 			if(showDebug) e.printStackTrace();
