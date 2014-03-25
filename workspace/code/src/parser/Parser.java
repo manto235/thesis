@@ -28,7 +28,7 @@ public class Parser {
 
 	private static boolean showDebug;
 	private static boolean showTrackers;
-	private static BufferedWriter logsFile;
+	private static FileWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
 	private static Map<String, Integer> trackersStats;
@@ -51,9 +51,9 @@ public class Parser {
 							+ "> Please check your file system permissions.");
 				}
 			}
-			logsFile = new BufferedWriter(new FileWriter(logParser, true));
+			logsFile = new FileWriter(logParser, true);
 			logsFile.write(start);
-			logsFile.newLine();
+			logsFile.write(System.getProperty("line.separator"));
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
 					+ "> Please check your file system permissions.");
@@ -271,7 +271,7 @@ public class Parser {
 		System.out.println(message);
 		try {
 			logsFile.write(message);
-			logsFile.newLine();
+			logsFile.write(System.getProperty("line.separator"));
 		} catch (IOException ioe) {
 			System.out.println("The message was not successfully written in the log file.");
 			if(showDebug) ioe.printStackTrace();

@@ -1,6 +1,5 @@
 package crawler;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class Crawler {
 
 	private static boolean debug;
 	private static WebDriver driver;
-	private static BufferedWriter logsFile;
+	private static FileWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static ArrayList<String> websitesFailed = new ArrayList<String>();
 	private static ArrayList<String> websitesPotentiallyFailed = new ArrayList<String>();
@@ -48,9 +47,9 @@ public class Crawler {
 				System.exit(1);
 			}
 
-			logsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/logs_crawler.txt"), true));
+			logsFile = new FileWriter(new File(directoryName+"/logs/log_crawler.txt"), true);
 			logsFile.write(start);
-			logsFile.newLine();
+			logsFile.write(System.getProperty("line.separator"));
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
 					+ "> Please check your file system permissions.");
@@ -282,7 +281,7 @@ public class Crawler {
 		System.out.println(message);
 		try {
 			logsFile.write(message);
-			logsFile.newLine();
+			logsFile.write(System.getProperty("line.separator"));
 		} catch (IOException ioe) {
 			System.out.println("The message was not successfully written in the log file.");
 			if(debug) ioe.printStackTrace();
