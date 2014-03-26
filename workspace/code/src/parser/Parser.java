@@ -121,10 +121,12 @@ public class Parser {
 		}
 
 		// Fails
-		logMessage("", 0);
-		logMessage("----- Fails -----", 0);
-		for(String fileFailed : filesFailed) {
-			logMessage(fileFailed, 0);
+		if(filesFailed.size() > 0) {
+			logMessage("", 0);
+			logMessage("----- Fails -----", 0);
+			for(String fileFailed : filesFailed) {
+				logMessage(fileFailed, 0);
+			}
 		}
 
 		closeLogFile();
