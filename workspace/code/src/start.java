@@ -22,6 +22,7 @@ public class start {
 		options.addOption("end", true, "crawler (required): end index in the websites file");
 		options.addOption("a", true, "crawler (optional): number of attempts per website");
 		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
+		options.addOption("restart", true, "crawler (required): number of websites to visit before restarting Firefox");
 		options.addOption("debug", false, "enable the debug messages");
 		options.addOption("h", false, "help");
 
@@ -61,17 +62,18 @@ public class start {
 				}
 				// Mode: crawler or crawler & parser
 				else if(mode.equals("c") || mode.equals("cp")) {
-					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("websites"), cmd.hasOption("start"), cmd.hasOption("end"))) {
+					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("websites"), cmd.hasOption("start"), cmd.hasOption("end"), cmd.hasOption("restart"))) {
 						try {
 							String websites = parseFile(cmd.getOptionValue("websites"));
 							int startIndex = parseStartIndex(cmd.getOptionValue("start"));
 							int endIndex = parseEndIndex(cmd.getOptionValue("end"));
+							int restart = parseRestartValue(cmd.getOptionValue("restart"));
 							int attempts = 1; // 1 by default
 							if(cmd.hasOption("a")) {
 								attempts = parseAttempts(cmd.getOptionValue("a"));
 							}
 
-							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, startIndex, endIndex, attempts, cmd.hasOption("debug"));
+							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, startIndex, endIndex, attempts, cmd.hasOption("debug"), restart);
 
 							// Mode: crawler & parser
 							if(mode.equals("cp")) {
@@ -107,14 +109,15 @@ public class start {
 	 * @param end
 	 * @return true if no required argument is missing, false otherwise
 	 */
-	public static boolean checkRequiredArgsCrawler(boolean ffprofile, boolean websites, boolean start, boolean end) {
+	public static boolean checkRequiredArgsCrawler(boolean ffprofile, boolean websites, boolean start, boolean end, boolean restart) {
 		String message = "The following arguments are missing:\n";
 		if(!ffprofile) message += " - name of the Firefox profile\n";
 		if(!websites) message += " - path to the websites file\n";
 		if(!start) message += " - start index\n";
 		if(!end) message += " - end index\n";
+		if(!restart) message += " - websites visits before Firefox restart\n";
 
-		boolean check = ffprofile & websites & start & end;
+		boolean check = ffprofile & websites & start & end & restart;
 		if(!check) System.out.print(message);
 		return check;
 	}
@@ -185,6 +188,23 @@ public class start {
 			return Integer.parseInt(attempts);
 		} catch (Exception e) {
 			System.out.println("Number of attempts must be an integer!");
+			throw new Exception();
+		}
+	}
+
+	/**
+	 * Parses the restart value received as argument.
+	 * If the restart value is not an integer, a message is printed in the console.
+	 *
+	 * @param value the restart value as a String
+	 * @return the restart value as an Integer
+	 * @throws Exception
+	 */
+	public static int parseRestartValue(String value) throws Exception {
+		try {
+			return Integer.parseInt(value);
+		} catch (Exception e) {
+			System.out.println("Restart value must be an integer!");
 			throw new Exception();
 		}
 	}

@@ -27,15 +27,16 @@ public class Crawler {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static ArrayList<String> websitesFailed = new ArrayList<String>();
 	private static ArrayList<String> websitesPotentiallyFailed = new ArrayList<String>();
+	private static int websitesVisited = 0;
 
 	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
-			int startIndex, int endIndex, int attempts, boolean showDebug) {
+			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
 		debug = showDebug;
 		String start = "----------------------------------------\n"
 				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
 				+ "   directory: " + directoryName + ", websites file: " + websitesFile + "\n"
 				+ "   start index: " + startIndex + ", end index: " + endIndex + "\n"
-				+ "   Firefox profile: " + ffprofile + "\n"
+				+ "   Firefox profile: " + ffprofile + ", restart value: " + restart + "\n"
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
 		try {
@@ -64,6 +65,12 @@ public class Crawler {
 		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {
+			// Restart Firerox
+			if(websitesVisited % restart == 0 && websitesVisited != 0) {
+				logMessage("Restarting Firefox...", 1);
+				driver.quit();
+				initializeDriver(directoryName, ffprofile);
+			}
 			boolean success = false;
 			int attempt = 1;
 
@@ -109,6 +116,7 @@ public class Crawler {
 					System.exit(1);
 				}
 			} while(attempt <= attempts && !success);
+			websitesVisited++;
 
 			// The website failed after several attempts
 			if(attempt >= attempts && !success) {
