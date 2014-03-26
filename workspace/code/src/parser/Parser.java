@@ -39,8 +39,7 @@ public class Parser {
 	public static void launchParser(String directoryName, boolean debug, boolean trackers) {
 		showDebug = debug;
 		showTrackers = trackers;
-		String start = "----------------------------------------\n"
-				+ dateFormat.format(new Date()) + " - Launching parser...\n"
+		String start = dateFormat.format(new Date()) + " - Launching parser...\n"
 				+ "   directory: " + directoryName;
 		System.out.println(start);
 		try {
@@ -332,6 +331,8 @@ public class Parser {
 	 */
 	public static void closeLogFile() {
 		try {
+			logsFile.write("----------------------------------------");
+			logsFile.newLine();
 			logsFile.close();
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");

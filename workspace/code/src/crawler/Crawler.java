@@ -32,8 +32,7 @@ public class Crawler {
 	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
 		debug = showDebug;
-		String start = "----------------------------------------\n"
-				+ dateFormat.format(new Date()) + " - Launching crawler...\n"
+		String start = dateFormat.format(new Date()) + " - Launching crawler...\n"
 				+ "   directory: " + directoryName + ", websites file: " + websitesFile + "\n"
 				+ "   start index: " + startIndex + ", end index: " + endIndex + "\n"
 				+ "   Firefox profile: " + ffprofile + ", restart value: " + restart + "\n"
@@ -302,6 +301,8 @@ public class Crawler {
 	 */
 	public static void closeLogFile() {
 		try {
+			logsFile.write("----------------------------------------");
+			logsFile.write(System.getProperty("line.separator"));
 			logsFile.close();
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
