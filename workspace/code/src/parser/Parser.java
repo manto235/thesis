@@ -165,7 +165,8 @@ public class Parser {
 	 */
 	public static int parseHARfile(File file) {
 		try {
-			String fileName = file.getName();
+			String websiteName = file.getName();
+			websiteName = websiteName.substring(0, websiteName.indexOf(".har"));
 			HarFileReader r = new HarFileReader();
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
 			HarLog log = r.readHarFile(file, warnings);
@@ -187,7 +188,7 @@ public class Parser {
 				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
 
-			websitesStats.put(fileName, trackersFound);
+			websitesStats.put(websiteName, trackersFound);
 			logMessage("Number of trackers found: " + trackersFound, 2);
 
 			// Once you are done manipulating the objects, write back to a file
