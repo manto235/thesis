@@ -83,6 +83,7 @@ public class Crawler {
 				driver.quit();
 				initializeDriver(directoryName, ffprofile);
 			}
+
 			boolean success = false;
 			int attempt = 1;
 
@@ -129,7 +130,7 @@ public class Crawler {
 					logMessage("Error: website " + website.getUrl()
 							+ " was not successfully loaded (error).", 3);
 					if(debug) e.printStackTrace();
-					 // Skip the website and consider it as failed
+					// Skip the website and consider it as failed
 					websitesFailed.add(website.getUrl());
 					break;
 				}
@@ -144,33 +145,12 @@ public class Crawler {
 		}
 
 		logMessage("Info: the crawling of the websites is done!", 1);
+
 		haltDriver();
 
-		// Delete useless files ("about:blank" when retrying another attempt)
-		for (File file : new File(directoryName).listFiles()) {
-			if(file.isFile()) {
-				String filename = file.getName();
-				if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
-					file.delete();
-				}
-			}
-		}
+		deleteUselessFiles(directoryName);
 
-		if(!websitesPotentiallyFailed.isEmpty()) {
-			logMessage("", 0);
-			logMessage("The following websites potentially failed (more than one attempt):", 0);
-			for(String websitePotentiallyFailed : websitesPotentiallyFailed) {
-				logMessage(websitePotentiallyFailed, 0);
-			}
-		}
-
-		if(!websitesFailed.isEmpty()) {
-			logMessage("", 0);
-			logMessage("The following websites failed:", 0);
-			for(String websiteFailed : websitesFailed) {
-				logMessage(websiteFailed, 0);
-			}
-		}
+		detailProblematicWebsites();
 
 		closeLogFile();
 	}
@@ -266,6 +246,43 @@ public class Crawler {
 			logMessage("Error: cannot initialize the driver.", 1);
 			if(debug) e.printStackTrace();
 			System.exit(1);
+		}
+	}
+
+	/**
+	 * Deletes the useless files.
+	 * These are the files generated when visiting the "about:blank" page when retrying another attempt.
+	 * @param directoryName the name of the directory containing the files
+	 */
+	public static void deleteUselessFiles(String directoryName) {
+		for (File file : new File(directoryName).listFiles()) {
+			if(file.isFile()) {
+				String filename = file.getName();
+				if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
+					file.delete();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Details the websites for which problems occurred.
+	 */
+	public static void detailProblematicWebsites() {
+		if(!websitesPotentiallyFailed.isEmpty()) {
+			logMessage("", 0);
+			logMessage("The following websites potentially failed (more than one attempt):", 0);
+			for(String websitePotentiallyFailed : websitesPotentiallyFailed) {
+				logMessage(websitePotentiallyFailed, 0);
+			}
+		}
+
+		if(!websitesFailed.isEmpty()) {
+			logMessage("", 0);
+			logMessage("The following websites failed:", 0);
+			for(String websiteFailed : websitesFailed) {
+				logMessage(websiteFailed, 0);
+			}
 		}
 	}
 
