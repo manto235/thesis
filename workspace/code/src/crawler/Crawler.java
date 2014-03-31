@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -38,12 +39,12 @@ public class Crawler {
 				+ "   Firefox profile: " + ffprofile + ", restart value: " + restart + "\n"
 				+ "   number of attempts per website: " + attempts;
 		System.out.println(start);
+
+		// Check the file system permissions
 		try {
 			if(!checkDirectories(directoryName)) {
-				System.out.println("Error: cannot create the directory containing the outputs.\n"
+				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the outputs.\n"
 						+ "> Please check your file system permissions.");
-				haltDriver();
-				closeLogFile();
 				System.exit(1);
 			}
 
@@ -53,9 +54,21 @@ public class Crawler {
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
 					+ "> Please check your file system permissions.");
-			System.out.println("The crawler will however continue...");
-			if(debug) ioe.printStackTrace();
+			System.exit(1);
 		}
+
+		// Manage the signals
+		// Note: placed after the check of file permissions because this check is really fast
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			@Override
+			public void run()
+			{
+				logMessage("Terminating now...", 1);
+				haltDriver();
+				closeLogFile();
+			}
+		});
 
 		// Get the list of websites and initialize the driver
 		logMessage("Loading the list of websites...", 1);
@@ -64,7 +77,7 @@ public class Crawler {
 		initializeDriver(directoryName, ffprofile);
 
 		for(Website website : websites.getWebsites()) {
-			// Restart Firerox
+			// Restart Firefox
 			if(websitesVisited % restart == 0 && websitesVisited != 0) {
 				logMessage("Restarting Firefox...", 1);
 				driver.quit();
@@ -90,7 +103,7 @@ public class Crawler {
 					success = true;
 				} catch (TimeoutException e) {
 					logMessage("Error: website " + website.getUrl()
-							+ " was not successfully loaded.", 3);
+							+ " was not successfully loaded (timeout).", 3);
 					attempt++;
 					// Add the website to the list of potentially failed website at the 2nd attempt
 					if(attempt == 2) {
@@ -110,9 +123,13 @@ public class Crawler {
 					logMessage("Critical error: cannot communicate with the remote browser."
 							+ " Don't close Firefox!", 1);
 					if(debug) e.printStackTrace();
-					//haltDriver();
-					closeLogFile();
 					System.exit(1);
+				} catch (UnhandledAlertException e) {
+					logMessage("Error: website " + website.getUrl()
+							+ " was not successfully loaded (error).", 3);
+					if(debug) e.printStackTrace();
+					websitesFailed.add(website.getUrl());
+					break;
 				}
 			} while(attempt <= attempts && !success);
 			websitesVisited++;
@@ -239,17 +256,13 @@ public class Crawler {
 			logMessage("Info: WebDriver is ready.", 1);
 		}
 		catch (NullPointerException e) {
-			logMessage("Error: the Firerox profile " + ffprofile + " has not been found.", 1);
+			logMessage("Error: the Firefox profile " + ffprofile + " has not been found.", 1);
 			if(debug) e.printStackTrace();
-			haltDriver();
-			closeLogFile();
 			System.exit(1);
 		}
 		catch (Exception e) {
 			logMessage("Error: cannot initialize the driver.", 1);
 			if(debug) e.printStackTrace();
-			haltDriver();
-			closeLogFile();
 			System.exit(1);
 		}
 	}
@@ -262,6 +275,8 @@ public class Crawler {
 			try {
 				driver.quit();
 				logMessage("Info: the driver has been halted successfully.", 1);
+			} catch (UnreachableBrowserException e) {
+				// Do nothing
 			} catch (Exception e) {
 				logMessage("Error: the driver was not halted successfully.", 1);
 				if(debug) e.printStackTrace();
@@ -271,12 +286,12 @@ public class Crawler {
 
 	/**
 	 * Prints a message in the console and writes a message in the log file.
-	 * @param message the message to print and write
+	 * @param message the message to print and write.
 	 * @param type type of the message: 0 = normal; 1 = show time; 2 = add spaces; 3 = error.
-	 * 		normal: just show the message
-	 *		show time: add the time before the message
-	 *		add spaces: add spaces to offset the lack of time before the message
-	 *		error: add spaces and ">" to focus on an error
+	 * 		0 - normal: just show the message.
+	 *		1 - show time: add the time before the message.
+	 *		2 - add spaces: add spaces to offset the lack of time before the message.
+	 *		3 - error: add spaces and ">" to focus on an error.
 	 */
 	public static void logMessage(String message, int type) {
 		switch(type) {
@@ -289,6 +304,7 @@ public class Crawler {
 		try {
 			logsFile.write(message);
 			logsFile.write(System.getProperty("line.separator"));
+			logsFile.flush();
 		} catch (IOException ioe) {
 			System.out.println("The message was not successfully written in the log file.");
 			if(debug) ioe.printStackTrace();
@@ -304,6 +320,7 @@ public class Crawler {
 			logsFile.write("----------------------------------------");
 			logsFile.write(System.getProperty("line.separator"));
 			logsFile.close();
+			System.out.println(dateFormat.format(new Date()) + " - Info: log file successfully closed.");
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
 			if(debug) ioe.printStackTrace();
