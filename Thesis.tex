@@ -11,16 +11,19 @@
 \tableofcontents
 
 \chapter{Introduction}
-	\section{Motivation et problématique}
+\section{Motivation et problématique}
 Notre navigation sur les réseaux est de plus en plus scrutée. On essaie de nous suivre à la trace afin de déterminer nos habitudes et préférences. D'ailleurs, certaines informations peuvent se revendre à prix d'or auprès de compagnies d'annonces publicitaires.
 
 Afin de préserver notre vie privée, il est nécessaire de connaître comment nous sommes identifiés. Il faut également s'assurer que les outils dont nous disposons afin de nous protéger sont réellement efficaces et adaptés à notre utilisation.
 
-	\section{Méthodologie utilisée}
+\section{Pourquoi l'anonymat sur Internet est-il important ?}
+
+\section{Méthodologie utilisée}
 Afin de répondre à cette problématique, je vais tout d'abord identifier les moyens utilisés pour nous tracer. Ensuite, je vais présenter une série d'outils censés protéger notre vie privée et évaluer leur efficacité.
 
-\chapter{Le protocole HTTP}
-	\section{Présentation}
+
+\chapter{Protocoles et mécanismes d'Internet}
+\section{Présentation du protocole HTTP}
 Le protocole HTTP fournit les fondations du World Wide Web. Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci se connecte à un serveur identifié par l'URL « Uniform Resource Locator » présente dans ce lien. Le navigateur envoie alors une requête à laquelle le serveur répond puis le navigateur se déconnecte du serveur.
 
 L'on considère que la requête est sans état car à chaque fois que le navigateur crée une connexion pour une requête, le serveur la traite comme si c'était la première ; les requêtes sont donc indépendantes.
@@ -45,65 +48,66 @@ Il y a donc un contrat implicite entre le client et le serveur : ce dernier repo
 
 Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné, ni la valeur qu'il représente.
 
-	\section{Cache}
-		
-	\section{Comment le Web est-il censé fonctionner ?}
-		
-	\section{Comment ces mécanismes permettent-ils de nous identifier ?}
-		%\subsection{Cookies}
+\section{Cache}
+
+\section{Comment le Web est-il censé fonctionner ?}
+
+\section{Comment ces mécanismes permettent-ils de nous identifier ?}
+
+
+\chapter{Moyens d'identification généralement utilisés}
+\section{Cookies}
 En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, comme expliqué auparavant, le navigateur envoie dans chaque requête un en-tête \textit{Cookie} et il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le Cookie reste indépendant du moyen d'accès au site web.
+\section{Pixels espions}
+\section{JavaScript}
+	\subsection{Régies publicitaires sur Internet}
 		
-\chapter{JavaScript}
-	\section{Les régies publicitaires sur Internet}
+	\subsection{Modules des réseaux sociaux}
 		
-	\section{Les modules des réseaux sociaux}
-		
-		\subsection{Facebook et son bouton « Like »}
+		\subsubsection{Facebook et son bouton « Like »}
 			
-		\subsection{Google et son bouton « +1 »}
+		\subsubsection{Google et son bouton « +1 »}
 			
-	\section{Les outils destinés aux webmasters}
+	\subsection{Outils destinés aux webmasters}
 		
-		\subsection{Google Analytics}
-			
-\chapter{Autres moyens de nous tracer}
-	\section{Flash}
-	
-	\section{Java}
-	
-	\section{L'omniprésence des navigateurs dans les applications}
-		
-	\section{Persistance des données utilisateur dans Microsoft Internet Explorer}
-		
-	\section{L'identifiant unique que Google envisage d'implémenter}
-		
-\chapter{Pourquoi l'anonymat sur le réseau est-il important ?}
+		\subsubsection{Google Analytics}
 
-\chapter{Analyse des moyens d'identification utilisés par les principaux sites web}
+\section{Autres moyens de nous tracer}
+	\subsection{Flash}
 	
-\chapter{Quels sont nos moyens de défense ?}
-	\section{Les plugins anonymisants des navigateurs}
-		%\subsection{Fonctionnement}
-		%\subsection{Efficacité}
+	\subsection{Java}
+	
+	\subsection{Omniprésence des navigateurs dans les applications}
 		
-	\section{Les modes de navigation privée}
-		%\subsection{Fonctionnement}
-		%\subsection{Efficacité}
+	\subsection{Persistance des données utilisateur dans Microsoft Internet Explorer}
 		
-	\section{Utilisation d'un proxy}
-		%\subsection{Fonctionnement}
-		%\subsection{Efficacité}
-		
-	\section{Utilisation d'un VPN}
-		%\subsection{Fonctionnement}
-		%\subsection{Efficacité}
-			
-	\section{Les réseaux de type TOR}
-		%\subsection{Fonctionnement}
-		%\subsection{Efficacité}
-%(Parler de la récente affaire du FBI)
+	%\subsection{Identifiant unique que Google envisage d'implémenter}
+	
 
-\chapter{Une autre approche (implémentation)}
+\chapter{Analyse des principaux sites web}
+\section{Objectif de l'analyse}
+\section{Description de l'outil implémenté}
+%\subsection{Crawler}
+%\subsection{Parser}
+\section{Résultats}
+
+
+\chapter{Moyens de défense}
+	\section{Plugins anonymisants des navigateurs}
+		\subsection{Ghostery}
+		\subsection{[...]}
+		
+	\section{Modes de navigation privée}
+		
+	\section{Do Not Track}
+		
+	\section{Utilisation d'un proxy / VPN}
+		
+	\section{Résultats}
+		
+	%\section{Les réseaux de type TOR}
+	%(Parler de la récente affaire du FBI qui a cracké TOR)
+
 
 \chapter{Conclusion}
 
