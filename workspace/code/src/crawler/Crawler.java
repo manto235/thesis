@@ -58,7 +58,7 @@ public class Crawler {
 		}
 
 		// Manage the signals
-		// Note: placed after the check of file permissions because this check is really fast
+		// Note: placed after the check of file permissions because this check is really fast + uses logMessage
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
 			@Override
@@ -105,7 +105,7 @@ public class Crawler {
 					logMessage("Error: website " + website.getUrl()
 							+ " was not successfully loaded (timeout).", 3);
 					attempt++;
-					// Add the website to the list of potentially failed website at the 2nd attempt
+					// Add the website to the list of potentially failed websites at the 2nd attempt
 					if(attempt == 2) {
 						websitesPotentiallyFailed.add(website.getUrl());
 					}
@@ -113,6 +113,7 @@ public class Crawler {
 						if(e instanceof TimeoutException) System.out.println("TIMEOUT");
 						else e.printStackTrace();
 					}
+					// Move to the blank page before retrying to load the website
 					try {
 						driver.get("about:blank");
 						Thread.sleep(5000); // It's necessary to give time to the browser
@@ -128,6 +129,7 @@ public class Crawler {
 					logMessage("Error: website " + website.getUrl()
 							+ " was not successfully loaded (error).", 3);
 					if(debug) e.printStackTrace();
+					 // Skip the website and consider it as failed
 					websitesFailed.add(website.getUrl());
 					break;
 				}
@@ -144,7 +146,7 @@ public class Crawler {
 		logMessage("Info: the crawling of the websites is done!", 1);
 		haltDriver();
 
-		// Delete useless files ("about:blank" in retry)
+		// Delete useless files ("about:blank" when retrying another attempt)
 		for (File file : new File(directoryName).listFiles()) {
 			if(file.isFile()) {
 				String filename = file.getName();
