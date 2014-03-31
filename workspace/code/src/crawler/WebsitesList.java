@@ -12,6 +12,7 @@ import crawler.Website;
  */
 public class WebsitesList {
 	private ArrayList<Website> websites;
+	private String status;
 
 	/**
 	 * Constructor.
@@ -35,6 +36,15 @@ public class WebsitesList {
 	}
 
 	/**
+	 * Returns the status of the file's parsing
+	 *
+	 * @return a String containing the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/**
 	 * Reads and parses the websites file.
 	 *
 	 * @param file: the name of the websites file.
@@ -43,14 +53,14 @@ public class WebsitesList {
 	 */
 	private void read(String file, int start, int end) {
 		if(start <= 0) {
-			System.out.println("The range starts at 1");
+			status = "The range starts at 1";
 		}
 		// Only needed for Alexa topsites file
 		/*else if(start > 1000000 || end > 1000000) {
 			System.out.println("The range ends at 1000000");
 		}*/
 		else if(start > end) {
-			System.out.println("The range is incorrect");
+			status = "The range is incorrect";
 		}
 		else {
 			try {
@@ -72,9 +82,20 @@ public class WebsitesList {
 					}
 				}
 				scanner.close();
+				if(websites.size() != 0) {
+					if(websites.size() == 1) {
+						status = "1 website loaded";
+					}
+					else {
+						status = websites.size() + " websites loaded";
+					}
+				}
+				else {
+					status = "The range does not correspond to websites in the file";
+				}
 			} catch (Exception e) {
-				System.out.println("An error occurred while accessing the websites file.\n"
-						+ "> You can download a list at http://www.alexa.com/topsites");
+				status = "An error occurred while accessing the websites file.\n"
+						+ "> You can download a list at http://www.alexa.com/topsites";
 			}
 		}
 	}

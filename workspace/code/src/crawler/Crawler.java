@@ -70,9 +70,19 @@ public class Crawler {
 			}
 		});
 
-		// Get the list of websites and initialize the driver
+		// Get the list of websites
 		logMessage("Loading the list of websites...", 1);
 		WebsitesList websites = new WebsitesList(websitesFile, startIndex, endIndex);
+		if(websites.getWebsites().size() == 0) {
+			logMessage("Error: the list of websites is empty.", 1);
+			logMessage(websites.getStatus(), 3);
+			System.exit(1);
+		}
+		else {
+			logMessage("Info: " + websites.getStatus(), 1);
+		}
+
+		// Initialize the driver
 		logMessage("Initializing the driver...", 1);
 		initializeDriver(directoryName, ffprofile);
 
@@ -146,13 +156,11 @@ public class Crawler {
 
 		logMessage("Info: the crawling of the websites is done!", 1);
 
-		haltDriver();
-
 		deleteUselessFiles(directoryName);
 
 		detailProblematicWebsites();
 
-		closeLogFile();
+		System.exit(0);
 	}
 
 	/**
