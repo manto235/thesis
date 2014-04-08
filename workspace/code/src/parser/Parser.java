@@ -18,9 +18,10 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.codehaus.jackson.JsonParseException;
-
-import edu.umass.cs.benchlab.har.*;
+import edu.umass.cs.benchlab.har.HarEntries;
+import edu.umass.cs.benchlab.har.HarEntry;
+import edu.umass.cs.benchlab.har.HarLog;
+import edu.umass.cs.benchlab.har.HarWarning;
 import edu.umass.cs.benchlab.har.tools.HarFileReader;
 
 public class Parser {
@@ -31,13 +32,17 @@ public class Parser {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
 	/**
-	 * The occurrences found of a tracker
+	 * The occurrences found of a tracker (Ghostery)
 	 */
-	private static Map<String, Integer> trackersStats;
+	private static Map<String, Integer> trackersGhosteryStats;
 	/**
 	 * The number of trackers found on a website
 	 */
 	private static Map<String, Integer> websitesStats;
+	/**
+	 * The detailed numbers of trackers found on a website
+	 */
+	private static Map<String, int[]> websitesDetailedStats;
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
@@ -62,9 +67,7 @@ public class Parser {
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
 					+ "> Please check your file system permissions.");
-			// TODO stop program if error
-			System.out.println("The parser will however continue...");
-			if(showDebug) ioe.printStackTrace();
+			System.exit(1);
 		}
 
 		// Load the regex from Ghostery
@@ -79,30 +82,35 @@ public class Parser {
 		logMessage("Number of elements: " + regexGhostery.getRegex().size(), 2);
 
 		// Initialize the Map for the trackers statistics
-		trackersStats = new HashMap<String, Integer>();
+		trackersGhosteryStats = new HashMap<String, Integer>();
 		for(String trackerName : regexGhostery.getRegex().values()) {
-			trackersStats.put(trackerName, 0);
+			trackersGhosteryStats.put(trackerName, 0);
 		}
 
 		// Initialize the Map for the websites statistics
 		websitesStats = new HashMap<String, Integer>();
+		websitesDetailedStats = new HashMap<String, int[]>();
 
 		// Load the list of files
 		ArrayList<File> filesList = loadFiles(directoryName);
 
-		// Indexes: 0 = Ghostery; 1 = JS from another domain; 2 = image from another domain; 3 = tracking pixels
-		int[] totalTrackersCount = {0,0,0,0};
-		//int totalTrackersCount = 0;
+		// Total number of trackers for the entire analysis
+		int totalTrackers = 0;
+
+		// Parse each file
 		for (File file : filesList) {
 			logMessage("Parsing " + file.getName() + "...", 1);
-			int[] trackersOnWebsite = parseHARfile(file);
-			if(trackersOnWebsite != null) {
-				totalTrackersCount[0] = trackersOnWebsite[0];
+			int websiteTrackers = parseHARfile(file);
+			if(websiteTrackers == -1) {
+				logMessage("Error: cannot parse the file.", 3);
+			}
+			else {
+				totalTrackers += websiteTrackers;
 			}
 		}
 
 		logMessage("Info: the parsing of the files is done!", 1);
-		logMessage("Number of trackers (Ghostery): " + totalTrackersCount[0], 2);
+		logMessage("Total number of trackers: " + totalTrackers, 2);
 
 		// Stats
 		computeStats(directoryName);
@@ -169,79 +177,87 @@ public class Parser {
 	}
 
 	/**
-	 * Called for each website
-	 * @param file
-	 * @return
+	 * Called for each website: parses its HAR file.
+	 * Saves the detailed number of trackers in the Map websitesDetailedStats.
+	 *
+	 * @param file the HAR file
+	 * @return the number of trackers found on the website
 	 */
-	public static int[] parseHARfile(File file) {
+	public static int parseHARfile(File file) {
 		try {
-			int[] results = {0, 0, 0, 0};
+			int[] results = {0, 0, 0};
 			String websiteName = file.getName();
 			websiteName = websiteName.substring(0, websiteName.indexOf(".har"));
-			HarFileReader r = new HarFileReader();
+
+			HarFileReader reader = new HarFileReader();
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
-			HarLog log = r.readHarFile(file, warnings);
-			for (HarWarning w : warnings)
-				logMessage("Warning: " + w, 3);
+			HarLog log = reader.readHarFile(file, warnings);
+			for (HarWarning warning : warnings)
+				logMessage("Warning: " + warning, 3);
 
 			// Access all elements as objects
 			HarEntries entries = log.getEntries();
 			List<HarEntry> entriesList = entries.getEntries();
 
-			int trackersFoundGhostery = 0;
+			int countTrackersGhostery = 0;
+			int countJSAnotherDomain = 0;
+			int countTrackingPixels = 0;
+
 			for (HarEntry entry : entriesList) {
-				//System.out.println(("Entry (request URL) : " + entry.getRequest().getUrl()));
-				trackersFoundGhostery += checkRegexGhostery((entry.getRequest().getUrl()));
+				if(checkRegexGhostery((entry.getRequest().getUrl()))) {
+					countTrackersGhostery++;
+				}
+				else {
+					//System.out.println("Will check : " + entry.getRequest().getUrl());
+				}
+
 				//System.out.println("-- Entry (response) : " + entry.getResponse());
 				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
 
-			websitesStats.put(websiteName, trackersFoundGhostery);
-			logMessage("Number of trackers found: " + trackersFoundGhostery, 2);
-
 			countSuccesses++;
-			results[0] = trackersFoundGhostery;
-			return results;
+			logMessage("Number of trackers found (Ghostery): " + countTrackersGhostery, 2);
+			logMessage("Number of JS from another domain: " + countJSAnotherDomain, 2);
+			logMessage("Number of tracking pixels: " + countTrackingPixels, 2);
+
+			results[0] = countTrackersGhostery;
+			results[1] = countJSAnotherDomain;
+			results[2] = countTrackingPixels;
+			int totalNumberTrackers = countTrackersGhostery + countJSAnotherDomain + countTrackingPixels;
+			websitesStats.put(websiteName, totalNumberTrackers);
+			websitesDetailedStats.put(websiteName, results);
+			return totalNumberTrackers;
 		}
-		// TODO: rassembler les exceptions
-		catch (JsonParseException e)
-		{
-			if(showDebug) e.printStackTrace();
-			logMessage("Parsing error : " + file.getName(), 3);
+		catch (Exception e) {
 			filesFailed.add(file.getName());
-			return null;
-		}
-		catch (IOException e)
-		{
-			if(showDebug) e.printStackTrace();
-			logMessage("IO exception : " + file.getName(), 3);
-			filesFailed.add(file.getName());
-			return null;
+			return -1;
 		}
 	}
 
 	/**
-	 * Called for each URL
-	 * @param url
-	 * @return
+	 * Called for each URL: checks if the URL is known as a tracker in the Ghostery database.
+	 * If the URL is a tracker, increments the counter of this tracker.
+	 *
+	 * @param url the URL to check.
+	 * @return true if the URL is a tracker, false otherwise.
 	 */
-	public static int checkRegexGhostery(String url) {
-		int trackersFound = 0;
+	public static boolean checkRegexGhostery(String url) {
 		Map<String, String> regex = regexGhostery.getRegex();
 		for(String singleRegex : regex.keySet()) {
 			Pattern pattern = Pattern.compile(singleRegex);
 			Matcher matcher = pattern.matcher(url);
 			if(matcher.find()) {
-				int trackerCount = trackersStats.get(regex.get(singleRegex));
-				trackersStats.put(regex.get(singleRegex), trackerCount+1);
+				// Increment the counter of this tracker
+				int trackerCount = trackersGhosteryStats.get(regex.get(singleRegex));
+				trackersGhosteryStats.put(regex.get(singleRegex), trackerCount+1);
 				if(showTrackers) {
-					logMessage("    Tracker found: " + url + "\n"
+					logMessage("    Tracker found (Ghostery): " + url + "\n"
 							+ "        " + singleRegex + " from " + regex.get(singleRegex), 0);
 				}
-				trackersFound++;
+				return true;
 			}
 		}
-		return trackersFound;
+		return false;
 	}
 
 	public static void computeStats(String directoryName) {
@@ -254,7 +270,7 @@ public class Parser {
 			//statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
 			//statsTrackers.newLine();
 
-			List<Map.Entry<String, Integer>> trackersEntries = new LinkedList<Map.Entry<String, Integer>>(trackersStats.entrySet());
+			List<Map.Entry<String, Integer>> trackersEntries = new LinkedList<Map.Entry<String, Integer>>(trackersGhosteryStats.entrySet());
 			Collections.sort(trackersEntries, new Comparator<Map.Entry<String, Integer>>() {
 				@Override
 				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
@@ -268,7 +284,7 @@ public class Parser {
 			}
 
 			for(String name : sortedTrackersStats.keySet()) {
-				int trackerCount = trackersStats.get(name);
+				int trackerCount = trackersGhosteryStats.get(name);
 				if(trackerCount != 0) {
 					trackersStatsFile.write(name + "," + trackerCount);
 					trackersStatsFile.newLine();
