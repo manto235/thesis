@@ -31,7 +31,13 @@ public class Parser {
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
+	/**
+	 * The occurrences found of a tracker
+	 */
 	private static Map<String, Integer> trackersStats;
+	/**
+	 * The number of trackers found on a website
+	 */
 	private static Map<String, Integer> websitesStats;
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
@@ -85,14 +91,19 @@ public class Parser {
 		// Load the list of files
 		ArrayList<File> filesList = loadFiles(directoryName);
 
-		int totalTrackersCount = 0;
+		// Indexes: 0 = Ghostery; 1 = JS from another domain; 2 = image from another domain; 3 = tracking pixels
+		int[] totalTrackersCount = {0,0,0,0};
+		//int totalTrackersCount = 0;
 		for (File file : filesList) {
 			logMessage("Parsing " + file.getName() + "...", 1);
-			totalTrackersCount += parseHARfile(file);
+			int[] trackersOnWebsite = parseHARfile(file);
+			if(trackersOnWebsite != null) {
+				totalTrackersCount[0] = trackersOnWebsite[0];
+			}
 		}
 
 		logMessage("Info: the parsing of the files is done!", 1);
-		logMessage("Total number of trackers: " + totalTrackersCount, 2);
+		logMessage("Number of trackers (Ghostery): " + totalTrackersCount[0], 2);
 
 		// Stats
 		computeStats(directoryName);
@@ -163,8 +174,9 @@ public class Parser {
 	 * @param file
 	 * @return
 	 */
-	public static int parseHARfile(File file) {
+	public static int[] parseHARfile(File file) {
 		try {
+			int[] results = {0, 0, 0, 0};
 			String websiteName = file.getName();
 			websiteName = websiteName.substring(0, websiteName.indexOf(".har"));
 			HarFileReader r = new HarFileReader();
@@ -196,21 +208,23 @@ public class Parser {
 			//File f2 = new File(fileName + ".parsed");
 			//w.writeHarFile(log, f2);
 			countSuccesses++;
-			return trackersFound;
+			results[0] = trackersFound;
+			return results;
 		}
+		// TODO: rassembler les exceptions
 		catch (JsonParseException e)
 		{
 			if(showDebug) e.printStackTrace();
 			logMessage("Parsing error : " + file.getName(), 3);
 			filesFailed.add(file.getName());
-			return 0;
+			return null;
 		}
 		catch (IOException e)
 		{
 			if(showDebug) e.printStackTrace();
 			logMessage("IO exception : " + file.getName(), 3);
 			filesFailed.add(file.getName());
-			return 0;
+			return null;
 		}
 	}
 
