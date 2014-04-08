@@ -22,7 +22,6 @@ import org.codehaus.jackson.JsonParseException;
 
 import edu.umass.cs.benchlab.har.*;
 import edu.umass.cs.benchlab.har.tools.HarFileReader;
-//import edu.umass.cs.benchlab.har.tools.HarFileWriter;
 
 public class Parser {
 
@@ -185,30 +184,23 @@ public class Parser {
 			for (HarWarning w : warnings)
 				logMessage("Warning: " + w, 3);
 
-			//HarFileWriter w = new HarFileWriter();
-
 			// Access all elements as objects
-			//HarBrowser browser = log.getBrowser();
 			HarEntries entries = log.getEntries();
 			List<HarEntry> entriesList = entries.getEntries();
 
-			int trackersFound = 0;
+			int trackersFoundGhostery = 0;
 			for (HarEntry entry : entriesList) {
 				//System.out.println(("Entry (request URL) : " + entry.getRequest().getUrl()));
-				trackersFound += checkRegexGhostery((entry.getRequest().getUrl()));
+				trackersFoundGhostery += checkRegexGhostery((entry.getRequest().getUrl()));
 				//System.out.println("-- Entry (response) : " + entry.getResponse());
 				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 			}
 
-			websitesStats.put(websiteName, trackersFound);
-			logMessage("Number of trackers found: " + trackersFound, 2);
+			websitesStats.put(websiteName, trackersFoundGhostery);
+			logMessage("Number of trackers found: " + trackersFoundGhostery, 2);
 
-			// Once you are done manipulating the objects, write back to a file
-			//System.out.println("Writing " + fileName + ".parsed");
-			//File f2 = new File(fileName + ".parsed");
-			//w.writeHarFile(log, f2);
 			countSuccesses++;
-			results[0] = trackersFound;
+			results[0] = trackersFoundGhostery;
 			return results;
 		}
 		// TODO: rassembler les exceptions
