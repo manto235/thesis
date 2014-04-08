@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Name;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.SOARecord;
+import org.xbill.DNS.Type;
+
+import com.google.common.net.InternetDomainName;
 
 import edu.umass.cs.benchlab.har.HarEntries;
 import edu.umass.cs.benchlab.har.HarEntry;
@@ -186,8 +195,8 @@ public class Parser {
 	public static int parseHARfile(File file) {
 		try {
 			int[] results = {0, 0, 0};
-			String websiteName = file.getName();
-			websiteName = websiteName.substring(0, websiteName.indexOf(".har"));
+			String websiteFileName = file.getName();
+			websiteFileName = websiteFileName.substring(0, websiteFileName.indexOf(".har"));
 
 			HarFileReader reader = new HarFileReader();
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
@@ -202,17 +211,50 @@ public class Parser {
 			int countTrackersGhostery = 0;
 			int countJSAnotherDomain = 0;
 			int countTrackingPixels = 0;
+			String websiteSOA = null;
 
+			URL websiteUrl = new URL("http://" + websiteFileName);
+			InternetDomainName websiteDomain = InternetDomainName.from(websiteUrl.getHost()).topPrivateDomain();
+			Name websiteName = Name.fromString(websiteDomain.toString());
+			Lookup lookup = new Lookup(websiteName, Type.SOA);
+			Record records[] = lookup.run();
+
+			if(records.length > 0 && records[0] instanceof SOARecord) {
+				websiteSOA = ((SOARecord)records[0]).getAdmin().toString();
+			}
+
+			// Analyze every entry
 			for (HarEntry entry : entriesList) {
 				if(checkRegexGhostery((entry.getRequest().getUrl()))) {
 					countTrackersGhostery++;
 				}
 				else {
-					//System.out.println("Will check : " + entry.getRequest().getUrl());
-				}
+					//System.out.println("-- Entry (request) : " + entry.getRequest());
+					//System.out.println("-- Entry (response) : " + entry.getResponse());
+					//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 
-				//System.out.println("-- Entry (response) : " + entry.getResponse());
-				//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
+					if(entry.getResponse().getContent().getMimeType().equals("application/x-javascript")) {
+						URL url = new URL(entry.getRequest().getUrl());
+						InternetDomainName domain = InternetDomainName.from(url.getHost()).topPrivateDomain();
+						Name name = Name.fromString(domain.toString());
+						lookup = new Lookup(name, Type.SOA);
+						records = lookup.run();
+
+						String urlSOA = null;
+						if(records.length > 0 && records[0] instanceof SOARecord) {
+							urlSOA = ((SOARecord)records[0]).getAdmin().toString();
+						}
+
+						if(websiteSOA != null && urlSOA != null) {
+							if(!websiteSOA.equals(urlSOA)) {
+								System.out.println("Different SOA ! " + websiteSOA + " vs " + urlSOA);
+							}
+							else {
+								System.out.println("Same SOA ! " + websiteSOA + " vs " + urlSOA);
+							}
+						}
+					}
+				}
 			}
 
 			countSuccesses++;
@@ -224,12 +266,13 @@ public class Parser {
 			results[1] = countJSAnotherDomain;
 			results[2] = countTrackingPixels;
 			int totalNumberTrackers = countTrackersGhostery + countJSAnotherDomain + countTrackingPixels;
-			websitesStats.put(websiteName, totalNumberTrackers);
-			websitesDetailedStats.put(websiteName, results);
+			websitesStats.put(websiteFileName, totalNumberTrackers);
+			websitesDetailedStats.put(websiteFileName, results);
 			return totalNumberTrackers;
 		}
 		catch (Exception e) {
 			filesFailed.add(file.getName());
+			if(showDebug) e.printStackTrace();
 			return -1;
 		}
 	}
