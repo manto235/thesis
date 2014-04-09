@@ -314,11 +314,11 @@ public class Crawler {
 	/**
 	 * Prints a message in the console and writes a message in the log file.
 	 * @param message the message to print and write.
-	 * @param type type of the message: 0 = normal; 1 = show time; 2 = add spaces; 3 = error.
-	 * 		0 - normal: just show the message.
-	 *		1 - show time: add the time before the message.
-	 *		2 - add spaces: add spaces to offset the lack of time before the message.
-	 *		3 - error: add spaces and ">" to focus on an error.
+	 * @param type type of the message:<br>
+	 * 		- 0 (normal): just show the message.<br>
+	 *		- 1 (show time): add the time before the message.<br>
+	 *		- 2 (add spaces): add spaces to offset the lack of time before the message.<br>
+	 *		- 3 (focus): add spaces and ">" to focus on a message.<br>
 	 */
 	public static void logMessage(String message, int type) {
 		switch(type) {
@@ -339,7 +339,7 @@ public class Crawler {
 	}
 
 	/**
-	 * 	Closes the logs file.
+	 * 	Closes the logs file.<br>
 	 *  If a problem occurs, prints a message in the console.
 	 */
 	public static void closeLogFile() {
