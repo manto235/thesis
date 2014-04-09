@@ -19,12 +19,14 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.xbill.DNS.Address;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.SOARecord;
 import org.xbill.DNS.Type;
 
+import com.google.common.net.InetAddresses;
 import com.google.common.net.InternetDomainName;
 
 import edu.umass.cs.benchlab.har.HarEntries;
@@ -41,6 +43,10 @@ public class Parser {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
 	/**
+	 * The latest file among files of a website
+	 */
+	private static Map<String, Integer> filesLatest;
+	/**
 	 * The occurrences found of a tracker (Ghostery)
 	 */
 	private static Map<String, Integer> trackersGhosteryStats;
@@ -54,6 +60,10 @@ public class Parser {
 	private static Map<String, int[]> websitesDetailedStats;
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
+
+	//TODO: delete
+	private static Map<String, Integer> mimetype;
+	private static BufferedWriter logsFil;
 
 	public static void launchParser(String directoryName, boolean debug, boolean trackers) {
 		showDebug = debug;
@@ -73,6 +83,7 @@ public class Parser {
 			logsFile = new BufferedWriter(new FileWriter(logParser, true));
 			logsFile.write(start);
 			logsFile.newLine();
+			logsFil = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/log_fails.txt"), true));
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
 					+ "> Please check your file system permissions.");
@@ -99,6 +110,7 @@ public class Parser {
 		// Initialize the Map for the websites statistics
 		websitesStats = new HashMap<String, Integer>();
 		websitesDetailedStats = new HashMap<String, int[]>();
+		mimetype = new HashMap<String, Integer>();
 
 		// Load the list of files
 		ArrayList<File> filesList = loadFiles(directoryName);
@@ -110,10 +122,7 @@ public class Parser {
 		for (File file : filesList) {
 			logMessage("Parsing " + file.getName() + "...", 1);
 			int websiteTrackers = parseHARfile(file);
-			if(websiteTrackers == -1) {
-				logMessage("Error: cannot parse the file.", 3);
-			}
-			else {
+			if(websiteTrackers != -1) {
 				totalTrackers += websiteTrackers;
 			}
 		}
@@ -149,7 +158,7 @@ public class Parser {
 		// Fails
 		if(filesFailed.size() > 0) {
 			logMessage("", 0);
-			logMessage("----- Fails -----", 0);
+			logMessage("----- Files failed -----", 0);
 			for(String fileFailed : filesFailed) {
 				logMessage(fileFailed, 0);
 			}
@@ -162,7 +171,7 @@ public class Parser {
 	 * Loads the files from a directory
 	 *
 	 * @param directoryName: the directory containing the files to load
-	 * @return an ArrayList<File> containing all the files of the directory
+	 * @return an ArrayList<File> containing all the files of the directory to analyze
 	 */
 	public static ArrayList<File> loadFiles(String directoryName) {
 		logMessage("Info: loading the files from directory \"" + directoryName + "\"... ", 1);
@@ -174,14 +183,45 @@ public class Parser {
 		}
 
 		File[] files = directory.listFiles();
+		filesLatest = new HashMap<String, Integer>();
 		ArrayList<File> filesList = new ArrayList<File>();
 
 		for (File file : files) {
 			if(file.isFile()) {
-				filesList.add(file);
+				String website = file.getName();
+				// Remove ".har" from the filename
+				website = website.substring(0, website.indexOf(".har"));
+				// Get the current version of the file
+				String version = website.substring(website.lastIndexOf("-")+1, website.length());
+				int currentVersion;
+				try {
+					currentVersion = Integer.parseInt(version);
+					website = website.substring(0, website.lastIndexOf("-"));
+				} catch (NumberFormatException nfe) {
+					currentVersion = 0;
+				}
+				// Update the map with the latest version
+				if(!filesLatest.containsKey(website)) {
+					filesLatest.put(website, currentVersion);
+				}
+				else {
+					int latestVersion = filesLatest.get(website);
+					if(currentVersion > latestVersion) {
+						filesLatest.put(website, currentVersion);
+					}
+				}
 			}
 		}
 
+		for (String website : filesLatest.keySet()) {
+			int version = filesLatest.get(website);
+			if(version == 0) {
+				filesList.add(new File(directoryName + "/" + website + ".har"));
+			}
+			else {
+				filesList.add(new File(directoryName + "/"+ website + "-" + version + ".har"));
+			}
+		}
 		return filesList;
 	}
 
@@ -195,8 +235,17 @@ public class Parser {
 	public static int parseHARfile(File file) {
 		try {
 			int[] results = {0, 0, 0};
-			String websiteFileName = file.getName();
-			websiteFileName = websiteFileName.substring(0, websiteFileName.indexOf(".har"));
+			String website = file.getName();
+			// Remove ".har" from the filename
+			website = website.substring(0, website.indexOf(".har"));
+			String version = website.substring(website.lastIndexOf("-")+1, website.length());
+			try {
+				Integer.parseInt(version); // If there is no version, throw an error
+				website = website.substring(0, website.lastIndexOf("-"));
+			} catch (NumberFormatException nfe) {
+				// Nothing to do
+			}
+			logMessage("Website: " + website, 2);
 
 			HarFileReader reader = new HarFileReader();
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
@@ -211,16 +260,27 @@ public class Parser {
 			int countTrackersGhostery = 0;
 			int countJSAnotherDomain = 0;
 			int countTrackingPixels = 0;
-			String websiteSOA = null;
+			String mainSOA = null;
 
-			URL websiteUrl = new URL("http://" + websiteFileName);
-			InternetDomainName websiteDomain = InternetDomainName.from(websiteUrl.getHost()).topPrivateDomain();
-			Name websiteName = Name.fromString(websiteDomain.toString());
-			Lookup lookup = new Lookup(websiteName, Type.SOA);
-			Record records[] = lookup.run();
+			String mainHost = new URL("http://" + website).getHost();
+			// If the URL is an IP, try to get the associated domain
+			if(InetAddresses.isInetAddress(mainHost)) {
+				String message = "Info: transformed IP " + mainHost + " to ";
+				mainHost = Address.getHostName(Address.getByAddress(mainHost));
+				message = message + mainHost;
+				logMessage(message, 3);
+			}
+			InternetDomainName mainDomain = InternetDomainName.from(mainHost);
+			// Get the top domain
+			while(mainDomain.parent().hasParent()) {
+				mainDomain = mainDomain.parent();
+			}
+			Name mainName = Name.fromString(mainDomain.toString());
+			Lookup mainLookup = new Lookup(mainName, Type.SOA);
+			Record mainRecords[] = mainLookup.run();
 
-			if(records.length > 0 && records[0] instanceof SOARecord) {
-				websiteSOA = ((SOARecord)records[0]).getAdmin().toString();
+			if(mainRecords != null && mainRecords.length > 0 && mainRecords[0] instanceof SOARecord) {
+				mainSOA = ((SOARecord)mainRecords[0]).getAdmin().toString();
 			}
 
 			// Analyze every entry
@@ -229,30 +289,60 @@ public class Parser {
 					countTrackersGhostery++;
 				}
 				else {
+					String currentUrl = entry.getRequest().getUrl();
+					String currentHost = new URL(currentUrl).getHost();
+					// If the URL is an IP, try to get the associated domain
+					if(InetAddresses.isInetAddress(currentHost)) {
+						String message = "Info: transformed IP " + currentHost + " to ";
+						currentHost = Address.getHostName(Address.getByAddress(currentHost));
+						message = message + currentHost;
+						logMessage(message, 3);
+					}
+
+					InternetDomainName currentDomain = InternetDomainName.from(currentHost);
+					// Get the top domain
+					while(currentDomain.parent().hasParent()) {
+						currentDomain = currentDomain.parent();
+					}
+					Name currentName = Name.fromString(currentDomain.toString());
+					Lookup currentLookup = new Lookup(currentName, Type.SOA);
+					Record currentRecords[] = currentLookup.run();
+
+					String currentSOA = null;
+					if(currentRecords != null && currentRecords.length > 0 && currentRecords[0] instanceof SOARecord) {
+						currentSOA = ((SOARecord)currentRecords[0]).getAdmin().toString();
+					}
 					//System.out.println("-- Entry (request) : " + entry.getRequest());
 					//System.out.println("-- Entry (response) : " + entry.getResponse());
 					//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 
-					if(entry.getResponse().getContent().getMimeType().equals("application/x-javascript")) {
-						URL url = new URL(entry.getRequest().getUrl());
-						InternetDomainName domain = InternetDomainName.from(url.getHost()).topPrivateDomain();
-						Name name = Name.fromString(domain.toString());
-						lookup = new Lookup(name, Type.SOA);
-						records = lookup.run();
-
-						String urlSOA = null;
-						if(records.length > 0 && records[0] instanceof SOARecord) {
-							urlSOA = ((SOARecord)records[0]).getAdmin().toString();
-						}
-
-						if(websiteSOA != null && urlSOA != null) {
-							if(!websiteSOA.equals(urlSOA)) {
-								System.out.println("Different SOA ! " + websiteSOA + " vs " + urlSOA);
+					if(mainSOA != null && currentSOA != null) {
+						if(!mainSOA.equals(currentSOA)) {
+							int value = 0;
+							if(mimetype.containsKey(entry.getResponse().getContent().getMimeType())){
+								value = mimetype.get(entry.getResponse().getContent().getMimeType());
 							}
-							else {
-								System.out.println("Same SOA ! " + websiteSOA + " vs " + urlSOA);
+							mimetype.put(entry.getResponse().getContent().getMimeType(), value+1);
+							// Check JS
+							if(entry.getResponse().getContent().getMimeType().equals("application/x-javascript")) {
+								//System.out.println("Different SOA for JS: " + mainSOA + " vs " + currentSOA + " for " + currentUrl);
+								countJSAnotherDomain++;
 							}
+							//if(image)
+							//final String size = bi.getWidth() + "x" + bi.getHeight();
 						}
+					}
+					else {
+						String message = "!!!!! Cannot compare SOA: ";
+						if(mainSOA == null) {
+							message += "cannot get SOA of website : " + mainName;
+						}
+						else if(currentSOA == null) {
+							message += "cannot get SOA of URL : " + currentName;
+						}
+						System.out.println(message);
+						logsFil.write(message);
+						logsFil.newLine();
 					}
 				}
 			}
@@ -266,11 +356,12 @@ public class Parser {
 			results[1] = countJSAnotherDomain;
 			results[2] = countTrackingPixels;
 			int totalNumberTrackers = countTrackersGhostery + countJSAnotherDomain + countTrackingPixels;
-			websitesStats.put(websiteFileName, totalNumberTrackers);
-			websitesDetailedStats.put(websiteFileName, results);
+			websitesStats.put(website, totalNumberTrackers);
+			websitesDetailedStats.put(website, results);
 			return totalNumberTrackers;
 		}
 		catch (Exception e) {
+			logMessage("Error: cannot parse the file.", 3);
 			filesFailed.add(file.getName());
 			if(showDebug) e.printStackTrace();
 			return -1;
@@ -359,6 +450,31 @@ public class Parser {
 				}
 			}
 			websitesStatsFile.close();
+
+			// MIMETYPE
+			BufferedWriter mimetypefile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes.csv"), false));
+
+			List<Map.Entry<String, Integer>> mimEntries = new LinkedList<Map.Entry<String, Integer>>(mimetype.entrySet());
+			Collections.sort(mimEntries, new Comparator<Map.Entry<String, Integer>>() {
+				@Override
+				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+					return o2.getValue().compareTo(o1.getValue());
+				}
+			});
+
+			Map<String, Integer> sortedmim = new LinkedHashMap<String, Integer>();
+			for(Map.Entry<String, Integer> entry: mimEntries){
+				sortedmim.put(entry.getKey(), entry.getValue());
+			}
+
+			for(String name : sortedmim.keySet()) {
+				int trackerCount = mimetype.get(name);
+				if(trackerCount != 0) {
+					mimetypefile.write(name + "," + trackerCount);
+					mimetypefile.newLine();
+				}
+			}
+			mimetypefile.close();
 		} catch (IOException e) {
 			logMessage("Error: cannot create the stats file", 1);
 			if(showDebug) e.printStackTrace();
@@ -368,11 +484,11 @@ public class Parser {
 	/**
 	 * Prints a message in the console and writes a message in the log file.
 	 * @param message the message to print and write
-	 * @param type type of the message: 0 = normal; 1 = show time; 2 = add spaces; 3 = error.
-	 * 		normal: just show the message
-	 *		show time: add the time before the message
-	 *		add spaces: add spaces to offset the lack of time before the message
-	 *		error: add spaces and ">" to focus on an error
+	 * @param type type of the message:<br>
+	 * 		- 0 (normal): just show the message.<br>
+	 *		- 1 (show time): add the time before the message.<br>
+	 *		- 2 (add spaces): add spaces to offset the lack of time before the message.<br>
+	 *		- 3 (focus): add spaces and ">" to focus on a message.<br>
 	 */
 	public static void logMessage(String message, int type) {
 		switch(type) {
@@ -392,7 +508,7 @@ public class Parser {
 	}
 
 	/**
-	 * 	Closes the logs file.
+	 * 	Closes the logs file.<br>
 	 *  If a problem occurs, prints a message in the console.
 	 */
 	public static void closeLogFile() {
@@ -400,6 +516,7 @@ public class Parser {
 			logsFile.write("----------------------------------------");
 			logsFile.newLine();
 			logsFile.close();
+			logsFil.close();
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
 			if(showDebug) ioe.printStackTrace();
