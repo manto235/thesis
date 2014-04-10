@@ -112,7 +112,7 @@ public class Crawler {
 						if(debug) e.printStackTrace();
 					}
 					success = true;
-				} catch (TimeoutException e) {
+				} catch (TimeoutException te) {
 					logMessage("Error: website " + website.getUrl()
 							+ " was not successfully loaded (timeout).", 3);
 					attempt++;
@@ -120,10 +120,7 @@ public class Crawler {
 					if(attempt == 2) {
 						websitesPotentiallyFailed.add(website.getUrl());
 					}
-					if(debug) {
-						if(e instanceof TimeoutException) System.out.println("TIMEOUT");
-						else e.printStackTrace();
-					}
+					if(debug) te.printStackTrace();
 					// Move to the blank page before retrying to load the website
 					try {
 						driver.get("about:blank");
