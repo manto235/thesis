@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -183,6 +185,7 @@ public class Parser {
 		}
 
 		File[] files = directory.listFiles();
+		Arrays.sort(files);
 		filesLatest = new HashMap<String, Integer>();
 		ArrayList<File> filesList = new ArrayList<File>();
 
@@ -190,7 +193,7 @@ public class Parser {
 			if(file.isFile()) {
 				String website = file.getName();
 				// Remove ".har" from the filename
-				website = website.substring(0, website.indexOf(".har"));
+				website = website.substring(0, website.length()-4);
 				// Get the current version of the file
 				String version = website.substring(website.lastIndexOf("-")+1, website.length());
 				int currentVersion;
@@ -237,7 +240,7 @@ public class Parser {
 			int[] results = {0, 0, 0};
 			String website = file.getName();
 			// Remove ".har" from the filename
-			website = website.substring(0, website.indexOf(".har"));
+			website = website.substring(0, website.length()-4);
 			String version = website.substring(website.lastIndexOf("-")+1, website.length());
 			try {
 				Integer.parseInt(version); // If there is no version, throw an error
@@ -265,10 +268,14 @@ public class Parser {
 			String mainHost = new URL("http://" + website).getHost();
 			// If the URL is an IP, try to get the associated domain
 			if(InetAddresses.isInetAddress(mainHost)) {
-				String message = "Info: transformed IP " + mainHost + " to ";
-				mainHost = Address.getHostName(Address.getByAddress(mainHost));
-				message = message + mainHost;
-				logMessage(message, 3);
+				try {
+					String message = "Info: transformed IP " + mainHost + " to ";
+					mainHost = Address.getHostName(Address.getByAddress(mainHost));
+					message = message + mainHost;
+					logMessage(message, 3);
+				} catch (UnknownHostException uhe) {
+					logMessage("Error: cannot get the hostname of " + mainHost, 3);
+				}
 			}
 			InternetDomainName mainDomain = InternetDomainName.from(mainHost);
 			// Get the top domain
@@ -293,10 +300,14 @@ public class Parser {
 					String currentHost = new URL(currentUrl).getHost();
 					// If the URL is an IP, try to get the associated domain
 					if(InetAddresses.isInetAddress(currentHost)) {
-						String message = "Info: transformed IP " + currentHost + " to ";
-						currentHost = Address.getHostName(Address.getByAddress(currentHost));
-						message = message + currentHost;
-						logMessage(message, 3);
+						try {
+							String message = "Info: transformed IP " + currentHost + " to ";
+							currentHost = Address.getHostName(Address.getByAddress(currentHost));
+							message = message + currentHost;
+							logMessage(message, 3);
+						} catch (UnknownHostException uhe) {
+							logMessage("Error: cannot get the hostname of " + currentHost, 3);
+						}
 					}
 
 					InternetDomainName currentDomain = InternetDomainName.from(currentHost);
