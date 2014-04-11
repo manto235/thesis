@@ -76,7 +76,6 @@ public class Parser {
 
 	//TODO: delete
 	private static Map<String, Integer> mimetype;
-	private static BufferedWriter SOAFAILS;
 
 	public static void launchParser(String directoryName, boolean showDebug, boolean trackers) {
 		debug = showDebug;
@@ -120,18 +119,22 @@ public class Parser {
 		try {
 			File logParser = new File(directoryName+"/logs/log_parser.txt");
 			File logsDirectory = logParser.getParentFile();
-			if(!logsDirectory.isDirectory() && !logsDirectory.mkdirs()) {
-				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the logs folder.\n"
-						+ "> Please check your file system permissions.");
-				System.exit(1);
+			if(!logsDirectory.isDirectory()) {
+				if(!logsDirectory.mkdirs()) {
+					System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the logs folder.\n"
+							+ "> Please check your file system permissions.");
+					System.exit(1);
+				}
+				else {
+					System.out.println(dateFormat.format(new Date()) + " - Info: a subdirectory named \"logs\" has been created.");
+				}
 			}
 			else {
-				System.out.println(dateFormat.format(new Date()) + " - Info: a subdirectory named \"logs\" has been created.");
+				System.out.println(dateFormat.format(new Date()) + " - Info: the logs will be saved in the subdirectory named \"logs\".");
 			}
 			logsFile = new BufferedWriter(new FileWriter(logParser, true));
 			logsFile.write(start);
 			logsFile.newLine();
-			SOAFAILS = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/soa_fails.txt"), false));
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
 					+ "> Please check your file system permissions.");
@@ -139,13 +142,13 @@ public class Parser {
 		}
 
 		// Load the regex from Ghostery
+		logMessage("Retrieving the database of trackers from Ghostery...", 1);
 		regexGhostery = new RegexGhostery();
 		if(!regexGhostery.isSuccess()) {
 			logMessage("Error: the list of trackers could not be retrieved.", 1);
 			closeLogFile();
 			System.exit(1);
 		}
-		logMessage("Info: the database of trackers has been loaded from Ghostery.", 1);
 		logMessage("Version of bugs: " + regexGhostery.getBugsVersion(), 2);
 		logMessage("Number of elements: " + regexGhostery.getRegex().size(), 2);
 
@@ -349,7 +352,7 @@ public class Parser {
 						if(debug) System.out.println(message);
 					} catch (UnknownHostException uhe) {
 						// Skip this website: cannot get its hostname
-						logMessage("Error: cannot get the website's hostname. Skip the website.", 3);
+						logMessage("Error: cannot get the website's hostname.", 3);
 						return -1;
 					}
 				}
@@ -383,17 +386,19 @@ public class Parser {
 						}
 						// Skip this website: cannot get its SOA
 						else {
-							logMessage("Error: cannot get the website's SOA. Skip the website.", 3);
+							logMessage("Error: cannot get the website's SOA.", 3);
 							return -1;
 						}
 					}
 					while(mainSOA == null && mainDomain.hasParent());
+					if(mainSOA == null) {
+						logMessage("Error: the DNS resolver is unable to get the SOA of the website.", 3);
+						return -1;
+					}
 				} catch (Exception e) {
 					if(debug) e.printStackTrace();
 					// Peut-être passer au site suivant et supprimer le if après avec les soa null
-					logMessage("Error: cannot get SOA of website: " + mainHost, 3);
-					SOAFAILS.write("Error: cannot get SOA of website: " + mainHost);
-					SOAFAILS.newLine();
+					logMessage("Error: an unexpected problem occurred while getting the SOA of the website.", 3);
 					return -1;
 				}
 			}
@@ -422,7 +427,7 @@ public class Parser {
 								if(debug) System.out.println(message);
 							} catch (UnknownHostException uhe) {
 								// Skip this URL: cannot get its hostname
-								logMessage("Error: cannot get the URL's (" + currentHost + ") hostname. Skip the URL.", 3);
+								logMessage("Error: cannot get the URL's (" + currentHost + ") hostname.", 3);
 								continue;
 							}
 						}
@@ -459,17 +464,19 @@ public class Parser {
 								}
 								// Skip this URL: cannot get its SOA
 								else {
-									logMessage("Error: cannot get the URL's (" + currentHost + ") SOA. Skip the URL.", 3);
+									logMessage("Error: cannot get the URL's (" + currentHost + ") SOA.", 3);
 									continue;
 								}
 							}
 							while(currentSOA == null && currentDomain.hasParent());
+							if(currentSOA == null) {
+								logMessage("Error: the DNS resolver is unable to get the SOA of the URL: " + currentHost, 3);
+								continue;
+							}
 						} catch (Exception e) {
 							if(debug) e.printStackTrace();
 							// Peut-être passer à l'url suivante et supprimer le if suivant avec les soa null
-							logMessage("Error: cannot get SOA of URL: " + currentHost, 3);
-							SOAFAILS.write("Error: cannot get SOA of URL: " + currentHost);
-							SOAFAILS.newLine();
+							logMessage("Error: an unexpected problem occurred while getting the SOA of the URL: " + currentHost + ".", 3);
 							continue;
 						}
 					}
@@ -478,42 +485,19 @@ public class Parser {
 					//System.out.println("-- Entry (response) : " + entry.getResponse());
 					//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 
-					if(mainSOA != null && currentSOA != null) {
-						if(!mainSOA.equals(currentSOA)) {
-							int value = 0;
-							if(mimetype.containsKey(entry.getResponse().getContent().getMimeType())){
-								value = mimetype.get(entry.getResponse().getContent().getMimeType());
-							}
-							mimetype.put(entry.getResponse().getContent().getMimeType(), value+1);
-							// Check JS
-							if(entry.getResponse().getContent().getMimeType().equals("application/x-javascript")) {
-								//System.out.println("Different SOA for JS: " + mainSOA + " vs " + currentSOA + " for " + currentUrl);
-								countJSAnotherDomain++;
-							}
-							//if(image)
-							//final String size = bi.getWidth() + "x" + bi.getHeight();
+					if(!mainSOA.equals(currentSOA)) {
+						int value = 0;
+						if(mimetype.containsKey(entry.getResponse().getContent().getMimeType())){
+							value = mimetype.get(entry.getResponse().getContent().getMimeType());
 						}
-					}
-					else {
-						SOAFAILS.write("!!! Error: an unexpected error occurred. Cannot compare the SOA.");
-						SOAFAILS.newLine();
-						SOAFAILS.write("website: " + mainHost + " URL: " + currentHost);
-						SOAFAILS.newLine();
-						/*String message;
-						if(mainSOA == null) {
-							logMessage("Error: cannot get SOA of website: " + mainHost, 3);
-							message = "Error: cannot get SOA of website: " + mainHost;
+						mimetype.put(entry.getResponse().getContent().getMimeType(), value+1);
+						// Check JS
+						if(entry.getResponse().getContent().getMimeType().equals("application/x-javascript")) {
+							//System.out.println("Different SOA for JS: " + mainSOA + " vs " + currentSOA + " for " + currentUrl);
+							countJSAnotherDomain++;
 						}
-						else if(currentSOA == null) {
-							logMessage("Error: cannot get SOA of URL: " + currentHost, 3);
-							message = "Error: cannot get SOA of URL: " + currentHost;
-						}
-						else {
-							logMessage("Error: an unexpected error occurred. Cannot compare the SOA.", 3);
-							message = "Error: an unexpected error occurred. Cannot compare the SOA.";
-						}
-						SOAFAILS.write(message);
-						SOAFAILS.newLine();*/
+						//if(image)
+						//final String size = bi.getWidth() + "x" + bi.getHeight();
 					}
 				}
 			}
@@ -687,7 +671,6 @@ public class Parser {
 			logsFile.write("----------------------------------------");
 			logsFile.newLine();
 			logsFile.close();
-			SOAFAILS.close();
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
 			if(debug) ioe.printStackTrace();
