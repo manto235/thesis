@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +68,9 @@ public class Parser {
 	 * The cache of the URLs' SOA
 	 */
 	private static Map<String, String> cacheSOA;
+	private static long startTime;
+	private static int filesAnalyzed = 0;
+	private static int totalFiles;
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
@@ -74,17 +81,50 @@ public class Parser {
 	public static void launchParser(String directoryName, boolean debug, boolean trackers) {
 		showDebug = debug;
 		showTrackers = trackers;
+		startTime = System.nanoTime();
+
+		// Show the status every 5 minutes
+		Runnable statusRunnable = new Runnable() {
+			public void run() {
+				double percentageAccomplished = 100 * ((double) filesAnalyzed / totalFiles);
+				long elapsedTime = System.nanoTime() - startTime;
+				long elapsedTimeSeconds = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+				long elapsedTimeMinutes = TimeUnit.MINUTES.convert(elapsedTime, TimeUnit.NANOSECONDS);
+				long elapsedTimeHours = TimeUnit.HOURS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+				String time;
+				if(elapsedTimeHours > 0) {
+					time = "Elapsed time: " + elapsedTimeHours + " hr and " + elapsedTimeMinutes + " min. ";
+				}
+				else if(elapsedTimeMinutes > 0) {
+					time = "Elapsed time: " + elapsedTimeMinutes + " min and " + elapsedTimeSeconds%60 + " sec. " ;
+				}
+				else {
+					time = "Elapsed time: " + elapsedTimeSeconds + " sec. ";
+				}
+				System.out.println(time
+						+ filesAnalyzed + " files analyzed out of " + totalFiles + " files"
+						+ " (" + new DecimalFormat("#.#").format(percentageAccomplished) + "%).");
+			}
+		};
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(statusRunnable, 20, 20, TimeUnit.SECONDS);
+
+		// Show start message
 		String start = dateFormat.format(new Date()) + " - Launching parser...\n"
 				+ "   directory: " + directoryName;
 		System.out.println(start);
+
+		// Create the logs file
 		try {
 			File logParser = new File(directoryName+"/logs/log_parser.txt");
 			File logsDirectory = logParser.getParentFile();
-			if(!logsDirectory.isDirectory()) {
-				if(!logsDirectory.mkdirs()) {
-					System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the logs folder.\n"
-							+ "> Please check your file system permissions.");
-				}
+			if(!logsDirectory.isDirectory() && !logsDirectory.mkdirs()) {
+				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the logs folder.\n"
+						+ "> Please check your file system permissions.");
+				System.exit(1);
+			}
+			else {
+				System.out.println(dateFormat.format(new Date()) + " - Info: a subdirectory named \"logs\" has been created.");
 			}
 			logsFile = new BufferedWriter(new FileWriter(logParser, true));
 			logsFile.write(start);
@@ -122,7 +162,8 @@ public class Parser {
 		cacheSOA = new HashMap<String, String>();
 
 		// Load the list of files
-		ArrayList<File> filesList = loadFiles(directoryName);
+		final ArrayList<File> filesList = loadFiles(directoryName);
+		totalFiles = filesList.size();
 
 		// Total number of trackers for the entire analysis
 		int totalTrackers = 0;
@@ -134,6 +175,7 @@ public class Parser {
 			if(websiteTrackers != -1) {
 				totalTrackers += websiteTrackers;
 			}
+			filesAnalyzed++;
 		}
 
 		logMessage("Info: the parsing of the files is done!", 1);
@@ -172,6 +214,10 @@ public class Parser {
 				logMessage(fileFailed, 0);
 			}
 		}
+
+		long elapsedTime = System.nanoTime() - startTime;
+		long elapsedTimeMinutes = TimeUnit.MINUTES.convert(elapsedTime, TimeUnit.NANOSECONDS);
+		logMessage("Total time: " + elapsedTimeMinutes + " min.", 0);
 
 		closeLogFile();
 	}
@@ -275,48 +321,68 @@ public class Parser {
 			List<HarEntry> entriesList = entries.getEntries();
 
 			/* ----- SOA OF THE WEBSITE ----- */
-			String mainSOA = null;
+			//String mainSOA = null;
 			String mainHost = new URL("http://" + website).getHost();
-			// If the URL is an IP, try to get the associated domain
-			if(InetAddresses.isInetAddress(mainHost)) {
+
+			String mainSOA = cacheSOA.get(mainHost);
+			// Not in the cache
+			if(mainSOA == null) {
+				// If the URL is an IP, try to get the associated domain
+				if(InetAddresses.isInetAddress(mainHost)) {
+					try {
+						String message = "Info: transformed IP " + mainHost + " to ";
+						mainHost = Address.getHostName(Address.getByAddress(mainHost));
+						message = message + mainHost;
+						if(showDebug) System.out.println(message);
+					} catch (UnknownHostException uhe) {
+						// Skip this website: cannot get its hostname
+						logMessage("Error: cannot get the website's hostname. Skip the website.", 3);
+						return -1;
+					}
+				}
 				try {
-					String message = "Info: transformed IP " + mainHost + " to ";
-					mainHost = Address.getHostName(Address.getByAddress(mainHost));
-					message = message + mainHost;
-					logMessage(message, 2);
-				} catch (UnknownHostException uhe) {
-					// Skip this website: cannot get its hostname
-					logMessage("Error: cannot get the website's hostname. Skip the website.", 3);
-					return -1;
+					InternetDomainName mainDomain = InternetDomainName.from(mainHost);
+
+					Record mainRecords[];
+					do {
+						Name mainName = Name.fromString(mainDomain.toString());
+						Lookup mainLookup = new Lookup(mainName, Type.SOA);
+						mainRecords = mainLookup.run();
+						// Try to get the SOA via the parent
+						if(mainRecords == null) {
+							String message = " ----- mainDomain: " + mainDomain;
+							mainDomain = mainDomain.parent();
+							if(showDebug) System.out.println(message + "  => " + mainDomain);
+
+							// SOA of the parent found in the cache
+							if(cacheSOA.containsKey(mainDomain.toString())) {
+								mainSOA = cacheSOA.get(mainDomain.toString());
+								// Fill up the cache (put the original host)
+								cacheSOA.put(new URL("http://" + website).getHost(), mainSOA);
+							}
+						}
+						else if(mainRecords != null && mainRecords.length > 0 && mainRecords[0] instanceof SOARecord) {
+							mainSOA = ((SOARecord)mainRecords[0]).getAdmin().toString();
+							// Fill up the cache with the current domain (which is a parent of the original host)
+							cacheSOA.put(mainDomain.toString(), mainSOA);
+							// Fill up the cache (don't put mainHost because it is modified if it's an IP => put the original host)
+							cacheSOA.put(new URL("http://" + website).getHost(), mainSOA);
+						}
+						// Skip this website: cannot get its SOA
+						else {
+							logMessage("Error: cannot get the website's SOA. Skip the website.", 3);
+							return -1;
+						}
+					}
+					while(mainSOA == null && mainDomain.hasParent());
+				} catch (Exception e) {
+					if(showDebug) e.printStackTrace();
+					// Peut-être passer au site suivant et supprimer le if après avec les soa null
 				}
 			}
-			InternetDomainName mainDomain = InternetDomainName.from(mainHost);
 
-			Record mainRecords[];
-			do {
-				Name mainName = Name.fromString(mainDomain.toString());
-				Lookup mainLookup = new Lookup(mainName, Type.SOA);
-				mainRecords = mainLookup.run();
-				// Try to get the SOA via the parent
-				if(mainRecords == null) {
-					String message = " ----- mainDomain: " + mainDomain;
-					mainDomain = mainDomain.parent();
-					//System.out.println(message + "  => " + mainDomain);
-				}
-			}
-			while(mainRecords == null && mainDomain.hasParent());
-
-			if(mainRecords != null && mainRecords.length > 0 && mainRecords[0] instanceof SOARecord) {
-				mainSOA = ((SOARecord)mainRecords[0]).getAdmin().toString();
-			}
-			// Skip this website: cannot get its SOA
-			else {
-				logMessage("Error: cannot get the website's SOA. Skip the website.", 3);
-				return -1;
-			}
-
-			int requestsAvoided = 0;
 			/* ----- ANALYZE EVERY ENTRY ----- */
+			if(showDebug) System.out.println(" > " + entriesList.size() + " entries to analyze.");
 			for (HarEntry entry : entriesList) {
 				String currentUrl = entry.getRequest().getUrl();
 				// Check if the URL is a tracker with the Ghostery database
@@ -332,14 +398,13 @@ public class Parser {
 					String currentSOA = cacheSOA.get(currentHost);
 					// Not in the cache
 					if(currentSOA == null) {
-						//System.out.println("SOA query for: " + currentHost);
 						// If the URL is an IP, try to get the associated domain
 						if(InetAddresses.isInetAddress(currentHost)) {
 							try {
 								String message = "Info: transformed IP " + currentHost + " to ";
 								currentHost = Address.getHostName(Address.getByAddress(currentHost));
 								message = message + currentHost;
-								logMessage(message, 2);
+								if(showDebug) System.out.println(message);
 							} catch (UnknownHostException uhe) {
 								// Skip this URL: cannot get its hostname
 								logMessage("Error: cannot get the URL's (" + currentHost + ") hostname. Skip the URL.", 3);
@@ -358,26 +423,36 @@ public class Parser {
 								if(currentRecords == null) {
 									String message = (" ----- currentDomain: " + currentDomain);
 									currentDomain = currentDomain.parent();
-									//System.out.println(message + "  => " + currentDomain);
+									if(showDebug) System.out.println(message + "  => " + currentDomain);
+
+									// SOA of the parent found in the cache
+									if(cacheSOA.containsKey(currentDomain.toString())) {
+										currentSOA = cacheSOA.get(currentDomain.toString());
+										// Fill up the cache (put the original host)
+										cacheSOA.put(new URL(currentUrl).getHost(), currentSOA);
+									}
+								}
+								else if(currentRecords != null && currentRecords.length > 0 && currentRecords[0] instanceof SOARecord) {
+									currentSOA = ((SOARecord)currentRecords[0]).getAdmin().toString();
+									/*if(!currentSOA.equals(currentSOAcache) && currentSOAcache != null) {
+										System.out.println("><><><><>< " + new URL(currentUrl).getHost() + " : " + currentSOA + " vs " + currentSOAcache);
+									}*/
+									// Fill up the cache with the current domain (which is a parent of the original host)
+									cacheSOA.put(currentDomain.toString(), currentSOA);
+									// Fill up the cache (don't put currentHost because it is modified if it's an IP => put the original host)
+									cacheSOA.put(new URL(currentUrl).getHost(), currentSOA);
+								}
+								// Skip this URL: cannot get its SOA
+								else {
+									logMessage("Error: cannot get the URL's (" + currentHost + ") SOA. Skip the URL.", 3);
+									continue;
 								}
 							}
-							while(currentRecords == null && currentDomain.hasParent());
-
-							if(currentRecords != null && currentRecords.length > 0 && currentRecords[0] instanceof SOARecord) {
-								currentSOA = ((SOARecord)currentRecords[0]).getAdmin().toString();
-								cacheSOA.put(currentHost, currentSOA);
-							}
-							// Skip this URL: cannot get its SOA
-							else {
-								logMessage("Error: cannot get the URL's (" + currentHost + ") SOA. Skip the website.", 3);
-								continue;
-							}
+							while(currentSOA == null && currentDomain.hasParent());
 						} catch (Exception e) {
 							if(showDebug) e.printStackTrace();
+							// Peut-être passer à l'url suivante et supprimer le if suivant avec les soa null
 						}
-					}
-					else {
-						requestsAvoided++;
 					}
 
 					//System.out.println("-- Entry (request) : " + entry.getRequest());
@@ -424,7 +499,6 @@ public class Parser {
 			logMessage("Number of trackers found (Ghostery): " + countTrackersGhostery, 2);
 			logMessage("Number of JS from another domain: " + countJSAnotherDomain, 2);
 			logMessage("Number of tracking pixels: " + countTrackingPixels, 2);
-			System.out.println("Number of requests avoided: " + requestsAvoided);
 
 			results[0] = countTrackersGhostery;
 			results[1] = countJSAnotherDomain;
