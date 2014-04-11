@@ -107,7 +107,7 @@ public class Parser {
 			}
 		};
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		// Note: initialDelay not equals to zero because the number of files is not already calculated.
+		// Note: initialDelay not equal to zero because the number of files is not already calculated.
 		executor.scheduleAtFixedRate(statusRunnable, 5, 5, TimeUnit.MINUTES);
 
 		// Show start message
