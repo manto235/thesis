@@ -37,7 +37,8 @@ public class Crawler {
 				+ "   directory: " + directoryName + ", websites file: " + websitesFile + "\n"
 				+ "   start index: " + startIndex + ", end index: " + endIndex + "\n"
 				+ "   Firefox profile: " + ffprofile + ", restart value: " + restart + "\n"
-				+ "   number of attempts per website: " + attempts;
+				+ "   number of attempts per website: " + attempts + "\n"
+				+ "   debug: " + debug;
 		System.out.println(start);
 
 		// Check the file system permissions
