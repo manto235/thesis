@@ -9,7 +9,6 @@ import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -255,7 +254,6 @@ public class Parser {
 		}
 
 		File[] files = directory.listFiles();
-		Arrays.sort(files);
 		filesLatest = new HashMap<String, Integer>();
 		ArrayList<File> filesList = new ArrayList<File>();
 
@@ -295,6 +293,14 @@ public class Parser {
 				filesList.add(new File(directoryName + "/"+ website + "-" + version + ".har"));
 			}
 		}
+
+		// Sort the list of files by alphabetical order
+		Collections.sort(filesList, new Comparator<File>() {
+			@Override
+			public int compare(File website1, File website2) {
+				return  website1.getName().compareTo(website2.getName());
+			}
+		});
 		return filesList;
 	}
 
