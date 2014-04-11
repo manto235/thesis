@@ -93,10 +93,10 @@ public class Parser {
 				long elapsedTimeHours = TimeUnit.HOURS.convert(elapsedTime, TimeUnit.NANOSECONDS);
 				String time;
 				if(elapsedTimeHours > 0) {
-					time = "Elapsed time: " + elapsedTimeHours + " hr and " + elapsedTimeMinutes + " min. ";
+					time = "Elapsed time: " + elapsedTimeHours + " hr and " + elapsedTimeMinutes%60 + " min. ";
 				}
 				else if(elapsedTimeMinutes > 0) {
-					time = "Elapsed time: " + elapsedTimeMinutes + " min and " + elapsedTimeSeconds%60 + " sec. " ;
+					time = "Elapsed time: " + elapsedTimeMinutes + " min. " ;
 				}
 				else {
 					time = "Elapsed time: " + elapsedTimeSeconds + " sec. ";
@@ -218,9 +218,21 @@ public class Parser {
 		}
 
 		long elapsedTime = System.nanoTime() - startTime;
+		long elapsedTimeSeconds = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
 		long elapsedTimeMinutes = TimeUnit.MINUTES.convert(elapsedTime, TimeUnit.NANOSECONDS);
-		logMessage("Total time: " + elapsedTimeMinutes + " min.", 0);
-
+		long elapsedTimeHours = TimeUnit.HOURS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+		String time;
+		if(elapsedTimeHours > 0) {
+			time = elapsedTimeHours + " hr and " + elapsedTimeMinutes%60 + " min.";
+		}
+		else if(elapsedTimeMinutes > 0) {
+			time = elapsedTimeMinutes + " min." ;
+		}
+		else {
+			time = elapsedTimeSeconds + " sec.";
+		}
+		logMessage("Total time: " + time, 0);
+		executor.shutdown();
 		closeLogFile();
 	}
 
@@ -379,6 +391,10 @@ public class Parser {
 				} catch (Exception e) {
 					if(debug) e.printStackTrace();
 					// Peut-être passer au site suivant et supprimer le if après avec les soa null
+					logMessage("Error: cannot get SOA of website: " + mainHost, 3);
+					SOAFAILS.write("Error: cannot get SOA of website: " + mainHost);
+					SOAFAILS.newLine();
+					return -1;
 				}
 			}
 
@@ -451,6 +467,10 @@ public class Parser {
 						} catch (Exception e) {
 							if(debug) e.printStackTrace();
 							// Peut-être passer à l'url suivante et supprimer le if suivant avec les soa null
+							logMessage("Error: cannot get SOA of URL: " + currentHost, 3);
+							SOAFAILS.write("Error: cannot get SOA of URL: " + currentHost);
+							SOAFAILS.newLine();
+							continue;
 						}
 					}
 
@@ -475,7 +495,11 @@ public class Parser {
 						}
 					}
 					else {
-						String message;
+						SOAFAILS.write("!!! Error: an unexpected error occurred. Cannot compare the SOA.");
+						SOAFAILS.newLine();
+						SOAFAILS.write("website: " + mainHost + " URL: " + currentHost);
+						SOAFAILS.newLine();
+						/*String message;
 						if(mainSOA == null) {
 							logMessage("Error: cannot get SOA of website: " + mainHost, 3);
 							message = "Error: cannot get SOA of website: " + mainHost;
@@ -489,7 +513,7 @@ public class Parser {
 							message = "Error: an unexpected error occurred. Cannot compare the SOA.";
 						}
 						SOAFAILS.write(message);
-						SOAFAILS.newLine();
+						SOAFAILS.newLine();*/
 					}
 				}
 			}
