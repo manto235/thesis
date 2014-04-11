@@ -43,7 +43,7 @@ import edu.umass.cs.benchlab.har.tools.HarFileReader;
 
 public class Parser {
 
-	private static boolean showDebug;
+	private static boolean debug;
 	private static boolean showTrackers;
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
@@ -78,8 +78,8 @@ public class Parser {
 	private static Map<String, Integer> mimetype;
 	private static BufferedWriter SOAFAILS;
 
-	public static void launchParser(String directoryName, boolean debug, boolean trackers) {
-		showDebug = debug;
+	public static void launchParser(String directoryName, boolean showDebug, boolean trackers) {
+		debug = showDebug;
 		showTrackers = trackers;
 		startTime = System.nanoTime();
 
@@ -111,7 +111,8 @@ public class Parser {
 
 		// Show start message
 		String start = dateFormat.format(new Date()) + " - Launching parser...\n"
-				+ "   directory: " + directoryName;
+				+ "   directory: " + directoryName + "\n"
+				+ "   debug: " + debug;
 		System.out.println(start);
 
 		// Create the logs file
@@ -333,7 +334,7 @@ public class Parser {
 						String message = "Info: transformed IP " + mainHost + " to ";
 						mainHost = Address.getHostName(Address.getByAddress(mainHost));
 						message = message + mainHost;
-						if(showDebug) System.out.println(message);
+						if(debug) System.out.println(message);
 					} catch (UnknownHostException uhe) {
 						// Skip this website: cannot get its hostname
 						logMessage("Error: cannot get the website's hostname. Skip the website.", 3);
@@ -352,7 +353,7 @@ public class Parser {
 						if(mainRecords == null) {
 							String message = " ----- mainDomain: " + mainDomain;
 							mainDomain = mainDomain.parent();
-							if(showDebug) System.out.println(message + "  => " + mainDomain);
+							if(debug) System.out.println(message + "  => " + mainDomain);
 
 							// SOA of the parent found in the cache
 							if(cacheSOA.containsKey(mainDomain.toString())) {
@@ -376,13 +377,13 @@ public class Parser {
 					}
 					while(mainSOA == null && mainDomain.hasParent());
 				} catch (Exception e) {
-					if(showDebug) e.printStackTrace();
+					if(debug) e.printStackTrace();
 					// Peut-être passer au site suivant et supprimer le if après avec les soa null
 				}
 			}
 
 			/* ----- ANALYZE EVERY ENTRY ----- */
-			if(showDebug) System.out.println(" > " + entriesList.size() + " entries to analyze.");
+			if(debug) System.out.println(" > " + entriesList.size() + " entries to analyze.");
 			for (HarEntry entry : entriesList) {
 				String currentUrl = entry.getRequest().getUrl();
 				// Check if the URL is a tracker with the Ghostery database
@@ -404,7 +405,7 @@ public class Parser {
 								String message = "Info: transformed IP " + currentHost + " to ";
 								currentHost = Address.getHostName(Address.getByAddress(currentHost));
 								message = message + currentHost;
-								if(showDebug) System.out.println(message);
+								if(debug) System.out.println(message);
 							} catch (UnknownHostException uhe) {
 								// Skip this URL: cannot get its hostname
 								logMessage("Error: cannot get the URL's (" + currentHost + ") hostname. Skip the URL.", 3);
@@ -423,7 +424,7 @@ public class Parser {
 								if(currentRecords == null) {
 									String message = (" ----- currentDomain: " + currentDomain);
 									currentDomain = currentDomain.parent();
-									if(showDebug) System.out.println(message + "  => " + currentDomain);
+									if(debug) System.out.println(message + "  => " + currentDomain);
 
 									// SOA of the parent found in the cache
 									if(cacheSOA.containsKey(currentDomain.toString())) {
@@ -450,7 +451,7 @@ public class Parser {
 							}
 							while(currentSOA == null && currentDomain.hasParent());
 						} catch (Exception e) {
-							if(showDebug) e.printStackTrace();
+							if(debug) e.printStackTrace();
 							// Peut-être passer à l'url suivante et supprimer le if suivant avec les soa null
 						}
 					}
@@ -511,7 +512,7 @@ public class Parser {
 		catch (Exception e) {
 			logMessage("Error: cannot parse the file.", 3);
 			filesFailed.add(file.getName());
-			if(showDebug) e.printStackTrace();
+			if(debug) e.printStackTrace();
 			return -1;
 		}
 	}
@@ -625,7 +626,7 @@ public class Parser {
 			mimetypefile.close();
 		} catch (IOException e) {
 			logMessage("Error: cannot create the stats file", 1);
-			if(showDebug) e.printStackTrace();
+			if(debug) e.printStackTrace();
 		}
 	}
 
@@ -651,7 +652,7 @@ public class Parser {
 			logsFile.newLine();
 		} catch (IOException ioe) {
 			System.out.println("The message was not successfully written in the log file.");
-			if(showDebug) ioe.printStackTrace();
+			if(debug) ioe.printStackTrace();
 		}
 	}
 
@@ -667,7 +668,7 @@ public class Parser {
 			SOAFAILS.close();
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot close the logs file.\n> It may be corrupted.");
-			if(showDebug) ioe.printStackTrace();
+			if(debug) ioe.printStackTrace();
 		}
 	}
 }
