@@ -107,7 +107,8 @@ public class Parser {
 			}
 		};
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(statusRunnable, 20, 20, TimeUnit.SECONDS);
+		// Note: initialDelay not equals to zero because the number of files is not already calculated.
+		executor.scheduleAtFixedRate(statusRunnable, 5, 5, TimeUnit.MINUTES);
 
 		// Show start message
 		String start = dateFormat.format(new Date()) + " - Launching parser...\n"
@@ -322,7 +323,6 @@ public class Parser {
 			List<HarEntry> entriesList = entries.getEntries();
 
 			/* ----- SOA OF THE WEBSITE ----- */
-			//String mainSOA = null;
 			String mainHost = new URL("http://" + website).getHost();
 
 			String mainSOA = cacheSOA.get(mainHost);
@@ -393,9 +393,7 @@ public class Parser {
 				// Try to determine if the URL is a tracker via other means
 				else {
 					/* ----- SOA OF THE URL ----- */
-					//String currentSOA = null;
 					String currentHost = new URL(currentUrl).getHost();
-
 					String currentSOA = cacheSOA.get(currentHost);
 					// Not in the cache
 					if(currentSOA == null) {
