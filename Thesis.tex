@@ -4,8 +4,10 @@
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
 \usepackage{lmodern}
-\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{graphicx}
+\usepackage{cite}
+\usepackage[nottoc,notlot,notlof]{tocbibind} % Ajoute la bibliographie dans la table des matières (toc)
 
 \begin{document}
 
@@ -22,7 +24,7 @@
 %\large \emph{Auteur :} \\
 \Large Antoine \textsc{Marchal}
 \end{center}
-\end{minipage}\\[5.5cm]
+\end{minipage}\\[5cm]
 
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
@@ -38,7 +40,7 @@ Pierre \textsc{Reinbold}
  \textsc{}\\
  \textsc{}
 \end{flushright}
-\end{minipage}\\[2cm]
+\end{minipage}\\[1.5cm]
 
 
 {\normalsize Mémoire réalisé en vue de l'obtention du grade de\\
@@ -50,19 +52,23 @@ Pierre \textsc{Reinbold}
 
 \end{titlepage}
 
+\addtocontents{toc}{\protect\thispagestyle{empty}} % Enlève le numéro de page sur la première page du toc
+\pagestyle{empty} % Enlève le numéro de page sur les autres pages du toc
 \tableofcontents
-\thispagestyle{empty}
 
-\include{Chapitre1}
+\input{Chapitre1}
 
-\include{Chapitre2}
+\input{Chapitre2}
 
-\include{Chapitre3}
+\input{Chapitre3}
 
-\include{Chapitre4}
+\input{Chapitre4}
 
-\include{Chapitre5}
+\input{Chapitre5}
 
-\include{Chapitre6}
+\input{Chapitre6}
+
+\bibliographystyle{plain}
+\bibliography{bibliographie}
 
 \end{document}
