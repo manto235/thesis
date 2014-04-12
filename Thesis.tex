@@ -1,115 +1,68 @@
 \documentclass[a4paper,12pt,french]{report}
 
-\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
 \usepackage{lmodern}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{graphicx}
 
 \begin{document}
+
+\begin{titlepage}
+\center
+
+\textsc{\LARGE Université catholique de Louvain}\\[1.5cm]
+\textsc{\Large Travail de fin d'études}\\[2cm]
+
+\includegraphics[scale=.15]{UCL_mention_pantone282.jpg}\\[1.5cm]
+
+\begin{minipage}{0.4\textwidth}
+\begin{center}
+%\large \emph{Auteur :} \\
+\Large Antoine \textsc{Marchal}
+\end{center}
+\end{minipage}\\[5.5cm]
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Promoteurs :} \\
+Olivier \textsc{Bonaventure}\\
+Pierre \textsc{Reinbold}
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Lecteurs :} \\
+ \textsc{}\\
+ \textsc{}
+\end{flushright}
+\end{minipage}\\[2cm]
+
+
+{\normalsize Mémoire réalisé en vue de l'obtention du grade de\\
+\emph{Master [120] en Sciences Informatiques} (option \emph{Networking \& Security})}\\[1.5cm]
+
+%{\huge Version temporaire, compilée le \today}
+{\normalsize Louvain-la-Neuve, Belgique}\\
+{\normalsize Année académique 2013-2014}
+
+\end{titlepage}
 
 \tableofcontents
 \thispagestyle{empty}
 
-\chapter{Introduction}
-\section{Motivation et problématique}
-Notre navigation sur les réseaux est de plus en plus scrutée. On essaie de nous suivre à la trace afin de déterminer nos habitudes et préférences. D'ailleurs, certaines informations peuvent se revendre à prix d'or auprès de compagnies d'annonces publicitaires.
+\include{Chapitre1}
 
-Afin de préserver notre vie privée, il est nécessaire de connaître comment nous sommes identifiés. Il faut également s'assurer que les outils dont nous disposons afin de nous protéger sont réellement efficaces et adaptés à notre utilisation.
+\include{Chapitre2}
 
-\section{Pourquoi l'anonymat sur Internet est-il important ?}
+\include{Chapitre3}
 
-\section{Méthodologie utilisée}
-Afin de répondre à cette problématique, je vais tout d'abord identifier les moyens utilisés pour nous tracer. Ensuite, je vais présenter une série d'outils censés protéger notre vie privée et évaluer leur efficacité.
+\include{Chapitre4}
 
+\include{Chapitre5}
 
-\chapter{Protocoles et mécanismes d'Internet}
-\section{Présentation du protocole HTTP}
-Le protocole HTTP fournit les fondations du World Wide Web. Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci se connecte à un serveur identifié par l'URL « Uniform Resource Locator » présente dans ce lien. Le navigateur envoie alors une requête à laquelle le serveur répond puis le navigateur se déconnecte du serveur.
-
-L'on considère que la requête est sans état car à chaque fois que le navigateur crée une connexion pour une requête, le serveur la traite comme si c'était la première ; les requêtes sont donc indépendantes.
-
-Afin d'avoir la possibilité de garder une certaine quantité d'informations entre les requêtes successives, une solution a été trouvée : il s'agit du cookie.
-
-Les requêtes HTTP se composent de trois parties :
-\begin{enumerate}
-	\item Une ligne de requête
-	\item Les en-têtes de requête (qui fournissent des méta-informations)
-	\item L'entité de requête elle-même
-\end{enumerate}
-
-Ce sont les méta-informations de l'en-tête qui fournissent à la fois les informations de contrôle pour HTTP et les informations à propos de l'entité qui est transférée. Les informations sur les cookies sont transmises dans ces en-têtes.
-	
-\section{Cookies}
-Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un en-tête de réponse \textit{Set-Cookie}. Cette information peut contenir n'importe quoi. C'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
-
-Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké sur le disque dur de l'ordinateur. A chaque requête qu'il fait vers le même serveur, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
-
-Il y a donc un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné à la prochaine visite.
-
-Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné, ni la valeur qu'il représente.
-
-\section{Cache}
-
-\section{Comment le Web est-il censé fonctionner ?}
-
-\section{Comment ces mécanismes permettent-ils de nous identifier ?}
-
-
-\chapter{Moyens d'identification généralement utilisés}
-\section{Cookies}
-En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, comme expliqué auparavant, le navigateur envoie dans chaque requête un en-tête \textit{Cookie} et il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le Cookie reste indépendant du moyen d'accès au site web.
-\section{Pixels espions}
-\section{JavaScript}
-	\subsection{Régies publicitaires sur Internet}
-		
-	\subsection{Modules des réseaux sociaux}
-		
-		\subsubsection{Facebook et son bouton « Like »}
-			
-		\subsubsection{Google et son bouton « +1 »}
-			
-	\subsection{Outils destinés aux webmasters}
-		
-		\subsubsection{Google Analytics}
-
-\section{Autres moyens de nous tracer}
-	\subsection{Flash}
-	
-	\subsection{Java}
-	
-	\subsection{Omniprésence des navigateurs dans les applications}
-		
-	\subsection{Persistance des données utilisateur dans Microsoft Internet Explorer}
-		
-	%\subsection{Identifiant unique que Google envisage d'implémenter}
-	
-
-\chapter{Analyse des principaux sites web}
-\section{Objectif de l'analyse}
-\section{Description de l'outil implémenté}
-%\subsection{Crawler}
-%\subsection{Parser}
-\section{Résultats}
-
-
-\chapter{Moyens de défense}
-	\section{Plugins anonymisants des navigateurs}
-		\subsection{Ghostery}
-		\subsection{[...]}
-		
-	\section{Modes de navigation privée}
-		
-	\section{Do Not Track}
-		
-	\section{Utilisation d'un proxy / VPN}
-		
-	\section{Résultats}
-		
-	%\section{Les réseaux de type TOR}
-	%(Parler de la récente affaire du FBI qui a cracké TOR)
-
-
-\chapter{Conclusion}
+\include{Chapitre6}
 
 \end{document}
