@@ -9,16 +9,15 @@
 \usepackage{cite}
 \usepackage[nottoc,notlot,notlof]{tocbibind} % Ajoute la bibliographie dans la table des matières (toc)
 \usepackage{fancyhdr} % Hauts de page
-\usepackage{hyperref}
+\usepackage{hyperref} % Liens
 
+%%%%% Header %%%%%
 \fancyhead[RO,LE]{\thepage}
-\fancyhead[LO]{\leftmark}
-\fancyhead[RE]{\rightmark}
+\fancyhead[LO]{\itshape\nouppercase{\leftmark}}
+\fancyhead[RE]{\itshape\nouppercase{\rightmark}}
 \fancyfoot{}
 
-%\chaptermark
-%\sectionmark
-
+%\renewcommand{\headrulewidth}{0pt} % Epaisseur de la ligne sous le header
 \geometry{headheight=16pt} % Nécessaire pour fancyhdr
 %\setlength{\headheight}{16pt} % Nécessaire pour fancyhdr
 
@@ -29,15 +28,18 @@
 \begin{titlepage}
 \center
 
-\textsc{\LARGE Université catholique de Louvain}\\[1.5cm]
-\textsc{\Large Travail de fin d'études}\\[3.5cm]
+\textsc{\LARGE Université catholique de Louvain}\\[1cm]
+\textsc{\Large Travail de fin d'études}\\[2cm]
 
 \includegraphics[scale=.15]{UCL_mention_pantone282.jpg}\\[1.5cm]
+
+% Titre
+\textsc{\Large }\\[1.5cm]
 
 \begin{minipage}{0.4\textwidth}
 \begin{center}
 %\large \emph{Auteur :} \\
-\Large Antoine \textsc{Marchal}
+\large Antoine \textsc{Marchal}
 \end{center}
 \end{minipage}\\[3.5cm]
 
