@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,french]{report}
+\documentclass[a4paper, twoside, 12pt,french]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -8,6 +8,21 @@
 \usepackage{graphicx}
 \usepackage{cite}
 \usepackage[nottoc,notlot,notlof]{tocbibind} % Ajoute la bibliographie dans la table des matières (toc)
+\usepackage{fancyhdr} % Hauts de page
+\usepackage{hyperref}
+
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+\fancyfoot{}
+
+%\chaptermark
+%\sectionmark
+
+\geometry{headheight=16pt} % Nécessaire pour fancyhdr
+%\setlength{\headheight}{16pt} % Nécessaire pour fancyhdr
+
+\raggedbottom % Evite que la page couvre tout l'espace vertical avec des espaces
 
 \begin{document}
 
@@ -52,10 +67,15 @@ Pierre \textsc{Reinbold}
 
 \end{titlepage}
 
+%%% Table des matières
 \addtocontents{toc}{\protect\thispagestyle{empty}} % Enlève le numéro de page sur la première page du toc
 \pagestyle{empty} % Enlève le numéro de page sur les autres pages du toc
+\newgeometry{top=1.5cm, bottom=2cm, left=2.5cm, right=2.5cm}
 \tableofcontents
-
+\restoregeometry
+\clearpage % Nécessaire pour ne pas avoir fancyhdr sur la dernière page du toc
+%%%
+\pagestyle{fancy}
 \input{Chapitre1}
 
 \input{Chapitre2}
