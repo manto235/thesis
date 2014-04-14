@@ -1,16 +1,34 @@
 === Readme ===
+This project has been developed in Eclipse on Linux.
+
 
 ********** INSTALL **********
-Note: this project has been developped in Eclipse.
-
-
+___________________
 _____ Eclipse _____
-- Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
-  > In Eclipse; Help > Install New Software...
-  > Fill the "Work with" field with: http://download.eclipse.org/technology/m2e/releases
-  > Install m2e
 
-- Add the following lines in the file pom.xml after </build> in order to install required libraries:
+- Install Maven in Eclipse (this helps to manage the dependencies of the libraries).
+  > In Eclipse: "Help" > "Install New Software..."
+  > Fill the "Work with" field with: http://download.eclipse.org/technology/m2e/releases
+  > Click on "Add..."
+  > Tick "m2e - Maven Integration for Eclipse"
+  > Click on "Next >" and follow the process
+
+- Import the project in Eclipse
+  > During the launch of Eclipse, select the "workspace" directory from the git repository
+  > In Eclipse: "File" > "New" > "Project..."
+  > Select "Project" (in General)
+  > Fill the "Project name" field with: code
+  > Click on "Finish"
+
+All the libraries and files are ready!
+
+------------
+> Optional <
+If you want to start the project from scratch:
+
+- Create a new Maven project in Eclipse
+
+- Install the required libraries with Maven by adding the following lines in the pom.xml file after "</build>":
   <dependencies>
    <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
@@ -35,18 +53,20 @@ _____ Eclipse _____
   </dependencies>
 
 - Download HarLib (from https://sites.google.com/site/frogthinkerorg/projects/harlib) and add harlib-jackson-xxx.jar to the classpath.
+
 - Download Apache Commons CLI (from http://commons.apache.org/proper/commons-cli/) and add commons-cli-xx.jar to the classpath.
 
-How to add a library in Eclipse:
+How to add a library to the classpath in Eclipse:
 > Right click on the project => Properties.
 > Select "Java Build Path" on the left => click on the "Libraries" tab => click on "Add External JARs..." and select the jar files downloaded before.
 
-
+___________________
 _____ Firefox _____
+
 - create a new profile in Firefox (2 methods):
-  A) With GUI
+  1) With GUI
      > firefox -P
-  B) Without GUI
+  2) Without GUI
      > firefox -CreateProfile <profile>
 
 - run Firefox in order to create the files of your profile
@@ -54,18 +74,25 @@ _____ Firefox _____
 
 - install Firebug: https://getfirebug.com/
 
-- install NetExport: https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport
+- install NetExport
+  > You have two choices:
+    1) Install NetExport from https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport and edit the files (see section below).
+    2) Install the modified NetExport extension from the "Firefox" directory.
 
 
 _____ NetExport _____
 - In your Firefox profile (home/XXX/.mozilla/firefox/YYY/extensions), find netexport@getfirebug.com.xpi
-- Open the archive and edit the file /chrome/content/netexport/harBuilder.js
-- Comment the lines 200 ("if (!timings._timeStamps)") to 211 ("});")
+- Open the archive
+- Edit the file /chrome/content/netexport/harBuilder.js (see note 1 below)
+  > Comment the lines 200 ("if (!timings._timeStamps)") to 211 ("});")
+- Edit the file /chrome/content/netexport/automation.js (see note 2 below)
+  > Modify var fileName = [...] to var fileName = name;
 
 --- Why ? ---
-These lines generate a field that is not standard in the HAR spec and makes HarLib to detect the files as corrupted.
+Note 1: these lines generate a field that is not standard in the HAR spec and makes HarLib to detect the files as corrupted.
+Note 2: with this modification, the filename of the generated files is only composed of the hostname (without the date).
 
 
 ********** RUN **********
-Launch "java -jar Code.jar" followed by the arguments.
+Launch "java -jar Code.jar" followed by your arguments.
 Note: launch "java -jar Code.jar -h" to get help and the list of arguments.
