@@ -1,0 +1,50 @@
+* An Empirical Study of Privacy-Violating Information Flows in JavaScript Web Applications
+------------------------------------------------------------------------------------------
+JavaScript permet aux sites web de récupérer plus facilement des informations privées.
+Le papier fait l'analyse du top 50000 Alexa en inspectant le code JS.
+- Cookie Stealing
+- Location Hijacking
+- History Sniffing
+- Behavior Tracking
+
+* A Promising Direction for Web Tracking Countermeasures
+--------------------------------------------------------
+Introduction sur le désir des utilisateurs d'être protégés (=> DNT). Quelques références qui peuvent être intéressantes sur le DNT.
+Comment l'apprentissage automatique (machine learning) peut aider à contrer le tracking.
+
+
+* Automatic Cookie Usage Setting with CookiePicker
+--------------------------------------------------
+Ils présentent CookiePicker, un mécanisme qui permet de juger si un cookie est vraiment utile ou pas et ajuste les permissions.
+Quelques explications et références intéressantes sur les cookies.
+
+
+* Cache Cookies for Browser Authentication
+------------------------------------------
+Comment les cookies de cache (différents des cookies conventionnels) permettent l'identification des utilisateurs.
+Explications sur le rôle des cookies de cache et en quoi ils se rapprochent des cookies traditionnels.
+
+
+* Protecting Browser State from Web Privacy Attacks
+---------------------------------------------------
+Comment partitionner site par site l'état du navigateur du côté client et éviter un tracking cross-domain.
+- Principe de "same-origin" pas tjs bien respecté
+- Cache du navigateur permet de stocker des informations pour accroître la rapidité mais devient une cible d'attaque
+- Différentiation des liens visités (ex. : couleur) peut être utilisé par des sites
+=> Ils proposent deux extensions qui permettent de contrer ça
+
+
+* Third-Party Web Tracking: Policy and Technology
+-------------------------------------------------
+Avant, tout était hébergé par la même personne/groupe/organisation. Plus maintenant.
+Ils utilisent un outil nommé FourthPlay.
+- Une partie sur la policy : pq inquiétudes sur la privacy + comment modifier la policy pour gérer ça + overview des régulations US et EU
+- Une partie sur la technologie : survol des technologies qui peuvent être utilisées pour tracker parmi plusieurs sites web + overview des technologies qui peuvent délivrer du contenu tiers avec moins de risques + choix des utilisateurs pour se protéger (Opt-Out cookie, blocage, DNT)
+2ème but du papier : améliorer les connaissances sur cette surveillance pour les débats en cours à Washington et Bxl.
+
+
+* Timing Attacks on Web Privacy
+-------------------------------
+Côté serveur.
+Comment utiliser le cache des navigateurs pour déterminer si un utilisateur a visité un site.
+
