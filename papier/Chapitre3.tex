@@ -1,6 +1,46 @@
-\chapter{Moyens d'identification généralement utilisés}
+%\chapter{Moyens d'identification généralement utilisés}
+\chapter{Moyens d'identification}
 \section{Cookies}
-En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, comme expliqué auparavant, le navigateur envoie dans chaque requête un en-tête \textit{Cookie} et il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le Cookie reste indépendant du moyen d'accès au site web.
+%En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, comme expliqué auparavant, le navigateur envoie dans chaque requête un en-tête \textit{Cookie} et il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le Cookie reste indépendant du moyen d'accès au site web.
+\section{Cache}
+Le cache du navigateur permet d'enregistrer localement une copie des fichiers afin de ne pas devoir les recharger lors d'une visite ultérieure. Ce mécanisme est très utile car il permet d'économiser de la bande passante et du temps, cependant il donne la possibilité à des sites de déterminer si leurs visiteurs ont visité un autre site auparavant.
+
+L'exploitation du cache à des fins de surveillance est détaillé dans \cite{Felten:2000:TAW:352600.352606}.
+Le principe est assez simple: il exploite le fait qu'un fichier présent en cache sera chargé beaucoup plus rapidement qu'un fichier qui ne l'est pas. Donc en mesurant le temps d'accès au fichier, il est possible de déterminer si une personne a déjà visité le site (ou plus précisement, la page) qui utilise ce fichier. En effet, rien n'empêche un site de charger un fichier hébergé par un autre site.
+\newline
+
+Imaginons que l'administrateur d'un site \emph{(alpha.com)} veuille savoir si ses visiteurs se sont également rendus sur un autre site \emph{(beta.com)}. La première chose qu'il doit faire est de se rendre sur le site qu'il veut cibler et choisir un fichier statique pouvant être mis en cache et qui est chargé par tout visiteur (le logo du site par exemple). Ensuite, le but est de mesurer le temps d'accès du fichier cible.
+
+D'après \cite{Felten:2000:TAW:352600.352606}, le plus fiable et facile est d'utiliser un applet Java ou un script écrit en JavaScript qui vont mesurer le temps de chargement du fichier à partir de son URL. Même si l'utilisateur a désactivé l'utilisation de Java ou JavaScript, il est possible d'obtenir une mesure suffisament précise en chargeant les fichiers suivants dans l'ordre:
+
+\begin{enumerate}
+  \item un fichier du site \emph{alpha.com}
+  \item le fichier cible du site \emph{beta.com}
+  \item un autre fichier du site \emph{alpha.com}
+\end{enumerate}
+
+En soustrayant les moments auxquels le serveur reçoit les requêtes des fichiers 1 et 3, l'administrateur du site \emph{alpha.com} est en mesure d'avoir une approximation du temps qu'il a fallu pour charger le fichier 2 (celui de \emph{beta.com}).
+
+Il faut néanmoins respecter certains critères pour que cela fonctionne: forcer le chargement des fichiers de manière séquentielle et de manière invisible en n'altérant pas l'apparence de la page afin que le client ne remarque rien.
+\newline
+
+Il est possible d'améliorer la probabilité de distinguer correctement les succès des défauts de cache en effectuant différentes mesures, ce qui permet alors de rafiner les seuils de discrimination: refaire plusieurs fois la mesure d'un même fichier (à partir de la seconde tentative, le fichier sera présent dans le cache) pour les succès de cache et utiliser l'URL de fichiers n'existant pas pour les défauts de cache.
+
+Afin d'améliorer la précision, il est également intéressant de combiner les résultats de plusieurs fichiers mesurés individuellement.
+\newline
+
+Cette attaque peut être menée dans différentes situations:
+\begin{itemize}
+  \item Un site qui veut en savoir davantage sur ses visiteurs.
+  \item Une régie publicitaire pourrait inclure le code de mesure dans les bannières qu'elle distribue afin de faire des statistiques sur les sites consultés par les visiteurs.\\Elle pourait même distribuer un code différent en fonction du contenu des sites.
+  \item L'attaquant pourrait créer un site de telle façon à ce qu'il apparaisse en tête des moteurs de recherche dans le but de faire des statistiques sur les personnes intéressées par un sujet particulier.
+  \item L'attaquant pourrait envoyer un mail contenant le code HTML à sa victime.\\En le faisant ressembler à du spam, la victime ne remarquerait rien d'anormal et la mesure serait effectuée.
+\end{itemize}
+
+% Timing Attacks on Web Privacy (section 1) : raisons de s'inquiéter
+% Timing Attacks on Web Privacy (section 7) : contre-mesures actuelles sont inefficaces
+% Timing Attacks on Web Privacy (section 8) : solution possible
+
 \section{Pixels espions}
 \section{JavaScript}
 	\subsection{Régies publicitaires sur Internet}
@@ -25,4 +65,3 @@ En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un
 	\subsection{Persistance des données utilisateur dans Microsoft Internet Explorer}
 		
 	%\subsection{Identifiant unique que Google envisage d'implémenter}
-	

@@ -25,6 +25,16 @@ Comment les cookies de cache (différents des cookies conventionnels) permettent
 Explications sur le rôle des cookies de cache et en quoi ils se rapprochent des cookies traditionnels.
 
 
+* Cookieless Monster: Exploring the Ecosystem of Web-based Device Fingerprinting
+--------------------------------------------------------------------------------
+
+
+
+* HTTP Cookies: Standards, Privacy, and Politics
+------------------------------------------------
+
+
+
 * Protecting Browser State from Web Privacy Attacks
 ---------------------------------------------------
 Comment partitionner site par site l'état du navigateur du côté client et éviter un tracking cross-domain.

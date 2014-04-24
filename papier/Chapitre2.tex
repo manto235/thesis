@@ -1,31 +1,68 @@
 \chapter{Protocoles et mécanismes d'Internet}
+
 \section{Présentation du protocole HTTP}
-Le protocole HTTP fournit les fondations du World Wide Web. Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci se connecte à un serveur identifié par l'URL « Uniform Resource Locator » présente dans ce lien. Le navigateur envoie alors une requête à laquelle le serveur répond puis le navigateur se déconnecte du serveur.
-
-L'on considère que la requête est sans état car à chaque fois que le navigateur crée une connexion pour une requête, le serveur la traite comme si c'était la première ; les requêtes sont donc indépendantes.
-
-Afin d'avoir la possibilité de garder une certaine quantité d'informations entre les requêtes successives, une solution a été trouvée : il s'agit du cookie.
+\label{http-expl}
+HTTP (HyperText Transport Protocol) \cite{Obo_CNP3} est un protocole qui fournit les fondations du World Wide Web, il repose sur le modèle client-serveur dans lequel le client envoie une requête et le serveur retourne une réponse.
+\newline
 
 Les requêtes HTTP se composent de trois parties :
 \begin{enumerate}
-	\item Une ligne de requête
-	\item Les en-têtes de requête (qui fournissent des méta-informations)
-	\item L'entité de requête elle-même
+	\item Une ligne de requête (qui contient notamment une URI)
+	\item Un en-tête (qui contient des paramètres facultatifs pour la requête)
+	\item Le corps de la requête (optionnel)
+	\newline
 \end{enumerate}
 
-Ce sont les méta-informations de l'en-tête qui fournissent à la fois les informations de contrôle pour HTTP et les informations à propos de l'entité qui est transférée. Les informations sur les cookies sont transmises dans ces en-têtes.
+Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci se connecte à un serveur identifié par l'URI "Uniform Resource Identifier" présente dans ce lien. Le navigateur envoie alors une requête à laquelle le serveur répond puis le navigateur se déconnecte du serveur.
+L'on considère que la requête est sans état car à chaque fois que le navigateur crée une connexion pour une requête, le serveur la traite comme si c'était la première ; les requêtes sont donc indépendantes.
+\newline
+
+Les réponses HTTP se composent également de trois parties :
+\begin{enumerate}
+	\item Une ligne de statut (qui indique si la requête est réussie ou pas)
+	\item Un en-tête (qui contient des informations additionnelles sur la réponse)
+	\item Le corps de la réponse
+	\newline
+\end{enumerate}
+
+Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. Une première solution était de forcer l'authentification du client (comme pour FTP), cependant ce n'est pas toujours nécessaire ou applicable sur tous les sites. Une seconde solution était d'utiliser les différents types d'en-têtes \emph{Accept-*}, mais cela fournit des possibilités assez limitées. Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP.
+
 	
 \section{Cookies}
-Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un en-tête de réponse \textit{Set-Cookie}. Cette information peut contenir n'importe quoi. C'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
+\label{cookies-expl}
+Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site (dans une base de données par exemple). Les cookies sont transmis dans les en-têtes des requêtes et des réponses HTTP \cite{Kristol:2001:HCS:502152.502153}.
 
-Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké sur le disque dur de l'ordinateur. A chaque requête qu'il fait vers le même serveur, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
+Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un en-tête \textit{Set-Cookie}. Cette information peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
+
+Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. A chaque requête qu'il fait vers le même site, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
+\newline
 
 Il y a donc un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné à la prochaine visite.
-
 Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné, ni la valeur qu'il représente.
 
+
 \section{Cache}
+\label{cache-expl}
+Dans le domaine informatique, un cache permet de garder une copie locale d'un élément afin de répondre rapidement à une requête. Au lieu de récupérer l'élément, le cache renvoie sa copie, ce qui permet de réduire sensiblement le temps de réponse.\\
+Sur Internet, plusieurs mécanismes de cache ont été implémentés \cite{WikipediaEN_Web_cache}. Ils peuvent par exemple être installés à différents niveaux:
+
+\begin{itemize}
+  \item sur le réseau qui délivre le contenu d'un site web (ex. : un CDN - "Content Delivery Network")
+  \item sur l'application qui gère et affiche le contenu d'un site web (ex. : un CMS - "Content Management System")
+  \item sur le serveur qui héberge le site web (ex. : Apache)
+  \item via le navigateur Web du client qui stocke les fichiers sur le disque dur
+  \newline
+\end{itemize}
+
+Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, il est possible pour les administrateurs d'un site de paramétrer et de limiter la mise en cache de certaines pages grâce à l'en-tête \textit{Cache-Control}.
+
 
 \section{Comment le Web est-il censé fonctionner ?}
+\label{web-expl}
+Lors du chargement d'une page web, le navigateur effectue de multiples connexions afin de récupérer l'ensemble des ressources de la page. Aux débuts du World Wide Web, toutes les ressources d'une page appartenaient généralement à une même personne/groupe. A l'heure actuelle, la situation a fort changé : il est fréquent de voir des ressources chargées depuis des domaines tiers (régies publicitaires, CDN,...). Le navigateur effectue donc des connexions vers des serveurs différents (cela permet notamment de passer outre la limitation du nombre de connexions HTTP vers un même domaine \cite{W3_RFC2616_Section8}) mais en contrepartie, cela permet aux serveurs en question d'enregistrer des données sur le client suite aux requêtes qu'il effectue.
+\newline
 
-\section{Comment ces mécanismes permettent-ils de nous identifier ?}
+Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine ("same-origin" principle) \cite{Jackson:2006:PBS:1135777.1135884}. Celui-ci interdit des sites de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Ce principe est implémenté dans les différents navigateurs mais il n'est appliqué de la même manière. L'échec de l'adaptation de ce principe semble être la source la plus importante de fuites de données.
+
+%\section{Comment ces mécanismes permettent-ils de nous identifier ?}
+% Déplacé dans chapitre 3
