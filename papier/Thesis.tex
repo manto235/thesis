@@ -10,6 +10,7 @@
 \usepackage[nottoc,notlot,notlof]{tocbibind} % Ajoute la bibliographie dans la table des matières (toc)
 \usepackage{fancyhdr} % Hauts de page
 \usepackage{hyperref} % Liens
+\usepackage{listings} % Code
 
 %%%%% Header %%%%%
 \fancyhead[RO,LE]{\thepage}
@@ -22,6 +23,14 @@
 %\setlength{\headheight}{16pt} % Nécessaire pour fancyhdr
 
 \raggedbottom % Evite que la page couvre tout l'espace vertical avec des espaces
+
+%%%%% Code %%%%%
+\lstset{
+breaklines=true,
+numbers=left,
+numbersep=10pt,
+frame=lrtb
+}
 
 \begin{document}
 

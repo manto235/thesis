@@ -25,21 +25,31 @@ Les réponses HTTP se composent également de trois parties :
 	\newline
 \end{enumerate}
 
-Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. Une première solution était de forcer l'authentification du client (comme pour FTP), cependant ce n'est pas toujours nécessaire ou applicable sur tous les sites. Une seconde solution était d'utiliser les différents types d'en-têtes \emph{Accept-*}, mais cela fournit des possibilités assez limitées. Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP.
+Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. Une première solution était de forcer l'authentification du client (comme pour FTP), cependant ce n'est pas toujours nécessaire ou applicable sur tous les sites web. Une seconde solution était d'utiliser les différents types d'en-têtes \emph{Accept-*}, mais cela fournit des possibilités assez limitées. Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP.
 
 	
 \section{Cookies}
 \label{cookies-expl}
-Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site (dans une base de données par exemple). Les cookies sont transmis dans les en-têtes des requêtes et des réponses HTTP \cite{Kristol:2001:HCS:502152.502153}.
+La première description sur les cookies a été publiée sur le site web de Netscape Communications mais cette description était informelle. Le processus de standardisation des cookies a commencé en avril 1995 sur la liste de diffusion [www-talk], ensuite, l'IETF (Internet Engineering Task Force) a entrepris d'écrire un standard pour les cookies \cite{Kristol:2001:HCS:502152.502153}.
+C'est ainsi que la première RFC (RFC 2109) sur les cookies est parue en février 1997 \cite{IETF_RFC2109}, rendue obsolète en octobre 2000 par la RFC 2965 \cite{IETF_RFC2965}. Elle a également été rendue obsolète par la dernière RFC qui est toujours d'application en ce jour, la RFC 6265 (avril 2011) \cite{IETF_RFC6265}.
+\newline
+
+Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les en-têtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}.
 
 Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un en-tête \textit{Set-Cookie}. Cette information peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
 
-Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. A chaque requête qu'il fait vers le même site, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
+Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. Dans chaque requête ultérieure qu'il fait vers le serveur, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
 \newline
 
-Il y a donc un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné à la prochaine visite.
-Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné, ni la valeur qu'il représente.
+Il y a un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné lors de la prochaine requête.
+Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné ni la valeur qu'il représente.
+\newline
 
+Voici une requête HTTP vers le site web \textit{distrowatch.com} :
+\lstinputlisting{examples/http_request1_distrowatch}
+
+Et la réponse HTTP associée :
+\lstinputlisting{examples/http_response1_distrowatch}
 
 \section{Cache}
 \label{cache-expl}
@@ -54,15 +64,15 @@ Sur Internet, plusieurs mécanismes de cache ont été implémentés \cite{Wikip
   \newline
 \end{itemize}
 
-Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, il est possible pour les administrateurs d'un site de paramétrer et de limiter la mise en cache de certaines pages grâce à l'en-tête \textit{Cache-Control}.
+Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, il est possible pour les administrateurs d'un site web de paramétrer et de limiter la mise en cache de certaines pages grâce à l'en-tête \textit{Cache-Control}.
 
 
 \section{Comment le Web est-il censé fonctionner ?}
 \label{web-expl}
-Lors du chargement d'une page web, le navigateur effectue de multiples connexions afin de récupérer l'ensemble des ressources de la page. Aux débuts du World Wide Web, toutes les ressources d'une page appartenaient généralement à une même personne/groupe. A l'heure actuelle, la situation a fort changé : il est fréquent de voir des ressources chargées depuis des domaines tiers (régies publicitaires, CDN,...). Le navigateur effectue donc des connexions vers des serveurs différents (cela permet notamment de passer outre la limitation du nombre de connexions HTTP vers un même domaine \cite{W3_RFC2616_Section8}) mais en contrepartie, cela permet aux serveurs en question d'enregistrer des données sur le client suite aux requêtes qu'il effectue.
+Lors du chargement d'une page web, le navigateur effectue de multiples connexions afin de récupérer l'ensemble des ressources de la page. Aux débuts du World Wide Web, toutes les ressources d'une page appartenaient généralement à une même personne/groupe. A l'heure actuelle, la situation a fort changé : il est fréquent de voir des ressources chargées depuis des domaines tiers (régies publicitaires, CDN,...). Le navigateur effectue donc des connexions vers des serveurs différents (cela permet notamment de passer outre la limitation du nombre de connexions HTTP vers un même domaine \cite{IETF_RFC2616}) mais en contrepartie, cela permet aux serveurs en question d'enregistrer des données sur le client suite aux requêtes qu'il effectue.
 \newline
 
-Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine ("same-origin" principle) \cite{Jackson:2006:PBS:1135777.1135884}. Celui-ci interdit des sites de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Ce principe est implémenté dans les différents navigateurs mais il n'est appliqué de la même manière. L'échec de l'adaptation de ce principe semble être la source la plus importante de fuites de données.
+Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine ("same-origin" principle) \cite{Jackson:2006:PBS:1135777.1135884}. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Ce principe est implémenté dans les différents navigateurs mais il n'est appliqué de la même manière. L'échec de l'adaptation de ce principe semble être la source la plus importante de fuites de données.
 
 %\section{Comment ces mécanismes permettent-ils de nous identifier ?}
 % Déplacé dans chapitre 3
