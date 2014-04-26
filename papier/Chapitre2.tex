@@ -41,6 +41,15 @@ Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisate
 
 Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un en-tête \textit{Set-Cookie}. Cette information peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
 
+Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5.2.1 à 5.2.6 de la RFC 6265) :
+\begin{itemize}
+	\item Expires et Max-Age : date d'expiration
+	\item Domain : domaine
+	\item Path : chemin
+	\item Secure et HttpOnly : type de connexion
+	\newline
+\end{itemize}
+
 Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. Dans chaque requête ultérieure qu'il fait vers le serveur, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
 \newline
 
@@ -49,12 +58,13 @@ Un cookie est donc une donnée que le serveur et le client se renvoient l'un et 
 %\newline
 
 %\phantomsection
+\newpage
 \subsection{Exemples de requête et réponse HTTP avec cookie}
 \label{http-request-example}
 Voici une requête HTTP vers le site web \textit{distrowatch.com} :
 \lstinputlisting{examples/http_request1_distrowatch}
 Note : aucune visite vers ce site n'a été faite auparavant.
-\newpage
+\newline
 
 Et la réponse HTTP associée :
 \lstinputlisting{examples/http_response1_distrowatch}
