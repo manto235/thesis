@@ -26,9 +26,9 @@ Les réponses HTTP se composent également de trois parties :
 Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. Une première solution était de forcer l'authentification du client (comme pour FTP), cependant ce n'est pas toujours nécessaire ou applicable sur tous les sites web. Une seconde solution était d'utiliser les différents types d'en-têtes \emph{Accept-*}, mais cela fournit des possibilités assez limitées. Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP.
 \newline
 
-Des exemples de requête et réponse HTTP sont disponibles dans la \hyperref[http-request-example]{section Cookies}.
+Des exemples de requête et réponse HTTP sont disponibles dans la \autoref{http_request_example}.
 
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cookies}
 La première description sur les cookies a été publiée sur le site web de Netscape Communications mais cette description était informelle. Le processus de standardisation des cookies a commencé en avril 1995 sur la liste de diffusion [www-talk], ensuite, l'IETF (Internet Engineering Task Force) a entrepris d'écrire un standard pour les cookies \cite{Kristol:2001:HCS:502152.502153}. C'est ainsi que la première RFC (RFC 2109) sur les cookies est parue en février 1997 \cite{IETF_RFC2109}, rendue obsolète en octobre 2000 par la RFC 2965 \cite{IETF_RFC2965}. Elle a également été remplacée, par la RFC 6265 en avril 2011 \cite{IETF_RFC6265}, qui est toujours d'application en ce jour et constitue la référence en ce qui concerne les cookies.
@@ -52,43 +52,8 @@ Habituellement, le client est coopératif et renvoie l'information du cookie qui
 \newline
 
 Il y a un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné lors de la prochaine requête. Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné ni la valeur qu'il représente.
-%\newline
 
-%\phantomsection
 \newpage
-\subsection{Exemples de requête et réponse HTTP avec cookie}
-\label{http-request-example}
-Voici une requête HTTP vers le site web \textit{distrowatch.com} :
-\lstinputlisting{examples/http_request1_distrowatch}
-Note : aucune visite vers ce site n'a été faite auparavant.
-\newline
-
-Et la réponse HTTP associée :
-\lstinputlisting{examples/http_response1_distrowatch}
-A la ligne 9, l'on peut voir un en-tête \textit{Set-Cookie}.\\
-Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur 8407.\\
-Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.
-\newline
-
-Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment: la requête HTTP contient maintenant un en-tête \textit{Cookie} visible à la ligne 7 :
-\lstinputlisting{examples/http_request2_distrowatch}
-
-Quant à la réponse HTTP, elle reste identique.
-\newline
-
-Dans la seconde requête, l'on peut voir que le navigateur envoie 5 cookies alors qu'un seul n'a été enregistré via la réponse HTTP analysée auparavant.\\
-Ceci s'explique par le fait que les cookies \textit{\_\_utmX} proviennent de Google Analytics \cite{Google_Analytics_cookies} et servent à analyser la navigation des visiteurs du site.
-\newline
-
-Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \_\_utmc n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration \cite{Google_Analytics_cookies}) alors que la capture d'écran a été effectuée lors d'une session ultérieure.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.75]{figures/cookies_distrowatch.png}
-	\caption{\label{cookies_distrowatch}Les cookies enregistrés pour l'hôte \textit{distrowatch.com} dans Firefox.}
-\end{figure}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cache}
 Dans le domaine informatique, un cache permet de garder une copie locale d'un élément afin de répondre rapidement à une requête. Au lieu de récupérer l'élément, le cache renvoie sa copie, ce qui permet de réduire sensiblement le temps de réponse.\\
@@ -119,6 +84,41 @@ Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certain
 
 Ces directives de réponse HTTP permettent notamment d'autoriser (ou d'empêcher) la mise en cache d'un fichier, d'empêcher la mise en cache partagé ou encore, de préciser une date d'expiration à partir de laquelle le fichier présent en cache devra être revalidé.
 
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exemple de requête et réponse HTTP}
+\label{http_request_example}
+Voici une requête HTTP vers le site web \textit{distrowatch.com} :
+\lstinputlisting{examples/http_request1_distrowatch}
+Note : aucune visite vers ce site n'a été faite auparavant.
+\newline
+
+Et la réponse HTTP associée :
+\lstinputlisting{examples/http_response1_distrowatch}
+A la ligne 9, l'on peut voir un en-tête \textit{Set-Cookie}.\\
+Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur "8407".\\
+Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.
+\newline
+
+Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment: la requête HTTP contient maintenant un en-tête \textit{Cookie} visible à la ligne 7 :
+\lstinputlisting{examples/http_request2_distrowatch}
+
+Quant à la réponse HTTP, elle reste identique.
+\newline
+
+Dans la seconde requête, l'on peut voir que le navigateur envoie 5 cookies alors qu'un seul n'a été enregistré via la réponse HTTP analysée auparavant.\\
+Ceci s'explique par le fait que les cookies \textit{\_\_utmX} proviennent de Google Analytics \cite{Google_Analytics_cookies} et servent à analyser la navigation des visiteurs du site.
+\newline
+
+Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \_\_utmc n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration \cite{Google_Analytics_cookies}) alors que la capture d'écran a été effectuée lors d'une session ultérieure.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{figures/cookies_distrowatch.png}
+	\caption{\label{cookies_distrowatch}Les cookies enregistrés pour l'hôte \textit{distrowatch.com} dans Firefox.}
+\end{figure}
+
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Comment le Web est-il censé fonctionner ?}
 Lors du chargement d'une page web, le navigateur effectue de multiples connexions afin de récupérer l'ensemble des ressources de la page. Aux débuts du World Wide Web, toutes les ressources d'une page appartenaient généralement à une même personne/groupe. A l'heure actuelle, la situation a fort changé : il est fréquent de voir des ressources chargées depuis des domaines tiers (régies publicitaires, CDN,...). Le navigateur effectue donc des connexions vers des serveurs différents (cela permet notamment de passer outre la limitation du nombre de connexions HTTP vers un même domaine \cite{IETF_RFC2616}) mais en contrepartie, cela permet aux serveurs en question d'enregistrer des données sur le client suite aux requêtes qu'il effectue.

@@ -12,6 +12,7 @@ http://www.wired.com/opinion/2013/06/why-i-have-nothing-to-hide-is-the-wrong-way
 
 ----- Divers -----
 http://www.bortzmeyer.org/6265.html
+http://www.mnot.net/cache_docs/
 http://www.kuleuven.be/english/news/several-top-websites-use-device-fingerprinting-to-secretly-track-users
 http://www.developpez.com/actu/61617/Google-souhaiterait-remplacer-les-cookies-par-un-identifiant-unique-les-entreprises-de-publicite-en-ligne-crient-au-scandale/
 http://technewsfeeder.com/nsa-tracks-google-ads-to-find-tor-users/
