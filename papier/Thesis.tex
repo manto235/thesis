@@ -11,6 +11,7 @@
 \usepackage{fancyhdr} % Hauts de page
 \usepackage{hyperref} % Liens
 \usepackage{listings} % Code
+\usepackage{multicol} % Colonnes
 
 %%%%% Header %%%%%
 \fancyhead[RO,LE]{\thepage}
@@ -81,7 +82,7 @@ Pierre \textsc{Reinbold}
 %%% Table des matières
 \addtocontents{toc}{\protect\thispagestyle{empty}} % Enlève le numéro de page sur la première page du toc
 \pagestyle{empty} % Enlève le numéro de page sur les autres pages du toc
-\newgeometry{top=1.5cm, bottom=2cm, left=2.5cm, right=2.5cm}
+%\newgeometry{top=1.5cm, bottom=2cm, left=2.5cm, right=2.5cm}
 \tableofcontents
 \restoregeometry
 \clearpage % Nécessaire pour ne pas avoir fancyhdr sur la dernière page du toc

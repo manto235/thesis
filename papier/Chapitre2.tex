@@ -1,8 +1,7 @@
 \chapter{Protocoles et mécanismes d'Internet}
 
 \section{Présentation du protocole HTTP}
-\label{http-expl}
-HTTP (HyperText Transport Protocol) \cite{Obo_CNP3} est un protocole qui fournit les fondations du World Wide Web, il repose sur le modèle client-serveur dans lequel le client envoie une requête et le serveur retourne une réponse.
+HTTP (HyperText Transport Protocol) \cite{Obo_CNP3} est un protocole qui fournit les fondations du World Wide Web, il repose sur le modèle client-serveur dans lequel le client envoie une requête et le serveur retourne une réponse. Il est décrit par la RFC 2616 \cite{IETF_RFC2616}.
 \newline
 
 Les requêtes HTTP se composent de trois parties :
@@ -13,8 +12,7 @@ Les requêtes HTTP se composent de trois parties :
 	\newline
 \end{enumerate}
 
-Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci se connecte à un serveur identifié par l'URI "Uniform Resource Identifier" présente dans ce lien. Le navigateur envoie alors une requête à laquelle le serveur répond puis le navigateur se déconnecte du serveur.
-L'on considère que la requête est sans état car à chaque fois que le navigateur crée une connexion pour une requête, le serveur la traite comme si c'était la première ; les requêtes sont donc indépendantes.
+Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci se connecte à un serveur identifié par l'URI "Uniform Resource Identifier" présente dans ce lien. Le navigateur envoie alors une requête à laquelle le serveur répond puis le navigateur se déconnecte du serveur. L'on considère que la requête est sans état car à chaque fois que le navigateur crée une connexion pour une requête, le serveur la traite comme si c'était la première ; les requêtes sont donc indépendantes.
 \newline
 
 Les réponses HTTP se composent également de trois parties :
@@ -30,18 +28,18 @@ Il fallait trouver une solution afin d'avoir la possibilité de garder une certa
 
 Des exemples de requête et réponse HTTP sont disponibles dans la \hyperref[http-request-example]{section Cookies}.
 
-	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cookies}
-\label{http-cookies-expl}
-La première description sur les cookies a été publiée sur le site web de Netscape Communications mais cette description était informelle. Le processus de standardisation des cookies a commencé en avril 1995 sur la liste de diffusion [www-talk], ensuite, l'IETF (Internet Engineering Task Force) a entrepris d'écrire un standard pour les cookies \cite{Kristol:2001:HCS:502152.502153}.
-C'est ainsi que la première RFC (RFC 2109) sur les cookies est parue en février 1997 \cite{IETF_RFC2109}, rendue obsolète en octobre 2000 par la RFC 2965 \cite{IETF_RFC2965}. Elle a également été rendue obsolète par la dernière RFC qui est toujours d'application en ce jour, la RFC 6265 (avril 2011) \cite{IETF_RFC6265}.
+La première description sur les cookies a été publiée sur le site web de Netscape Communications mais cette description était informelle. Le processus de standardisation des cookies a commencé en avril 1995 sur la liste de diffusion [www-talk], ensuite, l'IETF (Internet Engineering Task Force) a entrepris d'écrire un standard pour les cookies \cite{Kristol:2001:HCS:502152.502153}. C'est ainsi que la première RFC (RFC 2109) sur les cookies est parue en février 1997 \cite{IETF_RFC2109}, rendue obsolète en octobre 2000 par la RFC 2965 \cite{IETF_RFC2965}. Elle a également été remplacée, par la RFC 6265 en avril 2011 \cite{IETF_RFC6265}, qui est toujours d'application en ce jour et constitue la référence en ce qui concerne les cookies.
 \newline
 
 Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les en-têtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}.
+\newline
 
 Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un en-tête \textit{Set-Cookie}. Cette information peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
+Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5.2.1 à 5.2.6 de la RFC 6265) \cite{IETF_RFC6265} :
 
-Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5.2.1 à 5.2.6 de la RFC 6265) :
 \begin{itemize}
 	\item Expires et Max-Age : date d'expiration
 	\item Domain : domaine
@@ -53,8 +51,7 @@ Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5
 Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. Dans chaque requête ultérieure qu'il fait vers le serveur, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
 \newline
 
-Il y a un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné lors de la prochaine requête.
-Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné ni la valeur qu'il représente.
+Il y a un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné lors de la prochaine requête. Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné ni la valeur qu'il représente.
 %\newline
 
 %\phantomsection
@@ -73,8 +70,7 @@ Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur 
 Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.
 \newline
 
-Voici maintenant une seconde requête vers le même site lors de la même session.
-L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment: la requête HTTP contient maintenant un en-tête \textit{Cookie} visible à la ligne 7 :
+Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment: la requête HTTP contient maintenant un en-tête \textit{Cookie} visible à la ligne 7 :
 \lstinputlisting{examples/http_request2_distrowatch}
 
 Quant à la réponse HTTP, elle reste identique.
@@ -84,20 +80,19 @@ Dans la seconde requête, l'on peut voir que le navigateur envoie 5 cookies alor
 Ceci s'explique par le fait que les cookies \textit{\_\_utmX} proviennent de Google Analytics \cite{Google_Analytics_cookies} et servent à analyser la navigation des visiteurs du site.
 \newline
 
-Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour le site \textit{distrowatch.com} (\autoref{cookies_distrowatch}).
-Le cookie \_\_utmc n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration) alors que la capture d'écran a été effectuée lors d'une session ultérieure.
+Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \_\_utmc n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration \cite{Google_Analytics_cookies}) alors que la capture d'écran a été effectuée lors d'une session ultérieure.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.75]{figures/cookies_distrowatch.png}
-	\caption{\label{cookies_distrowatch}Les cookies enregistrés pour le site \textit{distrowatch.com} dans Firefox.}
+	\caption{\label{cookies_distrowatch}Les cookies enregistrés pour l'hôte \textit{distrowatch.com} dans Firefox.}
 \end{figure}
 
-\section{Cache}
-\label{http-cache-expl}
-Dans le domaine informatique, un cache permet de garder une copie locale d'un élément afin de répondre rapidement à une requête. Au lieu de récupérer l'élément, le cache renvoie sa copie, ce qui permet de réduire sensiblement le temps de réponse.\\
-Sur Internet, plusieurs mécanismes de cache ont été implémentés \cite{WikipediaEN_Web_cache}. Ils peuvent par exemple être installés à différents niveaux:
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cache}
+Dans le domaine informatique, un cache permet de garder une copie locale d'un élément afin de répondre rapidement à une requête. Au lieu de récupérer l'élément, le cache renvoie sa copie, ce qui permet de réduire sensiblement le temps de réponse.\\
+Le principe de cache sur le protocole HTTP est défini dans la RFC 2616 \cite{IETF_RFC2616} (sections 13 et 14). Les mécanismes de cache peuvent être implémentés à différents niveaux :
 \begin{itemize}
   \item sur le réseau qui délivre le contenu d'un site web (ex. : un CDN - "Content Delivery Network")
   \item sur l'application qui gère et affiche le contenu d'un site web (ex. : un CMS - "Content Management System")
@@ -106,12 +101,29 @@ Sur Internet, plusieurs mécanismes de cache ont été implémentés \cite{Wikip
   \newline
 \end{itemize}
 
-Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, il est possible pour les administrateurs d'un site web de paramétrer et de limiter la mise en cache de certaines pages grâce à l'en-tête \textit{Cache-Control}.
+Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, les administrateurs d'un site web peuvent paramétrer la mise en cache de certains éléments grâce à l'en-tête \textit{Cache-Control}. Celui-ci est utilisé pour spécifier des directives qui doivent être respectées par tous les mécanismes de cache le long de la chaîne requête-réponse. Grâce à ces directives, il est possible de spécifier explicitement pour chaque fichier comment il doit être traité vis-à-vis de la mise en cache \cite{IETF_RFC2616} :
+\begin{multicols}{2}
+\begin{itemize}
+  \item public
+  \item private
+  \item no-cache
+  \item no-store
+  \item no-transform
+  \item must-revalidate
+  \item proxy-revalidate
+  \item max-age
+  \item s-maxage
+  \item cache-extension
+\end{itemize}
+\end{multicols}
 
+Ces directives de réponse HTTP permettent notamment d'autoriser (ou d'empêcher) la mise en cache d'un fichier, d'empêcher la mise en cache partagé ou encore, de préciser une date d'expiration à partir de laquelle le fichier présent en cache devra être revalidé.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Comment le Web est-il censé fonctionner ?}
-\label{web-expl}
 Lors du chargement d'une page web, le navigateur effectue de multiples connexions afin de récupérer l'ensemble des ressources de la page. Aux débuts du World Wide Web, toutes les ressources d'une page appartenaient généralement à une même personne/groupe. A l'heure actuelle, la situation a fort changé : il est fréquent de voir des ressources chargées depuis des domaines tiers (régies publicitaires, CDN,...). Le navigateur effectue donc des connexions vers des serveurs différents (cela permet notamment de passer outre la limitation du nombre de connexions HTTP vers un même domaine \cite{IETF_RFC2616}) mais en contrepartie, cela permet aux serveurs en question d'enregistrer des données sur le client suite aux requêtes qu'il effectue.
-\newline
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Principe de même origine}
 Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine ("same-origin" principle) \cite{Jackson:2006:PBS:1135777.1135884}. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Ce principe est implémenté dans les différents navigateurs mais il n'est appliqué de la même manière. L'échec de l'adaptation de ce principe semble être la source la plus importante de fuites de données.
