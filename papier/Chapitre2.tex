@@ -7,7 +7,7 @@ HTTP (HyperText Transport Protocol) \cite{Obo_CNP3} est un protocole qui fournit
 Les requêtes HTTP se composent de trois parties :
 \begin{enumerate}
 	\item Une ligne de requête (qui contient notamment une URI)
-	\item Un en-tête (qui contient des paramètres facultatifs pour la requête)
+	\item Des entêtes (qui contiennent des paramètres pour la requête)
 	\item Le corps de la requête (optionnel)
 	\newline
 \end{enumerate}
@@ -18,12 +18,12 @@ Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci
 Les réponses HTTP se composent également de trois parties :
 \begin{enumerate}
 	\item Une ligne de statut (qui indique si la requête est réussie ou pas)
-	\item Un en-tête (qui contient des informations additionnelles sur la réponse)
+	\item Des entêtes (qui contiennent des informations sur la réponse)
 	\item Le corps de la réponse
 	\newline
 \end{enumerate}
 
-Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. Une première solution était de forcer l'authentification du client (comme pour FTP), cependant ce n'est pas toujours nécessaire ou applicable sur tous les sites web. Une seconde solution était d'utiliser les différents types d'en-têtes \emph{Accept-*}, mais cela fournit des possibilités assez limitées. Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP.
+Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. Une première solution était de forcer l'authentification du client (comme pour FTP), cependant ce n'est pas toujours nécessaire ou applicable sur tous les sites web. Une seconde solution était d'utiliser les différents types d'entêtes \emph{Accept-*}, mais cela fournit des possibilités assez limitées. Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP.
 \newline
 
 Des exemples de requête et réponse HTTP sont disponibles dans la \autoref{http_request_example}.
@@ -31,13 +31,13 @@ Des exemples de requête et réponse HTTP sont disponibles dans la \autoref{http
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cookies}
-La première description sur les cookies a été publiée sur le site web de Netscape Communications mais cette description était informelle. Le processus de standardisation des cookies a commencé en avril 1995 sur la liste de diffusion [www-talk], ensuite, l'IETF (Internet Engineering Task Force) a entrepris d'écrire un standard pour les cookies \cite{Kristol:2001:HCS:502152.502153}. C'est ainsi que la première RFC (RFC 2109) sur les cookies est parue en février 1997 \cite{IETF_RFC2109}, rendue obsolète en octobre 2000 par la RFC 2965 \cite{IETF_RFC2965}. Elle a également été remplacée, par la RFC 6265 en avril 2011 \cite{IETF_RFC6265}, qui est toujours d'application en ce jour et constitue la référence en ce qui concerne les cookies.
+La première description sur les cookies a été publiée sur le site web de Netscape Communications mais cette description était informelle. Le processus de standardisation des cookies a commencé en avril 1995 sur la liste de diffusion [www-talk], ensuite, l'IETF (Internet Engineering Task Force) a entrepris d'écrire un standard pour les cookies \cite{Kristol:2001:HCS:502152.502153}. C'est ainsi que la première RFC (RFC 2109) sur les cookies est parue en février 1997 \cite{IETF_RFC2109}, rendue obsolète en octobre 2000 par la RFC 2965 \cite{IETF_RFC2965}. Elle a également été remplacée, par la RFC 6265 en avril 2011 \cite{IETF_RFC6265}, qui est toujours d'application en ce jour et constitue la référence en ce qui concerne les cookies. Il est intéressant de noter qu'une section dédiée à la vie privée (section 7) est présente dans cette dernière RFC, ce qui constitue une nouveauté.
 \newline
 
-Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les en-têtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}.
+Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les entêtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}.
 \newline
 
-Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un en-tête \textit{Set-Cookie}. Cette information peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
+Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un entête \textit{Set-Cookie}. Cette information peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
 Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5.2.1 à 5.2.6 de la RFC 6265) \cite{IETF_RFC6265} :
 
 \begin{itemize}
@@ -48,7 +48,7 @@ Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5
 	\newline
 \end{itemize}
 
-Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. Dans chaque requête ultérieure qu'il fait vers le serveur, le client indique cette information dans un en-tête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
+Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. Dans chaque requête ultérieure qu'il fait vers le serveur, le client indique cette information dans un entête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie.
 \newline
 
 Il y a un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état et il espère qu'il lui sera retourné lors de la prochaine requête. Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné ni la valeur qu'il représente.
@@ -66,7 +66,7 @@ Le principe de cache sur le protocole HTTP est défini dans la RFC 2616 \cite{IE
   \newline
 \end{itemize}
 
-Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, les administrateurs d'un site web peuvent paramétrer la mise en cache de certains éléments grâce à l'en-tête \textit{Cache-Control}. Celui-ci est utilisé pour spécifier des directives qui doivent être respectées par tous les mécanismes de cache le long de la chaîne requête-réponse. Grâce à ces directives, il est possible de spécifier explicitement pour chaque fichier comment il doit être traité vis-à-vis de la mise en cache \cite{IETF_RFC2616} :
+Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, les administrateurs d'un site web peuvent paramétrer la mise en cache de certains éléments grâce à l'entête \textit{Cache-Control}. Celui-ci est utilisé pour spécifier des directives qui doivent être respectées par tous les mécanismes de cache le long de la chaîne requête-réponse. Grâce à ces directives, il est possible de spécifier explicitement pour chaque fichier comment il doit être traité vis-à-vis de la mise en cache \cite{IETF_RFC2616} :
 \begin{multicols}{2}
 \begin{itemize}
   \item public
@@ -84,23 +84,25 @@ Lorsque que l'on navigue sur Internet, le cache du navigateur enregistre certain
 
 Ces directives de réponse HTTP permettent notamment d'autoriser (ou d'empêcher) la mise en cache d'un fichier, d'empêcher la mise en cache partagé ou encore, de préciser une date d'expiration à partir de laquelle le fichier présent en cache devra être revalidé.
 
-\newpage
+%\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Exemple de requête et réponse HTTP}
 \label{http_request_example}
 Voici une requête HTTP vers le site web \textit{distrowatch.com} :
 \lstinputlisting{examples/http_request1_distrowatch}
 Note : aucune visite vers ce site n'a été faite auparavant.
-\newline
+%\newline
+\newpage
 
 Et la réponse HTTP associée :
 \lstinputlisting{examples/http_response1_distrowatch}
-A la ligne 9, l'on peut voir un en-tête \textit{Set-Cookie}.\\
-Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur "8407".\\
-Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.
+
+A la ligne 9, l'on peut voir un entête \textit{Set-Cookie}. Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur "8407". Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.
+
+On peut également voir un entête \textit{Cache-Control} à la ligne 7.
 \newline
 
-Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment: la requête HTTP contient maintenant un en-tête \textit{Cookie} visible à la ligne 7 :
+Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment: la requête HTTP contient maintenant un entête \textit{Cookie} visible à la ligne 7 :
 \lstinputlisting{examples/http_request2_distrowatch}
 
 Quant à la réponse HTTP, elle reste identique.
@@ -108,7 +110,7 @@ Quant à la réponse HTTP, elle reste identique.
 
 Dans la seconde requête, l'on peut voir que le navigateur envoie 5 cookies alors qu'un seul n'a été enregistré via la réponse HTTP analysée auparavant.\\
 Ceci s'explique par le fait que les cookies \textit{\_\_utmX} proviennent de Google Analytics \cite{Google_Analytics_cookies} et servent à analyser la navigation des visiteurs du site.
-\newline
+%\newline
 
 Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \_\_utmc n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration \cite{Google_Analytics_cookies}) alors que la capture d'écran a été effectuée lors d'une session ultérieure.
 
