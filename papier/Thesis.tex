@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{cite}
 \usepackage[nottoc,notlot,notlof]{tocbibind} % Ajoute la bibliographie dans la table des matières (toc)
+\usepackage{setspace} % Interligne
 \usepackage{fancyhdr} % Hauts de page
 \usepackage{hyperref} % Liens
 \usepackage{listings} % Code
@@ -33,6 +34,8 @@ numbersep=10pt,
 frame=lrtb
 }
 
+\onehalfspacing
+
 \begin{document}
 
 \begin{titlepage}
@@ -51,7 +54,7 @@ frame=lrtb
 %\large \emph{Auteur :} \\
 \large Antoine \textsc{Marchal}
 \end{center}
-\end{minipage}\\[3.5cm]
+\end{minipage}\\[3cm]
 
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
