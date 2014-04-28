@@ -101,7 +101,7 @@ A la ligne 9, l'on peut voir un entête \textit{Set-Cookie}. Un cookie dont le n
 On peut également voir un entête \textit{Cache-Control} à la ligne 7.
 \newline
 
-Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment: la requête HTTP contient maintenant un entête \textit{Cookie} visible à la ligne 7 :
+Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment : la requête HTTP contient maintenant un entête \textit{Cookie} visible à la ligne 7 :
 \lstinputlisting{examples/http_request2_distrowatch}
 
 Quant à la réponse HTTP, elle reste identique.
@@ -109,7 +109,7 @@ Quant à la réponse HTTP, elle reste identique.
 
 Dans la seconde requête, l'on peut voir que le navigateur envoie 5 cookies alors qu'un seul n'a été enregistré via la réponse HTTP analysée auparavant.\\
 Ceci s'explique par le fait que les cookies \textit{\_\_utmX} proviennent de Google Analytics \cite{Google_Analytics_cookies} et servent à analyser la navigation des visiteurs du site.
-%\newline
+\newline
 
 Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \_\_utmc n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration \cite{Google_Analytics_cookies}) alors que la capture d'écran a été effectuée lors d'une session ultérieure.
 
