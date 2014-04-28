@@ -89,20 +89,27 @@ Ces directives de réponse HTTP permettent notamment d'autoriser (ou d'empêcher
 \section{Exemple de requête et réponse HTTP}
 \label{http_request_example}
 Voici une requête HTTP vers le site web \textit{distrowatch.com} :
+
+\begin{singlespacing}
 \lstinputlisting{examples/http_request1_distrowatch}
+\end{singlespacing}
 Note : aucune visite vers ce site n'a été faite auparavant.
 \newline
 
 Et la réponse HTTP associée :
+
+\begin{singlespacing}
 \lstinputlisting{examples/http_response1_distrowatch}
-
-A la ligne 9, l'on peut voir un entête \textit{Set-Cookie}. Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur "8407". Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.
-
+\end{singlespacing}
+A la ligne 9, l'on peut voir un entête \textit{Set-Cookie}. Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur "8407". Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.\\
 On peut également voir un entête \textit{Cache-Control} à la ligne 7.
 \newline
 
-Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment : la requête HTTP contient maintenant un entête \textit{Cookie} visible à la ligne 7 :
+Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment car la requête HTTP contient maintenant un entête \textit{Cookie} visible à la ligne 7 qui n'était pas présent dans la première requête :
+
+\begin{singlespacing}
 \lstinputlisting{examples/http_request2_distrowatch}
+\end{singlespacing}
 
 Quant à la réponse HTTP, elle reste identique.
 \newline
@@ -111,11 +118,11 @@ Dans la seconde requête, l'on peut voir que le navigateur envoie 5 cookies alor
 Ceci s'explique par le fait que les cookies \textit{\_\_utmX} proviennent de Google Analytics \cite{Google_Analytics_cookies} et servent à analyser la navigation des visiteurs du site.
 \newline
 
-Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \_\_utmc n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration \cite{Google_Analytics_cookies}) alors que la capture d'écran a été effectuée lors d'une session ultérieure.
+Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \textit{\_\_utmc} n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration \cite{Google_Analytics_cookies}) et que la capture d'écran a été effectuée lors d'une session ultérieure.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.75]{figures/cookies_distrowatch.png}
+	\includegraphics[scale=0.7]{figures/cookies_distrowatch.png}
 	\caption{\label{cookies_distrowatch}Les cookies enregistrés pour l'hôte \textit{distrowatch.com} dans Firefox.}
 \end{figure}
 
@@ -127,4 +134,10 @@ Lors du chargement d'une page web, le navigateur effectue de multiples connexion
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Principe de même origine}
-Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine ("same-origin" principle) \cite{Jackson:2006:PBS:1135777.1135884}. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Ce principe est implémenté dans les différents navigateurs mais il n'est appliqué de la même manière. L'échec de l'adaptation de ce principe semble être la source la plus importante de fuites de données.
+Le principe de même origine (\textit{same-origin principle}) peut être déclaré comme suit : "seul le site qui enregistre des données dans le navigateur peut lire ou modifier ces données plus tard" \cite{Jackson:2006:PBS:1135777.1135884}.
+\newline
+
+Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Ce principe est implémenté dans les différents navigateurs mais il n'est appliqué de la même manière. En effet, le principe n'a ni été déclaré de manière générale ni appliqué de manière uniforme aux multiples manières dont un site web peut sauvegarder ou récupérer des données de la machine d'un utilisateur.
+\newline
+
+L'échec de l'adaptation de ce principe est une source importante de fuites de données.
