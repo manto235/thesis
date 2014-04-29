@@ -1,5 +1,6 @@
 %\chapter{Moyens d'identification généralement utilisés}
 \chapter{Moyens d'identification}
+\section{Violations du principe de même origine}
 \section{Cookies}
 %En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, comme expliqué auparavant, le navigateur envoie dans chaque requête un en-tête \textit{Cookie} et il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le Cookie reste indépendant du moyen d'accès au site web.
 \section{Cache}
@@ -28,6 +29,13 @@ Il est possible d'améliorer la probabilité de distinguer correctement les succ
 
 Afin d'améliorer la précision, il est également intéressant de combiner les résultats de plusieurs fichiers mesurés individuellement.
 \newline
+
+D'une manière semblable, ce type d'attaque peut également être réalisé sur le cache du DNS. Felten et Schneider ont vérifié la précision des tests avec l'aide de 3 serveurs distincts situés à des distances différentes.
+
+Plus le serveur est situé à une grande distance, plus la requête DNS prend de temps. Les tests ont montré que la précision des résultats pouvait être inférieure car la pénalité suite à des défauts de cache était très petite. Il n'était donc pas possible de discriminer les échecs des succès de cache. Cependant, sur Internet, la pénalité en cas de défaut est suffisament grande pour assurer une bonne distinction. Dans ce cas-là, les tests montrent une très bonne précision.
+\newline
+
+% Attache de cookies de cache
 
 Cette attaque peut être menée dans différentes situations :
 \begin{itemize}

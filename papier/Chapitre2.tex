@@ -134,10 +134,14 @@ Lors du chargement d'une page web, le navigateur effectue de multiples connexion
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Principe de même origine}
-Le principe de même origine (\textit{same-origin principle}) peut être déclaré comme suit : "seul le site qui enregistre des données dans le navigateur peut lire ou modifier ces données plus tard" \cite{Jackson:2006:PBS:1135777.1135884}.
+Le principe de même origine (\textit{same-origin principle}) peut être déclaré comme suit : "\textit{seul le site qui enregistre des données dans le navigateur peut lire ou modifier ces données plus tard}" \cite{Jackson:2006:PBS:1135777.1135884}. Son but est d'isoler des sites en respectant leur capacité à lire ou modifier l'état du navigateur. Cela permet à un utilisateur de naviguer comme si chaque site et session étaient complètement indépendants.
 \newline
 
-Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Ce principe est implémenté dans les différents navigateurs mais il n'est appliqué de la même manière. En effet, le principe n'a ni été déclaré de manière générale ni appliqué de manière uniforme aux multiples manières dont un site web peut sauvegarder ou récupérer des données de la machine d'un utilisateur.
+Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Plus concrètement, son but est de permettre aux cookies et au JavaScript de sites web de confiance variable de coexister silencieusement dans le navigateur de l'utilisateur sans interférer mutuellement. Ce principe est désormais implémenté dans les différents navigateurs mais il n'est pas appliqué de la même manière. En effet, le principe n'a ni été déclaré de manière générale ni appliqué de manière uniforme aux multiples manières dont un site web peut sauvegarder ou récupérer des données sur la machine d'un utilisateur.
 \newline
 
-L'échec de l'adaptation de ce principe est une source importante de fuites de données.
+L'échec de l'adaptation de ce principe est une source importante de fuites de données. Il faut toutefois noter que s'il était largement appliqué, ce principe changerait énormément de fonctionnalités du Web incluant des choses simples telles que les liens hypertextes entre sites et le contenu intégré.
+\newline
+
+Il faut également préciser que même si le principe était correctement implémenté au sein d'un navigateur, il n'empêcherait pas les violations de vie privée face à des sites coopérants. Ceci s'explique par le fait qu'il existe une multitude de techniques simples allant des redirections jusqu'aux liens intersites pouvant être utilisées dans le but de transmettre des données entre des sites. Avec de tels échanges, ils sont dans la capacité de constituer un profil interdomaine des activités de leurs visiteurs.
+\newline
