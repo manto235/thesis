@@ -17,7 +17,38 @@ Comme vous pouvez le remarquer avec ces différents exemples de la vie quotidien
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{En quoi le respect de la vie privée est-il essentiel ?}
-Les exemples précédents montrent déjà bien que la surveillance des sites web peut nous coûter de l'argent en nous incitant à consommer plus. Mais les risques de cette surveillance peuvent aller bien au-delà. En effet, la liste des sites web visités par une personne peut en révéler beaucoup sur sa situation familiale, financière ou sanitaire.
+Avant de parler du sujet de la vie privée, il est intéressant de regarder l'évolution de la surveillance.
+A l'époque, il y a eu une guerre entre les personnes qui voulaient que tout le monde puisse utiliser et partager une technologie qui permette de sécuriser ses communications et le gouvernement américain qui souhaitait écouter ces communications. Ce dernier avait peur de passer d'un monde où il avait un contrôle total à un monde où il n'en avait plus. Il avait si peur qu'il a considéré l'export de la cryptographie hors des USA comme un export de munitions. Ainsi, afin de dévoiler les sources de PGP au monde entier, son auteur a usé d'une astuce en publiant un livre qui en contient le code source complet (l'export de livre est protégé par le Premier Amendement) \cite{youtube_moxie_marlinspike}.
+\newline
+
+Les programmes de surveillance du passé peuvent être considérés comme de la "surveillance de proximité", où le gouvernement tentait d'utiliser la technologie afin de surveiller les communications lui-même. Les programmes de cette décénie marquent une transition vers la "surveillance oblique" dans laquelle le gouvernement va plus souvent se rendre aux endroits où les informations sont accumulées d'elles-mêmes (fournisseurs d'adresses email, moteurs de recherche, réseaux sociaux et télécoms) \cite{wired_nothing_to_hide}.
+\newline
+
+En 2001, John Poindexter a voulu mettre en place le programme \textit{Total Information Awareness} qui consistait en un système de data mining. Il devait enregistrer tous les emails, tout le trafic Web, tout l'historique des cartes de crédit et tous les dossiers médicaux. Le but était ensuite de développer une technologie afin d'extraire les données dont on avait besoin. Lors de sa conférence à la DEF CON 18, Moxie Marlinspike a même ri du logo du programme (\autoref{IAO_logo}) car il inspirait plutôt la peur. D'ailleurs, le projet a été annulé car il a reçu beaucoup de contestations. Cependant, lorsque l'on regarde ce que Google fait aujourd'hui, c'est exactement la même chose voire pire. Or, personne ne proteste et de surcroît, tout le monde utilise ces services !
+\begin{itemize}
+  \item Les emails sont enregistrés par Gmail.
+  \item Le trafic Web est enregistré par Google Analytics.
+  \item L'historique des cartes de crédit est enregistré par Google Checkout.
+  \item Les dossiers médicaux sont enregistrés par Google Health.
+  \item L'historique des positions GPS est enregistré par Android.
+  \item ...
+  %\newline
+\end{itemize}
+De plus, l'on sait qu'ils savent extraire de manière efficace les informations qu'ils désirent afin de les monétiser avec des publicités. Quand l'on sait ce que le CEO de Google, Eric Schmidt, a déclaré : "If you have something that you don't want anyone to know, maybe you shouldn't be doing it in the first place" \cite{privacy_eric_schmidt}, cela fait froid dans le dos.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{figures/IAO-logo.png}
+	\caption{\label{IAO_logo}Le logo officiel du programme \textit{Total Information Awareness}}.
+\end{figure}
+
+Dans sa conférence, Moxie Marlinspike utilise un autre exemple : personne ne voudrait avoir un trackeur monitoré par l'Etat sur soi mais tout le monde possède un GSM. Or, celui-ci envoie en temps réel sa position à l'opérateur qui est obligé de délivrer cette information si on la lui demande. Pour lui, il y a cependant une différence essentielle : le choix. Nous choisissons d'avoir un GSM sur nous afin de communiquer mais nous refuserions un dispositif de traçage s'il nous était imposé.
+\newline
+
+%%%%%
+
+Maintenant, passons au sujet de la vie privée.\\
+Les exemples de l'introduction montrent déjà bien que la surveillance des sites web peut nous coûter de l'argent en nous incitant à consommer plus. Mais les risques de cette surveillance peuvent aller bien au-delà. En effet, la liste des sites web visités par une personne peut en révéler beaucoup sur sa situation familiale, financière ou sanitaire.
 \newline
 
 Comment pensez-vous que certains services peuvent se dire "gratuits". Rien n'est gratuit dans la vie et cela l'est également sur Internet. En réalite, le prix à payer est de dévoiler des informations personnelles qui peuvent potentiellement être exploitées afin de rapporter de l'argent.
@@ -36,30 +67,7 @@ D'après Moglen \cite{Moglen_part2}, le concept de vie privée englobe 3 éléme
 
 [...]
 
-Avant de parler du sujet de la vie privée, il est intéressant de regarder l'évolution de la surveillance.
-A l'époque, il y a eu une guerre entre les personnes qui voulaient que tout le monde puisse utiliser et partager une technologie qui permette de sécuriser ses communications et le gouvernement américain qui souhaitait écouter ces communications. Ce dernier avait peur de passer d'un monde où il avait un contrôle total à un monde où il n'en avait plus. Il avait si peur qu'il a considéré l'export de la cryptographie hors des USA comme un export de munitions. Ainsi, afin de dévoiler les sources de PGP au monde entier, son auteur a usé d'une astuce en publiant un livre qui en contient le code source complet (l'export de livre est protégé par le Premier Amendement) \cite{youtube_moxie_marlinspike}.
-\newline
 
-Les programmes de surveillance du passé peuvent être considérés comme de la "surveillance de proximité", où le gouvernement tentait d'utiliser la technologie afin de surveiller les communications lui-même. Les programmes de cette décénie marquent une transition vers la "surveillance oblique" dans laquelle le gouvernement va plus souvent se rendre aux endroits où les informations sont accumulées d'elles-mêmes (fournisseurs d'adresses email, moteurs de recherche, réseaux sociaux et télécoms) \cite{wired_nothing_to_hide}.
-\newline
-
-En 2001, John Poindexter a voulu mettre en place le programme \textit{Total Information Awareness} qui consistait en un système de data mining. Il devait enregistrer tous les emails, tout le trafic Web, tout l'historique des cartes de crédit et tous les dossiers médicaux. Le but était ensuite de développer une technologie afin d'extraire les données dont on avait besoin. Lors de sa conférence à la DEF CON 18, Moxie Marlinspike a même ri du logo du programme (\autoref{IAO_logo}) car il inspirait plutôt la peur. D'ailleurs, le projet a été annulé car il a reçu beaucoup de contestations. Cependant, lorsque l'on regarde ce que Google fait aujourd'hui, c'est exactement la même chose voire pire. Or, personne ne proteste et de surcroît, tout le monde utilise ces services !
-\begin{itemize}
-  \item Les emails sont enregistrés par Gmail.
-  \item Le trafic Web est enregistré par Google Analytics.
-  \item L'historique des cartes de crédit est enregistré par Google Checkout.
-  \item Les dossiers médicaux sont enregistrés par Google Health.
-  \item L'historique des positions GPS est enregistré par Android.
-  \item ...
-  %\newline
-\end{itemize}
-De plus, l'on sait qu'ils savent extraire de manière efficace les informations dont ils ont besoin afin de les monétiser avec des publicités. Quand l'on sait ce que le CEO de Google, Eric Schmidt, a déclaré : "If you have something that you don't want anyone to know, maybe you shouldn't be doing it in the first place" \cite{privacy_eric_schmidt}, cela fait froid dans le dos.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.2]{figures/IAO-logo.png}
-	\caption{\label{IAO_logo}Le logo officiel du programme \textit{Total Information Awareness}}.
-\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
