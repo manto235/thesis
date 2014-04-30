@@ -11,13 +11,58 @@ D'autres formes de surveillance plus vicieuses existent également. Imaginons qu
 Les plus grosses régies publicitaires sont installées sur un grand nombre de sites et lors de chaque visite, elles enregistrent les traces que vous laissez. En regroupant toutes les informations disséminées sur ces différents sites, elles sont alors en mesure d'établir votre profil. Les détails de celui-ci peuvent se revendre à prix d'or auprès d'autres compagnies. Il est évidemment plus facile de cibler un segment consitué de personnes dont on connaît le profil socio-démographique, le sexe, l'âge, les intérêts,...
 
 Avez-vous déjà remarqué que le contenu des publicités s'adaptait en fonction de vos requêtes effectuées sur les sites de recherche ou des sites que vous visitez ?
-\newline
 
 Comme vous pouvez le remarquer avec ces différents exemples de la vie quotidienne, la surveillance des utilisateurs d'Internet peut amener à plusieurs inconvénients qui nous touchent directement. Voici donc pourquoi il est intéressant de regarder à cette surveillance et d'essayer de déterminer via quels moyens celle-ci est opérée. Afin de préserver notre vie privée sur Internet, il est nécessaire de connaître comment nous sommes identifiés. Il faut également s'assurer que les outils dont nous disposons afin de nous protéger soient réellement efficaces et adaptés à nos besoins.
 
-\section{Pourquoi vouloir l'anonymat sur Internet ?}
-% Chapitre 1 du papier Timing Attacks on Web Privacy
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{En quoi le respect de la vie privée est-il essentiel ?}
+Les exemples précédents montrent déjà bien que la surveillance des sites web peut nous coûter de l'argent en nous incitant à consommer plus. Mais les risques de cette surveillance peuvent aller bien au-delà. En effet, la liste des sites web visités par une personne peut en révéler beaucoup sur sa situation familiale, financière ou sanitaire.
+\newline
+
+Comment pensez-vous que certains services peuvent se dire "gratuits". Rien n'est gratuit dans la vie et cela l'est également sur Internet. En réalite, le prix à payer est de dévoiler des informations personnelles qui peuvent potentiellement être exploitées afin de rapporter de l'argent.
+\newline
+
+%Imaginons le cas d'une personne atteinte d'une maladie grave et incurable qui souhaite souscrire une assurance-vie. Voulant en savoir davantage, cette personne a cherché des informations sur sa maladie en parcourant des sites spécialisés et des forums. Lors de ces recherches, elle a très probablement disséminé des informations personnelles aux moteurs de recherche, aux régies publicitaires des sites consultés ou à d'autres sociétés. Ceux-ci, voulant gagner de l'argent, peuvent très bien avoir vendu ces informations. Lorsque la personne voudra souscrire la police d'assurance, il est normal de penser que l'assureur souhaite connaître sa situation afin de déterminer si c'est un profil qui lui fera gagner de l'argent ou en perdre. En sachant que cette personne est malade, l'assureur pourrait refuser de lui faire signer le contrat d'assurance-vie. Or, les données issues de la consultation des sites médicaux et du site de l'assureur devraient être complètement indépendantes et ne devraient pas mener à ce genre de situation.
+%\newline
+
+D'après Moglen \cite{Moglen_part2}, le concept de vie privée englobe 3 éléments.
+\begin{itemize}
+  \item La confidentialité : la capacité de garder des messages privés c'est-à-dire que leur contenu n'est connu que de ceux à qui ils sont destinés.
+  \item L'anonymat : la capacité d'envoyer des messages sans savoir de qui ils proviennent ni à qui ils sont destinés, même si leur contenu est ouvert.
+  \item L'indépendance : la capacité de prendre des décisions librement, sans que la confidentialité ou l'anonymat ne soient violés.
+  \newline
+\end{itemize}
+
+[...]
+
+Avant de parler du sujet de la vie privée, il est intéressant de regarder l'évolution de la surveillance.
+A l'époque, il y a eu une guerre entre les personnes qui voulaient que tout le monde puisse utiliser et partager une technologie qui permette de sécuriser ses communications et le gouvernement américain qui souhaitait écouter ces communications. Ce dernier avait peur de passer d'un monde où il avait un contrôle total à un monde où il n'en avait plus. Il avait si peur qu'il a considéré l'export de la cryptographie hors des USA comme un export de munitions. Ainsi, afin de dévoiler les sources de PGP au monde entier, son auteur a usé d'une astuce en publiant un livre qui en contient le code source complet (l'export de livre est protégé par le Premier Amendement) \cite{youtube_moxie_marlinspike}.
+\newline
+
+Les programmes de surveillance du passé peuvent être considérés comme de la "surveillance de proximité", où le gouvernement tentait d'utiliser la technologie afin de surveiller les communications lui-même. Les programmes de cette décénie marquent une transition vers la "surveillance oblique" dans laquelle le gouvernement va plus souvent se rendre aux endroits où les informations sont accumulées d'elles-mêmes (fournisseurs d'adresses email, moteurs de recherche, réseaux sociaux et télécoms) \cite{wired_nothing_to_hide}.
+\newline
+
+En 2001, John Poindexter a voulu mettre en place le programme \textit{Total Information Awareness} qui consistait en un système de data mining. Il devait enregistrer tous les emails, tout le trafic Web, tout l'historique des cartes de crédit et tous les dossiers médicaux. Le but était ensuite de développer une technologie afin d'extraire les données dont on avait besoin. Lors de sa conférence à la DEF CON 18, Moxie Marlinspike a même ri du logo du programme (\autoref{IAO_logo}) car il inspirait plutôt la peur. D'ailleurs, le projet a été annulé car il a reçu beaucoup de contestations. Cependant, lorsque l'on regarde ce que Google fait aujourd'hui, c'est exactement la même chose voire pire. Or, personne ne proteste et de surcroît, tout le monde utilise ces services !
+\begin{itemize}
+  \item Les emails sont enregistrés par Gmail.
+  \item Le trafic Web est enregistré par Google Analytics.
+  \item L'historique des cartes de crédit est enregistré par Google Checkout.
+  \item Les dossiers médicaux sont enregistrés par Google Health.
+  \item L'historique des positions GPS est enregistré par Android.
+  \item ...
+  %\newline
+\end{itemize}
+De plus, l'on sait qu'ils savent extraire de manière efficace les informations dont ils ont besoin afin de les monétiser avec des publicités. Quand l'on sait ce que le CEO de Google, Eric Schmidt, a déclaré : "If you have something that you don't want anyone to know, maybe you shouldn't be doing it in the first place" \cite{privacy_eric_schmidt}, cela fait froid dans le dos.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{figures/IAO-logo.png}
+	\caption{\label{IAO_logo}Le logo officiel du programme \textit{Total Information Awareness}}.
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Méthodologie utilisée}
 Afin de répondre à cette problématique, il faut tout d'abord comprendre comment Internet fonctionne et en particulier, certains de ses mécanismes tels que les cookies.
 
