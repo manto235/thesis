@@ -2,39 +2,39 @@
 \section{Motivation et problématique}
 Notre navigation sur Internet est de plus en plus scrutée par diverses organisations, que ce soient des entreprises commerciales ou des agences gouvernementales. D'ailleurs, des révélations récentes \cite{WikipediaFR_RES} ont permis de mettre en lumière un système élaboré destiné à surveiller les utilisateurs d'Internet.
 
-Ce travail se focalise et analyse la surveillance opérée par les entreprises commerciales. En effet, elles essaient de nous suivre à la trace afin de déterminer nos habitudes et nos préférences. Avec l'aide de ces précieuses informations, elles peuvent alors mieux cibler nos besoins et nous proposer des biens et des services qui sont censés nous intéresser davantage, voire anticiper nos intentions\cite{MD1}.
+Ce travail se focalise sur la surveillance opérée par les entreprises commerciales. En effet, elles essaient de nous suivre à la trace afin de déterminer nos habitudes et nos préférences. Avec l'aide de ces précieuses informations, elles peuvent alors mieux cibler nos besoins et nous proposer des biens et des services qui sont censés nous intéresser davantage, voire anticiper nos intentions\cite{MD1}.
 
-Cette pratique est de plus en plus répandue sur les sites de vente en ligne, grâce à l'historique de nos achats.
+Cette pratique est de plus en plus répandue sur les sites de vente en ligne, grâce à l'historique de nos consultations et achats.
 
 D'autres formes de surveillance plus vicieuses existent également. Imaginons que vous souhaitiez voyager vers un pays exotique et que vous consultez le prix des billets d'avion vers cette destination sur le site d'une compagnie aérienne. Lors d'une consultation ultérieure, le prix a augmenté et vous vous empressez alors d'acheter le billet craignant que son prix ne continue d'augmenter. Malheureusement pour vous, celui-ci a en fait été gonflé pour vous pousser à l'achat.
 
-Les plus grosses régies publicitaires sont installées sur un grand nombre de sites et lors de chaque visite, elles enregistrent les traces que vous laissez. En regroupant toutes les informations disséminées sur ces différents sites, elles sont alors en mesure d'établir votre profil. Les détails de celui-ci peuvent se revendre à prix d'or auprès d'autres compagnies. Il est évidemment plus facile de cibler un segment consitué de personnes dont on connaît le profil socio-démographique, le sexe, l'âge, les intérêts,...
+Les plus grosses régies publicitaires sont installées sur un grand nombre de sites et lors de chaque visite, elles enregistrent les traces que vous laissez. En regroupant toutes les informations disséminées sur ces différents sites, elles sont alors en mesure d'établir votre profil. Les détails de celui-ci peuvent se revendre à prix d'or auprès d'autres compagnies. Il est évidemment plus facile de cibler un segment constitué de personnes dont on connaît le profil socio-démographique, le sexe, l'âge, les intérêts,...
 
-Avez-vous déjà remarqué que le contenu des publicités s'adaptait en fonction de vos requêtes effectuées sur les sites de recherche ou des sites que vous visitez ?
+Avez-vous déjà remarqué que le contenu des publicités s'adaptait en fonction de vos requêtes effectuées sur les moteurs de recherche ou des sites que vous visitez ?
 
-Comme vous pouvez le remarquer avec ces différents exemples de la vie quotidienne, la surveillance des utilisateurs d'Internet peut amener à plusieurs inconvénients qui nous touchent directement. Voici donc pourquoi il est intéressant de regarder à cette surveillance et d'essayer de déterminer via quels moyens celle-ci est opérée. Afin de préserver notre vie privée sur Internet, il est nécessaire de connaître comment nous sommes identifiés. Il faut également s'assurer que les outils dont nous disposons afin de nous protéger soient réellement efficaces et adaptés à nos besoins.
+Comme vous pouvez le remarquer avec ces différents exemples de la vie quotidienne, la surveillance des utilisateurs d'Internet peut générer plusieurs inconvénients qui nous touchent directement. Il est donc intéressant d'analyser cette surveillance et déterminer par quels moyens elle s'opère. Afin de préserver notre vie privée sur Internet, il est nécessaire de connaître comment nous sommes identifiés. Il faut également s'assurer que les outils dont nous disposons afin de nous protéger soient réellement efficaces et adaptés à nos besoins.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{En quoi le respect de la vie privée est-il essentiel ?}
-Avant de parler du sujet de la vie privée, il est intéressant de regarder l'évolution de la surveillance.
-A l'époque, il y a eu une guerre entre les personnes qui voulaient que tout le monde puisse utiliser et partager une technologie qui permette de sécuriser ses communications et le gouvernement américain qui souhaitait écouter ces communications. Ce dernier avait peur de passer d'un monde où il avait un contrôle total à un monde où il n'en avait plus. Il avait si peur qu'il a considéré l'export de la cryptographie hors des USA comme un export de munitions. Ainsi, afin de dévoiler les sources de PGP au monde entier, son auteur a usé d'une astuce en publiant un livre qui en contient le code source complet (l'export de livre est protégé par le Premier Amendement) \cite{youtube_moxie_marlinspike}.
+\section{La vie privée}
+Le respect de la vie privée est intimement lié à l'évolution de la surveillance.
+Il y a toujours eu des conflits entre les personnes qui estiment que tout le monde doit pouvoir utiliser et partager une technologie permettant de sécuriser ses communications et les gouvernements qui souhaiteraient garder la possibilité d'écouter ces communications. Prenons l'exemple du gouvernement américain qui avait peur de passer d'un monde où il avait un contrôle total à un monde où il n'en avait plus. En conséquence, il a considéré l'export de la cryptographie hors des USA équivalent à l'export de munitions. Ainsi, afin de dévoiler les sources de PGP (Pretty Good Privacy, un logiciel de chiffrement et de déchiffrement cryptographique) au monde entier, son auteur a usé d'une astuce en publiant un livre qui en contient le code source complet (l'export de livres est protégé par le Premier Amendement) \cite{youtube_moxie_marlinspike}.
 \newline
 
-Les programmes de surveillance du passé peuvent être considérés comme de la "surveillance de proximité", où le gouvernement tentait d'utiliser la technologie afin de surveiller les communications lui-même. Les programmes de cette décénie marquent une transition vers la "surveillance oblique" dans laquelle le gouvernement va plus souvent se rendre aux endroits où les informations sont accumulées d'elles-mêmes (fournisseurs d'adresses email, moteurs de recherche, réseaux sociaux et télécoms) \cite{wired_nothing_to_hide}.
+Les programmes de surveillance du passé peuvent être considérés comme de la "surveillance de proximité", où un gouvernement tentait d'utiliser la technologie afin de surveiller les communications lui-même. Les programmes actuels marquent une transition vers la "surveillance oblique" dans laquelle un gouvernement va plus souvent se rendre aux endroits où les informations sont accumulées (fournisseurs d'adresses e-mail, moteurs de recherche, réseaux sociaux et télécoms) \cite{wired_nothing_to_hide}.
 \newline
 
-En 2001, John Poindexter a voulu mettre en place le programme \textit{Total Information Awareness} qui consistait en un système de data mining. Il devait enregistrer tous les emails, tout le trafic Web, tout l'historique des cartes de crédit et tous les dossiers médicaux. Le but était ensuite de développer une technologie afin d'extraire les données dont on avait besoin. Lors de sa conférence à la DEF CON 18, Moxie Marlinspike a même ri du logo du programme (\autoref{IAO_logo}) car il inspirait plutôt la peur. D'ailleurs, le projet a été annulé car il a reçu beaucoup de contestations. Cependant, lorsque l'on regarde ce que Google fait aujourd'hui, c'est exactement la même chose voire pire. Or, personne ne proteste et de surcroît, tout le monde utilise ces services !
+En 2001, John Poindexter a voulu mettre en place le programme \textit{Total Information Awareness} qui consistait en un système de data mining. Celui-ci devait enregistrer tous les e-mails, tout le trafic web, tout l'historique des cartes de crédit et tous les dossiers médicaux. Le but était ensuite de développer une technologie afin d'extraire les données dont on avait besoin. Lors de sa conférence à la DEF CON 18, Moxie Marlinspike a d'ailleurs tourné en ridicule le logo du programme (\autoref{IAO_logo}) en expliquant qu'il était déconseillé d'utiliser un logo qui inspirait plutôt la peur. D'ailleurs, le projet a été annulé car il a reçu beaucoup de contestations. Cependant, lorsque l'on regarde ce que Google fait aujourd'hui, c'est exactement la même chose, voire pire. Or, personne ne proteste et de surcroît, tout le monde utilise ses services !
 \begin{itemize}
   \item Les emails sont enregistrés par Gmail.
-  \item Le trafic Web est enregistré par Google Analytics.
+  \item Le trafic web est enregistré par Google Analytics.
   \item L'historique des cartes de crédit est enregistré par Google Checkout.
   \item Les dossiers médicaux sont enregistrés par Google Health.
   \item L'historique des positions GPS est enregistré par Android.
   \item ...
   %\newline
 \end{itemize}
-De plus, l'on sait qu'ils savent extraire de manière efficace les informations qu'ils désirent afin de les monétiser avec des publicités. Quand l'on sait ce que le CEO de Google, Eric Schmidt, a déclaré : "If you have something that you don't want anyone to know, maybe you shouldn't be doing it in the first place" \cite{privacy_eric_schmidt}, cela fait froid dans le dos.
+De plus, on sait que Google sait extraire de manière efficace les informations qu'il désire afin de les monétiser avec des publicités. Lorsque le CEO de Google, Eric Schmidt, déclare : "If you have something that you don't want anyone to know, maybe you shouldn't be doing it in the first place" \cite{privacy_eric_schmidt}, cela fait froid dans le dos.
 
 \begin{figure}[h]
 	\centering
@@ -42,37 +42,41 @@ De plus, l'on sait qu'ils savent extraire de manière efficace les informations 
 	\caption{\label{IAO_logo}Le logo officiel du programme \textit{Total Information Awareness}}.
 \end{figure}
 
-Dans sa conférence, Moxie Marlinspike utilise un autre exemple : personne ne voudrait avoir un trackeur monitoré par l'Etat sur soi mais tout le monde possède un GSM. Or, celui-ci envoie en temps réel sa position à l'opérateur qui est obligé de délivrer cette information si on la lui demande. Pour lui, il y a cependant une différence essentielle : le choix. Nous choisissons d'avoir un GSM sur nous afin de communiquer mais nous refuserions un dispositif de traçage s'il nous était imposé.
+Dans sa conférence, Moxie Marlinspike utilise un autre exemple : personne n'accepterait de porter un trackeur monitoré par l'Etat mais tout le monde possède et porte un GSM en permanence. Or, celui-ci envoie en temps réel sa position à l'opérateur qui est obligé de délivrer cette information si on la lui demande. Pour lui, il y a cependant une différence essentielle : le choix. Nous choisissons de posséder un GSM afin de communiquer mais nous refuserions un dispositif de traçage s'il nous était imposé.
 \newline
 
 %%%%%
 
 Maintenant, passons au sujet de la vie privée.\\
-Les exemples de l'introduction montrent déjà bien que la surveillance des sites web peut nous coûter de l'argent en nous incitant à consommer plus. Mais les risques de cette surveillance peuvent aller bien au-delà. En effet, la liste des sites web visités par une personne peut en révéler beaucoup sur sa situation familiale, financière ou sanitaire.
+Les exemples de l'introduction montrent déjà clairement que la surveillance des sites web peut nous coûter de l'argent en nous incitant à consommer plus. Mais les risques de cette surveillance peuvent aller bien au-delà. En effet, la liste des sites web visités par une personne peut en révéler beaucoup sur sa situation familiale, financière ou sanitaire.
 \newline
 
-Comment pensez-vous que certains services peuvent se dire "gratuits". Rien n'est gratuit dans la vie et cela l'est également sur Internet. En réalite, le prix à payer est de dévoiler des informations personnelles qui peuvent potentiellement être exploitées afin de rapporter de l'argent.
-\newline
+La vie privée n'a rien à voir avec le fait d'avoir quelque chose de négatif à cacher \cite{TED_Alessandro_Acquisti}.
+Imaginons une situation où le directeur des ressources des humaines d'une entreprise reçoit des CV. Il décide de trouver davantage d'informations au sujet des candidats et pour cela, tape leur nom dans Google. Lors de ses recherches, il pourrait tomber sur la photo d'une jeune femme portant un bébé dans ses bras ou sur la photo d'une jeune femme seule. Pensez-vous qu'elles aient la même chance d'être rappelées pour un entretien ?
 
-%Imaginons le cas d'une personne atteinte d'une maladie grave et incurable qui souhaite souscrire une assurance-vie. Voulant en savoir davantage, cette personne a cherché des informations sur sa maladie en parcourant des sites spécialisés et des forums. Lors de ces recherches, elle a très probablement disséminé des informations personnelles aux moteurs de recherche, aux régies publicitaires des sites consultés ou à d'autres sociétés. Ceux-ci, voulant gagner de l'argent, peuvent très bien avoir vendu ces informations. Lorsque la personne voudra souscrire la police d'assurance, il est normal de penser que l'assureur souhaite connaître sa situation afin de déterminer si c'est un profil qui lui fera gagner de l'argent ou en perdre. En sachant que cette personne est malade, l'assureur pourrait refuser de lui faire signer le contrat d'assurance-vie. Or, les données issues de la consultation des sites médicaux et du site de l'assureur devraient être complètement indépendantes et ne devraient pas mener à ce genre de situation.
-%\newline
+Lors d'une expérience menée avec son équipe, Alessandro Acquisti a créé des profils Facebook en modifiant certaines de leurs caractéristiques. Il a ensuite envoyé des candidatures à différentes entreprises américaines et a analysé leur comportement face aux profils associés aux candidatures. Les résultats de l'expérience ont montré que les entreprises agissaient en fonction des informations qu'elles avaient trouvées sur les réseaux sociaux.
+\newline
 
 D'après Moglen \cite{Moglen_part2}, le concept de vie privée englobe 3 éléments.
 \begin{itemize}
   \item La confidentialité : la capacité de garder des messages privés c'est-à-dire que leur contenu n'est connu que de ceux à qui ils sont destinés.
   \item L'anonymat : la capacité d'envoyer des messages sans savoir de qui ils proviennent ni à qui ils sont destinés, même si leur contenu est ouvert.
   \item L'indépendance : la capacité de prendre des décisions librement, sans que la confidentialité ou l'anonymat ne soient violés.
-  \newline
 \end{itemize}
 
-[...]
+Pour lui, si l'un de ces éléments n'est pas respecté, on ne peut pas avoir de gouvernement démocratique car la vie privée en est une condition nécessaire.
+\newline
 
+Il explique également qu'on ne devrait pas voir la vie privée comme une transaction. En effet, ceux qui veulent profiter de nos informations souhaitent définir la vie privée comme un concept que l'on peut négocier. Ainsi, ils nous offrent un service gratuit comme l'accès à une messagerie mais en échange, ils lisent nos mails. Pour eux, il s'agirait seulement d'une transaction entre deux parties. Cependant, si on y réflechit, ce n'est pas une transaction quelconque car tout ceux qui nous écrivent sont aussi impliqués dans cet accord, qui était supposé être bilatéral.
+
+Rien n'est gratuit dans la vie et cela l'est également sur Internet. En réalite, le prix à payer est de dévoiler des informations personnelles qui peuvent potentiellement être exploitées afin de rapporter de l'argent.
+\newline
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Méthodologie utilisée}
-Afin de répondre à cette problématique, il faut tout d'abord comprendre comment Internet fonctionne et en particulier, certains de ses mécanismes tels que les cookies.
+Afin de répondre à la problématique de la surveillance sur Internet, il faut tout d'abord comprendre comment Internet fonctionne et en particulier, certains de ses mécanismes tels que les cookies.
 
 Ensuite, il faut identifier la manière dont ces mécanismes peuvent être utilisés ou détournés afin de permettre le traçage des utilisateurs.
 

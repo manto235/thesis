@@ -4,7 +4,7 @@
 \section{Cookies}
 %En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, comme expliqué auparavant, le navigateur envoie dans chaque requête un en-tête \textit{Cookie} et il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le Cookie reste indépendant du moyen d'accès au site web.
 \section{Cache}
-Le cache du navigateur permet d'enregistrer localement une copie des fichiers afin de ne pas devoir les recharger lors d'une visite ultérieure. Ce mécanisme est très utile car il permet d'économiser de la bande passante et du temps, cependant il donne la possibilité à des sites web de déterminer si leurs visiteurs ont visité un autre site auparavant.
+Le cache du navigateur permet d'enregistrer localement une copie des fichiers afin de ne pas devoir les recharger lors d'une visite ultérieure. Ce mécanisme est très utile car il permet d'économiser de la bande passante et du temps. Cependant, il donne la possibilité à des sites web de déterminer si leurs visiteurs ont visité un autre site auparavant.
 
 L'exploitation du cache à des fins de surveillance est détaillé par Felten et Schneider \cite{Felten:2000:TAW:352600.352606}.
 Le principe est assez simple : il exploite le fait qu'un fichier présent en cache sera chargé beaucoup plus rapidement qu'un fichier qui ne l'est pas. Donc en mesurant le temps d'accès au fichier, il est possible de déterminer si une personne a déjà visité le site web (ou plus précisement, la page) qui utilise ce fichier. En effet, rien n'empêche un site web de charger un fichier hébergé par un autre site.
@@ -62,6 +62,7 @@ Cette attaque peut être menée dans différentes situations :
 	\subsection{Outils destinés aux webmasters}
 		
 		\subsubsection{Google Analytics}
+		\label{google_analytics}
 
 \section{Autres moyens de nous tracer}
 	\subsection{Flash}
