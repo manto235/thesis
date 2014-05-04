@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 import org.xbill.DNS.Address;
 import org.xbill.DNS.Lookup;
@@ -334,9 +339,9 @@ public class Parser {
 			logMessage("Website: " + website, 2);
 
 			/* ----- READER ----- */
-			HarFileReader reader = new HarFileReader();
+			HarFileReader harReader = new HarFileReader();
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
-			HarLog log = reader.readHarFile(file, warnings);
+			HarLog log = harReader.readHarFile(file, warnings);
 			for (HarWarning warning : warnings) {
 				logMessage("Warning: " + warning, 3);
 			}
@@ -418,7 +423,7 @@ public class Parser {
 			}
 
 			/* ----- ANALYZE EVERY ENTRY ----- */
-			if(debug) System.out.println(" > " + entriesList.size() + " entries to analyze.");
+			logMessage(" > Number of entries to analyze: " + entriesList.size() + ".", 2);
 			for (HarEntry entry : entriesList) {
 				String currentUrl = entry.getRequest().getUrl();
 				// Check if the URL is a tracker with the Ghostery database
@@ -502,14 +507,43 @@ public class Parser {
 						mimetype.put(entry.getResponse().getContent().getMimeType(), value+1);
 						// -----
 
+						// Type of the resource of the current URL
+						String type = entry.getResponse().getContent().getMimeType();
+
 						// Check JS
-						if(entry.getResponse().getContent().getMimeType().equals("application/x-javascript")) {
+						if(type.equals("application/x-javascript")) {
 							//System.out.println("Different SOA for JS: " + mainSOA + " vs " + currentSOA + " for " + currentUrl);
 							countJSAnotherDomain++;
 						}
 
 						// Check images
-						//final String size = bi.getWidth() + "x" + bi.getHeight();
+						else if(type.equals("image/jpeg") || type.equals("image/jpg") || type.equals("image/png") ||
+								type.equals("image/gif") || type.equals("image/bmp")) {
+							ImageInputStream imageInputStream = ImageIO.createImageInputStream(new URL(entry.getRequest().getUrl()).openStream());
+							try {
+								final Iterator<ImageReader> readers = ImageIO.getImageReaders(imageInputStream);
+								if(readers.hasNext()) {
+									ImageReader imageReader = readers.next();
+									try {
+										imageReader.setInput(imageInputStream);
+										int width = imageReader.getWidth(0);
+										int height = imageReader.getHeight(0);
+										if(width == 1 && height == 1) {
+											if(showTrackers) logMessage("    Tracking pixel found: " + entry.getRequest().getUrl(), 0);
+											countTrackingPixels++;
+										}
+									} catch (Exception e) {
+										logMessage("Cannot get the dimensions of the image: " + entry.getRequest().getUrl(), 3);
+									} finally {
+										imageReader.dispose();
+									}
+								}
+							} catch (Exception e) {
+								logMessage("Cannot get the image: " + entry.getRequest().getUrl(), 3);
+							} finally {
+								if(imageInputStream != null) imageInputStream.close();
+							}
+						}
 
 						// Check cookies ?
 					}
