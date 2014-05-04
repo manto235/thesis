@@ -1,6 +1,6 @@
 \chapter{Analyse des principaux sites web}
 \section{Objectif de l'analyse}
-Le but de l'analyse est de parcourir les sites les plus visités au monde d'après le classement Alexa \cite{AlexaTop}. Ensuite, déterminer s'ils contiennent des trackers et, le cas échéant, leur type. Deux types d'expériences peuvent être menés :
+Le but de l'analyse est de parcourir les sites les plus visités au monde d'après le classement Alexa \cite{AlexaTop}. Ensuite, déterminer s'ils contiennent des trackers et, le cas échéant, leur nature. Deux types d'expériences peuvent être menés :
 \begin{enumerate}
 	\item Le premier consiste en une analyse à long terme.
 	\item Le second consiste en une analyse ponctuelle.
@@ -15,12 +15,49 @@ L'idée initiale était d'utiliser le framework \textit{fpdetective} \cite{Acar:
 Etant donné que \textit{fpdetective} ne pouvait fournir les résultats demandés, la création d'un outil dédié à cette tâche était nécessaire. De plus, cela permettait plus de souplesse au niveau des décisions d'implémentation et du paramétrage de la recherche de trackers.
 \newline
 
-%%%%%
-
 L'outil a été développé en Java. Il contient deux éléments distincts : le \textit{crawler} qui visite les sites web et exporte leur contenu au format HTTP Archive (HAR) et le \textit{parser} qui traite les fichiers HAR en déterminant si les sites correspondants renferment des trackers.
+\newline
+
+Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs arguments :
+\begin{itemize}
+	\item Requis : le mode (\textit{crawler} ou \textit{parser}).
+	\item Requis : le répertoire des fichiers.\\
+		Pour le \textit{crawler}, il s'agit du répertoire où les fichiers seront enregistrés.\\
+		Pour le \textit{parser}, il s'agit du répertoire contenant les fichiers à analyser.
+	\item Optionnel : l'activation du mode \textit{debug} qui va imprimer davantage de détails en cas de problème.
+	\item Optionnel : l'affichage de l'aide.
+	\newline
+	\item Requis pour le \textit{crawler} : le profil de Firefox à utiliser.
+	\item Requis pour le \textit{crawler} : le fichier contenant la liste des sites web à visiter.
+	\item Requis pour le \textit{crawler} : le début de l'intervalle des sites à visiter.
+	\item Requis pour le \textit{crawler} : la fin de l'intervalle des sites à visiter.
+	\item Requis pour le \textit{crawler} : le nombre maximal de tentatives par site web (\textit{timeout}).
+	\item Requis pour le \textit{crawler} : le nombre de sites à visiter avant le redémarrage de Firefox.
+	\newline
+	\item Requis pour le \textit{parser} : le fichier contenant la liste des trackers de Ghostery.
+	\item Optionnel pour le \textit{parser} : l'activation de l'impression de tous les trackers identifiés.
+\end{itemize}
 
 \subsection{Crawler}
-Afin d'automatiser le navigateur et de parcourir les sites sans intervention humaine, Selenium \cite{selenium_homepage} est utilisé. Plus précisément, c'est le pilote \textit{FirefoxDriver} qui est utilisé au sein de l'outil.
+\subsubsection{Implémentation}
+Afin d'automatiser le navigateur et de parcourir les sites sans intervention humaine, \textit{Selenium} \cite{selenium_homepage} est utilisé. Plus précisément, c'est le pilote \textit{FirefoxDriver} de \textit{Selenium} qui est utilisé au sein de l'outil.
+
+La première implémentation traitait directement le code source de la page. Il était possible d'aller sur le moteur de recherche Google, de sélectionner le champ de recherche, de taper une requête et de récupérer le résultat. Cependant, le processus était assez lent et incomplet car on ne pouvait pas récupérer les requêtes et les réponses HTTP. On pouvait juste récupérer les éléments associés à des balises (par exemple, récupérer toutes les images via les balises de type \textit{<img>}, les scripts avec les balises \textit{<script>},...) mais tout n'était pas récupérable car certains éléments étaient chargés sans être identifiés.
+
+Afin de palier ce problème, la deuxième implémentation utilisait un proxy qui exportait le contenu du site au format HTTP Archive. L'ensemble des requêtes et réponses HTTP était récupéré et enregistré dans le fichier. Le parcours du code source (qui donnait des résultats finalement incomplets) a été supprimé afin de rendre le programme plus rapide. Cette fois, le problème était que le proxy n'exécutait pas le JavaScript. Il en résultait que de nombreux sites (cela pouvait varier de 15 à 30\% d'échecs) ne pouvait être chargés correctement et il était alors impossible de les traiter.
+
+La troisième solution, qui est la dernière implémentée, consiste à utiliser le pilote pour charger les sites automatiquement, sans parcours du code source ni utilisation de proxy. Le contenu des sites est exporté au format HTTP Archive à l'aide de deux extensions qui ont été installées dans Firefox.
+\begin{itemize}
+	\item La première, Firebug \cite{firebug_homepage}, est une extension utilisée principalement par les développeurs de sites web afin de les débugger. Elle permet de monitorer les éléments d'une page (CSS, HTML, JavaScript) en direct.
+	\item La seconde, NetExport \cite{netexport_homepage}, est une extension de Firebug qui permet d'exporter toutes les données d'une page au format HTTP Archive de façon automatique (il est possible de paramétrer cette extension pour le faire).
+\end{itemize}
+
+Le taux de réussite de l'export des données des sites s'est grandement amélioré. Néanmoins, certains sites ne sont pas chargés correctement.
+Une hypothèse est que certains sites sont hébergés sur des serveurs lointains et les éléments prennent plus de temps à charger. Ainsi, lorsque ces sites contiennent une grande quantité d'éléments, le pilote renvoie une exception de type \textit{timeout} et le chargement du site est finalement en échec. On remarque généralement ceci sur les sites asiatiques : certains portails regorgent d'énormément de contenus qui prennent du temps à charger.
+Une hypothèse supplémentaire est que certains sites demandent une action de l'utilisateur (faire défiler la page par exemple) afin de charger les éléments du site (typiquement, les images).
+
+\subsubsection{Fonctionnement}
+Le \textit{crawler} fonctionne de la manière suivante : tout d'abord, il vérifie que le répertoire donné en argument est accessible en écriture et il crée le fichier de logs. Ensuite, il charge la liste des sites à visiter depuis le fichier spécifié lors du lancement du programme. Puis, le profil choisi est chargé et différents paramètres de configurations sont également réglés avant que le pilote ne soit initialisé et qu'il lance Firefox. Après le lancement du pilote, un temps d'attente de 5 secondes laisse le temps à Firefox de se lancer et de charger ses extensions.
 
 \subsection{Parser}
 
