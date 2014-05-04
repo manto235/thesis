@@ -30,7 +30,7 @@ public class start {
 
 		// Parser
 		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
-		options.addOption("ghostery", true, "crawler (required): number of websites to visit before restarting Firefox");
+		options.addOption("ghostery", true, "parser (required): path to the Ghostery file");
 
 
 		CommandLineParser parser = new PosixParser();
