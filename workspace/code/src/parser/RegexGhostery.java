@@ -59,7 +59,7 @@ public class RegexGhostery {
 	 */
 	private void loadTrackers() {
 		try {
-			URL url = new URL("https://www.ghostery.com/update/bugs?format=json");
+			URL url = new URL("https://cdn.ghostery.com/update/bugs");
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode rootNode = mapper.readTree(url);
 
