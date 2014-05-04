@@ -1,6 +1,6 @@
 \chapter{Analyse des principaux sites web}
 \section{Objectif de l'analyse}
-Le but de l'analyse est de parcourir les sites les plus visités au monde d'après le classement Alexa. Ensuite, de déterminer s'ils contiennent des trackers et le cas échéant, leur type. Deux types d'expériences peuvent être menés :
+Le but de l'analyse est de parcourir les sites les plus visités au monde d'après le classement Alexa \cite{AlexaTop}. Ensuite, déterminer s'ils contiennent des trackers et, le cas échéant, leur type. Deux types d'expériences peuvent être menés :
 \begin{enumerate}
 	\item Le premier consiste en une analyse à long terme.
 	\item Le second consiste en une analyse ponctuelle.
@@ -10,14 +10,14 @@ Le premier type d'expérience a pour but de déterminer si les sites modifient l
 Le second type permet d'avoir une image globale du niveau de traçage opéré par les principaux sites à un instant donné. Il donne également la possibilité de tester l'efficacité des extensions de navigateurs qui affirment protéger la vie privée (voir \autoref{results_plugins}).
 
 \section{Description de l'outil implémenté}
-L'idée initiale était d'utiliser le framework \textit{fpdetective}. TODO : expliquer ce qu'il fait et pourquoi ça n'a pas fonctionné
+L'idée initiale était d'utiliser le framework \textit{fpdetective} \cite{Acar:2013:FDW:2508859.2516674}. C'est un framework conçu pour la détection et l'analyse d'outils (\textit{fingerprinters}, voir \autoref{fingerprinters}) qui créent des empreintes de navigateurs. Ce framework semblait prometteur mais le problème est qu'il ne fonctionnait pas correctement. En effet, aucun \textit{fingerprinter} n'était détecté alors qu'ils étaient manifestement présents sur plusieurs sites web visités.
 
-Etant donné que \textit{fpdetective} ne pouvait fournir les résultats demandés, la création d'un outil dédié à cette tâche était nécessaire. De plus, cela permettait évidemment plus de souplesses au niveau des décisions d'implémentation et du paramétrage de la recherche de trackers.
+Etant donné que \textit{fpdetective} ne pouvait fournir les résultats demandés, la création d'un outil dédié à cette tâche était nécessaire. De plus, cela permettait plus de souplesse au niveau des décisions d'implémentation et du paramétrage de la recherche de trackers.
 \newline
 
 %%%%%
 
-L'outil a été développé en Java. Il contient deux éléments distincts : le \textit{crawler} qui visite les sites et enregistre leur contenu au format HTTP Archive (HAR) et le \textit{parser} qui traite ces fichiers HAR en déterminant si les sites correspondants renferment des trackers.
+L'outil a été développé en Java. Il contient deux éléments distincts : le \textit{crawler} qui visite les sites web et exporte leur contenu au format HTTP Archive (HAR) et le \textit{parser} qui traite les fichiers HAR en déterminant si les sites correspondants renferment des trackers.
 
 \subsection{Crawler}
 Afin d'automatiser le navigateur et de parcourir les sites sans intervention humaine, Selenium \cite{selenium_homepage} est utilisé. Plus précisément, c'est le pilote \textit{FirefoxDriver} qui est utilisé au sein de l'outil.

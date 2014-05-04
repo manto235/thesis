@@ -1,8 +1,20 @@
 %\chapter{Moyens d'identification généralement utilisés}
 \chapter{Moyens d'identification}
 \section{Violations du principe de même origine}
+- Expliquer que les violations du principe de même origine permettent le tracking via cookies et cache (embrayer depuis la section précédente).
+
+
+- Bien distinguer la coopération entre sites et le traçage d'un site par un autre.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cookies}
-%En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, comme expliqué auparavant, le navigateur envoie dans chaque requête un en-tête \textit{Cookie} et il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le Cookie reste indépendant du moyen d'accès au site web.
+En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, nous avons vu que le navigateur envoie dans chaque requête HTTP un en-tête \textit{Cookie}. Il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le cookie reste indépendant du moyen d'accès au site web.
+
+[...]
+
+- parler des cookies de cache dans la section cookies ou dans la section cache ?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cache}
 Le cache du navigateur permet d'enregistrer localement une copie des fichiers afin de ne pas devoir les recharger lors d'une visite ultérieure. Ce mécanisme est très utile car il permet d'économiser de la bande passante et du temps. Cependant, il donne la possibilité à des sites web de déterminer si leurs visiteurs ont visité un autre site auparavant.
 
@@ -49,7 +61,12 @@ Cette attaque peut être menée dans différentes situations :
 % Timing Attacks on Web Privacy (section 7) : contre-mesures actuelles sont inefficaces
 % Timing Attacks on Web Privacy (section 8) : solution possible
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pixels espions}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{JavaScript}
 	\subsection{Régies publicitaires sur Internet}
 		
@@ -64,6 +81,8 @@ Cette attaque peut être menée dans différentes situations :
 		\subsubsection{Google Analytics}
 		\label{google_analytics}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Autres moyens de nous tracer}
 	\subsection{Flash}
 	
@@ -74,3 +93,8 @@ Cette attaque peut être menée dans différentes situations :
 	\subsection{Persistance des données utilisateur dans Microsoft Internet Explorer}
 		
 	%\subsection{Identifiant unique que Google envisage d'implémenter}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Empreintes des navigateurs}
+\label{fingerprinters}
