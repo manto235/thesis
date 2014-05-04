@@ -94,7 +94,7 @@ public class Parser {
 					time = "Elapsed time: " + elapsedTimeHours + " hr and " + elapsedTimeMinutes%60 + " min. ";
 				}
 				else if(elapsedTimeMinutes > 0) {
-					time = "Elapsed time: " + elapsedTimeMinutes + " min. " ;
+					time = "Elapsed time: " + elapsedTimeMinutes + " min. ";
 				}
 				else {
 					time = "Elapsed time: " + elapsedTimeSeconds + " sec. ";
@@ -344,6 +344,16 @@ public class Parser {
 			HarEntries entries = log.getEntries();
 			List<HarEntry> entriesList = entries.getEntries();
 
+			/* Explanations
+			 *
+			 * For every website (it is the file's name):
+			 *   => get the SOA of the website. If it fails, we skip the analysis of the website's file.
+			 *
+			 * For every URL in the website's file:
+			 *   => check it with fast means (Ghostery or other databases)
+			 *   => if it fails, check with the DNS SOA
+			 */
+
 			/* ----- SOA OF THE WEBSITE ----- */
 			String mainHost = new URL("http://" + website).getHost();
 
@@ -373,9 +383,7 @@ public class Parser {
 						mainRecords = mainLookup.run();
 						// Try to get the SOA via the parent
 						if(mainRecords == null) {
-							String message = " ----- mainDomain: " + mainDomain;
 							mainDomain = mainDomain.parent();
-							if(debug) System.out.println(message + "  => " + mainDomain);
 
 							// SOA of the parent found in the cache
 							if(cacheSOA.containsKey(mainDomain.toString())) {
@@ -393,19 +401,18 @@ public class Parser {
 						}
 						// Skip this website: cannot get its SOA
 						else {
-							logMessage("Error: cannot get the website's SOA.", 3);
+							logMessage("Error (skip website): cannot get the website's SOA.", 3);
 							return -1;
 						}
 					}
 					while(mainSOA == null && mainDomain.hasParent());
 					if(mainSOA == null) {
-						logMessage("Error: the DNS resolver is unable to get the SOA of the website.", 3);
+						logMessage("Error (skip website): the DNS resolver is unable to get the SOA of the website.", 3);
 						return -1;
 					}
 				} catch (Exception e) {
 					if(debug) e.printStackTrace();
-					// Peut-être passer au site suivant et supprimer le if après avec les soa null
-					logMessage("Error: an unexpected problem occurred while getting the SOA of the website.", 3);
+					logMessage("Error (skip website): an unexpected problem occurred while getting the SOA of the website.", 3);
 					return -1;
 				}
 			}
@@ -448,9 +455,7 @@ public class Parser {
 								currentRecords = currentLookup.run();
 								// Try to get the SOA via the parent
 								if(currentRecords == null) {
-									String message = (" ----- currentDomain: " + currentDomain);
 									currentDomain = currentDomain.parent();
-									if(debug) System.out.println(message + "  => " + currentDomain);
 
 									// SOA of the parent found in the cache
 									if(cacheSOA.containsKey(currentDomain.toString())) {
@@ -471,19 +476,18 @@ public class Parser {
 								}
 								// Skip this URL: cannot get its SOA
 								else {
-									logMessage("Error: cannot get the URL's (" + currentHost + ") SOA.", 3);
+									logMessage("Error (skip URL): cannot get the URL's (" + currentHost + ") SOA.", 3);
 									continue;
 								}
 							}
 							while(currentSOA == null && currentDomain.hasParent());
 							if(currentSOA == null) {
-								logMessage("Error: the DNS resolver is unable to get the SOA of the URL: " + currentHost, 3);
+								logMessage("Error (skip URL): the DNS resolver is unable to get the SOA of the URL: " + currentHost, 3);
 								continue;
 							}
 						} catch (Exception e) {
 							if(debug) e.printStackTrace();
-							// Peut-être passer à l'url suivante et supprimer le if suivant avec les soa null
-							logMessage("Error: an unexpected problem occurred while getting the SOA of the URL: " + currentHost + ".", 3);
+							logMessage("Error (skip URL): an unexpected problem occurred while getting the SOA of the URL: " + currentHost + ".", 3);
 							continue;
 						}
 					}
