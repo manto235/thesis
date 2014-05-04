@@ -1,7 +1,8 @@
 package parser;
 
+import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
+//import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -21,9 +22,9 @@ public class RegexGhostery {
 	/**
 	 * Constructor.
 	 */
-	public RegexGhostery() {
+	public RegexGhostery(boolean debug, String ghosteryFile) {
 		regex = new HashMap<String, String>();
-		loadTrackers();
+		loadTrackers(debug, ghosteryFile);
 	}
 
 	/**
@@ -57,11 +58,11 @@ public class RegexGhostery {
 	 * writes the current version of the file in the integer "bugsVersion" and
 	 * indicates if the process finished successfully in the boolean "success".
 	 */
-	private void loadTrackers() {
+	private void loadTrackers(boolean debug, String ghosteryFile) {
 		try {
-			URL url = new URL("https://cdn.ghostery.com/update/bugs");
+			//URL url = new URL("https://www.ghostery.com/update/bugs?format=json");
 			ObjectMapper mapper = new ObjectMapper();
-			JsonNode rootNode = mapper.readTree(url);
+			JsonNode rootNode = mapper.readTree(new FileReader("ghostery-bugs"));
 
 			Iterator<JsonNode> bugsElements = rootNode.get("bugs").iterator();
 			while (bugsElements.hasNext()) {
@@ -75,6 +76,7 @@ public class RegexGhostery {
 			bugsVersion = rootNode.get("bugsVersion").intValue();
 		}
 		catch (IOException e) {
+			if(debug) e.printStackTrace();
 			success = false;
 		}
 	}

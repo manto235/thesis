@@ -14,17 +14,24 @@ public class start {
 	public static void main (String[] args) {
 		CommandLine cmd;
 		Options options = new Options();
-		options.addOption("mode", true, "required: c (crawler), p (parser) or cp (crawler & parser)");
+		// General
+		options.addOption("mode", true, "required: c (crawler) or p (parser)");
 		options.addOption("dir", true, "required: directory containing the files generated (crawler mode) or the files to parse (parser mode)");
+		options.addOption("debug", false, "enable the debug messages");
+		options.addOption("h", false, "help");
+
+		// Crawler
 		options.addOption("ffprofile", true, "crawler (required): name of the Firefox profile");
 		options.addOption("websites", true, "crawler (required): path to the websites file");
 		options.addOption("start", true, "crawler (required): start index in the websites file");
 		options.addOption("end", true, "crawler (required): end index in the websites file");
-		options.addOption("a", true, "crawler (optional): number of attempts per website");
-		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
+		options.addOption("attempts", true, "crawler (optional): number of attempts per website");
 		options.addOption("restart", true, "crawler (required): number of websites to visit before restarting Firefox");
-		options.addOption("debug", false, "enable the debug messages");
-		options.addOption("h", false, "help");
+
+		// Parser
+		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
+		options.addOption("ghostery", true, "crawler (required): number of websites to visit before restarting Firefox");
+
 
 		CommandLineParser parser = new PosixParser();
 		try {
@@ -52,33 +59,38 @@ public class start {
 
 				// Mode: parser
 				if(mode.equals("p")) {
-					if(!new File(directory).isDirectory()) {
-						System.out.println("Directory not found! Check your -dir argument.");
-						System.exit(1);
-					}
-					else {
-						Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"));
+					if(checkRequiredArgsParser(cmd.hasOption("ghostery"))) {
+						try {
+							// Check if the directory exists
+							if(!new File(directory).isDirectory()) {
+								System.out.println("Directory not found! Check your -dir argument.");
+								System.exit(1);
+							}
+							else {
+								String ghostery = parseFile(cmd.getOptionValue("ghostery"), "ghostery");
+								Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"), ghostery);
+							}
+						} catch (Exception e) {
+							System.out.println("An error occurred with the parser.");
+							if(cmd.hasOption("debug")) e.printStackTrace();
+							System.exit(1);
+						}
 					}
 				}
-				// Mode: crawler or crawler & parser
-				else if(mode.equals("c") || mode.equals("cp")) {
+				// Mode: crawler
+				else if(mode.equals("c")) {
 					if(checkRequiredArgsCrawler(cmd.hasOption("ffprofile"), cmd.hasOption("websites"), cmd.hasOption("start"), cmd.hasOption("end"), cmd.hasOption("restart"))) {
 						try {
-							String websites = parseFile(cmd.getOptionValue("websites"));
+							String websites = parseFile(cmd.getOptionValue("websites"), "websites");
 							int startIndex = parseStartIndex(cmd.getOptionValue("start"));
 							int endIndex = parseEndIndex(cmd.getOptionValue("end"));
 							int restart = parseRestartValue(cmd.getOptionValue("restart"));
 							int attempts = 1; // 1 by default
-							if(cmd.hasOption("a")) {
-								attempts = parseAttempts(cmd.getOptionValue("a"));
+							if(cmd.hasOption("attempts")) {
+								attempts = parseAttempts(cmd.getOptionValue("attempts"));
 							}
 
 							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, startIndex, endIndex, attempts, cmd.hasOption("debug"), restart);
-
-							// Mode: crawler & parser
-							if(mode.equals("cp")) {
-								Parser.launchParser(directory, cmd.hasOption("debug"),  cmd.hasOption("trackers"));
-							}
 						} catch (Exception e) {
 							System.out.println("An error occurred with the crawler.");
 							if(cmd.hasOption("debug")) e.printStackTrace();
@@ -123,17 +135,34 @@ public class start {
 	}
 
 	/**
+	 * Checks if required arguments are missing for the parser mode.
+	 * Prints the list of missing arguments in the console.
+	 *
+	 * @param ghostery
+	 * @return true if no required argument is missing, false otherwise
+	 */
+	public static boolean checkRequiredArgsParser(boolean ghostery) {
+		String message = "The following arguments are missing:\n";
+		if(!ghostery) message += " - path to the Ghostery file\n";
+
+		boolean check = ghostery;
+		if(!check) System.out.print(message);
+		return check;
+	}
+
+	/**
 	 * Checks if the path corresponds to a file and if it exists.
 	 * If the file does not exist, a message is printed in the console.
 	 *
-	 * @param path the path to check
+	 * @param path the path of the file
+	 * @param type the type of the file
 	 * @return the path if the file exists, throws an exception otherwise
 	 * @throws Exception 
 	 */
-	public static String parseFile(String path) throws Exception {
+	public static String parseFile(String path, String type) throws Exception {
 		File file = new File(path);
 		if(!file.isFile()) {
-			System.out.println("File not found! Check your -websites argument.");
+			System.out.println("File not found! Check your -" + type + " argument.");
 			throw new Exception();
 		}
 		else {

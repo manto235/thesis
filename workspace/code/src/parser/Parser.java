@@ -76,7 +76,7 @@ public class Parser {
 	//TODO: delete
 	private static Map<String, Integer> mimetype;
 
-	public static void launchParser(String directoryName, boolean showDebug, boolean trackers) {
+	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghosteryFile) {
 		debug = showDebug;
 		showTrackers = trackers;
 		startTime = System.nanoTime();
@@ -111,6 +111,7 @@ public class Parser {
 		// Show start message
 		String start = dateFormat.format(new Date()) + " - Launching parser...\n"
 				+ "   directory: " + directoryName + "\n"
+				+ "   Ghostery file: " + ghosteryFile + "\n"
 				+ "   debug: " + debug;
 		System.out.println(start);
 
@@ -142,7 +143,7 @@ public class Parser {
 
 		// Load the regex from Ghostery
 		logMessage("Retrieving the database of trackers from Ghostery...", 1);
-		regexGhostery = new RegexGhostery();
+		regexGhostery = new RegexGhostery(debug, ghosteryFile);
 		if(!regexGhostery.isSuccess()) {
 			logMessage("Error: the list of trackers could not be retrieved.", 1);
 			closeLogFile();
