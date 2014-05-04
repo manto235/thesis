@@ -351,12 +351,12 @@ public class Parser {
 			 *
 			 * For every URL in the website's file:
 			 *   => check it with fast means (Ghostery or other databases)
-			 *   => if it fails, check with the DNS SOA
+			 *   => if it fails, get the DNS SOA of the URL
+			 *   => if the SOAs are different: determine if the URL is a tracker according to criteria
 			 */
 
 			/* ----- SOA OF THE WEBSITE ----- */
 			String mainHost = new URL("http://" + website).getHost();
-
 			String mainSOA = cacheSOA.get(mainHost);
 			// Not in the cache
 			if(mainSOA == null) {
@@ -466,9 +466,6 @@ public class Parser {
 								}
 								else if(currentRecords != null && currentRecords.length > 0 && currentRecords[0] instanceof SOARecord) {
 									currentSOA = ((SOARecord)currentRecords[0]).getAdmin().toString();
-									/*if(!currentSOA.equals(currentSOAcache) && currentSOAcache != null) {
-										System.out.println("><><><><>< " + new URL(currentUrl).getHost() + " : " + currentSOA + " vs " + currentSOAcache);
-									}*/
 									// Fill up the cache with the current domain (which is a parent of the original host)
 									cacheSOA.put(currentDomain.toString(), currentSOA);
 									// Fill up the cache (don't put currentHost because it is modified if it's an IP => put the original host)
@@ -497,18 +494,24 @@ public class Parser {
 					//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 
 					if(!mainSOA.equals(currentSOA)) {
+						// TODO: delete
 						int value = 0;
 						if(mimetype.containsKey(entry.getResponse().getContent().getMimeType())){
 							value = mimetype.get(entry.getResponse().getContent().getMimeType());
 						}
 						mimetype.put(entry.getResponse().getContent().getMimeType(), value+1);
+						// -----
+
 						// Check JS
 						if(entry.getResponse().getContent().getMimeType().equals("application/x-javascript")) {
 							//System.out.println("Different SOA for JS: " + mainSOA + " vs " + currentSOA + " for " + currentUrl);
 							countJSAnotherDomain++;
 						}
-						//if(image)
+
+						// Check images
 						//final String size = bi.getWidth() + "x" + bi.getHeight();
+
+						// Check cookies ?
 					}
 				}
 			}
