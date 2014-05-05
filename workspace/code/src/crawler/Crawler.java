@@ -277,7 +277,7 @@ public class Crawler {
 	public static void detailProblematicWebsites() {
 		if(!websitesPotentiallyFailed.isEmpty()) {
 			logMessage("", 0);
-			logMessage("The following websites potentially failed (more than one attempt):", 0);
+			logMessage("The " + websitesPotentiallyFailed.size() + " following website(s) potentially failed (more than one attempt):", 0);
 			for(String websitePotentiallyFailed : websitesPotentiallyFailed) {
 				logMessage(websitePotentiallyFailed, 0);
 			}
@@ -285,7 +285,7 @@ public class Crawler {
 
 		if(!websitesFailed.isEmpty()) {
 			logMessage("", 0);
-			logMessage("The following websites failed:", 0);
+			logMessage("The " + websitesFailed.size() + " following website(s) failed:", 0);
 			for(String websiteFailed : websitesFailed) {
 				logMessage(websiteFailed, 0);
 			}
