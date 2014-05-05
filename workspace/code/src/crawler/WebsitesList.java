@@ -91,7 +91,7 @@ public class WebsitesList {
 					}
 				}
 				else {
-					status = "The range does not correspond to websites in the file";
+					status = "The range does not correspond to any website in the file";
 				}
 			} catch (Exception e) {
 				status = "An error occurred while accessing the websites file.\n"

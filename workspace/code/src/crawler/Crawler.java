@@ -27,7 +27,7 @@ public class Crawler {
 	private static FileWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static ArrayList<String> websitesFailed = new ArrayList<String>();
-	private static ArrayList<String> websitesPotentiallyFailed = new ArrayList<String>();
+	private static ArrayList<String> websitesTimeout = new ArrayList<String>();
 	private static int websitesVisited = 0;
 
 	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
@@ -75,12 +75,12 @@ public class Crawler {
 		logMessage("Loading the list of websites...", 1);
 		WebsitesList websites = new WebsitesList(websitesFile, startIndex, endIndex);
 		if(websites.getWebsites().size() == 0) {
-			logMessage("Error: the list of websites is empty.", 1);
+			logMessage("Error: the list of websites is empty.", 0);
 			logMessage(websites.getStatus(), 3);
 			System.exit(1);
 		}
 		else {
-			logMessage("Info: " + websites.getStatus(), 1);
+			logMessage("Info: " + websites.getStatus(), 0);
 		}
 
 		// Initialize the driver
@@ -119,7 +119,7 @@ public class Crawler {
 					attempt++;
 					// Add the website to the list of potentially failed websites at the 2nd attempt
 					if(attempt == 2) {
-						websitesPotentiallyFailed.add(website.getUrl());
+						websitesTimeout.add(website.getUrl());
 					}
 					if(debug) te.printStackTrace();
 					// Move to the blank page before retrying to load the website
@@ -148,7 +148,8 @@ public class Crawler {
 			// The website failed after several attempts
 			if(attempt >= attempts && !success) {
 				websitesFailed.add(website.getUrl());
-				websitesPotentiallyFailed.remove(website.getUrl());
+				//websitesTimeout.remove(website.getUrl());
+				// Note: Keep the website in the timed out list: can distinguish between the fails and timeouts in the failed list.
 			}
 		}
 
@@ -241,15 +242,15 @@ public class Crawler {
 			// Wait till Firebug is loaded
 			Thread.sleep(5000);
 
-			logMessage("Info: WebDriver is ready.", 1);
+			logMessage("Info: WebDriver is ready.", 0);
 		}
 		catch (NullPointerException e) {
-			logMessage("Error: the Firefox profile " + ffprofile + " has not been found.", 1);
+			logMessage("Error: the Firefox profile " + ffprofile + " has not been found.", 0);
 			if(debug) e.printStackTrace();
 			System.exit(1);
 		}
 		catch (Exception e) {
-			logMessage("Error: cannot initialize the driver.", 1);
+			logMessage("Error: cannot initialize the driver.", 0);
 			if(debug) e.printStackTrace();
 			System.exit(1);
 		}
@@ -265,7 +266,9 @@ public class Crawler {
 			if(file.isFile()) {
 				String filename = file.getName();
 				if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
-					file.delete();
+					if(!file.delete()) {
+						logMessage("Error: cannot delete the following file: " + file.getName(), 0);
+					}
 				}
 			}
 		}
@@ -275,12 +278,15 @@ public class Crawler {
 	 * Details the websites for which problems occurred.
 	 */
 	public static void detailProblematicWebsites() {
-		if(!websitesPotentiallyFailed.isEmpty()) {
+		if(!websitesTimeout.isEmpty()) {
 			logMessage("", 0);
-			logMessage("The " + websitesPotentiallyFailed.size() + " following website(s) potentially failed (more than one attempt):", 0);
-			for(String websitePotentiallyFailed : websitesPotentiallyFailed) {
+			logMessage("The " + websitesTimeout.size() + " following website(s) timed out:", 0);
+			for(String websitePotentiallyFailed : websitesTimeout) {
 				logMessage(websitePotentiallyFailed, 0);
 			}
+		}
+		else {
+			logMessage("No website timed out.", 0);
 		}
 
 		if(!websitesFailed.isEmpty()) {
@@ -289,6 +295,9 @@ public class Crawler {
 			for(String websiteFailed : websitesFailed) {
 				logMessage(websiteFailed, 0);
 			}
+		}
+		else {
+			logMessage("No website failed.", 0);
 		}
 	}
 
