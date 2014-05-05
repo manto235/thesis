@@ -15,7 +15,8 @@ L'idée initiale était d'utiliser le framework \textit{fpdetective} \cite{Acar:
 Etant donné que \textit{fpdetective} ne pouvait fournir les résultats demandés, la création d'un outil dédié à cette tâche était nécessaire. De plus, cela permettait plus de souplesse au niveau des décisions d'implémentation et du paramétrage de la recherche de trackers.
 \newline
 
-L'outil a été développé en Java. Il contient deux éléments distincts : le \textit{crawler} qui visite les sites web et exporte leur contenu au format HTTP Archive (HAR) et le \textit{parser} qui traite les fichiers HAR en déterminant si les sites correspondants renferment des trackers.
+L'outil a été implémenté en Java. Il contient deux éléments distincts : le \textit{crawler} qui visite les sites web et exporte leur contenu au format HTTP Archive (HAR) et le \textit{parser} qui traite les fichiers HAR en déterminant si les sites correspondants renferment des trackers.
+L'outil a été développé sous Eclipse et est destiné à être utilisé sur Linux. Un paquage Jar est également disponible.
 \newline
 
 Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs arguments :
@@ -24,7 +25,7 @@ Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs a
 	\item Requis : le répertoire des fichiers.\\
 		Pour le \textit{crawler}, il s'agit du répertoire où les fichiers seront enregistrés.\\
 		Pour le \textit{parser}, il s'agit du répertoire contenant les fichiers à analyser.
-	\item Optionnel : l'activation du mode \textit{debug} qui va imprimer davantage de détails en cas de problème.
+	\item Optionnel : l'activation du mode \textit{debug} qui va donner davantage de détails en cas de problème.
 	\item Optionnel : l'affichage de l'aide.
 	\newline
 	\item Requis pour le \textit{crawler} : le profil de Firefox à utiliser.
@@ -39,6 +40,7 @@ Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs a
 \end{itemize}
 
 \subsection{Crawler}
+\label{crawler}
 \subsubsection{Implémentation}
 Afin d'automatiser le navigateur et de parcourir les sites sans intervention humaine, \textit{Selenium} \cite{selenium_homepage} est utilisé. Plus précisément, c'est le pilote \textit{FirefoxDriver} de \textit{Selenium} qui est utilisé au sein de l'outil.
 
@@ -65,7 +67,15 @@ Il arrive également qu'un site ne puisse tout simplement pas être chargé (à 
 
 Lorsque le parcours de l'ensemble des sites est terminé, le programme efface les fichiers inutiles générés lors de la visite des pages "about:blank" et détaille l'ensemble des sites ayant subi au moins un timeout et les sites en échec. Pour terminer, le pilote est arrêté (ce qui entraîne la fermeture de Firefox) et le fichier de log est fermé.
 
+\subsubsection{Changements opérés sur les extensions}
+Deux modifications ont été nécessaires sur l'extension \textit{NetExport} de \textit{Firebug}.
+
+La première concerne la génération des fichiers HTTP Archive. Par défaut, l'extension ajoute un champ qui n'est pas standard par rapport à la spécification du format HAR. Il en résulte que les fichiers peuvent alors être considérés comme corrompus alors que la présence ou non de ce champ n'influence en rien les résultats qui nous concernent. La génération de ce champ a donc été supprimée dans le fichier \textit{/chrome/content/netexport/harBuilder.js} de \textit{NetExport}.
+
+La seconde modification concerne le nom des fichiers générés. Par défaut, l'extension ajoute la date à l'URL du site dans les noms de fichier. Cela pose des difficultés supplémentaires au \textit{parser} lors de la récupération et le traitement de ces fichiers (voir \autoref{parser}). L'extension a donc été modifiée afin de n'utiliser que l'URL du site dans les noms du fichier. Cette modification a été effectuée dans le fichier \textit{/chrome/content/netexport/automation.js}. Sur Linux, lorsqu'un fichier de même nom existe déjà, un tiret suivi du numéro de copie est ajouté au nom de fichier avant son extension.
+
 \subsection{Parser}
+\label{parser}
 
 \section{Résultats}
 
