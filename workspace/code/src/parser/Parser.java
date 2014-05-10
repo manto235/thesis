@@ -49,6 +49,7 @@ public class Parser {
 
 	private static boolean debug;
 	private static boolean showTrackers;
+	private static String directory;
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
@@ -78,10 +79,11 @@ public class Parser {
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
-	private static Map<String, Integer> mimetypeDifferentSOA_allSites;
+	private static Map<String, Integer> mimetypeDifferentSOA_allWebsites;
 
 	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghosteryFile) {
 		debug = showDebug;
+		directory = directoryName;
 		showTrackers = trackers;
 		startTime = System.nanoTime();
 
@@ -114,12 +116,13 @@ public class Parser {
 
 		// Show start message
 		String start = dateFormat.format(new Date()) + " - Launching parser...\n"
-				+ "   directory: " + directoryName + "\n"
+				+ "   directory: " + directory + "\n"
 				+ "   Ghostery file: " + ghosteryFile + "\n"
 				+ "   debug: " + debug;
 		System.out.println(start);
 
 		// Create the logs file
+		/*
 		try {
 			File logParser = new File(directoryName+"/logs/log_parser.txt");
 			File logsDirectory = logParser.getParentFile();
@@ -138,6 +141,26 @@ public class Parser {
 			}
 			logsFile = new BufferedWriter(new FileWriter(logParser, true));
 			logsFile.write(start);
+			logsFile.newLine();
+		} catch (IOException ioe) {
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
+					+ "> Please check your file system permissions.");
+			System.exit(1);
+		}
+		 */
+
+		// Check the file system permissions
+		try {
+			if(!checkDirectories(directory)) {
+				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the results.\n"
+						+ "> Please check your file system permissions.");
+				System.exit(1);
+			}
+
+			//logsFile = new FileWriter(new File(directoryName+"/logs/log_crawler.txt"), true);
+			logsFile = new BufferedWriter(new FileWriter(directory+"/logs/log_parser.txt", true));
+			logsFile.write(start);
+			//logsFile.write(System.getProperty("line.separator"));
 			logsFile.newLine();
 		} catch (IOException ioe) {
 			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
@@ -165,13 +188,13 @@ public class Parser {
 		// Initialize the Map for the websites statistics
 		websitesStats = new HashMap<String, Integer>();
 		websitesDetailedStats = new HashMap<String, int[]>();
-		mimetypeDifferentSOA_allSites = new HashMap<String, Integer>();
+		mimetypeDifferentSOA_allWebsites = new HashMap<String, Integer>();
 
 		// Initialize the Map of the SOA cache
 		cacheSOA = new HashMap<String, String>();
 
 		// Load the list of files
-		final ArrayList<File> filesList = loadFiles(directoryName);
+		final ArrayList<File> filesList = loadFiles(directory);
 		totalFiles = filesList.size();
 
 		// Total number of trackers for the entire analysis
@@ -191,7 +214,7 @@ public class Parser {
 		logMessage("Total number of trackers: " + totalTrackers, 2);
 
 		// Stats
-		computeStats(directoryName);
+		computeStats(directory);
 
 		// Summary
 		logMessage("", 0);
@@ -241,6 +264,75 @@ public class Parser {
 		logMessage("Total time: " + time, 0);
 		executor.shutdown();
 		closeLogFile();
+	}
+
+	/**
+	 * Check if the directories exist and create them if needed
+	 *
+	 * @param directoryName the directory to check
+	 * @return true if the directories exists (or have been created), false otherwise
+	 */
+	public static boolean checkDirectories(String directoryName) {
+		boolean directoriesOK = true;
+
+		File directory = new File(directoryName);
+		File logsDirectory = new File(directoryName + "/logs/");
+		File resultsDirectory = new File(directoryName + "/results/");
+
+		// The directory does not exist: create both the directory and the subdirectories
+		if(!directory.isDirectory()) {
+			// Main directory
+			if(directory.mkdirs()) {
+				System.out.println("Info: a directory named \"" + directoryName + "\" has been created.\n");
+			}
+			else {
+				directoriesOK = false;
+			}
+			// Logs subdirectory
+			if(logsDirectory.mkdirs()) {
+				System.out.println("      a subdirectory named \"logs\" has also been created.");
+			}
+			else {
+				directoriesOK = false;
+			}
+			// Results subdirectory
+			if(resultsDirectory.mkdirs()) {
+				System.out.println("      a subdirectory named \"results\" has also been created.");
+			}
+			else {
+				directoriesOK = false;
+			}
+		}
+		// The directory already exists: check if the subdirectories also exist
+		else {
+			// Logs subdirectory
+			if(!logsDirectory.isDirectory()) {
+				if(logsDirectory.mkdirs()) {
+					System.out.println("Info: a subdirectory named \"logs\" has been created.");
+				}
+				else {
+					directoriesOK = false;
+				}
+			}
+			else {
+				System.out.println("Info: the logs will be saved in the subdirectory named \"logs\".");
+			}
+			// Results subdirectory
+			if(!resultsDirectory.isDirectory()) {
+				if(resultsDirectory.mkdirs()) {
+					System.out.println("Info: a subdirectory named \"results\" has been created.");
+				}
+				else {
+					directoriesOK = false;
+				}
+			}
+			else {
+				System.out.println("Info: the results will be saved in the subdirectory named \"results\".\n"
+						+ "BE CAREFUL THAT FILES MAY BE OVERWRITTEN!");
+			}
+		}
+
+		return directoriesOK;
 	}
 
 	/**
@@ -503,10 +595,10 @@ public class Parser {
 
 					if(!mainSOA.equals(currentSOA)) {
 						int value = 0;
-						if(mimetypeDifferentSOA_allSites.containsKey(entry.getResponse().getContent().getMimeType())){
-							value = mimetypeDifferentSOA_allSites.get(entry.getResponse().getContent().getMimeType());
+						if(mimetypeDifferentSOA_allWebsites.containsKey(entry.getResponse().getContent().getMimeType())){
+							value = mimetypeDifferentSOA_allWebsites.get(entry.getResponse().getContent().getMimeType());
 						}
-						mimetypeDifferentSOA_allSites.put(entry.getResponse().getContent().getMimeType(), value+1);
+						mimetypeDifferentSOA_allWebsites.put(entry.getResponse().getContent().getMimeType(), value+1);
 
 						value = 0;
 						if(mimetypeDifferentSOA_website.containsKey(entry.getResponse().getContent().getMimeType())){
@@ -557,9 +649,29 @@ public class Parser {
 						}
 
 						// Check cookies ?
-					}
-				}
+
+					} // END of check if different SOA
+				} // END of check by other means
+			} // END of for (analysis of each entry)
+
+
+			// Write mimetypes of URLs with different SOA
+			BufferedWriter mimetypeDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_mimetypes.csv"), true));
+			Map<String, Integer> sortedMimetypeDifferentSOA_website = sortByValueInDescendingOrder(mimetypeDifferentSOA_website);
+			for(String name : sortedMimetypeDifferentSOA_website.keySet()) {
+				int number = sortedMimetypeDifferentSOA_website.get(name);
+				mimetypeDifferentSOA_websiteFile.write(name + "," + number);
+				mimetypeDifferentSOA_websiteFile.newLine();
 			}
+			mimetypeDifferentSOA_websiteFile.close();
+
+			// Write URLs of different SOA
+			BufferedWriter urlsDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_urls.csv"), true));
+			for (String url : urlsDifferentSOA_website) {
+				urlsDifferentSOA_websiteFile.write(url);
+				urlsDifferentSOA_websiteFile.newLine();
+			}
+			urlsDifferentSOA_websiteFile.close();
 
 			countSuccesses++;
 			logMessage("Number of trackers found (Ghostery): " + countTrackersGhostery, 2);
@@ -638,7 +750,7 @@ public class Parser {
 			Map<String, Integer> sortedTrackersGhosteryStats = sortByValueInDescendingOrder(trackersGhosteryStats);
 
 			for(String name : sortedTrackersGhosteryStats.keySet()) {
-				int trackerCount = trackersGhosteryStats.get(name);
+				int trackerCount = sortedTrackersGhosteryStats.get(name);
 				if(trackerCount != 0) {
 					trackersStatsFile.write(name + "," + trackerCount);
 					trackersStatsFile.newLine();
@@ -652,27 +764,23 @@ public class Parser {
 			Map<String, Integer> sortedWebsitesStats = sortByValueInDescendingOrder(websitesStats);
 
 			for(String name : sortedWebsitesStats.keySet()) {
-				int trackerCount = websitesStats.get(name);
-				if(trackerCount != 0) {
-					websitesStatsFile.write(name + "," + trackerCount);
-					websitesStatsFile.newLine();
-				}
+				int trackerCount = sortedWebsitesStats.get(name);
+				websitesStatsFile.write(name + "," + trackerCount);
+				websitesStatsFile.newLine();
 			}
 			websitesStatsFile.close();
 
 			// MIMETYPE
-			BufferedWriter mimetypefile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes.csv"), false));
+			BufferedWriter mimetypeDifferentSOA_allWebsitesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes.csv"), false));
 
-			Map<String, Integer> sortedMimetypeDifferentSOAWebsitesStats = sortByValueInDescendingOrder(mimetypeDifferentSOA_allSites);
+			Map<String, Integer> sortedMimetypeDifferentSOA_allWebsites = sortByValueInDescendingOrder(mimetypeDifferentSOA_allWebsites);
 
-			for(String name : sortedMimetypeDifferentSOAWebsitesStats.keySet()) {
-				int trackerCount = mimetypeDifferentSOA_allSites.get(name);
-				if(trackerCount != 0) {
-					mimetypefile.write(name + "," + trackerCount);
-					mimetypefile.newLine();
-				}
+			for(String name : sortedMimetypeDifferentSOA_allWebsites.keySet()) {
+				int number = sortedMimetypeDifferentSOA_allWebsites.get(name);
+				mimetypeDifferentSOA_allWebsitesFile.write(name + "," + number);
+				mimetypeDifferentSOA_allWebsitesFile.newLine();
 			}
-			mimetypefile.close();
+			mimetypeDifferentSOA_allWebsitesFile.close();
 
 		} catch (IOException e) {
 			logMessage("Error: cannot create the stats file", 1);
