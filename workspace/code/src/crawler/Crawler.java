@@ -44,7 +44,7 @@ public class Crawler {
 		// Check the file system permissions
 		try {
 			if(!checkDirectories(directoryName)) {
-				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the outputs.\n"
+				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the required directory.\n"
 						+ "> Please check your file system permissions.");
 				System.exit(1);
 			}

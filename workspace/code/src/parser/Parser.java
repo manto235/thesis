@@ -152,7 +152,7 @@ public class Parser {
 		// Check the file system permissions
 		try {
 			if(!checkDirectories(directory)) {
-				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the directory containing the results.\n"
+				System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the required directories.\n"
 						+ "> Please check your file system permissions.");
 				System.exit(1);
 			}
