@@ -78,8 +78,7 @@ public class Parser {
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
-	//TODO: delete
-	private static Map<String, Integer> mimetype;
+	private static Map<String, Integer> mimetypeDifferentSOA_allSites;
 
 	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghosteryFile) {
 		debug = showDebug;
@@ -166,7 +165,7 @@ public class Parser {
 		// Initialize the Map for the websites statistics
 		websitesStats = new HashMap<String, Integer>();
 		websitesDetailedStats = new HashMap<String, int[]>();
-		mimetype = new HashMap<String, Integer>();
+		mimetypeDifferentSOA_allSites = new HashMap<String, Integer>();
 
 		// Initialize the Map of the SOA cache
 		cacheSOA = new HashMap<String, String>();
@@ -338,6 +337,10 @@ public class Parser {
 			}
 			logMessage("Website: " + website, 2);
 
+			/* ----- RESULTS ----- */
+			Map<String, Integer> mimetypeDifferentSOA_website = new HashMap<String, Integer>();
+			ArrayList<String> urlsDifferentSOA_website = new ArrayList<String>();
+
 			/* ----- READER ----- */
 			HarFileReader harReader = new HarFileReader();
 			List<HarWarning> warnings = new ArrayList<HarWarning>();
@@ -499,12 +502,20 @@ public class Parser {
 					//System.out.println("> Entry (response CONTENT MIMETYPE) : " + entry.getResponse().getContent().getMimeType());
 
 					if(!mainSOA.equals(currentSOA)) {
-						// TODO: delete
 						int value = 0;
-						if(mimetype.containsKey(entry.getResponse().getContent().getMimeType())){
-							value = mimetype.get(entry.getResponse().getContent().getMimeType());
+						if(mimetypeDifferentSOA_allSites.containsKey(entry.getResponse().getContent().getMimeType())){
+							value = mimetypeDifferentSOA_allSites.get(entry.getResponse().getContent().getMimeType());
 						}
-						mimetype.put(entry.getResponse().getContent().getMimeType(), value+1);
+						mimetypeDifferentSOA_allSites.put(entry.getResponse().getContent().getMimeType(), value+1);
+
+						value = 0;
+						if(mimetypeDifferentSOA_website.containsKey(entry.getResponse().getContent().getMimeType())){
+							value = mimetypeDifferentSOA_website.get(entry.getResponse().getContent().getMimeType());
+						}
+						mimetypeDifferentSOA_website.put(entry.getResponse().getContent().getMimeType(), value+1);
+
+						urlsDifferentSOA_website.add(entry.getRequest().getUrl());
+
 						// -----
 
 						// Type of the resource of the current URL
@@ -597,6 +608,23 @@ public class Parser {
 		return false;
 	}
 
+	public static LinkedHashMap<String, Integer> sortByValueInDescendingOrder (Map<String, Integer> mapToSort) {
+		List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(mapToSort.entrySet());
+		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+				return o2.getValue().compareTo(o1.getValue());
+			}
+		});
+
+		LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
+		for(Map.Entry<String, Integer> entry: entries){
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+
+		return sortedMap;
+	}
+
 	public static void computeStats(String directoryName) {
 		try {
 			// TRACKERS
@@ -607,20 +635,9 @@ public class Parser {
 			//statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
 			//statsTrackers.newLine();
 
-			List<Map.Entry<String, Integer>> trackersEntries = new LinkedList<Map.Entry<String, Integer>>(trackersGhosteryStats.entrySet());
-			Collections.sort(trackersEntries, new Comparator<Map.Entry<String, Integer>>() {
-				@Override
-				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-					return o2.getValue().compareTo(o1.getValue());
-				}
-			});
+			Map<String, Integer> sortedTrackersGhosteryStats = sortByValueInDescendingOrder(trackersGhosteryStats);
 
-			Map<String, Integer> sortedTrackersStats = new LinkedHashMap<String, Integer>();
-			for(Map.Entry<String, Integer> entry: trackersEntries){
-				sortedTrackersStats.put(entry.getKey(), entry.getValue());
-			}
-
-			for(String name : sortedTrackersStats.keySet()) {
+			for(String name : sortedTrackersGhosteryStats.keySet()) {
 				int trackerCount = trackersGhosteryStats.get(name);
 				if(trackerCount != 0) {
 					trackersStatsFile.write(name + "," + trackerCount);
@@ -632,18 +649,7 @@ public class Parser {
 			// WEBSITES
 			BufferedWriter websitesStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_websites.csv"), false));
 
-			List<Map.Entry<String, Integer>> websitesEntries = new LinkedList<Map.Entry<String, Integer>>(websitesStats.entrySet());
-			Collections.sort(websitesEntries, new Comparator<Map.Entry<String, Integer>>() {
-				@Override
-				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-					return o2.getValue().compareTo(o1.getValue());
-				}
-			});
-
-			Map<String, Integer> sortedWebsitesStats = new LinkedHashMap<String, Integer>();
-			for(Map.Entry<String, Integer> entry: websitesEntries){
-				sortedWebsitesStats.put(entry.getKey(), entry.getValue());
-			}
+			Map<String, Integer> sortedWebsitesStats = sortByValueInDescendingOrder(websitesStats);
 
 			for(String name : sortedWebsitesStats.keySet()) {
 				int trackerCount = websitesStats.get(name);
@@ -657,27 +663,17 @@ public class Parser {
 			// MIMETYPE
 			BufferedWriter mimetypefile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes.csv"), false));
 
-			List<Map.Entry<String, Integer>> mimEntries = new LinkedList<Map.Entry<String, Integer>>(mimetype.entrySet());
-			Collections.sort(mimEntries, new Comparator<Map.Entry<String, Integer>>() {
-				@Override
-				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-					return o2.getValue().compareTo(o1.getValue());
-				}
-			});
+			Map<String, Integer> sortedMimetypeDifferentSOAWebsitesStats = sortByValueInDescendingOrder(mimetypeDifferentSOA_allSites);
 
-			Map<String, Integer> sortedmim = new LinkedHashMap<String, Integer>();
-			for(Map.Entry<String, Integer> entry: mimEntries){
-				sortedmim.put(entry.getKey(), entry.getValue());
-			}
-
-			for(String name : sortedmim.keySet()) {
-				int trackerCount = mimetype.get(name);
+			for(String name : sortedMimetypeDifferentSOAWebsitesStats.keySet()) {
+				int trackerCount = mimetypeDifferentSOA_allSites.get(name);
 				if(trackerCount != 0) {
 					mimetypefile.write(name + "," + trackerCount);
 					mimetypefile.newLine();
 				}
 			}
 			mimetypefile.close();
+
 		} catch (IOException e) {
 			logMessage("Error: cannot create the stats file", 1);
 			if(debug) e.printStackTrace();
