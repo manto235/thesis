@@ -156,14 +156,11 @@ public class Parser {
 						+ "> Please check your file system permissions.");
 				System.exit(1);
 			}
-
-			//logsFile = new FileWriter(new File(directoryName+"/logs/log_crawler.txt"), true);
 			logsFile = new BufferedWriter(new FileWriter(directory+"/logs/log_parser.txt", true));
 			logsFile.write(start);
-			//logsFile.write(System.getProperty("line.separator"));
 			logsFile.newLine();
 		} catch (IOException ioe) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
+			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the log file.\n"
 					+ "> Please check your file system permissions.");
 			System.exit(1);
 		}
