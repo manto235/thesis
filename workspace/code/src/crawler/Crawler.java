@@ -184,7 +184,7 @@ public class Crawler {
 				directoriesOK = false;
 			}
 		}
-		// The directory already exists: check if the logs subdirectory also exist
+		// The directory already exists: check if the logs subdirectory also exists
 		else {
 			if(!logsDirectory.isDirectory()) {
 				if(logsDirectory.mkdirs()) {
@@ -193,6 +193,9 @@ public class Crawler {
 				else {
 					directoriesOK = false;
 				}
+			}
+			else {
+				System.out.println("Info: the logs will be saved in the subdirectory named \"logs\".");
 			}
 		}
 
