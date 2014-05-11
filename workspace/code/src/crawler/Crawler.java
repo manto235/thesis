@@ -34,9 +34,11 @@ public class Crawler {
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
 		debug = showDebug;
 		String start = dateFormat.format(new Date()) + " - Launching crawler...\n"
-				+ "   directory: " + directoryName + ", websites file: " + websitesFile + "\n"
+				+ "   directory: " + directoryName + "\n"
+				+ "   websites file: " + websitesFile + "\n"
 				+ "   start index: " + startIndex + ", end index: " + endIndex + "\n"
-				+ "   Firefox profile: " + ffprofile + ", restart value: " + restart + "\n"
+				+ "   Firefox profile: " + ffprofile + "\n"
+				+ "   restart value: " + restart + "\n"
 				+ "   number of attempts per website: " + attempts + "\n"
 				+ "   debug: " + debug;
 		System.out.println(start);
@@ -74,12 +76,12 @@ public class Crawler {
 		logMessage("Loading the list of websites...", 1);
 		WebsitesList websites = new WebsitesList(websitesFile, startIndex, endIndex);
 		if(websites.getWebsites().size() == 0) {
-			logMessage("Error: the list of websites is empty.", 0);
-			logMessage(websites.getStatus(), 3);
+			logMessage("Error: the list of websites is empty.", 3);
+			logMessage(websites.getStatus(), 2);
 			System.exit(1);
 		}
 		else {
-			logMessage("Info: " + websites.getStatus(), 0);
+			logMessage("Info: " + websites.getStatus(), 2);
 		}
 
 		// Initialize the driver
@@ -130,7 +132,7 @@ public class Crawler {
 					}
 				} catch (UnreachableBrowserException e) {
 					logMessage("Critical error: cannot communicate with the remote browser."
-							+ " Don't close Firefox!", 1);
+							+ " Don't close Firefox!", 3);
 					if(debug) e.printStackTrace();
 					System.exit(1);
 				} catch (UnhandledAlertException e) {
@@ -244,15 +246,15 @@ public class Crawler {
 			// Wait till Firebug is loaded
 			Thread.sleep(5000);
 
-			logMessage("Info: WebDriver is ready.", 0);
+			logMessage("Info: WebDriver is ready.", 2);
 		}
 		catch (NullPointerException e) {
-			logMessage("Error: the Firefox profile " + ffprofile + " has not been found.", 0);
+			logMessage("Error: the Firefox profile " + ffprofile + " has not been found.", 3);
 			if(debug) e.printStackTrace();
 			System.exit(1);
 		}
 		catch (Exception e) {
-			logMessage("Error: cannot initialize the driver.", 0);
+			logMessage("Error: cannot initialize the driver.", 3);
 			if(debug) e.printStackTrace();
 			System.exit(1);
 		}
@@ -269,7 +271,7 @@ public class Crawler {
 				String filename = file.getName();
 				if(filename.equals(".har") || filename.substring(1, filename.length()-4).matches("\\d+")) {
 					if(!file.delete()) {
-						logMessage("Error: cannot delete the following file: " + file.getName(), 0);
+						logMessage("Error: cannot delete the following file: " + file.getName(), 3);
 					}
 				}
 			}
