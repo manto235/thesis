@@ -38,12 +38,8 @@ public class start {
 			cmd = parser.parse(options, args);
 			// Help
 			if(cmd.hasOption("h")) {
-				String help = "Launch with the following arguments: -mode [mode] -dir [directory]\n"
-						+ "If the mode uses the crawler, add the following arguments: -ffprofile [profile] -websites [file] -start [index] -end [index]\n"
-						+ "The indexes correspond to the range of websites to visit from the websites file.\n";
-				System.out.println(help);
 				HelpFormatter formatter = new HelpFormatter();
-				formatter.printHelp("java -jar Code.jar", options);
+				formatter.printHelp("-mode and -dir are required for both modes", options);
 			}
 			// Mode (required)
 			else if(!cmd.hasOption("mode")) {
