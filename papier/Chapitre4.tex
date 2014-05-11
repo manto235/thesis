@@ -60,19 +60,28 @@ Une hypothèse supplémentaire est que certains sites demandent une action de l'
 
 \subsubsection{Fonctionnement}
 Le \textit{crawler} fonctionne de la manière suivante : tout d'abord, il vérifie que le répertoire donné en argument est accessible en écriture et il crée le fichier de log. Ensuite, il charge la liste des sites à visiter depuis le fichier spécifié en fonction de l'intervale donné lors du lancement du programme. Puis, le profil Firefox choisi est chargé et différents paramètres de configuration sont également réglés dans les deux extensions avant que le pilote soit initialisé et qu'il lance Firefox. Après le lancement du pilote, un délai de 5 secondes laisse le temps à Firefox de se lancer et de charger ses extensions.
+\newline
 
-Ensuite, le parcours des sites commence. Le pilote dirige Firefox sur l'URL du site et lorsque le chargement de la page est terminé, un délai de 8 secondes permet aux extensions d'enregistrer le fichier HTTP Archive. Si la page s'est chargée avant la limite de 30 secondes, le pilote charge le site suivant.
-Si un site fait un timeout et que l'utilisateur a précisé un nombre de tentatives supérieur à 1, le pilote dirige Firefox sur la page "about:blank" (cela permet d'éviter des problèmes d'écriture de fichiers avec les extensions) puis le redirige une nouvelle fois sur le site. A la deuxième tentative, l'URL du site est également enregistrée dans une liste reprenant tous les sites ayant fait un timeout. Ce processus est répété à chaque timeout jusqu'à atteindre le nombre maximal de tentatives. Si le site fait encore un timeout lors de la dernière tentative, il est alors considéré en échec et son URL est inscrite dans une autre liste reprenant tous les sites en échec.
-Il arrive également qu'un site ne puisse tout simplement pas être chargé (à cause d'une erreur de code par exemple). Son URL est alors directement enregistrée dans la liste reprenant les sites en échec.
+Ensuite, le parcours des sites commence. Le pilote dirige Firefox sur l'URL du premier site de la liste. Lorsque le chargement de la page est terminé, un délai de 8 secondes permet aux extensions d'enregistrer le fichier HTTP Archive.
+
+Si la page s'est chargée avant la limite de 30 secondes, l'enregistrement est considéré comme valide et le pilote charge le site suivant dans la liste.
+
+Si un site fait un timeout et que l'utilisateur a précisé un nombre de tentatives supérieur à 1, le pilote dirige Firefox sur la page "about:blank" (cela permet d'éviter des problèmes d'écriture de fichiers avec les extensions) puis le redirige sur le site pour un nouvel essai. Ce processus est répété à chaque timeout jusqu'à atteindre le nombre maximal de tentatives. Si le site fait encore un timeout lors de la dernière tentative, il est alors considéré en échec et son URL est inscrite dans une liste reprenant tous les sites en échec. A la deuxième tentative, l'URL du site est également enregistrée dans une autre liste reprenant tous les sites ayant fait un timeout, cela permet de garder une trace des sites dont la visite a rencontré un problème mais qui ont finalement pu être chargés. 
+
+Il arrive également qu'un site ne puisse tout simplement pas être chargé (à cause d'une erreur dans son code source par exemple). Son URL est alors directement enregistrée dans la liste reprenant les sites en échec.
+\newline
 
 Lorsque le parcours de l'ensemble des sites est terminé, le programme efface les fichiers inutiles générés lors de la visite des pages "about:blank" et détaille l'ensemble des sites ayant subi au moins un timeout et les sites en échec. Pour terminer, le pilote est arrêté (ce qui entraîne la fermeture de Firefox) et le fichier de log est fermé.
+\newline
+
+Il a été nécessaire d'implémenter une fonctionnalité qui redémarre Firefox à intervales réguliers. En effet, certains sites ouvrent des pop-ups et si le navigateur n'est pas fermé, ces derniers s'accumulent et occupent une part plus importante de ressources. Le redémarrage du navigateur permet de fermer toutes ces fenêtres ouvertes de façon intempestive afin de garantir une meilleure stabilité du \textit{crawler}.
 
 \subsubsection{Changements opérés sur les extensions}
 Deux modifications ont été nécessaires sur l'extension \textit{NetExport} de \textit{Firebug}.
 
 La première concerne la génération des fichiers HTTP Archive. Par défaut, l'extension ajoute un champ qui n'est pas standard par rapport à la spécification du format HAR. Il en résulte que les fichiers peuvent alors être considérés comme corrompus alors que la présence ou non de ce champ n'influence en rien les résultats qui nous concernent. La génération de ce champ a donc été supprimée dans le fichier \textit{/chrome/content/netexport/harBuilder.js} de \textit{NetExport}.
 
-La seconde modification concerne le nom des fichiers générés. Par défaut, l'extension ajoute la date à l'URL du site dans les noms de fichier. Cela pose des difficultés supplémentaires au \textit{parser} lors de la récupération et le traitement de ces fichiers (voir \autoref{parser}). L'extension a donc été modifiée afin de n'utiliser que l'URL du site dans les noms du fichier. Cette modification a été effectuée dans le fichier \textit{/chrome/content/netexport/automation.js}. Sur Linux, lorsqu'un fichier de même nom existe déjà, un tiret suivi du numéro de copie est ajouté au nom de fichier avant son extension.
+La seconde modification concerne le nom des fichiers générés. Par défaut, l'extension ajoute la date à l'URL du site dans les noms de fichier. Cela pose des difficultés supplémentaires au \textit{parser} lors de la récupération et du traitement de ces fichiers (voir \autoref{parser}). L'extension a donc été modifiée afin de n'utiliser que l'URL du site dans les noms du fichier. Cette modification a été effectuée dans le fichier \textit{/chrome/content/netexport/automation.js}. Sur Linux, lorsqu'un fichier de même nom existe déjà, un tiret suivi du numéro de copie est ajouté au nom de fichier avant son extension.
 
 \subsection{Parser}
 \label{parser}
@@ -80,6 +89,7 @@ La seconde modification concerne le nom des fichiers générés. Par défaut, l'
 \section{Résultats}
 
 \subsection{Expérience 1 : étude à long terme}
+Afin de réaliser cette étude, le \textit{crawler} a été lancé chaque jour du 28 mars au 7 mai 2014 (à l'exception du 8 avril) sur le TOP 1000 du classement Alexa \cite{AlexaTop}, ce qui représente 40 jours de mesures.
 
 \subsection{Expérience 2 : étude ponctuelle}
 
