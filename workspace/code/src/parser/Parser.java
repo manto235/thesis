@@ -678,11 +678,11 @@ public class Parser {
 
 			countSuccesses++;
 			if(showTrackers) {
-				System.out.println("Number of trackers found (Ghostery): " + countTrackersGhostery);
-				System.out.println("Number of cookies: " + countCookies);
-				System.out.println("Number of JS from another domain: " + countJSAnotherDomain);
-				System.out.println("Number of tracking pixels: " + countTrackingPixels);
-				System.out.println("Number of URLs with parameters: " + countURLsParameters);
+				System.out.println("                             Number of trackers found (Ghostery): " + countTrackersGhostery);
+				System.out.println("                             Number of cookies: " + countCookies);
+				System.out.println("                             Number of JS from another domain: " + countJSAnotherDomain);
+				System.out.println("                             Number of tracking pixels: " + countTrackingPixels);
+				System.out.println("                             Number of URLs with parameters: " + countURLsParameters);
 			}
 
 			results[0] = countTrackersGhostery;
