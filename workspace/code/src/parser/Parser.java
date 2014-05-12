@@ -806,6 +806,18 @@ public class Parser {
 			}
 			mimetypeDifferentSOA_allWebsitesFile.close();
 
+			// WEBSITES DETAILED STATS
+			BufferedWriter websitesDetailedStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_detailed.csv"), false));
+
+			//Map<String, Integer> sortedWebsitesDetailedStats = sortByValueInDescendingOrder(websitesDetailedStats);
+
+			for(String name : websitesDetailedStats.keySet()) {
+				int[] numbers = websitesDetailedStats.get(name);
+				websitesDetailedStatsFile.write(name + "," + numbers[0] + "," + numbers[1] + "," + numbers[2] + "," + numbers[3] + "," + numbers[4]);
+				websitesDetailedStatsFile.newLine();
+			}
+			websitesDetailedStatsFile.close();
+
 		} catch (IOException e) {
 			logMessage("Error: cannot create the stats file", 1);
 			if(debug) e.printStackTrace();
