@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +40,8 @@ import org.xbill.DNS.Type;
 import com.google.common.net.InetAddresses;
 import com.google.common.net.InternetDomainName;
 
+import edu.umass.cs.benchlab.har.HarCookie;
+import edu.umass.cs.benchlab.har.HarCookies;
 import edu.umass.cs.benchlab.har.HarEntries;
 import edu.umass.cs.benchlab.har.HarEntry;
 import edu.umass.cs.benchlab.har.HarLog;
@@ -325,7 +328,14 @@ public class Parser {
 			}
 			else {
 				System.out.println("Info: the results will be saved in the subdirectory named \"results\".\n"
-						+ "BE CAREFUL THAT FILES MAY BE OVERWRITTEN!");
+						+ "BE CAREFUL THAT FILES WILL BE OVERWRITTEN!");
+				System.out.print("Continue? ");
+				Scanner answer = new Scanner(System.in);
+				String value = answer.next();
+				answer.close();
+				if(!(value.equals("yes") || value.equals("y"))) {
+					System.exit(1);
+				}
 			}
 		}
 
@@ -429,6 +439,7 @@ public class Parser {
 			/* ----- RESULTS ----- */
 			Map<String, Integer> mimetypeDifferentSOA_website = new HashMap<String, Integer>();
 			ArrayList<String> urlsDifferentSOA_website = new ArrayList<String>();
+			ArrayList<String> cookiesDifferentSOA_website = new ArrayList<String>();
 
 			/* ----- READER ----- */
 			HarFileReader harReader = new HarFileReader();
@@ -605,6 +616,11 @@ public class Parser {
 
 						urlsDifferentSOA_website.add(entry.getRequest().getUrl());
 
+						HarCookies cookies = entry.getResponse().getCookies();
+						for(HarCookie cookie : cookies.getCookies()) {
+							cookiesDifferentSOA_website.add(cookie.getDomain() + "," + cookie.getName() + "," + cookie.getValue() + "," + cookie.getPath());
+						}
+
 						// -----
 
 						// Type of the resource of the current URL
@@ -646,6 +662,8 @@ public class Parser {
 						}
 
 						// Check cookies ?
+						//entry.getResponse().getCookies().toString();
+
 
 					} // END of check if different SOA
 				} // END of check by other means
@@ -669,6 +687,14 @@ public class Parser {
 				urlsDifferentSOA_websiteFile.newLine();
 			}
 			urlsDifferentSOA_websiteFile.close();
+
+			// Write cookies of different SOA
+			BufferedWriter cookiesDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_cookies.csv"), true));
+			for (String url : cookiesDifferentSOA_website) {
+				cookiesDifferentSOA_websiteFile.write(url);
+				cookiesDifferentSOA_websiteFile.newLine();
+			}
+			cookiesDifferentSOA_websiteFile.close();
 
 			countSuccesses++;
 			logMessage("Number of trackers found (Ghostery): " + countTrackersGhostery, 2);
