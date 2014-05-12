@@ -140,6 +140,9 @@ public class Parser {
 			System.exit(1);
 		}
 
+		// Load the list of files
+		final ArrayList<File> filesList = loadFiles(directory);
+
 		// Load the regex from Ghostery
 		logMessage("Retrieving the database of trackers from Ghostery...", 1);
 		regexGhostery = new RegexGhostery(debug, ghosteryFile);
@@ -164,10 +167,6 @@ public class Parser {
 
 		// Initialize the Map of the SOA cache
 		cacheSOA = new HashMap<String, String>();
-
-		// Load the list of files
-		final ArrayList<File> filesList = loadFiles(directory);
-		totalFiles = filesList.size();
 
 		// Total number of trackers for the entire analysis
 		int totalTrackers = 0;
@@ -321,7 +320,7 @@ public class Parser {
 	 * @return an ArrayList<File> containing all the files of the directory to analyze
 	 */
 	public static ArrayList<File> loadFiles(String directoryName) {
-		logMessage("Info: loading the files from directory \"" + directoryName + "\"... ", 1);
+		logMessage("Loading the files from directory \"" + directoryName + "\"... ", 1);
 		File directory = new File(directoryName);
 		if(!directory.isDirectory()) {
 			logMessage("Error: the directory does not exist!", 1);
@@ -377,6 +376,18 @@ public class Parser {
 				return  website1.getName().compareTo(website2.getName());
 			}
 		});
+
+		totalFiles = filesList.size();
+		if(totalFiles < 1) {
+			logMessage("Error: no file found!", 3);
+			System.exit(1);
+		}
+		else if(totalFiles == 1) {
+			logMessage("Info: only a single file to parse", 2);
+		}
+		else {
+			logMessage("Info: " + totalFiles + " files to parse", 2);
+		}
 		return filesList;
 	}
 
