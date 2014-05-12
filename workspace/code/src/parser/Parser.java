@@ -417,10 +417,12 @@ public class Parser {
 	 */
 	public static int parseHARfile(File file) {
 		try {
-			int[] results = {0, 0, 0};
+			int[] results = {0, 0, 0, 0, 0};
 			int countTrackersGhostery = 0;
+			/*int countCookies = 0;
 			int countJSAnotherDomain = 0;
 			int countTrackingPixels = 0;
+			int countURLsParameters = 0;*/
 
 			/* ----- NAME OF THE WEBSITE ----- */
 			String website = file.getName();
@@ -439,7 +441,10 @@ public class Parser {
 			/* ----- RESULTS ----- */
 			Map<String, Integer> mimetypeDifferentSOA_website = new HashMap<String, Integer>();
 			ArrayList<String> urlsDifferentSOA_website = new ArrayList<String>();
-			ArrayList<String> cookiesDifferentSOA_website = new ArrayList<String>();
+			ArrayList<String> trackersCookies = new ArrayList<String>();
+			ArrayList<String> trackersJSAnotherDomain = new ArrayList<String>();
+			ArrayList<String> trackersPixels = new ArrayList<String>();
+			ArrayList<String> trackersURLsParameters = new ArrayList<String>();
 
 			/* ----- READER ----- */
 			HarFileReader harReader = new HarFileReader();
@@ -616,23 +621,21 @@ public class Parser {
 
 						urlsDifferentSOA_website.add(entry.getRequest().getUrl());
 
+						// CHECK : cookies
 						HarCookies cookies = entry.getResponse().getCookies();
 						for(HarCookie cookie : cookies.getCookies()) {
-							cookiesDifferentSOA_website.add(cookie.getDomain() + "," + cookie.getName() + "," + cookie.getValue() + "," + cookie.getPath());
+							trackersCookies.add(currentUrl + "," + cookie.getDomain() + "," + cookie.getName() + "," + cookie.getValue() + "," + cookie.getPath());
 						}
-
-						// -----
 
 						// Type of the resource of the current URL
 						String type = entry.getResponse().getContent().getMimeType();
 
-						// Check JS
+						// CHECK : JS from another domain
 						if(type.equals("application/x-javascript")) {
-							//System.out.println("Different SOA for JS: " + mainSOA + " vs " + currentSOA + " for " + currentUrl);
-							countJSAnotherDomain++;
+							trackersJSAnotherDomain.add(currentUrl);
 						}
 
-						// Check images
+						// CHECK : size of images
 						else if(type.equals("image/jpeg") || type.equals("image/jpg") || type.equals("image/png") ||
 								type.equals("image/gif") || type.equals("image/bmp")) {
 							ImageInputStream imageInputStream = ImageIO.createImageInputStream(new URL(entry.getRequest().getUrl()).openStream());
@@ -645,8 +648,7 @@ public class Parser {
 										int width = imageReader.getWidth(0);
 										int height = imageReader.getHeight(0);
 										if(width == 1 && height == 1) {
-											if(showTrackers) logMessage("    Tracking pixel found: " + entry.getRequest().getUrl(), 0);
-											countTrackingPixels++;
+											trackersPixels.add(currentUrl);
 										}
 									} catch (Exception e) {
 										logMessage("Cannot get the dimensions of the image: " + entry.getRequest().getUrl(), 3);
@@ -661,8 +663,10 @@ public class Parser {
 							}
 						}
 
-						// Check cookies ?
-						//entry.getResponse().getCookies().toString();
+						// CHECK : parameters
+						if(currentUrl.contains("?")) {
+							trackersURLsParameters.add(currentUrl);
+						}
 
 
 					} // END of check if different SOA
@@ -671,7 +675,7 @@ public class Parser {
 
 
 			// Write mimetypes of URLs with different SOA
-			BufferedWriter mimetypeDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_mimetypes.csv"), true));
+			BufferedWriter mimetypeDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_mimetypes.csv"), false));
 			Map<String, Integer> sortedMimetypeDifferentSOA_website = sortByValueInDescendingOrder(mimetypeDifferentSOA_website);
 			for(String name : sortedMimetypeDifferentSOA_website.keySet()) {
 				int number = sortedMimetypeDifferentSOA_website.get(name);
@@ -681,30 +685,41 @@ public class Parser {
 			mimetypeDifferentSOA_websiteFile.close();
 
 			// Write URLs of different SOA
-			BufferedWriter urlsDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_urls.csv"), true));
+			BufferedWriter urlsDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_urls.csv"), false));
 			for (String url : urlsDifferentSOA_website) {
 				urlsDifferentSOA_websiteFile.write(url);
 				urlsDifferentSOA_websiteFile.newLine();
 			}
 			urlsDifferentSOA_websiteFile.close();
 
-			// Write cookies of different SOA
-			BufferedWriter cookiesDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_cookies.csv"), true));
-			for (String url : cookiesDifferentSOA_website) {
-				cookiesDifferentSOA_websiteFile.write(url);
-				cookiesDifferentSOA_websiteFile.newLine();
-			}
-			cookiesDifferentSOA_websiteFile.close();
+			// Cookies
+			int countCookies = exportTrackers(website, "cookies", trackersCookies);
+
+			// JS from another domain
+			int countJSAnotherDomain = exportTrackers(website, "js", trackersJSAnotherDomain);
+
+			// Tracking pixels
+			int countTrackingPixels = exportTrackers(website, "pixels", trackersPixels);
+
+			// URLs parameters
+			int countURLsParameters = exportTrackers(website, "parameters", trackersURLsParameters);
 
 			countSuccesses++;
-			logMessage("Number of trackers found (Ghostery): " + countTrackersGhostery, 2);
-			logMessage("Number of JS from another domain: " + countJSAnotherDomain, 2);
-			logMessage("Number of tracking pixels: " + countTrackingPixels, 2);
+			if(showTrackers) {
+				System.out.println("Number of trackers found (Ghostery): " + countTrackersGhostery);
+				System.out.println("Number of cookies: " + countCookies);
+				System.out.println("Number of JS from another domain: " + countJSAnotherDomain);
+				System.out.println("Number of tracking pixels: " + countTrackingPixels);
+				System.out.println("Number of URLs with parameters: " + countURLsParameters);
+			}
 
 			results[0] = countTrackersGhostery;
-			results[1] = countJSAnotherDomain;
-			results[2] = countTrackingPixels;
-			int totalNumberTrackers = countTrackersGhostery + countJSAnotherDomain + countTrackingPixels;
+			results[1] = countCookies;
+			results[2] = countJSAnotherDomain;
+			results[3] = countTrackingPixels;
+			results[4] = countURLsParameters;
+
+			int totalNumberTrackers = countTrackersGhostery + countCookies + countJSAnotherDomain + countTrackingPixels + countURLsParameters;
 			websitesStats.put(website, totalNumberTrackers);
 			websitesDetailedStats.put(website, results);
 			return totalNumberTrackers;
@@ -733,10 +748,10 @@ public class Parser {
 				// Increment the counter of this tracker
 				int trackerCount = trackersGhosteryStats.get(regex.get(singleRegex));
 				trackersGhosteryStats.put(regex.get(singleRegex), trackerCount+1);
-				if(showTrackers) {
+				/*if(showTrackers) {
 					logMessage("    Tracker found (Ghostery): " + url + "\n"
 							+ "        " + singleRegex + " from " + regex.get(singleRegex), 0);
-				}
+				}*/
 				return true;
 			}
 		}
@@ -758,6 +773,20 @@ public class Parser {
 		}
 
 		return sortedMap;
+	}
+
+	public static int exportTrackers (String website, String type, ArrayList<String> data) {
+		try {
+			BufferedWriter file = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_" + type + ".csv"), false));
+			for (String element : data) {
+				file.write(element);
+				file.newLine();
+			}
+			file.close();
+		} catch (Exception e) {
+			logMessage("Error: cannot export data of type " + type + " of website " + website, 3);
+		}
+		return data.size();
 	}
 
 	public static void computeStats(String directoryName) {
