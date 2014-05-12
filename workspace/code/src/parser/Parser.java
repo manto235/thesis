@@ -124,34 +124,6 @@ public class Parser {
 				+ "   debug: " + debug;
 		System.out.println(start);
 
-		// Create the logs file
-		/*
-		try {
-			File logParser = new File(directoryName+"/logs/log_parser.txt");
-			File logsDirectory = logParser.getParentFile();
-			if(!logsDirectory.isDirectory()) {
-				if(!logsDirectory.mkdirs()) {
-					System.out.println(dateFormat.format(new Date()) + " - Error: cannot create the logs folder.\n"
-							+ "> Please check your file system permissions.");
-					System.exit(1);
-				}
-				else {
-					System.out.println(dateFormat.format(new Date()) + " - Info: a subdirectory named \"logs\" has been created.");
-				}
-			}
-			else {
-				System.out.println(dateFormat.format(new Date()) + " - Info: the logs will be saved in the subdirectory named \"logs\".");
-			}
-			logsFile = new BufferedWriter(new FileWriter(logParser, true));
-			logsFile.write(start);
-			logsFile.newLine();
-		} catch (IOException ioe) {
-			System.out.println(dateFormat.format(new Date()) + " - Error: cannot write the logs file.\n"
-					+ "> Please check your file system permissions.");
-			System.exit(1);
-		}
-		 */
-
 		// Check the file system permissions
 		try {
 			if(!checkDirectories(directory)) {
