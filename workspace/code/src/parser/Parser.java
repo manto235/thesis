@@ -855,6 +855,7 @@ public class Parser {
 		try {
 			logsFile.write(message);
 			logsFile.newLine();
+			logsFile.flush();
 		} catch (IOException ioe) {
 			System.out.println("The message was not successfully written in the log file.");
 			if(debug) ioe.printStackTrace();
