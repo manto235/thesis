@@ -62,7 +62,7 @@ public class RegexGhostery {
 		try {
 			//URL url = new URL("https://www.ghostery.com/update/bugs?format=json");
 			ObjectMapper mapper = new ObjectMapper();
-			JsonNode rootNode = mapper.readTree(new FileReader("ghostery-bugs"));
+			JsonNode rootNode = mapper.readTree(new FileReader(ghosteryFile));
 
 			Iterator<JsonNode> bugsElements = rootNode.get("bugs").iterator();
 			while (bugsElements.hasNext()) {
