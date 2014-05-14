@@ -78,9 +78,10 @@ public class Crawler {
 			while(cookieFlashFolder == null) {
 				// Show the folders
 				int i = 0;
+				System.out.println("-1) exit");
 				for(File folder : nextFolder) {
 					try {
-						System.out.println(i + ") " + folder.getCanonicalPath());
+						System.out.println(" " + i + ") " + folder.getCanonicalPath());
 					} catch (IOException e) {
 						System.out.println("Error: cannot retrieve the folders.");
 					}
@@ -98,7 +99,10 @@ public class Crawler {
 					answer.nextLine(); // Clean the buffer
 				}
 				if(isInteger) {
-					if(value < 0 || value > nextFolder.length-1) {
+					if(value == -1) {
+						System.exit(1);
+					}
+					else if(value < 0 || value > nextFolder.length-1) {
 						System.out.println("Wrong choice!");
 					}
 					else {
