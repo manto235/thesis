@@ -1,11 +1,13 @@
 package crawler;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.TimeoutException;
@@ -43,6 +45,7 @@ public class Crawler {
 				+ "   debug: " + debug;
 		System.out.println(start);
 
+		// TODO: add results directory
 		// Check the file system permissions
 		try {
 			if(!checkDirectories(directoryName)) {
@@ -58,6 +61,57 @@ public class Crawler {
 					+ "> Please check your file system permissions.");
 			System.exit(1);
 		}
+
+		// Get the Flash cookies folder
+		String baseFlashFolder = System.getProperty("user.home") + "/.macromedia/Flash_Player/#SharedObjects/";
+		File nextFolder[] = new File(baseFlashFolder).listFiles(new FileFilter() {
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
+		});
+
+		File cookieFlashFolder = null;
+
+		if(nextFolder.length > 1) {
+			System.out.println("Multiple folders found for Flash cookies !");
+			Scanner answer = new Scanner(System.in);
+			while(cookieFlashFolder == null) {
+				// Show the folders
+				int i = 0;
+				for(File folder : nextFolder) {
+					try {
+						System.out.println(i + ") " + folder.getCanonicalPath());
+					} catch (IOException e) {
+						System.out.println("Error: cannot retrieve the folders.");
+					}
+					i++;
+				}
+				// Ask which one to choose
+				System.out.print("Which one to choose? ");
+				int value = 0;
+				boolean isInteger = false;
+				try {
+					value = answer.nextInt();
+					isInteger = true;
+				} catch (java.util.InputMismatchException ime) {
+					System.out.println("Please write a number!");
+					answer.nextLine(); // Clean the buffer
+				}
+				if(isInteger) {
+					if(value < 0 || value > nextFolder.length-1) {
+						System.out.println("Wrong choice!");
+					}
+					else {
+						cookieFlashFolder = nextFolder[value];
+					}
+				}
+			}
+			answer.close();
+		}
+		else {
+			cookieFlashFolder = nextFolder[0];
+		}
+		System.out.println(cookieFlashFolder);
 
 		// Manage the signals
 		// Note: placed after the check of file permissions because this check is really fast + uses logMessage
