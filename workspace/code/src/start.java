@@ -59,7 +59,7 @@ public class start {
 						try {
 							// Check if the directory exists
 							if(!new File(directory).isDirectory()) {
-								System.out.println("Directory not found! Check your -dir argument.");
+								System.out.println("Directory not found! " + new File(directory).getCanonicalPath() + "\nCheck your -dir argument.");
 								System.exit(1);
 							}
 							else {
@@ -103,7 +103,7 @@ public class start {
 		} catch (ParseException e) {
 			System.out.println("Arguments not recognized!");
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("java -jar Code.jar", options);
+			formatter.printHelp("-mode and -dir are required for both modes", options);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class start {
 	public static String parseFile(String path, String type) throws Exception {
 		File file = new File(path);
 		if(!file.isFile()) {
-			System.out.println("File not found! Check your -" + type + " argument.");
+			System.out.println("File not found! " + file.getCanonicalPath() + "\nCheck your -" + type + " argument.");
 			throw new Exception();
 		}
 		else {
