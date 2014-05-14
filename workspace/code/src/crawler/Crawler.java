@@ -31,6 +31,7 @@ public class Crawler {
 	private static ArrayList<String> websitesFailed = new ArrayList<String>();
 	private static ArrayList<String> websitesTimeout = new ArrayList<String>();
 	private static int websitesVisited = 0;
+	private static Scanner scanner;
 
 	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
@@ -44,6 +45,9 @@ public class Crawler {
 				+ "   number of attempts per website: " + attempts + "\n"
 				+ "   debug: " + debug;
 		System.out.println(start);
+
+		// Start the console input scanner
+		scanner = new Scanner(System.in);
 
 		// Check the file system permissions
 		try {
@@ -73,7 +77,6 @@ public class Crawler {
 
 		if(nextFolder.length > 1) {
 			System.out.println("Multiple folders found for Flash cookies !");
-			Scanner answer = new Scanner(System.in);
 			while(cookieFlashFolder == null) {
 				// Show the folders
 				int i = 0;
@@ -91,11 +94,11 @@ public class Crawler {
 				int value = 0;
 				boolean isInteger = false;
 				try {
-					value = answer.nextInt();
+					value = scanner.nextInt();
 					isInteger = true;
 				} catch (java.util.InputMismatchException ime) {
 					System.out.println("Please write a number!");
-					answer.nextLine(); // Clean the buffer
+					scanner.nextLine(); // Clean the buffer
 				}
 				if(isInteger) {
 					if(value == -1) {
@@ -109,7 +112,6 @@ public class Crawler {
 					}
 				}
 			}
-			answer.close();
 		}
 		else {
 			cookieFlashFolder = nextFolder[0];
@@ -126,6 +128,7 @@ public class Crawler {
 				logMessage("Terminating now...", 1);
 				haltDriver();
 				closeLogFile();
+				scanner.close();
 			}
 		});
 
@@ -284,9 +287,7 @@ public class Crawler {
 				System.out.println("Info: the results will be saved in the subdirectory named \"results\".\n"
 						+ "BE CAREFUL THAT FILES MAY BE OVERWRITTEN!");
 				System.out.print("Continue? ");
-				Scanner answer = new Scanner(System.in);
-				String value = answer.next();
-				answer.close();
+				String value = scanner.next();
 				if(!(value.equals("yes") || value.equals("y"))) {
 					System.exit(1);
 				}
