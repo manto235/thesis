@@ -300,7 +300,7 @@ public class Parser {
 			}
 			else {
 				System.out.println("Info: the results will be saved in the subdirectory named \"results\".\n"
-						+ "BE CAREFUL THAT FILES WILL BE OVERWRITTEN!");
+						+ "BE CAREFUL THAT FILES MAY BE OVERWRITTEN!");
 				System.out.print("Continue? ");
 				Scanner answer = new Scanner(System.in);
 				String value = answer.next();

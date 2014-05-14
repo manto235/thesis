@@ -45,7 +45,6 @@ public class Crawler {
 				+ "   debug: " + debug;
 		System.out.println(start);
 
-		// TODO: add results directory
 		// Check the file system permissions
 		try {
 			if(!checkDirectories(directoryName)) {
@@ -232,19 +231,35 @@ public class Crawler {
 
 		File directory = new File(directoryName);
 		File logsDirectory = new File(directoryName + "/logs/");
+		File resultsDirectory = new File(directoryName + "/results/");
 
-		// The directory does not exist: create both the directory and the logs subdirectory
+		// The directory does not exist: create both the directory and the subdirectories
 		if(!directory.isDirectory()) {
+			// Main directory
+			if(directory.mkdirs()) {
+				System.out.println("Info: a directory named \"" + directoryName + "\" has been created.\n");
+			}
+			else {
+				directoriesOK = false;
+			}
+			// Logs subdirectory
 			if(logsDirectory.mkdirs()) {
-				System.out.println("Info: a directory named \"" + directoryName + "\" has been created.\n"
-						+ "      a subdirectory named \"logs\" has also been created.");
+				System.out.println("      a subdirectory named \"logs\" has also been created.");
+			}
+			else {
+				directoriesOK = false;
+			}
+			// Results subdirectory
+			if(resultsDirectory.mkdirs()) {
+				System.out.println("      a subdirectory named \"results\" has also been created.");
 			}
 			else {
 				directoriesOK = false;
 			}
 		}
-		// The directory already exists: check if the logs subdirectory also exists
+		// The directory already exists: check if the subdirectories also exists
 		else {
+			// Logs subdirectory
 			if(!logsDirectory.isDirectory()) {
 				if(logsDirectory.mkdirs()) {
 					System.out.println("Info: a subdirectory named \"logs\" has been created.");
@@ -255,6 +270,26 @@ public class Crawler {
 			}
 			else {
 				System.out.println("Info: the logs will be saved in the subdirectory named \"logs\".");
+			}
+			// Results subdirectory
+			if(!resultsDirectory.isDirectory()) {
+				if(resultsDirectory.mkdirs()) {
+					System.out.println("Info: a subdirectory named \"results\" has been created.");
+				}
+				else {
+					directoriesOK = false;
+				}
+			}
+			else {
+				System.out.println("Info: the results will be saved in the subdirectory named \"results\".\n"
+						+ "BE CAREFUL THAT FILES MAY BE OVERWRITTEN!");
+				System.out.print("Continue? ");
+				Scanner answer = new Scanner(System.in);
+				String value = answer.next();
+				answer.close();
+				if(!(value.equals("yes") || value.equals("y"))) {
+					System.exit(1);
+				}
 			}
 		}
 
