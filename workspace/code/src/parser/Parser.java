@@ -3,6 +3,7 @@ package parser;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -328,7 +329,12 @@ public class Parser {
 			System.exit(1);
 		}
 
-		File[] files = directory.listFiles();
+		//File[] files = directory.listFiles();
+		File[] files = directory.listFiles(new FilenameFilter() {
+		    public boolean accept(File directory, String fileName) {
+		        return fileName.endsWith(".har");
+		    }
+		});
 		filesLatest = new HashMap<String, Integer>();
 		ArrayList<File> filesList = new ArrayList<File>();
 
