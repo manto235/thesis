@@ -331,8 +331,8 @@ public class Parser {
 
 		//File[] files = directory.listFiles();
 		File[] files = directory.listFiles(new FilenameFilter() {
-		    public boolean accept(File directory, String fileName) {
-		        return fileName.endsWith(".har");
+		    public boolean accept(File file, String name) {
+		        return name.endsWith(".har");
 		    }
 		});
 		filesLatest = new HashMap<String, Integer>();
