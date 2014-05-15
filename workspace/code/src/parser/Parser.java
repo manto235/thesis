@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -331,9 +332,9 @@ public class Parser {
 
 		//File[] files = directory.listFiles();
 		File[] files = directory.listFiles(new FilenameFilter() {
-		    public boolean accept(File file, String name) {
-		        return name.endsWith(".har");
-		    }
+			public boolean accept(File file, String name) {
+				return name.endsWith(".har");
+			}
 		});
 		filesLatest = new HashMap<String, Integer>();
 		ArrayList<File> filesList = new ArrayList<File>();
@@ -627,8 +628,15 @@ public class Parser {
 						// CHECK : size of images
 						else if(type.equals("image/jpeg") || type.equals("image/jpg") || type.equals("image/png") ||
 								type.equals("image/gif") || type.equals("image/bmp")) {
-							ImageInputStream imageInputStream = ImageIO.createImageInputStream(new URL(entry.getRequest().getUrl()).openStream());
+							ImageInputStream imageInputStream = null;
 							try {
+								URL url = new URL(entry.getRequest().getUrl());
+								URLConnection connection = url.openConnection();
+								connection.setReadTimeout(10000);
+								imageInputStream = ImageIO.createImageInputStream(connection.getInputStream());
+								//BufferedImage image = ImageIO.read(in);
+								//int width = image.getWidth();
+								//int height = image.getHeight();
 								final Iterator<ImageReader> readers = ImageIO.getImageReaders(imageInputStream);
 								if(readers.hasNext()) {
 									ImageReader imageReader = readers.next();

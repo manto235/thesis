@@ -51,7 +51,7 @@ public class CounterAndDeleterFileVisitor extends SimpleFileVisitor<Path> {
 	}
 
 	@Override
-	public FileVisitResult postVisitDirectory(Path dir,  IOException exc) throws IOException {
+	public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
 		if(dir != root) {
 			Files.delete(dir);
 		}
