@@ -32,6 +32,7 @@ public class Crawler {
 	private static ArrayList<String> websitesTimeout = new ArrayList<String>();
 	private static int websitesVisited = 0;
 	private static Scanner scanner;
+	private static String cookieFlashPath;
 
 	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
@@ -67,7 +68,7 @@ public class Crawler {
 
 		// Get the Flash cookies folder
 		String baseFlashFolder = System.getProperty("user.home") + "/.macromedia/Flash_Player/#SharedObjects/";
-		File nextFolder[] = new File(baseFlashFolder).listFiles(new FileFilter() {
+		File allFolders[] = new File(baseFlashFolder).listFiles(new FileFilter() {
 			public boolean accept(File file) {
 				return file.isDirectory();
 			}
@@ -75,13 +76,13 @@ public class Crawler {
 
 		File cookieFlashFolder = null;
 
-		if(nextFolder.length > 1) {
+		if(allFolders.length > 1) {
 			System.out.println("Multiple folders found for Flash cookies !");
 			while(cookieFlashFolder == null) {
 				// Show the folders
 				int i = 0;
 				System.out.println("-1) exit");
-				for(File folder : nextFolder) {
+				for(File folder : allFolders) {
 					try {
 						System.out.println(" " + i + ") " + folder.getCanonicalPath());
 					} catch (IOException e) {
@@ -104,19 +105,24 @@ public class Crawler {
 					if(value == -1) {
 						System.exit(1);
 					}
-					else if(value < 0 || value > nextFolder.length-1) {
+					else if(value < 0 || value > allFolders.length-1) {
 						System.out.println("Wrong choice!");
 					}
 					else {
-						cookieFlashFolder = nextFolder[value];
+						cookieFlashFolder = allFolders[value];
 					}
 				}
 			}
 		}
 		else {
-			cookieFlashFolder = nextFolder[0];
+			cookieFlashFolder = allFolders[0];
 		}
-		System.out.println(cookieFlashFolder);
+		try {
+			cookieFlashPath = cookieFlashFolder.getCanonicalPath();
+		} catch (IOException ioe) {
+			cookieFlashPath = cookieFlashFolder.getAbsolutePath();
+		}
+		logMessage("Flash cookies folder: " + cookieFlashPath, 0);
 
 		// Manage the signals
 		// Note: placed after the check of file permissions because this check is really fast + uses logMessage
