@@ -287,7 +287,7 @@ public class Crawler {
 		if(!directory.isDirectory()) {
 			// Main directory
 			if(directory.mkdirs()) {
-				System.out.println("Info: a directory named \"" + directoryName + "\" has been created.\n");
+				System.out.println("Info: a directory named \"" + directoryName + "\" has been created.");
 			}
 			else {
 				directoriesOK = false;
