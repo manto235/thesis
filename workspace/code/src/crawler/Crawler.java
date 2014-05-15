@@ -1,5 +1,6 @@
 package crawler;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileWriter;
@@ -9,8 +10,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.TimeoutException;
@@ -36,7 +45,8 @@ public class Crawler {
 	private static ArrayList<String> websitesTimeout = new ArrayList<String>();
 	private static int websitesVisited = 0;
 	private static Scanner scanner;
-	private static String cookieFlashPath;
+	private static String flashCookiesPath;
+	private static Map<String, Integer> flashCookiesPerWebsite;
 
 	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
@@ -122,12 +132,14 @@ public class Crawler {
 			cookieFlashFolder = allFolders[0];
 		}
 		try {
-			cookieFlashPath = cookieFlashFolder.getCanonicalPath();
+			flashCookiesPath = cookieFlashFolder.getCanonicalPath();
 		} catch (IOException ioe) {
-			cookieFlashPath = cookieFlashFolder.getAbsolutePath();
+			flashCookiesPath = cookieFlashFolder.getAbsolutePath();
 		}
-		logMessage("Flash cookies folder: " + cookieFlashPath, 0);
+		logMessage("Flash cookies folder: " + flashCookiesPath, 0);
+		flashCookiesPerWebsite = new HashMap<String, Integer>();
 
+		// Delete the Flash cookies before starting the crawl
 		logMessage("Number of Flash cookies found and deleted: " + countAndDeleteFlashCookies(), 2);
 
 		// Manage the signals
@@ -186,6 +198,9 @@ public class Crawler {
 						if(debug) e.printStackTrace();
 					}
 					success = true;
+					int flashCookies = countAndDeleteFlashCookies();
+					logMessage("Number of Flash cookies found and deleted: " + flashCookies, 2);
+					flashCookiesPerWebsite.put(website.getUrl(), flashCookies);
 				} catch (TimeoutException te) {
 					logMessage("Error: website " + website.getUrl()
 							+ " was not successfully loaded (timeout).", 3);
@@ -232,7 +247,27 @@ public class Crawler {
 
 		detailProblematicWebsites();
 
+		writeCookiesStats(directoryName);
+
 		System.exit(0);
+	}
+
+	private static void writeCookiesStats(String directoryName) {
+		try {
+			BufferedWriter flashCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_flash-cookies.csv"), false));
+
+			Map<String, Integer> sortedFlashCookiesStats = sortByValueInDescendingOrder(flashCookiesPerWebsite);
+
+			for(String name : sortedFlashCookiesStats.keySet()) {
+				int trackerCount = sortedFlashCookiesStats.get(name);
+				flashCookiesFile.write(name + "," + trackerCount);
+				flashCookiesFile.newLine();
+			}
+			flashCookiesFile.close();
+		} catch (IOException e) {
+			logMessage("Error: cannot write the statistics files about the cookies!", 3);
+			if(debug) e.printStackTrace();
+		}
 	}
 
 	/**
@@ -310,7 +345,7 @@ public class Crawler {
 	}
 
 	public static int countAndDeleteFlashCookies() {
-		Path directory = Paths.get(cookieFlashPath);
+		Path directory = Paths.get(flashCookiesPath);
 		String pattern = "*.sol";
 
 		CounterAndDeleterFileVisitor fileVisitor = new CounterAndDeleterFileVisitor(directory, pattern);
@@ -321,6 +356,23 @@ public class Crawler {
 			ioe.printStackTrace();
 		}
 		return fileVisitor.done();
+	}
+
+	public static LinkedHashMap<String, Integer> sortByValueInDescendingOrder (Map<String, Integer> mapToSort) {
+		List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(mapToSort.entrySet());
+		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+				return o2.getValue().compareTo(o1.getValue());
+			}
+		});
+
+		LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
+		for(Map.Entry<String, Integer> entry: entries){
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+
+		return sortedMap;
 	}
 
 	/**
