@@ -1,13 +1,20 @@
 package crawler;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +54,8 @@ public class Crawler {
 	private static Scanner scanner;
 	private static String flashCookiesPath;
 	private static Map<String, Integer> flashCookiesPerWebsite;
+	private static String firefoxCookiesDB;
+	private static Map<String, Integer> firefoxCookiesPerWebsite;
 
 	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
@@ -80,67 +89,11 @@ public class Crawler {
 			System.exit(1);
 		}
 
-		// Get the Flash cookies folder
-		String baseFlashFolder = System.getProperty("user.home") + "/.macromedia/Flash_Player/#SharedObjects/";
-		File allFolders[] = new File(baseFlashFolder).listFiles(new FileFilter() {
-			public boolean accept(File file) {
-				return file.isDirectory();
-			}
-		});
+		// FLASH COOKIES
+		findAndInitializeFlashCookiesStats();
 
-		File cookieFlashFolder = null;
-
-		if(allFolders.length > 1) {
-			System.out.println("Multiple folders found for Flash cookies !");
-			while(cookieFlashFolder == null) {
-				// Show the folders
-				int i = 0;
-				System.out.println("-1) exit");
-				for(File folder : allFolders) {
-					try {
-						System.out.println(" " + i + ") " + folder.getCanonicalPath());
-					} catch (IOException e) {
-						System.out.println("Error: cannot retrieve the folders.");
-					}
-					i++;
-				}
-				// Ask which one to choose
-				System.out.print("Which one to choose? ");
-				int value = 0;
-				boolean isInteger = false;
-				try {
-					value = scanner.nextInt();
-					isInteger = true;
-				} catch (java.util.InputMismatchException ime) {
-					System.out.println("Please write a number!");
-					scanner.nextLine(); // Clean the buffer
-				}
-				if(isInteger) {
-					if(value == -1) {
-						System.exit(1);
-					}
-					else if(value < 0 || value > allFolders.length-1) {
-						System.out.println("Wrong choice!");
-					}
-					else {
-						cookieFlashFolder = allFolders[value];
-					}
-				}
-			}
-		}
-		else {
-			cookieFlashFolder = allFolders[0];
-		}
-		try {
-			flashCookiesPath = cookieFlashFolder.getCanonicalPath();
-		} catch (IOException ioe) {
-			flashCookiesPath = cookieFlashFolder.getAbsolutePath();
-		}
-		logMessage("Flash cookies folder: " + flashCookiesPath, 0);
-		flashCookiesPerWebsite = new HashMap<String, Integer>();
-
-		// Delete the Flash cookies before starting the crawl
-		logMessage("Number of Flash cookies found and deleted: " + countAndDeleteFlashCookies(), 2);
+		// FIREFOX COOKIES
+		findAndInitializeFirefoxCookiesStats(ffprofile);
 
 		// Manage the signals
 		// Note: placed after the check of file permissions because this check is really fast + uses logMessage
@@ -198,9 +151,16 @@ public class Crawler {
 						if(debug) e.printStackTrace();
 					}
 					success = true;
+
+					// Flash cookies
 					int flashCookies = countAndDeleteFlashCookies();
 					logMessage("Number of Flash cookies found and deleted: " + flashCookies, 2);
 					flashCookiesPerWebsite.put(website.getUrl(), flashCookies);
+
+					// Firefox cookies
+					int firefoxCookies = countAndDeleteFirefoxCookies();
+					logMessage("Number of Firefox cookies found and deleted: " + firefoxCookies, 2);
+					firefoxCookiesPerWebsite.put(website.getUrl(), firefoxCookies);
 				} catch (TimeoutException te) {
 					logMessage("Error: website " + website.getUrl()
 							+ " was not successfully loaded (timeout).", 3);
@@ -254,6 +214,7 @@ public class Crawler {
 
 	private static void writeCookiesStats(String directoryName) {
 		try {
+			// Flash cookies
 			BufferedWriter flashCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_flash-cookies.csv"), false));
 
 			Map<String, Integer> sortedFlashCookiesStats = sortByValueInDescendingOrder(flashCookiesPerWebsite);
@@ -264,6 +225,18 @@ public class Crawler {
 				flashCookiesFile.newLine();
 			}
 			flashCookiesFile.close();
+
+			// Firefox cookies
+			BufferedWriter firefoxCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_firefox-cookies.csv"), false));
+
+			Map<String, Integer> sortedFirefoxCookiesStats = sortByValueInDescendingOrder(firefoxCookiesPerWebsite);
+
+			for(String name : sortedFirefoxCookiesStats.keySet()) {
+				int trackerCount = sortedFirefoxCookiesStats.get(name);
+				firefoxCookiesFile.write(name + "," + trackerCount);
+				firefoxCookiesFile.newLine();
+			}
+			firefoxCookiesFile.close();
 		} catch (IOException e) {
 			logMessage("Error: cannot write the statistics files about the cookies!", 3);
 			if(debug) e.printStackTrace();
@@ -344,6 +317,157 @@ public class Crawler {
 		return directoriesOK;
 	}
 
+	// Get the Flash cookies folder
+	private static void findAndInitializeFlashCookiesStats() {
+		String baseFlashFolder = System.getProperty("user.home") + "/.macromedia/Flash_Player/#SharedObjects/";
+		File allFolders[] = new File(baseFlashFolder).listFiles(new FileFilter() {
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
+		});
+
+		File cookieFlashFolder = null;
+
+		if(allFolders.length > 1) {
+			System.out.println("Multiple folders found for Flash cookies !");
+			while(cookieFlashFolder == null) {
+				// Show the folders
+				int i = 0;
+				System.out.println("-1) exit");
+				for(File folder : allFolders) {
+					try {
+						System.out.println(" " + i + ") " + folder.getCanonicalPath());
+					} catch (IOException e) {
+						System.out.println("Error: cannot retrieve the folders.");
+					}
+					i++;
+				}
+				// Ask which one to choose
+				System.out.print("Which one to choose? ");
+				int value = 0;
+				boolean isInteger = false;
+				try {
+					value = scanner.nextInt();
+					isInteger = true;
+				} catch (java.util.InputMismatchException ime) {
+					System.out.println("Please write a number!");
+					scanner.nextLine(); // Clean the buffer
+				}
+				if(isInteger) {
+					if(value == -1) {
+						System.exit(1);
+					}
+					else if(value < 0 || value > allFolders.length-1) {
+						System.out.println("Wrong choice!");
+					}
+					else {
+						cookieFlashFolder = allFolders[value];
+					}
+				}
+			}
+		}
+		else {
+			cookieFlashFolder = allFolders[0];
+		}
+		try {
+			flashCookiesPath = cookieFlashFolder.getCanonicalPath();
+		} catch (IOException ioe) {
+			flashCookiesPath = cookieFlashFolder.getAbsolutePath();
+		}
+		logMessage("Flash cookies folder: " + flashCookiesPath, 0);
+		flashCookiesPerWebsite = new HashMap<String, Integer>();
+
+		// Delete the Flash cookies before starting the crawl
+		logMessage("Number of Flash cookies found and deleted: " + countAndDeleteFlashCookies(), 2);
+	}
+
+	// Get the Firefox cookies folder
+	private static void findAndInitializeFirefoxCookiesStats(String ffprofile) {
+		String baseFirefoxFolder = System.getProperty("user.home") + "/.mozilla/firefox/";
+
+		String profileFolder = null;
+		try {
+			BufferedReader profilesReader = new BufferedReader(new FileReader(baseFirefoxFolder + "profiles.ini"));
+			String line;
+			while ((line = profilesReader.readLine()) != null) {
+				if(line.equals("Name=" + ffprofile)) {
+					line = profilesReader.readLine(); // Skip IsRelative
+					line = profilesReader.readLine();
+					profileFolder = line.substring(5, line.length()); // Path
+					break;
+				}
+			}
+			profilesReader.close();
+		} catch (Exception e) {
+			logMessage("Error: cannot find Firefox profiles!", 3);
+			if(debug) e.printStackTrace();
+		}
+
+		/*ArrayList<String[]> profiles = new ArrayList<String[]>();
+		try {
+			BufferedReader profilesReader = new BufferedReader(new FileReader(baseFirefoxFolder + "profiles.ini"));
+			String line;
+			while ((line = profilesReader.readLine()) != null) {
+				if(line.startsWith("[Profile")) {
+					line = profilesReader.readLine();
+					String[] profile = new String[2];
+					profile[0] = line.substring(5, line.length()); // Name
+					line = profilesReader.readLine(); // Skip IsRelative
+					line = profilesReader.readLine();
+					profile[1] = line.substring(5, line.length()); // Path
+					System.out.println("name: " + profile[0] + " - folder: " + profile[1]);
+					profiles.add(profile);
+				}
+			}
+			profilesReader.close();
+		} catch (Exception e) {
+			logMessage("Error: cannot find Firefox profiles!", 3);
+			if(debug) e.printStackTrace();
+		}*/
+
+		/*String profileFolder = null;
+
+		System.out.println("Profiles found for Firefox");
+		while(profileFolder == null) {
+			// Show the folders
+			int i = 0;
+			System.out.println("-1) exit");
+			for(String[] profile : profiles) {
+				System.out.println(" " + i + ") " + "Name: " + profile[0] + " (folder: " + profile[1] + ")");
+				i++;
+			}
+			// Ask which one to choose
+			System.out.print("Which one to choose? ");
+			int value = 0;
+			boolean isInteger = false;
+			try {
+				value = scanner.nextInt();
+				isInteger = true;
+			} catch (java.util.InputMismatchException ime) {
+				System.out.println("Please write a number!");
+				scanner.nextLine(); // Clean the buffer
+			}
+			if(isInteger) {
+				if(value == -1) {
+					System.exit(1);
+				}
+				else if(value < 0 || value > profiles.size()-1) {
+					System.out.println("Wrong choice!");
+				}
+				else {
+					profileFolder = profiles.get(value)[1];
+				}
+			}
+		}*/
+
+		firefoxCookiesDB = baseFirefoxFolder + profileFolder + "/cookies.sqlite";
+		logMessage("Firefox cookies database: " + firefoxCookiesDB, 0);
+		firefoxCookiesPerWebsite = new HashMap<String, Integer>();
+
+		// Delete the Firefox cookies before starting the crawl
+		logMessage("Number of Firefox cookies found and deleted: " + countAndDeleteFirefoxCookies(), 2);
+	}
+
 	public static int countAndDeleteFlashCookies() {
 		Path directory = Paths.get(flashCookiesPath);
 		String pattern = "*.sol";
@@ -373,6 +497,48 @@ public class Crawler {
 		}
 
 		return sortedMap;
+	}
+
+	public static int countAndDeleteFirefoxCookies() {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException cnfe) {
+			logMessage("Cannot use sqlite-jdbc!", 3);
+		}
+
+		Connection connection = null;
+		try
+		{
+			// create a database connection
+			connection = DriverManager.getConnection("jdbc:sqlite:/" + firefoxCookiesDB);
+			/*Statement statement = connection.createStatement();
+			statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+			statement.executeUpdate("drop table if exists person");
+			statement.executeUpdate("create table person (id integer, name string)");
+			statement.executeUpdate("insert into person values(1, 'leo')");
+			statement.executeUpdate("insert into person values(2, 'yui')");
+			ResultSet rs = statement.executeQuery("select * from person");
+			while(rs.next())
+			{
+				// read the result set
+				System.out.println("name = " + rs.getString("name"));
+				System.out.println("id = " + rs.getInt("id"));
+			}*/
+		} catch(SQLException e) {
+			// if the error message is "out of memory",
+			// it probably means no database file is found
+			System.err.println(e.getMessage());
+		}
+		finally {
+			try {
+				if(connection != null) connection.close();
+			} catch(SQLException e) {
+				// connection close failed.
+				System.err.println(e);
+			}
+		}
+		return 0;
 	}
 
 	/**
