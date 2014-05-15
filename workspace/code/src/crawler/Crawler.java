@@ -313,7 +313,7 @@ public class Crawler {
 		Path directory = Paths.get(cookieFlashPath);
 		String pattern = "*.sol";
 
-		CounterAndDeleterFileVisitor fileVisitor = new CounterAndDeleterFileVisitor(pattern);
+		CounterAndDeleterFileVisitor fileVisitor = new CounterAndDeleterFileVisitor(directory, pattern);
 		try {
 			Files.walkFileTree(directory, fileVisitor);
 		} catch (IOException ioe) {

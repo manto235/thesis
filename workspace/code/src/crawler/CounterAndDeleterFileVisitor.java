@@ -11,9 +11,11 @@ public class CounterAndDeleterFileVisitor extends SimpleFileVisitor<Path> {
 
 	private final PathMatcher matcher;
 	private int numMatches = 0;
+	private Path root;
 
-	CounterAndDeleterFileVisitor(String pattern) {
+	CounterAndDeleterFileVisitor(Path startDirectory, String pattern) {
 		matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
+		root = startDirectory;
 	}
 
 	// Compares the glob pattern against the file or directory name.
@@ -48,19 +50,13 @@ public class CounterAndDeleterFileVisitor extends SimpleFileVisitor<Path> {
 		return CONTINUE;
 	}
 
-	/*@Override
+	@Override
 	public FileVisitResult postVisitDirectory(Path dir,  IOException exc) throws IOException {
-		Files.delete(dir);
+		if(dir != root) {
+			Files.delete(dir);
+		}
 		return CONTINUE;
-	}*/
-
-	/*@Override
-    public FileVisitResult postVisitDirectory(Path directory, IOException ioe)
-            throws IOException {
-        System.out.println("Deleting Directory: " + directory.getFileName());
-        Files.delete(directory);
-        return FileVisitResult.CONTINUE;
-    }*/
+	}
 
 	@Override
 	public FileVisitResult visitFileFailed(Path file, IOException exc) {
