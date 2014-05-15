@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +24,7 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import crawler.WebsitesList;
 import crawler.Website;
+import crawler.CounterAndDeleterFileVisitor;
 
 public class Crawler {
 
@@ -123,6 +127,8 @@ public class Crawler {
 			cookieFlashPath = cookieFlashFolder.getAbsolutePath();
 		}
 		logMessage("Flash cookies folder: " + cookieFlashPath, 0);
+
+		logMessage("Number of Flash cookies found and deleted: " + countAndDeleteFlashCookies(), 2);
 
 		// Manage the signals
 		// Note: placed after the check of file permissions because this check is really fast + uses logMessage
@@ -301,6 +307,20 @@ public class Crawler {
 		}
 
 		return directoriesOK;
+	}
+
+	public static int countAndDeleteFlashCookies() {
+		Path directory = Paths.get(cookieFlashPath);
+		String pattern = "*.sol";
+
+		CounterAndDeleterFileVisitor fileVisitor = new CounterAndDeleterFileVisitor(pattern);
+		try {
+			Files.walkFileTree(directory, fileVisitor);
+		} catch (IOException ioe) {
+			System.out.println("A problem occurred while accessing the Flash cookies folder!");
+			ioe.printStackTrace();
+		}
+		return fileVisitor.done();
 	}
 
 	/**
