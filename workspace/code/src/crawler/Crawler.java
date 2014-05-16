@@ -158,8 +158,10 @@ public class Crawler {
 					flashCookiesPerWebsite.put(website.getUrl(), flashCookies);
 
 					// Firefox cookies
-					int firefoxCookies = countAndDeleteFirefoxCookies();
-					logMessage("Number of Firefox cookies found and deleted: " + firefoxCookies, 2);
+					//int firefoxCookies = countAndDeleteFirefoxCookies();
+					int firefoxCookies = driver.manage().getCookies().size();
+					driver.manage().deleteAllCookies(); // Maybe not necessary because of Selenium's FirefoxDriver
+					logMessage("Number of Firefox cookies found: " + firefoxCookies, 2);
 					firefoxCookiesPerWebsite.put(website.getUrl(), firefoxCookies);
 				} catch (TimeoutException te) {
 					logMessage("Error: website " + website.getUrl()
@@ -464,7 +466,7 @@ public class Crawler {
 		logMessage("Firefox cookies database: " + firefoxCookiesDB, 0);
 		firefoxCookiesPerWebsite = new HashMap<String, Integer>();
 
-		// Delete the Firefox cookies before starting the crawl
+		// Delete the Firefox cookies before starting the crawler
 		logMessage("Number of Firefox cookies found and deleted: " + countAndDeleteFirefoxCookies(), 2);
 	}
 
@@ -499,6 +501,7 @@ public class Crawler {
 		return sortedMap;
 	}
 
+	// Cannot use this method while Firefox is running because the cookies.sqlite database is updated at the exit of Firefox.
 	public static int countAndDeleteFirefoxCookies() {
 		int count = 0;
 		try {
@@ -516,7 +519,7 @@ public class Crawler {
 			ResultSet rs = statement.executeQuery("SELECT Count(*) AS count FROM moz_cookies");
 			count = rs.getInt("count");
 
-			//statement.executeUpdate("delete from moz_cookies");
+			statement.executeUpdate("delete from moz_cookies");
 		} catch (SQLException e) {
 			logMessage("Cannot get the number of cookies in the Firefox cookies database!", 3);
 		}
@@ -560,6 +563,7 @@ public class Crawler {
 			profile.setPreference(domain + "console.enableSites", false);
 			profile.setPreference(domain + "cookies.enableSites", false);
 			profile.setPreference(domain + "script.enableSites", false);
+			profile.setPreference(domain + ".currentVersion", "2.0.0"); // Avoid startup screen
 
 			// Set default NetExport preferences
 			profile.setPreference(domain + "netexport.alwaysEnableAutoExport", true);
