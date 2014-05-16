@@ -632,6 +632,7 @@ public class Parser {
 							try {
 								URL url = new URL(entry.getRequest().getUrl());
 								URLConnection connection = url.openConnection();
+								connection.setConnectTimeout(10000);
 								connection.setReadTimeout(10000);
 								imageInputStream = ImageIO.createImageInputStream(connection.getInputStream());
 								//BufferedImage image = ImageIO.read(in);
