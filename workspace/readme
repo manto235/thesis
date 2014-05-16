@@ -50,6 +50,11 @@ If you want to start the project from scratch:
     <artifactId>guava</artifactId>
     <version>16.0.1</version>
    </dependency>
+   <dependency>
+    <groupId>org.xerial</groupId>
+    <artifactId>sqlite-jdbc</artifactId>
+    <version>3.7.15-M1</version>
+   </dependency>
   </dependencies>
 
 - Download HarLib (from https://sites.google.com/site/frogthinkerorg/projects/harlib) and add harlib-jackson-xxx.jar to the classpath.
@@ -63,21 +68,19 @@ How to add a library to the classpath in Eclipse:
 ___________________
 _____ Firefox _____
 
-- create a new profile in Firefox (2 methods):
+- Create a new profile in Firefox (2 methods):
   1) With GUI
      > firefox -P
   2) Without GUI
      > firefox -CreateProfile <profile>
 
-- run Firefox in order to create the files of your profile
+- Run Firefox in order to create the files of your profile
   > firefox -P <profile>
 
-- install Firebug: https://getfirebug.com/
+- Install Firebug: https://getfirebug.com/
 
-- install NetExport
-  > You have two choices:
-    1) Install NetExport from https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport and edit the files (see section below).
-    2) Install the modified NetExport extension from the "Firefox" directory.
+- Install NetExport: https://getfirebug.com/wiki/index.php/Firebug_Extensions#NetExport
+  > Edit the files of the extension (see section below).
 
 
 _____ NetExport _____
@@ -86,7 +89,7 @@ _____ NetExport _____
 - Edit the file /chrome/content/netexport/harBuilder.js (see note 1 below)
   > Comment the lines 200 ("if (!timings._timeStamps)") to 211 ("});")
 - Edit the file /chrome/content/netexport/automation.js (see note 2 below)
-  > Modify var fileName = [...] to var fileName = name;
+  > Modify the line: var fileName = [...] to var fileName = name;
 
 --- Why ? ---
 Note 1: these lines generate a field that is not standard in the HAR spec and makes HarLib to detect the files as corrupted.
