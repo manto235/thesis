@@ -1,0 +1,16 @@
+"response": {
+  "status": 200,
+  "statusText": "OK",
+  "httpVersion": "HTTP/1.1",
+  "cookies": [
+	{
+	  "name": "BAIDUID",
+	  "value": "54EA7793ABACAC88E873AF756E910EFE:FG",
+	  "expires": "NaN-NaN-NaNTNaN:NaN:NaN.NaN+NaN:NaN",
+	  "max-age": "31536000",
+	  "path": "/",
+	  "domian": ".baidu.com",
+	  "version": "1",
+	  "domain": "cb.baidu.com"
+	}
+  ],

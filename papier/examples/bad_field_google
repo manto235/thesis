@@ -1,0 +1,16 @@
+"response": {
+  "status": 302,
+  "statusText": "Moved Temporarily",
+  "httpVersion": "HTTP/1.1",
+  "cookies": [
+	{
+	  "name": "GAPS",
+	  "value": "1:G4yFvUco0ybt2VMj_gkGq4JfeZoaLw:Z3E-N608svwYh-H3",
+	  "path": "/",
+	  "expires": "2016-04-21T16:12:12.000+02:00",
+	  "secure": true,
+	  "httpOnly": true,
+	  "priority": "High",
+	  "domain": "accounts.google.com"
+	}
+  ],

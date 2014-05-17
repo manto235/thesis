@@ -201,6 +201,7 @@ Les résultats détaillés pour chaque site dans le dossier "results" :
 \section{Résultats}
 
 \subsection{Expérience 1 : étude à long terme}
+\subsubsection{Détails de l'expérience}
 Le but de cette expérience est de déterminer l'évolution des trackers sur une certaine période en effectuant des mesures de façon régulière.
 
 Afin de réaliser cette étude, le \textit{crawler} a été lancé chaque jour du 28 mars au 7 mai 2014 (à l'exception du 8 avril) sur le TOP 1000 du classement Alexa \cite{AlexaTop}, ce qui représente 40 jours de mesures. Notez cependant que l'implémentation du compteur de cookies Flash et Firefox a été réalisée ultérieurement à cette expérience et ces données ne sont donc pas disponibles au sein de l'expérience.
@@ -215,23 +216,24 @@ Le \textit{crawler} a été lancé avec les paramètres suivants :
 	\newline
 \end{itemize}
 
+\subsubsection{Premières constatations}
 Lors de cette expérience, on peut voir que le taux d'échec avec le \textit{crawler} est toujours inférieur à 9\%.
 Notez que l'implémentation a un peu changé depuis cette expérience. Lors de cette dernière, quand un site atteignait le nombre maximum de tentatives et qu'il était placé dans la liste des sites en échec, il était également retiré de la liste des sites ayant eu besoin d'au moins un nouvel essai suite à un timeout.
-Ceci explique des situations telles que sur la \autoref{graph_crawler_fails} au début du mois de mai.
+Ceci explique des situations telles que sur la \autoref{Exp1_crawler_fails} au début du mois de mai.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.7]{graphiques/graph_crawler_fails.png}
-	\caption{\label{graph_crawler_fails}Le nombre d'échecs du \textit{crawler}}.
+	\includegraphics[scale=.7]{graphiques/Exp1_crawler_fails.png}
+	\caption{\label{Exp1_crawler_fails}Le nombre d'échecs du \textit{crawler}}.
 \end{figure}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.8]{graphiques/graph_parser_success-rate.png}
-	\caption{\label{graph_parser_success-rate}Le pourcentage de réussite du \textit{parser}}.
+	\includegraphics[scale=.8]{graphiques/Exp1_parser_success_rate.png}
+	\caption{\label{Exp1_parser_success_rate}Le pourcentage de réussite du \textit{parser}}.
 \end{figure}
 
-Le pourcentage de fichiers correctement analysé est representé à la \autoref{graph_parser_success-rate}. On peut voir que jusqu'à partir du début de l'expérience jusqu'au 21 avril, le pourcentage de réussite est en moyenne de 99,73\%. A partir du 22 avril et jusqu'à la fin de l'expérience, il passe à 98,71\%. Cela représente une dizaine de fichiers.
+Le pourcentage de fichiers correctement analysés est representé à la \autoref{Exp1_parser_success_rate}. On peut voir que jusqu'à partir du début de l'expérience jusqu'au 21 avril, le pourcentage de réussite est en moyenne de 99,73\%. A partir du 22 avril et jusqu'à la fin de l'expérience, il passe à 98,71\%. Cela représente une dizaine de fichiers.
 Croyant d'abord à une erreur lors de l'exécution du \textit{parser}, les analyses ont été reconduites une seconde fois mais n'ont pas montré de résultat différent.
 Après analyse des fichiers de log du \textit{parser}, on remarque que ce sont généralement les mêmes sites qui sont en échec.
 Ainsi, sur les 16 jours (du 22 avril jusqu'au 7 mai), on peut remarquer certains faits.
@@ -248,7 +250,7 @@ Les sites suivants n'ont pas été en échec 1 jour :
 \begin{itemize}
   \item www.gamespot.com : le 4 mai
   \item www.theverge.com : le 4 mai
-  %\newline
+  \newline
 \end{itemize}
 Les sites suivants n'ont pas été en échec 2 jours :
 \begin{itemize}
@@ -276,7 +278,37 @@ Les sites suivants n'ont été en échec qu'un seul jour :
 Les autres sites en échec ne peuvent pas être classés de manière identique.\\
 
 La constatation que certains sites sont en échec pendant la période complète des 16 jours (alors qu'ils ne l'étaient pas avant le 22 avril) et que certains sites sont en échec sur une courte période (2-3 jours) fait penser que ces échecs résultent d'une erreur située sur les sites eux-mêmes.
+\newline
 
+Une recherche approfondie a été effectuée et celle-ci a confirmé l'hypothèse selon laquelle l'erreur provient des données reçues des serveurs. Plus précisément, les erreurs proviennent de champs non reconnus dans les réponses HTTP ou de valeurs erronées. Quelques exemples illustrant les erreurs rencontrées ont été ajoutés.
+\newline
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/bad_field_google}
+	\caption{\label{bad_field_google}Réponse HTTP de \textit{Google} qui veut créer un cookie avec un champ "priority"}.
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/bad_field_baidu}
+	\caption{\label{bad_field_baidu}Réponse HTTP de \textit{Baidu} avec un champ "domian" au lieu de "domain"}.
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/bad_field_gamespot}
+	\caption{\label{bad_field_gamespot}Réponse HTTP de \textit{GameSpot} avec la valeur "0" pour le champ "expire"}.
+\end{figure}
+
+\subsubsection{Nombre de trackers}
+Le nombre total de trackers semble rester stable, il est en moyenne de 30080. Ce nombre chute le 2 avril où il est de 25770 trackers. Ceci s'explique par le fait que le nombre de fichiers HTTP Archive pour ce jour (845 fichiers) est inférieur comparé aux autres jours, ce qui fait que moins de sites ont pu être analysés. Le nombre inférieur de fichiers provient probablement d'une perte de données suite à une suppression accidentelle ou à un manque de place qui a empêché l'enregistrement des fichiers HTTP Archive.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.8]{graphiques/Exp1_parser_total_trackers.png}
+	\caption{\label{Exp1_parser_total_trackers}Nombre total de trackers sur l'ensemble de l'analyse}.
+\end{figure}
 \subsection{Expérience 2 : étude ponctuelle}
 
 \subsubsection{Sites renfermant le plus de trackers détectés}
