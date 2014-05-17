@@ -727,7 +727,6 @@ public class Parser {
 		}
 		catch (Exception e) {
 			logMessage("Error: cannot parse the file.", 3);
-			filesFailed.add(file.getName());
 			if(debug) e.printStackTrace();
 			return -1;
 		}
