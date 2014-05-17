@@ -180,6 +180,9 @@ public class Parser {
 			if(websiteTrackers != -1) {
 				totalTrackers += websiteTrackers;
 			}
+			else {
+				filesFailed.add(file.getName());
+			}
 			filesAnalyzed++;
 		}
 
@@ -453,9 +456,9 @@ public class Parser {
 			 *   => get the SOA of the website. If it fails, we skip the analysis of the website's file.
 			 *
 			 * For every URL in the website's file:
-			 *   => check it with fast means (Ghostery or other databases)
+			 *   => check it with fast means (the regular expressions from Ghostery)
 			 *   => if it fails, get the DNS SOA of the URL
-			 *   => if the SOAs are different: determine if the URL is a tracker according to criteria
+			 *   => if the SOAs are different: determine if the URL is a tracker according to the criteria
 			 */
 
 			/* ----- SOA OF THE WEBSITE ----- */
