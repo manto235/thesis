@@ -171,7 +171,6 @@ Les résultats globaux sont enregistrés dans le dossier "logs" alors que les r�
 Ceci a été décidé par souci de simplicité car les résultats globaux sont ainsi directement accessibles et ne sont pas noyés dans le dossier contenant les résultats détaillés.
 
 \subsubsection{Crawler}
-
 \begin{itemize}
 	\item \textbf{stats\_firefox-cookies.csv} contient la liste des sites utilisant des cookies classiques, triés par ordre décroissant.
 	\item \textbf{stats\_flash-cookies.csv} contient la liste des sites utilisant des cookies Flash, triés par ordre décroissant.
@@ -179,30 +178,52 @@ Ceci a été décidé par souci de simplicité car les résultats globaux sont a
 \end{itemize}
 
 \subsubsection{Parser}
-Les résultats globaux sont enregistrés dans le dossier "logs" :
+Les résultats globaux dans le dossier "logs" :
 \begin{itemize}
+	\item \textbf{stats\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
+	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé de trackers (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript chargés depuis un autre domaine, pixels espions et requêtes effectuées avec des paramètres).
 	\item \textbf{stats\_trackers.csv} contient la liste des trackers identifiés grâce à Ghostery, triés par ordre décroissant.
 	\item \textbf{stats\_websites.csv} contient la liste des sites avec le nombre de trackers identifiés, triés par ordre décroissant.
-	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé de trackers (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript chargés depuis un autre domaine, pixels espions et requêtes effectuées avec des paramètres).
-	\item \textbf{stats\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
 	\newline
 \end{itemize}
 
-Les résultats détaillés pour chaque site sont enregistrés dans le dossier "results" :
+Les résultats détaillés pour chaque site dans le dossier "results" :
 \begin{itemize}
-	\item \textbf{<URL du site>\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
-	\item \textbf{<URL du site>\_urls.csv} contient la liste de l'URL de toutes les ressources chargées d'un domaine différent.
 	\item \textbf{<URL du site>\_cookies.csv} contient la liste des cookies créés par des réponses HTTP d'un domaine différent.
 	\item \textbf{<URL du site>\_js.csv} contient la liste des fichiers JavaScript provenant d'un autre domaine.
-	\item \textbf{<URL du site>\_pixels.csv} contient la liste des pixels espions détectés depuis un autre domaine.
+	\item \textbf{<URL du site>\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
 	\item \textbf{<URL du site>\_parameters.csv} contient la liste des requêtes vers un domaine différent dont l'URL contient des paramètres.
+	\item \textbf{<URL du site>\_pixels.csv} contient la liste des pixels espions détectés depuis un autre domaine.
+	\item \textbf{<URL du site>\_urls.csv} contient la liste de l'URL de toutes les ressources chargées d'un domaine différent.
 	\newline
 \end{itemize}
 
 \section{Résultats}
 
 \subsection{Expérience 1 : étude à long terme}
+Le but de cette expérience est de déterminer l'évolution des trackers sur une certaine période en effectuant des mesures de façon régulière.
+
 Afin de réaliser cette étude, le \textit{crawler} a été lancé chaque jour du 28 mars au 7 mai 2014 (à l'exception du 8 avril) sur le TOP 1000 du classement Alexa \cite{AlexaTop}, ce qui représente 40 jours de mesures. Notez cependant que l'implémentation du compteur de cookies Flash et Firefox a été réalisée ultérieurement à cette expérience et ces données ne sont donc pas disponibles au sein de l'expérience.
+
+L'expérience a été lancée avec les paramètres suivants :
+\begin{itemize}
+	\item les sites visités sont issus du TOP Alexa du 26 mars 2014
+	\item l'intervale sélectionné concerne les 1000 premiers sites
+	\item 3 tentatives maximum ont été autorisées par site
+	\item Firefox était redémarré tous les 50 sites
+	\item Firefox était dépourvu de toute extension (autre que Firebug et NetExport)
+	\newline
+\end{itemize}
+
+Lors de cette expérience, on peut voir que le taux d'échec avec le \textit{crawler} est toujours inférieur à 9\%.
+Notez que l'implémentation a un peu changé depuis cette expérience. Lors de cette dernière, quand un site atteignait le nombre maximum de tentatives et qu'il était placé dans la liste des sites en échec, il était également retiré de la liste des sites ayant eu besoin d'au moins un nouvel essai suite à un timeout.
+Ceci explique des situations telles que sur la \autoref{graph_crawler_fails} au début du mois de mai.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1]{graphiques/graph_crawler_fails.png}
+	\caption{\label{graph_crawler_fails}Le nombre d'échecs du \textit{crawler}}.
+\end{figure}
 
 \subsection{Expérience 2 : étude ponctuelle}
 
