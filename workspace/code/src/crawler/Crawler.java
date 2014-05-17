@@ -142,16 +142,6 @@ public class Crawler {
 							+ " (attempt #" + attempt + ").", 1);
 					driver.get("http://" + website.getUrl());
 
-					// Wait till HAR is exported
-					try {
-						System.out.println("                        Waiting 8 seconds"
-								+ " for the HAR file to be exported...");
-						Thread.sleep(8000);
-					} catch (InterruptedException e) {
-						if(debug) e.printStackTrace();
-					}
-					success = true;
-
 					// Flash cookies
 					int flashCookies = countAndDeleteFlashCookies();
 					logMessage("Number of Flash cookies found and deleted: " + flashCookies, 2);
@@ -163,6 +153,16 @@ public class Crawler {
 					driver.manage().deleteAllCookies(); // Maybe not necessary because of Selenium's FirefoxDriver
 					logMessage("Number of Firefox cookies found: " + firefoxCookies, 2);
 					firefoxCookiesPerWebsite.put(website.getUrl(), firefoxCookies);
+
+					// Wait till HAR is exported
+					try {
+						System.out.println("                        Waiting 8 seconds"
+								+ " for the HAR file to be exported...");
+						Thread.sleep(8000);
+					} catch (InterruptedException e) {
+						if(debug) e.printStackTrace();
+					}
+					success = true;
 				} catch (TimeoutException te) {
 					logMessage("Error: website " + website.getUrl()
 							+ " was not successfully loaded (timeout).", 3);
