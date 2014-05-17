@@ -57,7 +57,7 @@ public class Crawler {
 	private static String firefoxCookiesDB;
 	private static Map<String, Integer> firefoxCookiesPerWebsite;
 
-	public static void launchCrawler(String directoryName, String ffprofile, String websitesFile,
+	public static void launchCrawler(final String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
 		debug = showDebug;
 		String start = dateFormat.format(new Date()) + " - Launching crawler...\n"
@@ -104,8 +104,11 @@ public class Crawler {
 			{
 				logMessage("Terminating now...", 1);
 				haltDriver();
-				closeLogFile();
+				deleteUselessFiles(directoryName);
+				detailProblematicWebsites();
+				writeCookiesStats(directoryName);
 				scanner.close();
+				closeLogFile();
 			}
 		});
 
@@ -204,13 +207,6 @@ public class Crawler {
 		}
 
 		logMessage("Info: the crawling of the websites is done!", 1);
-
-		deleteUselessFiles(directoryName);
-
-		detailProblematicWebsites();
-
-		writeCookiesStats(directoryName);
-
 		System.exit(0);
 	}
 
