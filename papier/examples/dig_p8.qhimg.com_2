@@ -1,0 +1,20 @@
+[antoine@M1530 test]$ dig -t soa p8.qhimg.com
+
+; <<>> DiG 9.9.4-P2-RedHat-9.9.4-12.P2.fc20 <<>> -t soa p8.qhimg.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41458
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4000
+;; QUESTION SECTION:
+;p8.qhimg.com.			IN	SOA
+
+;; AUTHORITY SECTION:
+qhimg.com.		180	IN	SOA	ns5.360safe.com. domainadmin.360safe.com. 1398842423 3600 180 1209600 180
+
+;; Query time: 340 msec
+;; SERVER: 192.168.1.1#53(192.168.1.1)
+;; WHEN: mar mai 13 11:50:52 CEST 2014
+;; MSG SIZE  rcvd: 101

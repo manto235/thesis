@@ -1,0 +1,21 @@
+[antoine@M1530 test]$ dig -t soa p8.qhimg.com
+
+; <<>> DiG 9.9.4-P2-RedHat-9.9.4-12.P2.fc20 <<>> -t soa p8.qhimg.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 16370
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4000
+;; QUESTION SECTION:
+;p8.qhimg.com.			IN	SOA
+
+;; ANSWER SECTION:
+p8.qhimg.com.		7	IN	CNAME	d35lc0g891lqw8.cloudfront.net.
+d35lc0g891lqw8.cloudfront.net. 880 IN	SOA	ns-1713.awsdns-22.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+
+;; Query time: 45 msec
+;; SERVER: 192.168.1.1#53(192.168.1.1)
+;; WHEN: mar mai 13 11:50:42 CEST 2014
+;; MSG SIZE  rcvd: 168

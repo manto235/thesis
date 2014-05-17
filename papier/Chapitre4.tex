@@ -41,7 +41,7 @@ Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs a
 
 \subsection{Crawler}
 \label{crawler}
-\subsubsection{Implémentation}
+\subsubsection{Choix d'implémentation}
 Afin d'automatiser le navigateur et de parcourir les sites sans intervention humaine, \textit{Selenium} \cite{selenium_homepage} est utilisé. Plus précisément, c'est le pilote \textit{FirefoxDriver} de \textit{Selenium} qui est utilisé au sein de l'outil.
 
 La première implémentation traitait directement le code source de la page. Il était possible d'aller sur le moteur de recherche Google, de sélectionner le champ de recherche, de taper une requête et de récupérer le résultat. Cependant, le processus était assez lent et incomplet car on ne pouvait pas récupérer les requêtes et les réponses HTTP. On pouvait juste récupérer les éléments associés à des balises (par exemple, récupérer toutes les images via les balises de type \textit{<img>}, les scripts avec les balises \textit{<script>},...) mais tout n'était pas récupérable car certains éléments étaient chargés sans être identifiés.
@@ -59,7 +59,9 @@ Une hypothèse est que certains sites sont hébergés sur des serveurs lointains
 Une hypothèse supplémentaire est que certains sites demandent une action de l'utilisateur (faire défiler la page par exemple) afin de charger les éléments du site (typiquement, les images).
 \newline
 
-Une amélioration a été apportée à l'outil afin de compter le nombre de cookies Flash et de cookies classiques (qu'ils soient enregistrés via les réponses HTTP ou des scripts JavaScript) lors de chaque visite de site. Cette fonctionnalité a été implémentée au sein du \textit{crawler} étant donné que ce n'est pas possible d'accéder à cette information avec l'aide des fichiers HTTP Archive analysés par le \textit{parser}. Cela signifie qu'une partie des résultats est déjà disponible lorsque le crawler a fini de visiter les sites.
+Une amélioration a été apportée à l'outil afin de compter le nombre de cookies Flash et de cookies classiques (qu'ils soient enregistrés via les réponses HTTP ou des scripts JavaScript) lors de chaque visite de site. Cette fonctionnalité a été implémentée au sein du \textit{crawler} étant donné que ce n'est pas possible d'accéder à cette information avec l'aide des fichiers HTTP Archive analysés par le \textit{parser}. Cela signifie qu'une partie des résultats est déjà disponible lorsque le \textit{crawler} a fini de visiter les sites.
+
+A son lancement, il supprime l'ensemble des cookies Flash (les fichiers .sol) dans le dossier \textit{.macromedia/Flash\_Player/\#SharedObjects/XXXXXXXX/}. Il supprime également les cookies Firefox en se connectant à la base de données SQLite dans \textit{.mozilla/firefox/<profil>/cookies.sqlite} et en vidant la table \textit{moz\_cookies}. Cela permet de s'assurer que la visite des sites ne sera pas influencée par la présence de cookies antérieurs.
 
 \subsubsection{Changements opérés sur les extensions}
 Deux modifications ont été nécessaires sur l'extension \textit{NetExport} de \textit{Firebug}.
@@ -88,6 +90,82 @@ Il a été nécessaire d'implémenter une fonctionnalité qui redémarre Firefox
 
 \subsection{Parser}
 \label{parser}
+\subsubsection{Choix d'implémentation}
+Lors de la visite des sites par le \textit{crawler}, il arrive que celui-ci doive refaire de nouvelles visites afin d'exporter correctement le fichier HTTP Archive d'un site. Il en résulte que plusieurs fichiers pour le même site soient disponibles. Par exemple, on peut très bien voir des fichiers tels que \textit{monsite.com.har}, \textit{monsite.com-1.har}, etc. Lors de l'analyse de ces fichiers par le \textit{parser}, celui-ci considère seulementla dernière version du fichier comme étant valide. Il ignore donc les autres fichiers concernant le même site (si jamais il y en a plusieurs) car ils sont généralement corrompus ou incomplets.
+\newline
+
+Lors de l'analyse d'un site, l'autorité en charge pour son domaine est automatiquement récupérée via une requête DNS de type SOA. Cela permet de déterminer si une URL présente dans le site appartient au même domaine ou si elle provient d'un domaine différent.
+
+Si l'autorité du site analysé ne peut être récupérée, l'analyse du site est considérée comme étant en échec et le nom du fichier contenant les informations de ce site est ajouté dans une liste reprenant tous les fichiers en échec.
+
+Si l'autorité du domaine d'une URL ne peut être récupérée, l'analyse de cette URL est passée mais l'analyse des URLs suivantes du fichier continue. Un message est imprimé dans le log pour préciser que la récupération de l'autorité du domaine d'une URL a subi un problème.
+
+Lorsqu'une URL est constituée d'une adresse IP, l'outil fait une requête DNS afin de connaître le nom associé à cette IP. S'il n'y parvient pas, l'analyse de l'URL est passée mais le processus d'analyse continue comme c'est le cas lorsqu'une autorité ne peut être récupée pour une URL. Ceci est dû au fait que la libraire utilisée (\textit{dnsjava} n'est pas en mesure d'effectuer des requêtes SOA pour des adresses IP.
+
+Le fonctionnement de la récupération de l'autorité d'une URL est le suivant : tout d'abord, la requête est effectuée sur l'hôte de l'URL. Si aucune réponse n'est retournée, la requête est effectuée sur le domaine parent et ainsi de suite, jusqu'à trouver une réponse ou arriver au domaine le plus haut.
+
+Un système de mise en cache a été mis en place afin de limiter le nombre de requêtes effectuées et d'améliorer la rapidité d'accès à l'information.
+
+\subsubsection{Limitation des requêtes DNS de type SOA}
+Le recours aux informations SOA permet généralement de déterminer si deux sites appartiennent au même domaine. C'est ainsi que lors de la visite de \textit{youtube.com}, les images provenant de \textit{ytimg.com} ne sont pas détectés comme provenant d'un site externe (voir \autoref{dig_youtube} et \autoref{dig_ytimg}).
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/dig_youtube.com}
+	\caption{\label{dig_youtube}Informations SOA pour \textit{youtube.com}}.
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/dig_ytimg.com}
+	\caption{\label{dig_ytimg}Informations SOA pour \textit{ytimg.com}}.
+\end{figure}
+Comme vous pouvez le voir, les sites \textit{youtube.com} et \textit{ytimg.com} sont sous la même autorité qui est \textit{dns-admin@google.com}. Dans ce cas, toute URL présente dans le site \textit{youtube.com} provenant de \textit{ytimg.com} ne sera pas considérée comme extérieure au site.
+\newline
+
+Cependant, il peut y avoir des faux positifs résultant des réponses reçues. C'est ainsi que lors des analyses, un phénomène a été remarqué: à certains moments, la requête DNS peut renvoyer une réponse différente. Ceci a été remarqué pour le site \textit{p8.qhimg.com} (voir \autoref{dig_p8.qhimg.com_1} et \autoref{dig_p8.qhimg.com_2}). Dans ce précis, la requête DNS précise que l'autorité du site est en fait celle de l'hébergeur de contenu \textit{cloudfront.net} (qui est lui-même hébergé sur les serveurs d'\textit{Amazon}) et non plus celle du site visité. Cela dépend en fait de l'infrastructure de leur hébergement et ceci ne pourrait être pris en compte au sein de l'outil sans ralentir de façon conséquente ses performances.
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/dig_p8.qhimg.com_1}
+	\caption{\label{dig_p8.qhimg.com_1}Informations SOA pour \textit{p8.qhimg.com}}.
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/dig_p8.qhimg.com_2}
+	\caption{\label{dig_p8.qhimg.com_2}Informations SOA pour \textit{p8.qhimg.com}, 10 secondes plus tard}.
+\end{figure}
+
+\subsubsection{Critères qualifiant un tracker}
+Le \textit{parser} parcourt l'ensemble des requêtes et réponses HTTP effectuées lors du chargement du site. Afin de déterminer si une ressource chargée est un tracker, l'outil se base sur plusieurs critères.
+\begin{itemize}
+  \renewcommand{\labelitemi}{$\Rightarrow$}
+ \item Présence de l'URL dans la base de données de trackers Ghostery
+ \item Si l'URL n'est pas présente dans la base de données Ghostery, l'autorité du domaine de l'URL est récupérée et comparée à celle du site visité.\\
+		Si les autorités sont différentes, les critères suivants permettent de déterminer si l'URL est un tracker:
+		\begin{itemize}
+			\item Un cookie est créé via la réponse HTTP
+			\item La ressource chargée est du JavaScript
+			\item Les images chargées ont une largeur et hauteur de 1 pixel (pixels espions)
+			\item L'URL des ressources chargées contient des paramètres
+			\newline
+		\end{itemize}
+\end{itemize}
+
+Il est évident que certains de ces critères peuvent mener à des faux positifs mais potentiellement chaque ressource chargée d'un site externe permet de tracer l'utilisateur. Dans ses logs, l'administrateur d'un site peut déterminer à quelle heure et quel élément un utilisateur a demandé une ressource hébergée sur son serveur (cela est particulièrement utilisé par les pixels espions).
+
+Au-delà de cette première donnée, l'administrateur du site peut également enregistrer un cookie sur l'ordinateur de l'utilisateur afin de l'identifier s'il recharge une ressource du serveur ultérieurement.
+
+Le fichier JavaScript provenant d'un site externe peut également créer des cookies sans l'autorisation du site qui fait appel à ce script.
+
+Le chargement de ressources contenant des paramètres repose sur le même principe que l'analyse des logs sauf qu'elle permet d'aller plus loin en précisant un identifiant pour chaque site qui souhaite charger des ressources d'un autre site.
+
+\subsubsection{Fonctionnement}
+Le but du \textit{parser} est de traiter les fichiers HTTP Archive générés par le \textit{crawler} et de déterminer le nombre de trackers pour chaque site. La première chose qu'il fait à son lancement est de vérifier que le dossier donné en argument est accessible en écriture. Il regarde ensuite si des dossiers "logs" ou "results" sont déjà présents et si ce n'est pas le cas, il les crée. S'ils sont déjà présents, le \textit{parser} avertit l'utilisateur qu'il va les utiliser afin d'y écrire des données. Concernant le dossier "results", il demande à l'utilisateur s'il souhaite continuer car des fichiers provenant de résultats calculés antérieurement pourraient être écrasés. Puis, le \textit{parser} ouvre un fichier de log ("log\_parser.txt" dans le sous-dossier "logs"). Ensuite, il charge l'ensemble des sites comme expliqué ci-dessus, il ouvre le fichier contenant la base de données de trackers Ghostery et charge l'ensemble des expressions régulières utilisées afin de détecter les trackers. L'analyse des fichiers HTTP Archive commence et exporte pour chaque site analysé de multiples informations telles qu'expliqué dans la sous-section précédente. Lorsque tous les fichiers ont été analysés, le \textit{parser} calcule les statistiques pour l'ensemble de l'analyse. Ensuite, il indique le nombre de fichiers ayant été correctement analysés et détaille les fichiers n'ayant pu être traités. Pour terminer, il ferme le fichier de log.
+
+\subsection{Format des résultats}
+
 
 \section{Résultats}
 
