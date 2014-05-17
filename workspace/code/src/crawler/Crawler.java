@@ -217,7 +217,7 @@ public class Crawler {
 	private static void writeCookiesStats(String directoryName) {
 		try {
 			// Flash cookies
-			BufferedWriter flashCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/results/stats_flash-cookies.csv"), false));
+			BufferedWriter flashCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_flash-cookies.csv"), false));
 
 			Map<String, Integer> sortedFlashCookiesStats = sortByValueInDescendingOrder(flashCookiesPerWebsite);
 
@@ -229,7 +229,7 @@ public class Crawler {
 			flashCookiesFile.close();
 
 			// Firefox cookies
-			BufferedWriter firefoxCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/results/stats_firefox-cookies.csv"), false));
+			BufferedWriter firefoxCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_firefox-cookies.csv"), false));
 
 			Map<String, Integer> sortedFirefoxCookiesStats = sortByValueInDescendingOrder(firefoxCookiesPerWebsite);
 
