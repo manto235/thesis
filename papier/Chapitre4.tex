@@ -205,7 +205,7 @@ Le but de cette expérience est de déterminer l'évolution des trackers sur une
 
 Afin de réaliser cette étude, le \textit{crawler} a été lancé chaque jour du 28 mars au 7 mai 2014 (à l'exception du 8 avril) sur le TOP 1000 du classement Alexa \cite{AlexaTop}, ce qui représente 40 jours de mesures. Notez cependant que l'implémentation du compteur de cookies Flash et Firefox a été réalisée ultérieurement à cette expérience et ces données ne sont donc pas disponibles au sein de l'expérience.
 
-L'expérience a été lancée avec les paramètres suivants :
+Le \textit{crawler} a été lancé avec les paramètres suivants :
 \begin{itemize}
 	\item les sites visités sont issus du TOP Alexa du 26 mars 2014
 	\item l'intervale sélectionné concerne les 1000 premiers sites
@@ -221,9 +221,61 @@ Ceci explique des situations telles que sur la \autoref{graph_crawler_fails} au 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=1]{graphiques/graph_crawler_fails.png}
+	\includegraphics[scale=.7]{graphiques/graph_crawler_fails.png}
 	\caption{\label{graph_crawler_fails}Le nombre d'échecs du \textit{crawler}}.
 \end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.8]{graphiques/graph_parser_success-rate.png}
+	\caption{\label{graph_parser_success-rate}Le pourcentage de réussite du \textit{parser}}.
+\end{figure}
+
+Le pourcentage de fichiers correctement analysé est representé à la \autoref{graph_parser_success-rate}. On peut voir que jusqu'à partir du début de l'expérience jusqu'au 21 avril, le pourcentage de réussite est en moyenne de 99,73\%. A partir du 22 avril et jusqu'à la fin de l'expérience, il passe à 98,71\%. Cela représente une dizaine de fichiers.
+Croyant d'abord à une erreur lors de l'exécution du \textit{parser}, les analyses ont été reconduites une seconde fois mais n'ont pas montré de résultat différent.
+Après analyse des fichiers de log du \textit{parser}, on remarque que ce sont généralement les mêmes sites qui sont en échec.
+Ainsi, sur les 16 jours (du 22 avril jusqu'au 7 mai), on peut remarquer certains faits.
+\newline
+Les sites suivants étaient chaque jour en échec:
+\begin{itemize}
+  \item 9gag.com
+  \item mashable.com
+  \item www.pixiv.net
+  \item www.wikihow.com
+  \newline
+\end{itemize}
+Les sites suivants n'ont pas été en échec 1 jour :
+\begin{itemize}
+  \item www.gamespot.com : le 4 mai
+  \item www.theverge.com : le 4 mai
+  %\newline
+\end{itemize}
+Les sites suivants n'ont pas été en échec 2 jours :
+\begin{itemize}
+  \item www.thefreedictionary.com : le 25 avril et le 4 mai
+  \item www.wix.com : le 28 avril et le 4 mai
+  \newline
+\end{itemize}
+Les sites suivants ont été en échec sur une période de plusieurs jours :
+\begin{itemize}
+  \item www.rednet.cn : 3 jours (du 25 au 27 avril)
+  \item chinaz.com : 2 jours (les 27 et 28 avril)
+  \item www.groupon.com : 2 jours (les 5 et 6 mai)
+  \newline
+\end{itemize}
+Les sites suivants n'ont été en échec qu'un seul jour :
+\begin{itemize}
+  \item www.suning.com : le 22 avril
+  \item baomihua.com : le 24 avril
+  \item bleacherreport.com : le 26 avril
+  \item www.aili.com : le 27 avril
+  \item www.hm.com : le 30 avril
+  \item www.businessinsider.com : le 3 mai
+  \newline
+\end{itemize}
+Les autres sites en échec ne peuvent pas être classés de manière identique.\\
+
+La constatation que certains sites sont en échec pendant la période complète des 16 jours (alors qu'ils ne l'étaient pas avant le 22 avril) et que certains sites sont en échec sur une courte période (2-3 jours) fait penser que ces échecs résultent d'une erreur située sur les sites eux-mêmes.
 
 \subsection{Expérience 2 : étude ponctuelle}
 
