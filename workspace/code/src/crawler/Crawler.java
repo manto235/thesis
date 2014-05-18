@@ -55,7 +55,7 @@ public class Crawler {
 	private static String flashCookiesPath;
 	private static Map<String, Integer> flashCookiesPerWebsite;
 	private static String firefoxCookiesDB;
-	private static Map<String, Integer> firefoxCookiesPerWebsite;
+	//private static Map<String, Integer> firefoxCookiesPerWebsite;
 
 	public static void launchCrawler(final String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
@@ -152,10 +152,10 @@ public class Crawler {
 
 					// Firefox cookies
 					//int firefoxCookies = countAndDeleteFirefoxCookies();
-					int firefoxCookies = driver.manage().getCookies().size();
-					driver.manage().deleteAllCookies(); // Maybe not necessary because of Selenium's FirefoxDriver
-					logMessage("Number of Firefox cookies found: " + firefoxCookies, 2);
-					firefoxCookiesPerWebsite.put(website.getUrl(), firefoxCookies);
+					//int firefoxCookies = driver.manage().getCookies().size();
+					//driver.manage().deleteAllCookies(); // Maybe not necessary because of Selenium's FirefoxDriver
+					//logMessage("Number of Firefox cookies found: " + firefoxCookies, 2);
+					//firefoxCookiesPerWebsite.put(website.getUrl(), firefoxCookies);
 
 					// Wait till HAR is exported
 					try {
@@ -225,7 +225,7 @@ public class Crawler {
 			flashCookiesFile.close();
 
 			// Firefox cookies
-			BufferedWriter firefoxCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_firefox-cookies.csv"), false));
+			/*BufferedWriter firefoxCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_firefox-cookies.csv"), false));
 
 			Map<String, Integer> sortedFirefoxCookiesStats = sortByValueInDescendingOrder(firefoxCookiesPerWebsite);
 
@@ -234,7 +234,7 @@ public class Crawler {
 				firefoxCookiesFile.write(name + "," + trackerCount);
 				firefoxCookiesFile.newLine();
 			}
-			firefoxCookiesFile.close();
+			firefoxCookiesFile.close();*/
 		} catch (IOException e) {
 			logMessage("Error: cannot write the statistics files about the cookies!", 3);
 			if(debug) e.printStackTrace();
@@ -460,7 +460,7 @@ public class Crawler {
 
 		firefoxCookiesDB = baseFirefoxFolder + profileFolder + "/cookies.sqlite";
 		logMessage("Firefox cookies database: " + firefoxCookiesDB, 0);
-		firefoxCookiesPerWebsite = new HashMap<String, Integer>();
+		//firefoxCookiesPerWebsite = new HashMap<String, Integer>();
 
 		// Delete the Firefox cookies before starting the crawler
 		logMessage("Number of Firefox cookies found and deleted: " + countAndDeleteFirefoxCookies(), 2);

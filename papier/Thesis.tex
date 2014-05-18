@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
 \usepackage{lmodern}
-\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
 \usepackage{graphicx}
 \usepackage{cite}
 \usepackage[nottoc,notlot,notlof]{tocbibind} % Ajoute la bibliographie dans la table des matières (toc)
@@ -31,11 +31,12 @@
 	breaklines=true,
 	numbers=left,
 	numbersep=10pt,
+	basicstyle=\fontsize{11}{12}\selectfont\ttfamily,
 	frame=lrtb
 }
 \lstdefinestyle{dig}{
 	breaklines=true,
-	basicstyle=\fontsize{9}{8}\selectfont\ttfamily,
+	basicstyle=\fontsize{10}{9}\selectfont\ttfamily,
 	frame=lrtb
 }
 
@@ -43,6 +44,7 @@
 
 \begin{document}
 
+\newgeometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 \begin{titlepage}
 \center
 
@@ -52,14 +54,14 @@
 \includegraphics[scale=.15]{UCL_mention_pantone282.jpg}\\[1.5cm]
 
 % Titre
-\textsc{\Large }\\[1.5cm]
+\textsc{\Large Analyse du traçage des utilisateurs\\via leur navigateur Web}\\[1.5cm]
 
 \begin{minipage}{0.4\textwidth}
 \begin{center}
 %\large \emph{Auteur :} \\
 \large Antoine \textsc{Marchal}
 \end{center}
-\end{minipage}\\[3cm]
+\end{minipage}\\[2cm]
 
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
@@ -87,6 +89,7 @@ l'obtention du grade de\\
 %{\normalsize Année académique 2013-2014}
 
 \end{titlepage}
+\restoregeometry
 
 %%% Table des matières
 \pagenumbering{arabic} % Remise à 1

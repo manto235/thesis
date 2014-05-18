@@ -410,12 +410,8 @@ public class Parser {
 	 */
 	public static int parseHARfile(File file) {
 		try {
-			int[] results = {0, 0, 0, 0, 0};
+			int[] results = {0, 0, 0, 0, 0, 0};
 			int countTrackersGhostery = 0;
-			/*int countCookies = 0;
-			int countJSAnotherDomain = 0;
-			int countTrackingPixels = 0;
-			int countURLsParameters = 0;*/
 
 			/* ----- NAME OF THE WEBSITE ----- */
 			String website = file.getName();
@@ -436,6 +432,7 @@ public class Parser {
 			ArrayList<String> urlsDifferentSOA_website = new ArrayList<String>();
 			ArrayList<String> trackersCookies = new ArrayList<String>();
 			ArrayList<String> trackersJSAnotherDomain = new ArrayList<String>();
+			ArrayList<String> trackersFlashAnotherDomain = new ArrayList<String>();
 			ArrayList<String> trackersPixels = new ArrayList<String>();
 			ArrayList<String> trackersURLsParameters = new ArrayList<String>();
 
@@ -624,13 +621,18 @@ public class Parser {
 						String type = entry.getResponse().getContent().getMimeType();
 
 						// CHECK : JS from another domain
-						if(type.equals("application/x-javascript")) {
+						if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
 							trackersJSAnotherDomain.add(currentUrl);
+						}
+
+						// CHECK : Flash from another domain
+						else if(type.equals("application/x-shockwave-flash")) {
+							trackersFlashAnotherDomain.add(currentUrl);
 						}
 
 						// CHECK : size of images
 						else if(type.equals("image/jpeg") || type.equals("image/jpg") || type.equals("image/png") ||
-								type.equals("image/gif") || type.equals("image/bmp")) {
+								type.equals("image/gif") || type.equals("image/bmp") || type.equals("image/x-icon")) {
 							ImageInputStream imageInputStream = null;
 							try {
 								URL url = new URL(entry.getRequest().getUrl());
@@ -699,6 +701,9 @@ public class Parser {
 			// JS from another domain
 			int countJSAnotherDomain = exportTrackers(website, "js", trackersJSAnotherDomain);
 
+			// JS from another domain
+			int countFlashAnotherDomain = exportTrackers(website, "flash", trackersFlashAnotherDomain);
+
 			// Tracking pixels
 			int countTrackingPixels = exportTrackers(website, "pixels", trackersPixels);
 
@@ -710,6 +715,7 @@ public class Parser {
 				System.out.println("                             Number of trackers found (Ghostery): " + countTrackersGhostery);
 				System.out.println("                             Number of cookies: " + countCookies);
 				System.out.println("                             Number of JS from another domain: " + countJSAnotherDomain);
+				System.out.println("                             Number of Flash from another domain: " + countFlashAnotherDomain);
 				System.out.println("                             Number of tracking pixels: " + countTrackingPixels);
 				System.out.println("                             Number of URLs with parameters: " + countURLsParameters);
 			}
@@ -717,10 +723,11 @@ public class Parser {
 			results[0] = countTrackersGhostery;
 			results[1] = countCookies;
 			results[2] = countJSAnotherDomain;
-			results[3] = countTrackingPixels;
-			results[4] = countURLsParameters;
+			results[3] = countFlashAnotherDomain;
+			results[4] = countTrackingPixels;
+			results[5] = countURLsParameters;
 
-			int totalNumberTrackers = countTrackersGhostery + countCookies + countJSAnotherDomain + countTrackingPixels + countURLsParameters;
+			int totalNumberTrackers = countTrackersGhostery + countCookies + countJSAnotherDomain + countFlashAnotherDomain + countTrackingPixels + countURLsParameters;
 			websitesStats.put(website, totalNumberTrackers);
 			websitesDetailedStats.put(website, results);
 			return totalNumberTrackers;
@@ -841,7 +848,11 @@ public class Parser {
 
 			for(String name : websitesDetailedStats.keySet()) {
 				int[] numbers = websitesDetailedStats.get(name);
-				websitesDetailedStatsFile.write(name + "," + numbers[0] + "," + numbers[1] + "," + numbers[2] + "," + numbers[3] + "," + numbers[4]);
+				String result = name;
+				for(int number : numbers) {
+					result += "," + number;
+				}
+				websitesDetailedStatsFile.write(result);
 				websitesDetailedStatsFile.newLine();
 			}
 			websitesDetailedStatsFile.close();
