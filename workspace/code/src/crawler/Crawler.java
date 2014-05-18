@@ -252,7 +252,7 @@ public class Crawler {
 
 		File directory = new File(directoryName);
 		File logsDirectory = new File(directoryName + "/logs/");
-		File resultsDirectory = new File(directoryName + "/results/");
+		//File resultsDirectory = new File(directoryName + "/results/");
 
 		// The directory does not exist: create both the directory and the subdirectories
 		if(!directory.isDirectory()) {
@@ -271,12 +271,12 @@ public class Crawler {
 				directoriesOK = false;
 			}
 			// Results subdirectory
-			if(resultsDirectory.mkdirs()) {
+			/*if(resultsDirectory.mkdirs()) {
 				System.out.println("      a subdirectory named \"results\" has also been created.");
 			}
 			else {
 				directoriesOK = false;
-			}
+			}*/
 		}
 		// The directory already exists: check if the subdirectories also exists
 		else {
@@ -293,7 +293,7 @@ public class Crawler {
 				System.out.println("Info: the logs will be saved in the subdirectory named \"logs\".");
 			}
 			// Results subdirectory
-			if(!resultsDirectory.isDirectory()) {
+			/*if(!resultsDirectory.isDirectory()) {
 				if(resultsDirectory.mkdirs()) {
 					System.out.println("Info: a subdirectory named \"results\" has been created.");
 				}
@@ -309,7 +309,7 @@ public class Crawler {
 				if(!(value.equals("yes") || value.equals("y"))) {
 					System.exit(1);
 				}
-			}
+			}*/
 		}
 
 		return directoriesOK;
