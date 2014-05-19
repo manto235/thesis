@@ -410,7 +410,7 @@ public class Parser {
 	 */
 	public static int parseHARfile(File file) {
 		try {
-			int[] results = {0, 0, 0, 0, 0, 0};
+			int[] results = {0, 0, 0, 0, 0, 0, 0};
 			/* ----- NAME OF THE WEBSITE ----- */
 			String website = file.getName();
 			// Remove ".har" from the filename
@@ -432,6 +432,7 @@ public class Parser {
 			ArrayList<String> trackersGhostery = new ArrayList<String>();
 			ArrayList<String> trackersCookies = new ArrayList<String>();
 			ArrayList<String> trackersJavaScript = new ArrayList<String>();
+			ArrayList<String> trackersJavaScriptWithQuery = new ArrayList<String>();
 			ArrayList<String> trackersFlash = new ArrayList<String>();
 			ArrayList<String> trackersPixels = new ArrayList<String>();
 			ArrayList<String> trackersURLsParameters = new ArrayList<String>();
@@ -623,6 +624,10 @@ public class Parser {
 						// CHECK : JS from another domain
 						if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
 							trackersJavaScript.add(currentUrl);
+							if(currentUrl.contains("?")) {
+								System.out.println(new URL(currentUrl).getQuery());
+								trackersJavaScriptWithQuery.add(currentUrl);
+							}
 						}
 
 						// CHECK : Flash from another domain
@@ -667,8 +672,9 @@ public class Parser {
 						}
 
 						// CHECK : parameters
-						if(currentUrl.contains("?")) {
+						else if(currentUrl.contains("?")) {
 							trackersURLsParameters.add(currentUrl);
+							System.out.println(new URL(currentUrl).getQuery());
 						}
 
 
@@ -695,42 +701,47 @@ public class Parser {
 			}
 			urlsDifferentSOA_websiteFile.close();
 
-			// Cookies
+			// Ghostery
 			int countGhostery = exportTrackers(website, "ghostery", trackersGhostery);
 
 			// Cookies
 			int countCookies = exportTrackers(website, "cookies", trackersCookies);
 
-			// JS from another domain
+			// JavaScript
 			int countJavaScript = exportTrackers(website, "js", trackersJavaScript);
 
-			// JS from another domain
+			// JavaScript with query
+			int countJavaScriptWithQuery = exportTrackers(website, "js-query", trackersJavaScriptWithQuery);
+
+			// Flash
 			int countFlash = exportTrackers(website, "flash", trackersFlash);
 
 			// Tracking pixels
 			int countTrackingPixels = exportTrackers(website, "pixels", trackersPixels);
 
-			// URLs parameters
-			int countURLsParameters = exportTrackers(website, "parameters", trackersURLsParameters);
+			// Other URLs with parameters
+			int countOtherURLsParameters = exportTrackers(website, "parameters", trackersURLsParameters);
 
 			countSuccesses++;
 			if(showTrackers) {
 				System.out.println("                             Number of Ghostery trackers: " + countGhostery);
 				System.out.println("                             Number of cookies: " + countCookies);
 				System.out.println("                             Number of JavaScript: " + countJavaScript);
+				System.out.println("                             Number of JavaScript with query: " + countJavaScriptWithQuery);
 				System.out.println("                             Number of Flash: " + countFlash);
 				System.out.println("                             Number of tracking pixels: " + countTrackingPixels);
-				System.out.println("                             Number of URLs with parameters: " + countURLsParameters);
+				System.out.println("                             Number of other URLs with parameters: " + countOtherURLsParameters);
 			}
 
 			results[0] = countGhostery;
 			results[1] = countCookies;
 			results[2] = countJavaScript;
+			results[3] = countJavaScriptWithQuery;
 			results[3] = countFlash;
 			results[4] = countTrackingPixels;
-			results[5] = countURLsParameters;
+			results[5] = countOtherURLsParameters;
 
-			int totalNumberTrackers = countGhostery + countCookies + countJavaScript + countFlash + countTrackingPixels + countURLsParameters;
+			int totalNumberTrackers = countGhostery + countCookies + countJavaScript + countJavaScriptWithQuery + countFlash + countTrackingPixels + countOtherURLsParameters;
 			websitesStats.put(website, totalNumberTrackers);
 			websitesDetailedStats.put(website, results);
 			return totalNumberTrackers;
