@@ -143,7 +143,12 @@ public class Crawler {
 				try {
 					logMessage("Crawling website #" + website.getPosition() + " - " + website.getUrl()
 							+ " (attempt #" + attempt + ").", 1);
-					driver.get("http://" + website.getUrl());
+					if(website.getUrl().contains("http")) {
+						driver.get(website.getUrl());
+					}
+					else {
+						driver.get("http://" + website.getUrl());
+					}
 
 					// Flash cookies
 					int flashCookies = countAndDeleteFlashCookies();
