@@ -411,8 +411,6 @@ public class Parser {
 	public static int parseHARfile(File file) {
 		try {
 			int[] results = {0, 0, 0, 0, 0, 0};
-			int countTrackersGhostery = 0;
-
 			/* ----- NAME OF THE WEBSITE ----- */
 			String website = file.getName();
 			// Remove ".har" from the filename
@@ -429,10 +427,12 @@ public class Parser {
 
 			/* ----- RESULTS ----- */
 			Map<String, Integer> mimetypeDifferentSOA_website = new HashMap<String, Integer>();
+
 			ArrayList<String> urlsDifferentSOA_website = new ArrayList<String>();
+			ArrayList<String> trackersGhostery = new ArrayList<String>();
 			ArrayList<String> trackersCookies = new ArrayList<String>();
-			ArrayList<String> trackersJSAnotherDomain = new ArrayList<String>();
-			ArrayList<String> trackersFlashAnotherDomain = new ArrayList<String>();
+			ArrayList<String> trackersJavaScript = new ArrayList<String>();
+			ArrayList<String> trackersFlash = new ArrayList<String>();
 			ArrayList<String> trackersPixels = new ArrayList<String>();
 			ArrayList<String> trackersURLsParameters = new ArrayList<String>();
 
@@ -526,7 +526,7 @@ public class Parser {
 				String currentUrl = entry.getRequest().getUrl();
 				// Check if the URL is a tracker with the Ghostery database
 				if(checkRegexGhostery(currentUrl)) {
-					countTrackersGhostery++;
+					trackersGhostery.add(currentUrl);
 				}
 				// Try to determine if the URL is a tracker via other means
 				else {
@@ -622,12 +622,12 @@ public class Parser {
 
 						// CHECK : JS from another domain
 						if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
-							trackersJSAnotherDomain.add(currentUrl);
+							trackersJavaScript.add(currentUrl);
 						}
 
 						// CHECK : Flash from another domain
 						else if(type.equals("application/x-shockwave-flash")) {
-							trackersFlashAnotherDomain.add(currentUrl);
+							trackersFlash.add(currentUrl);
 						}
 
 						// CHECK : size of images
@@ -696,13 +696,16 @@ public class Parser {
 			urlsDifferentSOA_websiteFile.close();
 
 			// Cookies
+			int countGhostery = exportTrackers(website, "ghostery", trackersGhostery);
+
+			// Cookies
 			int countCookies = exportTrackers(website, "cookies", trackersCookies);
 
 			// JS from another domain
-			int countJSAnotherDomain = exportTrackers(website, "js", trackersJSAnotherDomain);
+			int countJavaScript = exportTrackers(website, "js", trackersJavaScript);
 
 			// JS from another domain
-			int countFlashAnotherDomain = exportTrackers(website, "flash", trackersFlashAnotherDomain);
+			int countFlash = exportTrackers(website, "flash", trackersFlash);
 
 			// Tracking pixels
 			int countTrackingPixels = exportTrackers(website, "pixels", trackersPixels);
@@ -712,22 +715,22 @@ public class Parser {
 
 			countSuccesses++;
 			if(showTrackers) {
-				System.out.println("                             Number of trackers found (Ghostery): " + countTrackersGhostery);
+				System.out.println("                             Number of Ghostery trackers: " + countGhostery);
 				System.out.println("                             Number of cookies: " + countCookies);
-				System.out.println("                             Number of JS from another domain: " + countJSAnotherDomain);
-				System.out.println("                             Number of Flash from another domain: " + countFlashAnotherDomain);
+				System.out.println("                             Number of JavaScript: " + countJavaScript);
+				System.out.println("                             Number of Flash: " + countFlash);
 				System.out.println("                             Number of tracking pixels: " + countTrackingPixels);
 				System.out.println("                             Number of URLs with parameters: " + countURLsParameters);
 			}
 
-			results[0] = countTrackersGhostery;
+			results[0] = countGhostery;
 			results[1] = countCookies;
-			results[2] = countJSAnotherDomain;
-			results[3] = countFlashAnotherDomain;
+			results[2] = countJavaScript;
+			results[3] = countFlash;
 			results[4] = countTrackingPixels;
 			results[5] = countURLsParameters;
 
-			int totalNumberTrackers = countTrackersGhostery + countCookies + countJSAnotherDomain + countFlashAnotherDomain + countTrackingPixels + countURLsParameters;
+			int totalNumberTrackers = countGhostery + countCookies + countJavaScript + countFlash + countTrackingPixels + countURLsParameters;
 			websitesStats.put(website, totalNumberTrackers);
 			websitesDetailedStats.put(website, results);
 			return totalNumberTrackers;
