@@ -625,7 +625,6 @@ public class Parser {
 						if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
 							trackersJavaScript.add(currentUrl);
 							if(currentUrl.contains("?")) {
-								System.out.println(new URL(currentUrl).getQuery());
 								trackersJavaScriptWithQuery.add(currentUrl);
 							}
 						}
@@ -674,7 +673,7 @@ public class Parser {
 						// CHECK : parameters
 						else if(currentUrl.contains("?")) {
 							trackersURLsParameters.add(currentUrl);
-							System.out.println(new URL(currentUrl).getQuery());
+							//System.out.println(new URL(currentUrl).getQuery());
 						}
 
 
@@ -737,9 +736,9 @@ public class Parser {
 			results[1] = countCookies;
 			results[2] = countJavaScript;
 			results[3] = countJavaScriptWithQuery;
-			results[3] = countFlash;
-			results[4] = countTrackingPixels;
-			results[5] = countOtherURLsParameters;
+			results[4] = countFlash;
+			results[5] = countTrackingPixels;
+			results[6] = countOtherURLsParameters;
 
 			int totalNumberTrackers = countGhostery + countCookies + countJavaScript + countJavaScriptWithQuery + countFlash + countTrackingPixels + countOtherURLsParameters;
 			websitesStats.put(website, totalNumberTrackers);
