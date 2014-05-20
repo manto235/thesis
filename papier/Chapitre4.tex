@@ -46,7 +46,7 @@ Afin d'automatiser le navigateur et de parcourir les sites sans intervention hum
 
 La première implémentation traitait directement le code source de la page. Il était possible d'aller sur le moteur de recherche Google, de sélectionner le champ de recherche, de taper une requête et de récupérer le résultat. Cependant, le processus était assez lent et incomplet car on ne pouvait pas récupérer les requêtes et les réponses HTTP. On pouvait juste récupérer les éléments associés à des balises (par exemple, récupérer toutes les images via les balises de type \textit{<img>}, les scripts avec les balises \textit{<script>},...) mais tout n'était pas récupérable car certains éléments étaient chargés sans être identifiés.
 
-Afin de palier ce problème, la deuxième implémentation utilisait un proxy qui exportait le contenu du site au format HTTP Archive. L'ensemble des requêtes et réponses HTTP était récupéré et enregistré dans un fichier. Le parcours du code source (qui donnait des résultats finalement incomplets) a été supprimé afin de rendre le programme plus rapide. Cette fois, le problème était que le proxy n'exécutait pas le JavaScript. Il en résultait que de nombreux sites ne pouvaient être chargés correctement (cela pouvait varier de 15 à 30\% d'échecs) et il était alors impossible de les traiter.
+Afin de pallier ce problème, la deuxième implémentation utilisait un proxy qui exportait le contenu du site au format HTTP Archive. L'ensemble des requêtes et réponses HTTP était récupéré et enregistré dans un fichier. Le parcours du code source (qui donnait des résultats finalement incomplets) a été supprimé afin de rendre le programme plus rapide. Cette fois, le problème était que le proxy n'exécutait pas le JavaScript. Il en résultait que de nombreux sites ne pouvaient être chargés correctement (cela pouvait varier de 15 à 30\% d'échecs) et il était alors impossible de les traiter.
 
 La troisième solution, qui est la dernière implémentée, consiste à utiliser le pilote pour charger les sites automatiquement, sans parcours du code source ni utilisation de proxy. Le contenu des sites est exporté au format HTTP Archive à l'aide de deux extensions qui ont été installées dans Firefox.
 \begin{itemize}
@@ -72,7 +72,7 @@ La première concerne la génération des fichiers HTTP Archive. Par défaut, l'
 La seconde modification concerne le nom des fichiers générés. Par défaut, l'extension ajoute la date à l'URL du site dans les noms de fichier. Cela pose des difficultés supplémentaires au \textit{parser} lors de la récupération et du traitement de ces fichiers (voir \autoref{parser}). L'extension a donc été modifiée afin de n'utiliser que l'URL du site dans les noms du fichier. Cette modification a été effectuée dans le fichier \textit{/chrome/content/netexport/automation.js}. Sur Linux, lorsqu'un fichier de même nom existe déjà, un tiret suivi du numéro de copie est ajouté au nom de fichier avant son extension.
 
 \subsubsection{Fonctionnement}
-Le \textit{crawler} fonctionne de la manière suivante. D'abord, il vérifie que le répertoire donné en argument est accessible en écriture et il crée deux dossiers nommés "logs" et "results" qui sont destinés à contenir respectivement les logs et les résultats du \textit{crawler}. Ensuite, le fichier de log (log\_crawler.txt) est créé, le dossier des cookies Flash est détecté (s'il y en a plusieurs, l'utilisateur est invité à indiquer le bon dossier) et la base de données SQLite des cookies Firefox est vidée (le dossier des paramètres de l'utilisateur est automatiquement trouvé grâce au profil Firefox spécifié en argument au lancement du programme). La liste des sites à visiter est ainsi chargée depuis le fichier spécifié et en fonction de l'intervale donné par l'utilisateur. Puis, le profil Firefox choisi est chargé et différents paramètres de configuration des extensions sont également réglés avant que le pilote ne soit initialisé et qu'il lance Firefox. Après le lancement du pilote, un délai de 5 secondes laisse le temps à Firefox de se lancer et de charger ses extensions.
+Le \textit{crawler} fonctionne de la manière suivante. D'abord, il vérifie que le répertoire donné en argument est accessible en écriture et il crée deux dossiers nommés "logs" et "results" qui sont destinés à contenir respectivement les logs et les résultats du \textit{crawler}. Ensuite, le fichier de log (log\_crawler.txt) est créé, le dossier des cookies Flash est détecté (s'il y en a plusieurs, l'utilisateur est invité à indiquer le bon dossier) et la base de données SQLite des cookies Firefox est vidée (le dossier des paramètres de l'utilisateur est automatiquement trouvé grâce au profil Firefox spécifié en argument au lancement du programme). La liste des sites à visiter est ainsi chargée depuis le fichier spécifié et en fonction de l'intervalle donné par l'utilisateur. Puis, le profil Firefox choisi est chargé et différents paramètres de configuration des extensions sont également réglés avant que le pilote ne soit initialisé et qu'il lance Firefox. Après le lancement du pilote, un délai de 5 secondes laisse le temps à Firefox de se lancer et de charger ses extensions.
 \newline
 
 Après cette phase de préparation, le parcours des sites commence. Le pilote dirige Firefox sur l'URL du premier site de la liste. Lorsque le chargement de la page est terminé, un délai de 8 secondes permet aux extensions d'enregistrer le fichier HTTP Archive. Le nombre de cookies Flash est enregistré pour chaque site.
@@ -87,12 +87,12 @@ Il arrive également qu'un site ne puisse tout simplement pas être chargé (à 
 Lorsque le parcours de l'ensemble des sites est terminé, le programme efface les fichiers inutiles générés lors de la visite des pages "about:blank" et détaille l'ensemble des sites ayant subi au moins un timeout et les sites en échec. La liste des sites avec leur nombre de cookies Flash est enregistrée en ordre décroissant dans le fichier "stats\_flash-cookies.csv" du dossier "results". Pour terminer, le pilote est arrêté (ce qui entraîne la fermeture de Firefox) et le fichier de log est fermé.
 \newline
 
-Il a été nécessaire d'implémenter une fonctionnalité qui redémarre Firefox à intervales réguliers. En effet, certains sites ouvrent des pop-ups et si le navigateur n'est pas fermé, ces derniers s'accumulent et occupent une part plus importante de ressources. Le redémarrage du navigateur permet de fermer toutes ces fenêtres ouvertes de façon intempestive afin de garantir une meilleure stabilité du \textit{crawler}.
+Il a été nécessaire d'implémenter une fonctionnalité qui redémarre Firefox à intervalles réguliers. En effet, certains sites ouvrent des pop-ups et si le navigateur n'est pas fermé, ces derniers s'accumulent et occupent une part plus importante de ressources. Le redémarrage du navigateur permet de fermer toutes ces fenêtres ouvertes de façon intempestive afin de garantir une meilleure stabilité du \textit{crawler}.
 
 \subsection{Parser}
 \label{parser}
 \subsubsection{Choix d'implémentation}
-Lors de la visite des sites par le \textit{crawler}, il arrive que celui-ci doive refaire de nouvelles visites afin d'exporter correctement le fichier HTTP Archive d'un site. Il en résulte que plusieurs fichiers pour le même site soient disponibles. Par exemple, on peut très bien voir des fichiers tels que \textit{monsite.com.har}, \textit{monsite.com-1.har}, etc. Lors de l'analyse de ces fichiers par le \textit{parser}, celui-ci considère seulementla dernière version du fichier comme étant valide. Il ignore donc les autres fichiers concernant le même site (si jamais il y en a plusieurs) car ils sont généralement corrompus ou incomplets.
+Lors de la visite des sites par le \textit{crawler}, il arrive que celui-ci doive refaire de nouvelles visites afin d'exporter correctement le fichier HTTP Archive d'un site. Il en résulte que plusieurs fichiers pour le même site soient disponibles. Par exemple, on peut très bien voir des fichiers tels que \textit{monsite.com.har}, \textit{monsite.com-1.har}, etc. Lors de l'analyse de ces fichiers par le \textit{parser}, celui-ci considère seulement la dernière version du fichier comme étant valide. Il ignore donc les autres fichiers concernant le même site (si jamais il y en a plusieurs) car ils sont généralement corrompus ou incomplets.
 \newline
 
 Lors de l'analyse d'un site, l'autorité en charge pour son domaine est automatiquement récupérée via une requête DNS de type SOA. Cela permet de déterminer si une URL présente dans le site appartient au même domaine ou si elle provient d'un domaine différent.
@@ -101,7 +101,7 @@ Si l'autorité du site analysé ne peut être récupérée, l'analyse du site es
 
 Si l'autorité du domaine d'une URL ne peut être récupérée, l'analyse de cette URL est passée mais l'analyse des URL suivantes du fichier continue. Un message est imprimé dans le log pour préciser que la récupération de l'autorité du domaine d'une URL a subi un problème.
 
-Lorsqu'une URL est constituée d'une adresse IP, l'outil fait une requête DNS afin de connaître le nom associé à cette IP. S'il n'y parvient pas, l'analyse de l'URL est passée mais le processus d'analyse continue comme c'est le cas lorsqu'une autorité ne peut être récupée pour une URL. Ceci est dû au fait que la libraire utilisée (\textit{dnsjava}) n'est pas en mesure d'effectuer des requêtes SOA pour des adresses IP.
+Lorsqu'une URL est constituée d'une adresse IP, l'outil fait une requête DNS afin de connaître le nom associé à cette IP. S'il n'y parvient pas, l'analyse de l'URL est passée mais le processus d'analyse continue comme c'est le cas lorsqu'une autorité ne peut être récupérée pour une URL. Ceci est dû au fait que la libraire utilisée (\textit{dnsjava}) n'est pas en mesure d'effectuer des requêtes SOA pour des adresses IP.
 
 Le fonctionnement de la récupération de l'autorité d'une URL est le suivant : tout d'abord, la requête est effectuée sur l'hôte de l'URL. Si aucune réponse n'est retournée, la requête est effectuée sur le domaine parent et ainsi de suite, jusqu'à trouver une réponse ou arriver au domaine le plus haut.
 
@@ -216,7 +216,7 @@ Afin de réaliser cette étude, le \textit{crawler} a été lancé chaque jour d
 Le \textit{crawler} a été lancé avec les paramètres suivants :
 \begin{itemize}
 	\item les sites visités sont issus du TOP Alexa du 26 mars 2014
-	\item l'intervale sélectionné concerne les 1000 premiers sites
+	\item l'intervalle sélectionné concerne les 1000 premiers sites
 	\item 3 tentatives maximum ont été autorisées par site
 	\item Firefox était redémarré tous les 50 sites
 	\item Firefox était dépourvu de toute extension (autre que Firebug et NetExport)
@@ -240,7 +240,7 @@ Ceci explique des situations telles que sur la \autoref{Exp1_crawler_fails} au d
 	\caption{\label{Exp1_parser_success_rate}Le pourcentage de réussite du \textit{parser}}.
 \end{figure}
 
-Le pourcentage de fichiers correctement analysés est representé à la \autoref{Exp1_parser_success_rate}. On peut voir que du début de l'expérience jusqu'au 21 avril, le pourcentage de réussite est en moyenne de 99,73\%. A partir du 22 avril et jusqu'à la fin de l'expérience, il passe à 98,71\%. Cela représente une dizaine de fichiers.
+Le pourcentage de fichiers correctement analysés est représenté à la \autoref{Exp1_parser_success_rate}. On peut voir que du début de l'expérience jusqu'au 21 avril, le pourcentage de réussite est en moyenne de 99,73\%. A partir du 22 avril et jusqu'à la fin de l'expérience, il passe à 98,71\%. Cela représente une dizaine de fichiers.
 Croyant d'abord à une erreur lors de l'exécution du \textit{parser}, les analyses ont été reconduites une seconde fois mais n'ont pas montré de résultat différent.
 Après analyse des fichiers de log du \textit{parser}, on remarque que ce sont généralement les mêmes sites qui sont en échec.
 Ainsi, sur les 16 jours (du 22 avril jusqu'au 7 mai), on peut remarquer certains faits.
