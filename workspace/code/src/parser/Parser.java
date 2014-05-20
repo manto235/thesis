@@ -80,7 +80,7 @@ public class Parser {
 	private static int countSuccesses = 0;
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
-	private static Map<String, Integer> mimetypeDifferentSOA_allWebsites;
+	private static Map<String, Integer> mimetypeSOA_allWebsites;
 	private static Map<String, Integer> mimetypeGhostery;
 
 	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghosteryFile) {
@@ -161,7 +161,7 @@ public class Parser {
 
 		// Initialize the Map for the websites statistics
 		websitesDetailedStats = new HashMap<String, int[]>();
-		mimetypeDifferentSOA_allWebsites = new HashMap<String, Integer>();
+		mimetypeSOA_allWebsites = new HashMap<String, Integer>();
 		mimetypeGhostery = new HashMap<String, Integer>();
 
 		// Initialize the Map of the SOA cache
@@ -423,9 +423,9 @@ public class Parser {
 			logMessage("Website: " + website, 2);
 
 			/* ----- RESULTS ----- */
-			Map<String, Integer> mimetypeDifferentSOA_website = new HashMap<String, Integer>();
+			Map<String, Integer> mimetypeSOA_website = new HashMap<String, Integer>();
 
-			ArrayList<String> urlsDifferentSOA_website = new ArrayList<String>();
+			ArrayList<String> urlsSOA_website = new ArrayList<String>();
 			ArrayList<String> trackersGhostery = new ArrayList<String>();
 			ArrayList<String> trackersCookies = new ArrayList<String>();
 			ArrayList<String> trackersJavaScript = new ArrayList<String>();
@@ -601,18 +601,18 @@ public class Parser {
 
 					if(!mainSOA.equals(currentSOA)) {
 						int value = 0;
-						if(mimetypeDifferentSOA_allWebsites.containsKey(entry.getResponse().getContent().getMimeType())){
-							value = mimetypeDifferentSOA_allWebsites.get(entry.getResponse().getContent().getMimeType());
+						if(mimetypeSOA_allWebsites.containsKey(entry.getResponse().getContent().getMimeType())){
+							value = mimetypeSOA_allWebsites.get(entry.getResponse().getContent().getMimeType());
 						}
-						mimetypeDifferentSOA_allWebsites.put(entry.getResponse().getContent().getMimeType(), value+1);
+						mimetypeSOA_allWebsites.put(entry.getResponse().getContent().getMimeType(), value+1);
 
 						value = 0;
-						if(mimetypeDifferentSOA_website.containsKey(entry.getResponse().getContent().getMimeType())){
-							value = mimetypeDifferentSOA_website.get(entry.getResponse().getContent().getMimeType());
+						if(mimetypeSOA_website.containsKey(entry.getResponse().getContent().getMimeType())){
+							value = mimetypeSOA_website.get(entry.getResponse().getContent().getMimeType());
 						}
-						mimetypeDifferentSOA_website.put(entry.getResponse().getContent().getMimeType(), value+1);
+						mimetypeSOA_website.put(entry.getResponse().getContent().getMimeType(), value+1);
 
-						urlsDifferentSOA_website.add(entry.getRequest().getUrl());
+						urlsSOA_website.add(entry.getRequest().getUrl());
 
 						// CHECK : cookies
 						HarCookies cookies = entry.getResponse().getCookies();
@@ -686,7 +686,7 @@ public class Parser {
 
 			// Write mimetypes of URLs with different SOA
 			BufferedWriter mimetypeDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_mimetypes.csv"), false));
-			Map<String, Integer> sortedMimetypeDifferentSOA_website = sortByValueInDescendingOrder(mimetypeDifferentSOA_website);
+			Map<String, Integer> sortedMimetypeDifferentSOA_website = sortByValueInDescendingOrder(mimetypeSOA_website);
 			for(String name : sortedMimetypeDifferentSOA_website.keySet()) {
 				int number = sortedMimetypeDifferentSOA_website.get(name);
 				mimetypeDifferentSOA_websiteFile.write(name + "," + number);
@@ -696,7 +696,7 @@ public class Parser {
 
 			// Write URLs of different SOA
 			BufferedWriter urlsDifferentSOA_websiteFile = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_urls.csv"), false));
-			for (String url : urlsDifferentSOA_website) {
+			for (String url : urlsSOA_website) {
 				urlsDifferentSOA_websiteFile.write(url);
 				urlsDifferentSOA_websiteFile.newLine();
 			}
@@ -832,16 +832,16 @@ public class Parser {
 			trackersStatsFile.close();
 
 			// MIMETYPE OF URLS OF DIFFERENT SOA
-			BufferedWriter mimetypeDifferentSOA_allWebsitesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes.csv"), false));
+			BufferedWriter mimetypeSOA_allWebsitesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_soa.csv"), false));
 
-			Map<String, Integer> sortedMimetypeDifferentSOA_allWebsites = sortByValueInDescendingOrder(mimetypeDifferentSOA_allWebsites);
+			Map<String, Integer> sortedMimetypeSOA_allWebsites = sortByValueInDescendingOrder(mimetypeSOA_allWebsites);
 
-			for(String name : sortedMimetypeDifferentSOA_allWebsites.keySet()) {
-				int number = sortedMimetypeDifferentSOA_allWebsites.get(name);
-				mimetypeDifferentSOA_allWebsitesFile.write(name + "," + number);
-				mimetypeDifferentSOA_allWebsitesFile.newLine();
+			for(String name : sortedMimetypeSOA_allWebsites.keySet()) {
+				int number = sortedMimetypeSOA_allWebsites.get(name);
+				mimetypeSOA_allWebsitesFile.write(name + "," + number);
+				mimetypeSOA_allWebsitesFile.newLine();
 			}
-			mimetypeDifferentSOA_allWebsitesFile.close();
+			mimetypeSOA_allWebsitesFile.close();
 
 			// MIMETYPE OF GHOSTERY TRACKERS DETECTED
 			BufferedWriter mimetypeGhosteryFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_ghostery.csv"), false));
