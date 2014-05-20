@@ -185,10 +185,9 @@ Les résultats globaux dans le dossier "logs" :
 \subsubsection{Parser}
 Les résultats globaux dans le dossier "logs" :
 \begin{itemize}
+	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé de trackers (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript avec ou sans paramètres chargés depuis un autre domaine, Flash chargés depuis un autre domaine, pixels espions et requêtes d'URL avec des paramètres).
 	\item \textbf{stats\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
-	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé de trackers (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript et Flash chargés depuis un autre domaine, pixels espions et requêtes effectuées avec des paramètres).
 	\item \textbf{stats\_trackers.csv} contient la liste des trackers identifiés grâce à Ghostery, triés par ordre décroissant.
-	\item \textbf{stats\_websites.csv} contient la liste des sites avec le nombre de trackers identifiés, triés par ordre décroissant.
 	\newline
 \end{itemize}
 
@@ -196,7 +195,9 @@ Les résultats détaillés pour chaque site dans le dossier "results" :
 \begin{itemize}
 	\item \textbf{<URL du site>\_cookies.csv} contient la liste des cookies créés par des réponses HTTP d'un domaine différent.
 	\item \textbf{<URL du site>\_flash.csv} contient la liste des fichiers Flash provenant d'un autre domaine.
+	\item \textbf{<URL du site>\_ghostery.csv} contient la liste des trackers détectés grâce à la base de données Ghostery.
 	\item \textbf{<URL du site>\_js.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers.
+	\item \textbf{<URL du site>\_js-query.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers et appelés avec des paramètres.
 	\item \textbf{<URL du site>\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
 	\item \textbf{<URL du site>\_parameters.csv} contient la liste des requêtes vers un domaine différent dont l'URL contient des paramètres.
 	\item \textbf{<URL du site>\_pixels.csv} contient la liste des pixels espions détectés depuis un autre domaine.
