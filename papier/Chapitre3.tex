@@ -7,7 +7,7 @@ En effet, elle permet à un site A de créer et récupérer un cookie sur l'ordi
 L'absence d'implémentation du principe de même origine dans l'historique de l'utilisateur permet de déterminer si le navigateur a été utilisé pour visiter un site en regardant la couleur des liens hypertextes pointant vers ce site. Dans ce cas, l'utilisation de cookies n'est même plus nécessaire.
 \newline
 
-Le tracage des utilisateurs peut être classé en plusieurs catégories \cite{Jackson:2006:PBS:1135777.1135884} :
+Le traçage des utilisateurs peut être classé en plusieurs catégories \cite{Jackson:2006:PBS:1135777.1135884} :
 \begin{itemize}
   \item tracking sur une seule session : inévitable vu comment le Web fonctionne
   \item tracking sur de multiples sessions : permet à un site d'identifier un visiteur s'il revient plus tard sur le site
@@ -43,7 +43,7 @@ A l'opposé, les cookies d'origine persistants peuvent poser des problèmes dive
 Une étude menée sur plus de 5000 sites à propos de l'utilisation des cookies \cite{Yue:2007:ACU:1251984.1253093} a montré que les cookies d'origine persistants sont largement utilisés et que plus de 60\% sont réglés pour expirer plus d'un an après leur création.
 \newline
 
-Désactiver tous les cookies tiers et garder les cookies d'origine de type session est supporté par la majorité des navigateurs actuels. Le problème se situe au niveau des cookies d'origine persistants car on sait pas comment les gérer et déterminer s'ils sont utiles ou néfastes pour l'utilisateur.
+Désactiver tous les cookies tiers et garder les cookies d'origine de type session est supporté par la majorité des navigateurs actuels. Le problème se situe au niveau des cookies d'origine persistants car on ne sait pas comment les gérer et déterminer s'ils sont utiles ou néfastes pour l'utilisateur.
 
 %- parler des cookies de cache dans la section cookies ou dans la section cache ?
 
@@ -53,7 +53,7 @@ Désactiver tous les cookies tiers et garder les cookies d'origine de type sessi
 Le cache du navigateur permet d'enregistrer localement une copie des fichiers afin de ne pas devoir les recharger lors d'une visite ultérieure. Ce mécanisme est très utile car il permet d'économiser de la bande passante et du temps. Cependant, il donne la possibilité à des sites web de déterminer si leurs visiteurs ont visité un autre site auparavant.
 
 L'exploitation du cache à des fins de surveillance est détaillé par Felten et Schneider \cite{Felten:2000:TAW:352600.352606}.
-Le principe est assez simple : il exploite le fait qu'un fichier présent en cache sera chargé beaucoup plus rapidement qu'un fichier qui ne l'est pas. Donc en mesurant le temps d'accès au fichier, il est possible de déterminer si une personne a déjà visité le site web (ou plus précisement, la page) qui utilise ce fichier. En effet, rien n'empêche un site web de charger un fichier hébergé par un autre site.
+Le principe est assez simple : il exploite le fait qu'un fichier présent en cache sera chargé beaucoup plus rapidement qu'un fichier qui ne l'est pas. Donc en mesurant le temps d'accès au fichier, il est possible de déterminer si une personne a déjà visité le site web (ou plus précisément, la page) qui utilise ce fichier. En effet, rien n'empêche un site web de charger un fichier hébergé par un autre site.
 \newline
 
 Imaginons que l'administrateur d'un site \emph{(alpha.com)} veuille savoir si ses visiteurs se sont également rendus sur un autre site \emph{(beta.com)}. La première chose qu'il doit faire est de se rendre sur le site qu'il veut cibler et choisir un fichier statique pouvant être mis en cache et qui est chargé par tout visiteur (un logo par exemple). Ensuite, le but est de mesurer le temps d'accès du fichier cible.
@@ -98,7 +98,7 @@ Cette attaque peut être menée dans différentes situations :
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pixels espions}
-Les pixels espions sont des images de taille minime (généralement, de 1 pixel de haut sur 1 pixel de large) et sont destinés à effectuer une requête HTTP vers un serveur sans que le visiteur de la page ne s'en aperçoive. L'administrateur du site hébergeant ce pixel espion peut dès lors analyser les logs de son serveur Web afin d'obtenir des informations sur l'utilisateur. En plaçant un pixel espion spécique sur chaque site, l'administrateur peut distinguer sans problème les requêtes provenant des différents sites et ainsi déterminer quel site a été visité par chaque utilisateur. De plus, en analysant la requête, il peut connaître l'heure à laquelle le visiteur s'est rendu sur la page mais également d'autres informations telles que le navigateur utilisé, le système d'exploitation, etc.
+Les pixels espions sont des images de taille minime (généralement, de 1 pixel de haut sur 1 pixel de large) et sont destinés à effectuer une requête HTTP vers un serveur sans que le visiteur de la page ne s'en aperçoive. L'administrateur du site hébergeant ce pixel espion peut dès lors analyser les logs de son serveur Web afin d'obtenir des informations sur l'utilisateur. En plaçant un pixel espion spécifique sur chaque site, l'administrateur peut distinguer sans problème les requêtes provenant des différents sites et ainsi déterminer quel site a été visité par chaque utilisateur. De plus, en analysant la requête, il peut connaître l'heure à laquelle le visiteur s'est rendu sur la page mais également d'autres informations telles que le navigateur utilisé, le système d'exploitation, etc.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{JavaScript}
@@ -165,7 +165,7 @@ Google a developpé une nouvelle version de son outil d'analyse des visiteurs : 
 Pour ce nouvel outil, Google propose 3 types de code de tracking en fonction des plateformes visées : la librairie JavaScript \textit{analytics.js} pour les sites Web, les SDK Google Analytics pour les applications mobiles et le \textit{protocole de mesure ("Measurement Protocol")} pour les autres appareils tels que consoles de jeux et les kiosques d'information.
 \newline
 
-Alors que Google Analytics identifiait un utilisateur différent en fonction de chaque appareil connecté, Universal Anaylytics reconnaît un même utilisateur qui utilise plusieurs moyens de se connecter à Internet. Afin d'y parevenir, ils utilisent un identifiant d'utilisateur unique afin d'associer les données reçues d'appareils et de sessions différentes.
+Alors que Google Analytics identifiait un utilisateur différent en fonction de chaque appareil connecté, Universal Analytics reconnaît un même utilisateur qui utilise plusieurs moyens de se connecter à Internet. Afin d'y parvenir, ils utilisent un identifiant d'utilisateur unique afin d'associer les données reçues d'appareils et de sessions différentes.
 
 Afin d'utiliser cette fonctionnalité, les gestionnaires de sites Web doivent être en mesure de générer un identifiant unique pour chaque utilisateur et l'associer aux données envoyées à Google. Généralement, cet identifiant unique est généré grâce à l'authentification des visiteurs sur un site. Ainsi, lorsqu'un utilisateur se sert de sa tablette et de son ordinateur pour se rendre sur un site et s'il s'y connecte, Google sera en mesure d'identifier ces visites comme provenant d'un seul et même utilisateur et non plus de deux utilisateurs différents.
 \newline
@@ -196,7 +196,7 @@ Par défaut, la librairie crée un cookie sur le domaine spécifié dans la prop
 Les cookies créés sont:
 \begin{itemize}
   \item \textbf{\_\_utma} : cookie avec une date d'expiration de 2 ans destiné à distinguer les utilisateurs et les sessions.
-  \item \textbf{\_\_utmb} : cookie avec une date d'expiration de 30 minutes destiné à distinguer les novuelles sessions et visites.
+  \item \textbf{\_\_utmb} : cookie avec une date d'expiration de 30 minutes destiné à distinguer les nouvelles sessions et visites.
   \item \textbf{\_\_utmc} : cookie avec une date d'expiration de fin de session qui n'est plus utilisé dans \textit{ga.js} mais qui permet l'interopérabilité avec \textit{urchin.js} (une librairie encore plus ancienne de Google Analytics, antérieure à \textit{ga.js}).
   \item \textbf{\_\_utmz} : cookie avec une date d'expiration de 6 mois destiné à enregistrer les sources de trafic ou de campagne qui explique comment un utilisateur atteint le site.
   \item \textbf{\_\_utmv} : cookie avec une date d'expiration de 2 ans utilisé pour sauvegarder les données des variables personnalisées au niveau de l'utilisateur.
