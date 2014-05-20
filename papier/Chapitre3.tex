@@ -153,11 +153,54 @@ LinkedIn propose également une API pour connecter les sites avec sa plateforme 
 \subsection{Outils destinés aux webmasters}
 Certaines plateformes proposent aux gestionnaires de sites Web de suivre la navigation des visiteurs sur leur site. Elles regardent d'où viennent les visites (moteur de recherche, accès direct, lien d'un autre site,...), leur navigateur (la version, les plugins installés, la langue,...), sur quels pages les visiteurs se rendent, combien de temps ils restent sur chaque page, etc.
 
-\subsubsection{Google Analytics}
+\subsubsection{Google Analytics (Universal Analytics)}
 \label{google_analytics}
 Une des principales plateformes de suivi des utilisateurs est Google Analytics. Cet outil est utilisé par de nombreux gestionnaires de sites afin de connaître les statistiques de fréquentation de leur site \cite{javascript_google_analytics}.
 
 Comme on peut le voir sur la \autoref{Google_Analytics_1}, les statistiques sont très détaillées. Dans la \autoref{Google_Analytics_2}, la ville des visiteurs était affichée mais il est également possible de voir d'autres données telles que leur FAI ou leur système d'exploitation. Des données spécifiques aux clients mobiles sont également disponibles. Toutes les données sont affichées dans des graphiques clairs et dynamiques et il est même possible d'exporter l'ensemble de ces données dans différents formats (CSV, TSV, Excel, PDF,...) afin de les traiter de manière automatique.
+\newline
+
+Google a developpé une nouvelle version de son outil d'analyse des visiteurs : Universal Analytics. Ce nouvel outil repose sur le même socle que Google Analytics mais il apporte de nouvelles fonctionnalités.
+
+Pour ce nouvel outil, Google propose 3 types de code de tracking en fonction des plateformes visées : la librairie JavaScript \textit{analytics.js} pour les sites Web, les SDK Google Analytics pour les applications mobiles et le \textit{protocole de mesure ("Measurement Protocol")} pour les autres appareils tels que consoles de jeux et les kiosques d'information.
+\newline
+
+Alors que Google Analytics identifiait un utilisateur différent en fonction de chaque appareil connecté, Universal Anaylytics reconnaît un même utilisateur qui utilise plusieurs moyens de se connecter à Internet. Afin d'y parevenir, ils utilisent un identifiant d'utilisateur unique afin d'associer les données reçues d'appareils et de sessions différentes.
+
+Afin d'utiliser cette fonctionnalité, les gestionnaires de sites Web doivent être en mesure de générer un identifiant unique pour chaque utilisateur et l'associer aux données envoyées à Google. Généralement, cet identifiant unique est généré grâce à l'authentification des visiteurs sur un site. Ainsi, lorsqu'un utilisateur se sert de sa tablette et de son ordinateur pour se rendre sur un site et s'il s'y connecte, Google sera en mesure d'identifier ces visites comme provenant d'un seul et même utilisateur et non plus de deux utilisateurs différents.
+\newline
+
+En fonction de la version de Google Analytics utilisée, différents cookies sont créés et utilisés afin de suivre les visites des utilisateurs \cite{Google_Analytics_cookies}.
+\newline
+
+La nouvelle librairie JavaScript de Google, \textit{analytics.js} crée un cookie d'origine contenant un identifiant anonyme afin de distinguer les utilisateurs. Par défaut, la librairie crée un cookie sur le domaine de plus haut niveau et règle le chemin du cookie sur le niveau racine.
+
+Le cookie créé est :
+\begin{itemize}
+  \item \textbf{\_ga} : cookie avec une date d'expiration de 2 ans destiné à distinguer les utilisateurs.
+  \newline
+\end{itemize}
+
+L'ancienne libraire JavaScript de Google, \textit{ga.js}, crée 5 cookies d'origine qui permettent de :
+\begin{itemize}
+  \item déterminer quel domaine est mesuré
+  \item distinguer les utilisateurs uniques
+  \item se souvenir du nombre et des heures des visites précédentes
+  \item se souvenir de l'information sur la source de trafic
+  \item déterminer le début et la fin de session
+  \item se souvenir des valeurs des variables personnalisées au niveau de l'utilisateur
+\end{itemize}
+
+Par défaut, la librairie crée un cookie sur le domaine spécifié dans la propriété du navigateur \textit{document.host} et règle le chemin du cookie sur le niveau racine.
+
+Les cookies créés sont:
+\begin{itemize}
+  \item \textbf{\_\_utma} : cookie avec une date d'expiration de 2 ans destiné à distinguer les utilisateurs et les sessions.
+  \item \textbf{\_\_utmb} : cookie avec une date d'expiration de 30 minutes destiné à distinguer les novuelles sessions et visites.
+  \item \textbf{\_\_utmc} : cookie avec une date d'expiration de fin de session qui n'est plus utilisé dans \textit{ga.js} mais qui permet l'interopérabilité avec \textit{urchin.js} (une librairie encore plus ancienne de Google Analytics, antérieure à \textit{ga.js}).
+  \item \textbf{\_\_utmz} : cookie avec une date d'expiration de 6 mois destiné à enregistrer les sources de trafic ou de campagne qui explique comment un utilisateur atteint le site.
+  \item \textbf{\_\_utmv} : cookie avec une date d'expiration de 2 ans utilisé pour sauvegarder les données des variables personnalisées au niveau de l'utilisateur.
+\end{itemize}
 
 \begin{figure}[h]
 	\centering
