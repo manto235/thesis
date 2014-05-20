@@ -67,10 +67,6 @@ public class Parser {
 	 */
 	private static Map<String, Integer> trackersGhosteryStats;
 	/**
-	 * The number of trackers found on a website
-	 */
-	private static Map<String, Integer> websitesStats;
-	/**
 	 * The detailed numbers of trackers found on a website
 	 */
 	private static Map<String, int[]> websitesDetailedStats;
@@ -163,7 +159,6 @@ public class Parser {
 		}
 
 		// Initialize the Map for the websites statistics
-		websitesStats = new HashMap<String, Integer>();
 		websitesDetailedStats = new HashMap<String, int[]>();
 		mimetypeDifferentSOA_allWebsites = new HashMap<String, Integer>();
 
@@ -741,7 +736,6 @@ public class Parser {
 			results[6] = countOtherURLsParameters;
 
 			int totalNumberTrackers = countGhostery + countCookies + countJavaScript + countJavaScriptWithQuery + countFlash + countTrackingPixels + countOtherURLsParameters;
-			websitesStats.put(website, totalNumberTrackers);
 			websitesDetailedStats.put(website, results);
 			return totalNumberTrackers;
 		}
@@ -829,18 +823,6 @@ public class Parser {
 				}
 			}
 			trackersStatsFile.close();
-
-			// WEBSITES
-			BufferedWriter websitesStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_websites.csv"), false));
-
-			Map<String, Integer> sortedWebsitesStats = sortByValueInDescendingOrder(websitesStats);
-
-			for(String name : sortedWebsitesStats.keySet()) {
-				int trackerCount = sortedWebsitesStats.get(name);
-				websitesStatsFile.write(name + "," + trackerCount);
-				websitesStatsFile.newLine();
-			}
-			websitesStatsFile.close();
 
 			// MIMETYPE
 			BufferedWriter mimetypeDifferentSOA_allWebsitesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes.csv"), false));
