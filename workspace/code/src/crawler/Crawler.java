@@ -224,8 +224,10 @@ public class Crawler {
 
 			for(String name : sortedFlashCookiesStats.keySet()) {
 				int trackerCount = sortedFlashCookiesStats.get(name);
-				flashCookiesFile.write(name + "," + trackerCount);
-				flashCookiesFile.newLine();
+				if(trackerCount != 0) {
+					flashCookiesFile.write(name + "," + trackerCount);
+					flashCookiesFile.newLine();
+				}
 			}
 			flashCookiesFile.close();
 
