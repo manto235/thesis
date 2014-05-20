@@ -318,7 +318,127 @@ Le nombre total de trackers semble rester stable, il est en moyenne de 30080. Ce
 	\caption{\label{Exp1_parser_total_trackers}Nombre total de trackers sur l'ensemble de l'analyse}.
 \end{figure}
 \subsection{Expérience 2 : étude ponctuelle}
+Cette expérience a été lancée de manière ponctuelle afin d'établir une image des sites à un instant donnée. Elle permet aussi de constituer la base de référence pour la comparaison des extensions.
+\newline
+
+Le \textit{crawler} a été lancé avec les paramètres suivants :
+\begin{itemize}
+	\item les sites visités sont issus du TOP Alexa du 16 mai 2014
+	\item l'intervalle sélectionné concerne les 1000 premiers sites
+	\item 3 tentatives maximum ont été autorisées par site
+	\item Firefox était redémarré tous les 50 sites
+	\item Firefox était dépourvu de toute extension (autre que Firebug et NetExport)
+	\newline
+\end{itemize}
+Les 36 sites suivants ont été en échec, ce qui signifie qu'aucun fichier HTTP Archive n'a été généré pour eux :
+\begin{multicols}{3}
+\begin{itemize}
+  \item 39.net
+  \item aili.com
+  \item baomihua.com
+  \item bitauto.com
+  \item caijing.com.cn
+  \item china.com
+  \item csdn.net
+  \item enet.com.cn
+  \item gazeta.ru
+  \item gmw.cn
+  \item hao123.com
+  \item heise.de
+  \item howstuffworks.com
+  \item ifeng.com
+  \item ileehoo.com
+  \item justdial.com
+  \item kdnet.net
+  \item lady8844.com
+  \item microsoftonline.com
+  \item moz.com
+  \item online.sh.cn
+  \item onlinesbi.com
+  \item opensiteexplorer.org
+  \item pchome.net
+  \item people.com.cn
+  \item pinimg.com
+  \item qq.com
+  \item secureserver.net
+  \item sina.com.cn
+  \item sohu.com
+  \item tudou.com
+  \item twimg.com
+  \item yesky.com
+  \item yoka.com
+  \item youku.com
+  \item zing.vn
+\end{itemize}
+\end{multicols}
+
+Ces sites ne seront par conséquent pas analysés dans cette expérience.
+\newline
+
+Par ailleurs, 78 sites ont subi au moins un timeout mais ils ne seront pas listés ici. Notez que si ces sites ont rencontré 3 timeouts consécutifs, ils sont présents dans la liste des sites en échec (ci-dessus).
+\newline
+
+Le \textit{parser} a été lancé avec le paramètre suivant :
+\begin{itemize}
+	\item la base de données Ghostery est la version 300
+	\newline
+\end{itemize}
+
+Le \textit{parser} n'a pas été en mesure d'ouvrir les fichiers suivants :
+\begin{multicols}{2}
+\begin{itemize}
+  \item 9gag.com.har
+  \item accounts.google.com-2.har
+  \item mashable.com.har
+  \item website-unavailable.com-1.har
+  \item www.babytree.com.har
+  \item www.deezer.com.har
+  \item www.gamespot.com.har
+  \item www.gmail.com.har
+  \item www.pixiv.net.har
+  \item www.thefreedictionary.com.har
+  \item www.theverge.com-1.har
+  \item www.wikihow.com.har
+  \item www.wix.com.har
+\end{itemize}
+\end{multicols}
+
+Ces sites ne seront par conséquent pas analysés dans cette expérience.
+\newline
+
+Les critères retenus pour la classification des trackers sont les suivants :
+\begin{itemize}
+	\item les URL détectées comme trackers par la base de données Ghostery
+	\item les réponses HTTP d'un domaine tiers qui créent un cookie
+	\item les requêtes vers un domaine tiers de fichiers JavaScript avec des paramètres
+	\item les requêtes de fichiers Flash
+	\item les pixels de traçage
+	\item les requêtes vers un domaine tiers dont l'URL contient des paramètres
+	\newline
+\end{itemize}
+
+\subsubsection{Carte des trackers détectés}
+
 
 \subsubsection{Sites renfermant le plus de trackers détectés}
 
 \subsubsection{Organisations déployant le plus de trackers}
+En ne considérant que les trackers détectés par Ghostery, voici la liste des organisations dont le plus de trackers ont été détectés dans cette analyse.
+\newline
+
+Sur un total de 24626 trackers :
+\begin{itemize}
+  \item 2562 sont de DoubleClick
+  \item 1379 sont de AppNexus
+  \item 949 sont de Google Analytics
+  \item 675 sont de Google Adsense
+  \item 574 sont de Rubicon
+  \item 534 sont de Turn
+  \item 441 sont de ScoreCard Research Beacon
+  \item 347 sont de MediaMath
+  \item 332 sont de Lotame
+  \item 326 sont de OpenX
+  \newline
+\end{itemize}
+
+Quand on sait que DoubleClick appartient à Google, cela fait 4186 cookies provenant de Google qui ont été détectés. Cela représente 17\% des trackers détectés au total par la base de données Ghostery.
