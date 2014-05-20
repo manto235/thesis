@@ -1,33 +1,70 @@
 \chapter{Moyens de défense}
 \section{Extensions des navigateurs}
-Certaines extensions de navigateurs ont été developpées afin de préserver la vie privée des utilisateurs.
+Certaines extensions de navigateurs ont été développées afin de préserver la vie privée des utilisateurs.
 Afin de tester les différentes extensions de ce type disponibles pour Firefox, chacune d'elles a été installée dans un profil Firefox spécifique et l'outil a été lancé afin de réaliser une expérience ponctuelle.
+\newline
+
+Le \textit{crawler} a chaque fois été lancé sur le TOP 1000 du classement Alexa \cite{AlexaTop} du 16 mai 2014. La méthodologie pour la préparation de chaque analyse est la suivante:
+\begin{itemize}
+  \item chaque profil Firefox est créé expressémment pour l'analyse d'une seule extension
+  \item les extensions Firebug et NetExport sont installées
+  \item l'extension NetExport est modifiée (voir \autoref{changements_extensions})
+  \item l'extension devant être testée est installée et configurée
+  \newline
+\end{itemize}
+
+Ensuite, le \textit{crawler} a été lancé afin de générer les fichiers HTTP Archive et déterminer le nombre de cookies Flash créés par chaque site.
+\newline
+
+Pour terminer, le \textit{parser} a traité les fichiers HTTP Archive afin de fournir les données essentielles pour l'élaboration des résultats. Le \textit{parser} a utilisé la version 300 de la base de données de trackers Ghostery.
+\newline
+
+Le but de chaque analyse est de déterminer si le nombre de trackers détectés par l'outil est effectivement en baisse. Ces différentes analyses permettront ensuite de déterminer quelle extension (ou quelle combinaison d'extensions) est la meilleure.
 
 \subsection{Ghostery}
 \subsubsection{Présentation}
 Ghostery \cite{ghostery_homepage} est une extension disponible pour Firefox, Google Chrome, Opera et Safari. Son fonctionnement repose sur une base de données de trackers alimentée par les retours des utilisateurs de l'extension. Evidon, la société qui possède Ghostery, a fait momentanément parler d'elle car elle a des contrats avec certaines entreprises. Certains lui reprochaient alors de vendre les informations reçues des utilisateurs via son programme Ghostrank. Sur leur site, les développeurs de Ghostery assurent ne pas vendre d'informations personnelles.
 
-\subsubsection{Résultats}
-L'extension a été activée avec tous les trackers et tous les cookies sélectionnés. Le \textit{crawler} a ensuite été lancé sur le TOP 1000 du classement Alexa \cite{AlexaTop} du 16 mai 2014.
+\subsubsection{Configuration de l'extension}
+L'extension a été activée avec tous les trackers et tous les cookies sélectionnés.
 
-\subsection{Adblock}
-\subsubsection{Présentation}
 \subsubsection{Résultats}
+
+
+\subsection{Adblock Plus}
+\subsubsection{Présentation}
+Adblock Plus \cite{adblockplus_homepage} est une extension disponible pour Firefox, Google Chrome, Opera, Safari, Internet Explorer et Android. Son fonctionnement repose sur des filtres installés au choix par l'utilisateur. Le but d'Adblock Plus est de bloquer les publicités intrusives mais néanmoins d'afficher les publicités acceptables. En effet, les sites dont les publicités sont considérées comme acceptables (des critères stricts ont été définis par Adblock Plus) peuvent demander à être intégrées dans une liste d'exceptions afin de rendre leurs publicités visibles par les utilisateurs.
+
+\subsubsection{Configuration de l'extension}
+Etant donné que les résultats peuvent varier en fonction des filtres installés, deux expériences ont été réalisées avec cette extension.
+
+La première utilise les paramètres par défaut: le filtre de base (Easylist) et un filtre basé sur la langue.
+
+La seconde expérience utilise un filtre de blocage plus complet. Il s'agit de la liste "ultimate" Fanboy \cite{fanboy_filters}, cette liste inclut les éléments suivants: Easylist, Easyprivacy, Enhanced Trackers List and Annoyances List.
+
+Notez qu'un second profil Firefox a été configuré pour réaliser la seconde expérience afin d'éviter une quelconque influence de la première expérience.
+
+\subsubsection{Résultats de la première expérience}
+\subsubsection{Résultats de la seconde expérience}
 
 \subsection{Priv3}
 \subsubsection{Présentation}
+\subsubsection{Configuration de l'extension}
 \subsubsection{Résultats}
 
 \subsection{Privacy Badger}
 \subsubsection{Présentation}
+\subsubsection{Configuration de l'extension}
 \subsubsection{Résultats}
 
 \subsection{DoNotTrackMe}
 \subsubsection{Présentation}
+\subsubsection{Configuration de l'extension}
 \subsubsection{Résultats}
 
 \subsection{BetterPrivacy}
 \subsubsection{Présentation}
+\subsubsection{Configuration de l'extension}
 \subsubsection{Résultats}
 
 %\section{Modes de navigation privée}
