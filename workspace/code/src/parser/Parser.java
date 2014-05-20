@@ -81,6 +81,7 @@ public class Parser {
 	private static ArrayList<String> filesFailed = new ArrayList<String>();
 
 	private static Map<String, Integer> mimetypeDifferentSOA_allWebsites;
+	private static Map<String, Integer> mimetypeGhostery;
 
 	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghosteryFile) {
 		debug = showDebug;
@@ -161,6 +162,7 @@ public class Parser {
 		// Initialize the Map for the websites statistics
 		websitesDetailedStats = new HashMap<String, int[]>();
 		mimetypeDifferentSOA_allWebsites = new HashMap<String, Integer>();
+		mimetypeGhostery = new HashMap<String, Integer>();
 
 		// Initialize the Map of the SOA cache
 		cacheSOA = new HashMap<String, String>();
@@ -523,6 +525,11 @@ public class Parser {
 				// Check if the URL is a tracker with the Ghostery database
 				if(checkRegexGhostery(currentUrl)) {
 					trackersGhostery.add(currentUrl);
+					int value = 0;
+					if(mimetypeGhostery.containsKey(entry.getResponse().getContent().getMimeType())){
+						value = mimetypeGhostery.get(entry.getResponse().getContent().getMimeType());
+					}
+					mimetypeGhostery.put(entry.getResponse().getContent().getMimeType(), value+1);
 				}
 				// Try to determine if the URL is a tracker via other means
 				else {
@@ -824,7 +831,7 @@ public class Parser {
 			}
 			trackersStatsFile.close();
 
-			// MIMETYPE
+			// MIMETYPE OF URLS OF DIFFERENT SOA
 			BufferedWriter mimetypeDifferentSOA_allWebsitesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes.csv"), false));
 
 			Map<String, Integer> sortedMimetypeDifferentSOA_allWebsites = sortByValueInDescendingOrder(mimetypeDifferentSOA_allWebsites);
@@ -835,6 +842,18 @@ public class Parser {
 				mimetypeDifferentSOA_allWebsitesFile.newLine();
 			}
 			mimetypeDifferentSOA_allWebsitesFile.close();
+
+			// MIMETYPE OF GHOSTERY TRACKERS DETECTED
+			BufferedWriter mimetypeGhosteryFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_ghostery.csv"), false));
+
+			Map<String, Integer> sortedMimetypeGhostery = sortByValueInDescendingOrder(mimetypeGhostery);
+
+			for(String name : sortedMimetypeGhostery.keySet()) {
+				int number = sortedMimetypeGhostery.get(name);
+				mimetypeGhosteryFile.write(name + "," + number);
+				mimetypeGhosteryFile.newLine();
+			}
+			mimetypeGhosteryFile.close();
 
 			// WEBSITES DETAILED STATS
 			BufferedWriter websitesDetailedStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_detailed.csv"), false));
