@@ -1,6 +1,6 @@
 \chapter{Introduction}
 \section{Motivation et problématique}
-Notre navigation sur Internet est de plus en plus scrutée par diverses organisations, que ce soient des entreprises commerciales ou des agences gouvernementales. D'ailleurs, des révélations récentes \cite{WikipediaFR_RES} ont permis de mettre en lumière un système élaboré destiné à surveiller les utilisateurs d'Internet.
+Notre navigation sur Internet est de plus en plus scrutée par diverses organisations, que ce soient des entreprises commerciales ou des agences gouvernementales. D'ailleurs, des révélations récentes d'Edward Snowden \cite{WikipediaFR_RES}, un informaticien américain et ancien employé de la CIA et de la NSA, ont permis de mettre en lumière un système élaboré destiné à surveiller les utilisateurs d'Internet.
 
 Ce travail se focalise sur la surveillance opérée par les entreprises commerciales. En effet, elles essaient de nous suivre à la trace afin de déterminer nos habitudes et nos préférences. Avec l'aide de ces précieuses informations, elles peuvent alors mieux cibler nos besoins et nous proposer des biens et des services qui sont censés nous intéresser davantage, voire anticiper nos intentions\cite{MD1}.
 
@@ -24,7 +24,7 @@ Il y a toujours eu des conflits entre les personnes qui estiment que tout le mon
 Les programmes de surveillance du passé peuvent être considérés comme de la "surveillance de proximité", où un gouvernement tentait d'utiliser la technologie afin de surveiller les communications lui-même. Les programmes actuels marquent une transition vers la "surveillance oblique" dans laquelle un gouvernement va plus souvent se rendre aux endroits où les informations sont accumulées (fournisseurs d'adresses e-mail, moteurs de recherche, réseaux sociaux et télécoms) \cite{wired_nothing_to_hide}.
 \newline
 
-En 2001, John Poindexter a voulu mettre en place le programme \textit{Total Information Awareness} qui consistait en un système de data mining. Celui-ci devait enregistrer tous les e-mails, tout le trafic web, tout l'historique des cartes de crédit et tous les dossiers médicaux. Le but était ensuite de développer une technologie afin d'extraire les données dont on avait besoin. Lors de sa conférence à la DEF CON 18, Moxie Marlinspike a d'ailleurs tourné en ridicule le logo du programme (\autoref{IAO_logo}) en expliquant qu'il était déconseillé d'utiliser un logo qui inspirait plutôt la peur. D'ailleurs, le projet a été annulé car il a reçu beaucoup de contestations. Cependant, lorsque l'on regarde ce que Google fait aujourd'hui, c'est exactement la même chose, voire pire. Or, personne ne proteste et de surcroît, tout le monde utilise ses services !
+En 2001, John Poindexter, alors qu'il occupait un poste officiel au sein du Département de la Défense des Etats-Unis, a voulu mettre en place le programme \textit{Total Information Awareness} qui consistait en un système de data mining. Celui-ci devait enregistrer tous les e-mails, tout le trafic web, tout l'historique des cartes de crédit et tous les dossiers médicaux. Le but était ensuite de développer une technologie afin d'extraire les données dont on avait besoin. Moxie Marlinspike est le pseudonyme d'un chercheur en sécurité informatique qui est engagé dans le respect de la vie privée \cite{site_perso_moxie_marlinspike}. Lors de sa conférence à la DEF CON 18, il a tourné en ridicule le logo du programme (\autoref{IAO_logo}) en expliquant qu'il était déconseillé d'utiliser un logo qui inspirait la peur. D'ailleurs, le projet a été annulé car il a reçu beaucoup de contestations. Cependant, lorsque l'on regarde ce que Google fait aujourd'hui, c'est exactement la même chose, voire pire. Or, personne ne proteste et de surcroît, tout le monde utilise ses services !
 \begin{itemize}
   \item Les emails sont enregistrés par Gmail.
   \item Le trafic web est enregistré par Google Analytics.
@@ -48,7 +48,8 @@ Dans sa conférence, Moxie Marlinspike utilise un autre exemple : personne n'acc
 %%%%%
 
 Maintenant, passons au sujet de la vie privée.\\
-D'après Moglen \cite{Moglen_part2}, le concept de vie privée englobe 3 éléments.
+Eben Moglen est professeur de droit et d'histoire du droit à l'Université Columbia. Il est le président du Software Freedom Law Center, une organisation qui procure assistance et défense juridique aux développeurs de logiciels libres et open-source.
+D'après lui \cite{Moglen_part2}, le concept de vie privée englobe 3 éléments.
 \begin{itemize}
   \item La confidentialité : la capacité de garder des messages privés c'est-à-dire que leur contenu n'est connu que de ceux à qui ils sont destinés.
   \item L'anonymat : la capacité d'envoyer des messages sans savoir de qui ils proviennent ni à qui ils sont destinés, même si leur contenu est ouvert.
@@ -68,15 +69,20 @@ Les exemples de l'introduction montrent déjà clairement que la surveillance de
 
 Imaginons une situation où le directeur des ressources humaines d'une entreprise reçoit des CV. Il décide de trouver davantage d'informations au sujet des candidats et pour cela, tape leur nom dans un moteur de recherche. Il pourrait tomber sur la photo d'une jeune femme portant un bébé dans ses bras ou sur la photo d'une jeune femme seule. Pensez-vous qu'elles aient la même chance d'être rappelées pour un entretien ?
 
-Lors d'une expérience menée avec son équipe, Alessandro Acquisti a créé des profils Facebook en modifiant certaines de leurs caractéristiques. Il a ensuite envoyé des candidatures à différentes entreprises américaines et a analysé leur comportement face aux profils associés aux candidatures. Les résultats de l'expérience ont montré que les entreprises agissaient en fonction des informations qu'elles avaient trouvées sur les réseaux sociaux.
+Alessandro Acquisti est un économiste comportemental à l'Université Carnegie Mellon et il étudie l'économie comportementale de la vie privée.
+Lors d'une expérience menée avec son équipe \cite{TED_Alessandro_Acquisti}, il a créé des profils Facebook en modifiant certaines de leurs caractéristiques. Il a ensuite envoyé des candidatures à différentes entreprises américaines et a analysé leur comportement face aux profils associés aux candidatures. Les résultats de l'expérience ont montré que les entreprises agissaient en fonction des informations qu'elles avaient trouvées sur les réseaux sociaux.
 \newline
 
-Face à la montée de la surveillance, certaines personnes affirment qu'elles n'ont rien à cacher.
-La vie privée n'a rien à voir avec le fait d'avoir quelque chose de négatif à cacher \cite{TED_Alessandro_Acquisti}.
+Face à la montée de la surveillance, certaines personnes émettent le désir de préserver leur vie privée. On leur rétorque souvent "Si vous ne faites rien de mal, qu'avez-vous à cacher ?".
+D'après Bruce Schneier \cite{the_eternal_value_of_privacy}, cryptologue, spécialiste en sécurité informatique et écrivain américain, la vie privée n'a rien à voir avec le fait d'avoir quelque chose de négatif à cacher, c'est un besoin humain essentiel.
 Nous faisons énormément de choses en privé qui ne sont pas considérées comme illégales mais que nous préférons garder pour nous. Mettre des rideaux à ses fenêtres n'est pas criminel, cela traduit juste notre envie de garder notre intimité, vie privée.
+Ce qui l'ennuie c'est qu'on présuppose que la vie privée sert à dissumuler des mauvaises actions alors que ce n'est pas le cas. Il affirme même que le droit à une vie privée est un droit de l'être humain. D'ailleurs, lorsque la Constitution américaine fut rédigée, le principe de vie privée n'y a pas été inscrit car il était considéré comme inhérent aux êtres. A l'époque, on ne surveillait que les criminels, pas les honnêtes citoyens.
 
-Que diraient-elles si leur gouvernement, avec l'aide de toutes les informations qu'il possède grâce à la surveillance, décidait que leurs actions étaient suspectes et que des sanctions étaient appliquées arbitrairement ?
-On peut également tenter de les raisonner par cette simple question : donneriez-vous votre adresse, numéro de téléphone, carte de crédit et autres données personnelles à un inconnu dans la rue ?
+Lorsqu'une personne se sent surveillée, elle n'agit plus de la même façon. Cela vous est sûrement déjà arrivé de cesser votre conversation si vous sentiez que vous étiez observé par peur que vos mots ne soient sortis de leur contexte. Une surveillance généralisée a le même effet mais sur un ensemble de personnes beaucoup plus étendu.
+\newline
+
+Est-ce que les personnes déclarant ne rien avoir à cacher resteraient du même si leur gouvernement, avec l'aide de toutes les informations qu'il possède grâce à la surveillance, décidait que leurs actions étaient suspectes et que des sanctions étaient appliquées arbitrairement ?\\
+Une simple question pourrait également les raisonner : donneriez-vous votre adresse, numéro de téléphone, numéro de carte de crédit et autres données personnelles à un inconnu dans la rue ?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Méthodologie utilisée}

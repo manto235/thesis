@@ -1,3 +1,4 @@
 workspace/.metadata
 workspace/RemoteSystemsTempFiles
 workspace/code/target
+*.swp

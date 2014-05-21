@@ -2,7 +2,6 @@
 
 \section{Présentation du protocole HTTP}
 HTTP (HyperText Transport Protocol) \cite{Obo_CNP3} est un protocole qui fournit les fondations du World Wide Web, il repose sur le modèle client-serveur dans lequel le client envoie une requête et le serveur retourne une réponse. Il est décrit par la RFC 2616 \cite{IETF_RFC2616}.
-\newline
 
 Les requêtes HTTP se composent de trois parties :
 \begin{enumerate}
@@ -13,7 +12,6 @@ Les requêtes HTTP se composent de trois parties :
 \end{enumerate}
 
 Lorsqu'un utilisateur clique sur un lien hypertexte via son navigateur, celui-ci se connecte à un serveur identifié par l'URI "Uniform Resource Identifier" présent dans ce lien. Le navigateur envoie alors une requête à laquelle le serveur répond puis le navigateur se déconnecte du serveur. On considère que la requête est sans état car à chaque fois que le navigateur crée une connexion pour une requête, le serveur la traite comme si c'était la première ; les requêtes sont donc indépendantes.
-\newline
 
 Les réponses HTTP se composent également de trois parties :
 \begin{enumerate}
@@ -23,7 +21,13 @@ Les réponses HTTP se composent également de trois parties :
 	\newline
 \end{enumerate}
 
-Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. Une première solution consistait à forcer l'authentification du client (comme pour FTP), cependant ce n'est pas toujours nécessaire ou applicable sur tous les sites web. Une seconde solution était d'utiliser les différents types d'entêtes \emph{Accept-*}, mais cela fournit des possibilités assez limitées. Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP.
+Il fallait trouver une solution afin d'avoir la possibilité de garder une certaine quantité d'informations entre des requêtes successives. En effet, si le serveur est dans l'incapacité de se souvenir de ce que le client a fait auparavant, il est par exemple impossible de développer un site de e-commerce étant donné que celui-ci ne sauvegarderait pas la liste des articles du panier virtuel.
+
+Une première solution consistait à forcer l'authentification du client (comme pour FTP) mais ce n'est pas toujours nécessaire ou applicable sur tous les sites web.
+
+Une seconde solution était d'utiliser les différents types d'entêtes \emph{Accept-*}. Par exemple, un client aurait pu utiliser l'entête \emph{Accept-Language} pour indiquer la langue dans laquelle il voulait visiter le site. Cependant, cela fournit des possibilités assez limitées car cet entête est réglé par le navigateur et le client aurait été dans l'impossibilité d'indiquer une langue différente pour chaque site visité sans devoir effectuer une manipulation conséquente.
+
+Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP. Elle est expliquée plus en détail dans la section suivante.
 \newline
 
 Des exemples de requête et réponse HTTP sont disponibles dans la \autoref{http_request_example}.
@@ -34,7 +38,7 @@ Des exemples de requête et réponse HTTP sont disponibles dans la \autoref{http
 Une première description informelle sur les cookies a été publiée sur le site web de Netscape Communications. Le processus de standardisation des cookies a commencé en avril 1995 sur la liste de diffusion [www-talk], ensuite, l'IETF (Internet Engineering Task Force) a entrepris d'écrire un standard pour les cookies \cite{Kristol:2001:HCS:502152.502153}. C'est ainsi que la première RFC (RFC 2109) sur les cookies est parue en février 1997 \cite{IETF_RFC2109}, rendue obsolète en octobre 2000 par la RFC 2965 \cite{IETF_RFC2965}. Elle a également été remplacée, par la RFC 6265 en avril 2011 \cite{IETF_RFC6265}, qui est toujours d'application en ce jour et constitue la référence en ce qui concerne les cookies. Il est intéressant de noter qu'une section dédiée à la vie privée (section 7) est présente dans cette dernière RFC, ce qui constitue une nouveauté.
 \newline
 
-Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les entêtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}.
+Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les entêtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}. Notez que certains navigateurs actuels enregistrent désormais ces cookies dans une base de données. C'est notamment le cas pour Firefox 3 qui enregistre ses cookies dans une base de données SQLite.
 \newline
 
 Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un entête \textit{Set-Cookie}. Cette information peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
