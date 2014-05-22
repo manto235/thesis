@@ -16,28 +16,8 @@ Etant donné que \textit{fpdetective} ne pouvait fournir les résultats demandé
 \newline
 
 L'outil a été implémenté en Java. Il se compose de deux éléments : le \textit{crawler} qui visite les sites web et exporte leur contenu au format HTTP Archive (HAR) et le \textit{parser} qui traite les fichiers HAR en déterminant si les sites correspondants renferment des trackers.
-L'outil a été développé sous Eclipse et est destiné à être utilisé sur Linux. Un exécutable Jar est également disponible.
+L'outil a été développé sous Eclipse et est destiné à être utilisé sur Linux. Un exécutable JAR est également disponible.
 \newline
-
-Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs arguments :
-\begin{itemize}
-	\item Requis : le mode (\textit{crawler} ou \textit{parser}).
-	\item Requis : le répertoire des fichiers.\\
-		Pour le \textit{crawler}, il s'agit du répertoire où les fichiers seront enregistrés.\\
-		Pour le \textit{parser}, il s'agit du répertoire contenant les fichiers à analyser.
-	\item Optionnel : l'activation du mode \textit{debug} qui va donner davantage de détails en cas de problème.
-	\item Optionnel : l'affichage de l'aide.
-	\newline
-	\item Requis pour le \textit{crawler} : le profil de Firefox à utiliser.
-	\item Requis pour le \textit{crawler} : le fichier contenant la liste des sites web à visiter.
-	\item Requis pour le \textit{crawler} : le début de l'intervalle des sites à visiter.
-	\item Requis pour le \textit{crawler} : la fin de l'intervalle des sites à visiter.
-	\item Requis pour le \textit{crawler} : le nombre maximal de tentatives par site web (\textit{timeout}).
-	\item Requis pour le \textit{crawler} : le nombre de sites à visiter avant le redémarrage de Firefox.
-	\newline
-	\item Requis pour le \textit{parser} : le fichier contenant la liste des trackers de Ghostery.
-	\item Optionnel pour le \textit{parser} : l'activation de l'impression de tous les trackers identifiés.
-\end{itemize}
 
 \subsection{Crawler}
 \label{crawler}
