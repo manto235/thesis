@@ -17,16 +17,17 @@ Etant donné que \textit{fpdetective} ne pouvait fournir les résultats demandé
 
 L'outil a été implémenté en Java. Il se compose de deux éléments : le \textit{crawler} qui visite les sites web et exporte leur contenu au format HTTP Archive (HAR) et le \textit{parser} qui traite les fichiers HAR en déterminant si les sites correspondants renferment des trackers.
 L'outil a été développé sous Eclipse et est destiné à être utilisé sur Linux. Un exécutable JAR est également disponible.
+La liste des options disponibles au lancement de l'outil est détaillé à l'\autoref{options_outil_implémenté}.
 \newline
 
 \subsection{Crawler}
 \label{crawler}
 \subsubsection{Choix d'implémentation}
-Afin d'automatiser le navigateur et de parcourir les sites sans intervention humaine, \textit{Selenium} \cite{selenium_homepage} est utilisé. Plus précisément, c'est le pilote \textit{FirefoxDriver} de \textit{Selenium} qui est utilisé au sein de l'outil.
+Afin d'automatiser le navigateur et de parcourir les sites sans intervention humaine, \textit{Selenium} \footnote {\textit{Selenium} \cite{selenium_homepage} est une suite d'outils qui permet d'automatiser les navigateurs. On peut par exemple créer des scripts qui vont faire visiter un navigateur sur différents sites et effectuer plusieurs actions.} est utilisé dans le \textit{crawler}. Plus précisément, c'est le pilote \textit{FirefoxDriver} de \textit{Selenium} qui est utilisé au sein de l'outil.
 
 La première implémentation traitait directement le code source de la page. Il était possible d'aller sur le moteur de recherche Google, de sélectionner le champ de recherche, de taper une requête et de récupérer le résultat. Cependant, le processus était assez lent et incomplet car on ne pouvait pas récupérer les requêtes et les réponses HTTP. On pouvait juste récupérer les éléments associés à des balises (par exemple, récupérer toutes les images via les balises de type \textit{<img>}, les scripts avec les balises \textit{<script>},...) mais tout n'était pas récupérable car certains éléments étaient chargés sans être identifiés.
 
-Afin de pallier ce problème, la deuxième implémentation utilisait un proxy qui exportait le contenu du site au format HTTP Archive. L'ensemble des requêtes et réponses HTTP était récupéré et enregistré dans un fichier. Le parcours du code source (qui donnait des résultats finalement incomplets) a été supprimé afin de rendre le programme plus rapide. Cette fois, le problème était que le proxy n'exécutait pas le JavaScript. Il en résultait que de nombreux sites ne pouvaient être chargés correctement (cela pouvait varier de 15 à 30\% d'échecs) et il était alors impossible de les traiter.
+Afin de pallier ce problème, la deuxième implémentation utilisait un proxy \footnote{Un proxy est un serveur qui sert d'intermédiaire afin d'accéder à un réseau et récupérer des ressources d'un autre serveur.} qui exportait le contenu du site au format HTTP Archive \footnote{HTTP Archive est un format ouvert qui permet d'exporter des échanges de données (requêtes et réponses HTTP) collectés par un outil de monitoring \cite{har_spec}}. L'ensemble des requêtes et réponses HTTP était récupéré et enregistré dans un fichier. Le parcours du code source (qui donnait des résultats finalement incomplets) a été supprimé afin de rendre le programme plus rapide. Cette fois, le problème était que le proxy n'exécutait pas le JavaScript. Il en résultait que de nombreux sites ne pouvaient être chargés correctement (cela pouvait varier de 15 à 30\% d'échecs) et il était alors impossible de les traiter.
 
 La troisième solution, qui est la dernière implémentée, consiste à utiliser le pilote pour charger les sites automatiquement, sans parcours du code source ni utilisation de proxy. Le contenu des sites est exporté au format HTTP Archive à l'aide de deux extensions qui ont été installées dans Firefox.
 \begin{itemize}
@@ -47,9 +48,9 @@ A son lancement, il supprime l'ensemble des cookies Flash (les fichiers .sol) da
 \label{changements_extensions}
 Deux modifications ont été nécessaires sur l'extension \textit{NetExport} de \textit{Firebug}.
 
-La première concerne la génération des fichiers HTTP Archive. Par défaut, l'extension ajoute un champ qui n'est pas standard par rapport à la spécification du format HAR. Il en résulte que les fichiers peuvent alors être considérés comme corrompus alors que la présence ou non de ce champ n'influence en rien les résultats qui nous concernent. La génération de ce champ a donc été supprimée dans le fichier \textit{/chrome/content/netexport/harBuilder.js} de \textit{NetExport}.
+La première concerne la génération des fichiers HTTP Archive. Par défaut, l'extension ajoute un champ qui n'est pas standard par rapport à la spécification du format HAR. Il en résulte que les fichiers peuvent alors être considérés comme corrompus alors que la présence ou non de ce champ n'influence en rien les résultats qui nous concernent. La génération de ce champ a donc été supprimée dans le fichier \textit{/chrome/content/netexport/harBuilder.js} de \textit{NetExport} (voir \autoref{harBuilder}).
 
-La seconde modification concerne le nom des fichiers générés. Par défaut, l'extension ajoute la date à l'URL du site dans les noms de fichier. Cela pose des difficultés supplémentaires au \textit{parser} lors de la récupération et du traitement de ces fichiers (voir \autoref{parser}). L'extension a donc été modifiée afin de n'utiliser que l'URL du site dans les noms du fichier. Cette modification a été effectuée dans le fichier \textit{/chrome/content/netexport/automation.js}. Sur Linux, lorsqu'un fichier de même nom existe déjà, un tiret suivi du numéro de copie est ajouté au nom de fichier avant son extension.
+La seconde modification concerne le nom des fichiers générés. Par défaut, l'extension ajoute la date à l'URL du site dans les noms de fichier. Cela pose des difficultés supplémentaires au \textit{parser} lors de la récupération et du traitement de ces fichiers (voir \autoref{parser}). L'extension a donc été modifiée afin de n'utiliser que l'URL du site dans les noms du fichier. Cette modification a été effectuée dans le fichier \textit{/chrome/content/netexport/automation.js} (voir \autoref{automation}). Sur Linux, lorsqu'un fichier de même nom existe déjà, un tiret suivi du numéro de copie est ajouté au nom de fichier avant son extension.
 
 \subsubsection{Fonctionnement}
 Le \textit{crawler} fonctionne de la manière suivante. D'abord, il vérifie que le répertoire donné en argument est accessible en écriture et il crée deux dossiers nommés "logs" et "results" qui sont destinés à contenir respectivement les logs et les résultats du \textit{crawler}. Ensuite, le fichier de log (log\_crawler.txt) est créé, le dossier des cookies Flash est détecté (s'il y en a plusieurs, l'utilisateur est invité à indiquer le bon dossier) et la base de données SQLite des cookies Firefox est vidée (le dossier des paramètres de l'utilisateur est automatiquement trouvé grâce au profil Firefox spécifié en argument au lancement du programme). La liste des sites à visiter est ainsi chargée depuis le fichier spécifié et en fonction de l'intervalle donné par l'utilisateur. Puis, le profil Firefox choisi est chargé et différents paramètres de configuration des extensions sont également réglés avant que le pilote ne soit initialisé et qu'il lance Firefox. Après le lancement du pilote, un délai de 5 secondes laisse le temps à Firefox de se lancer et de charger ses extensions.
@@ -148,42 +149,6 @@ Le chargement de ressources contenant des paramètres repose sur le même princi
 
 \subsubsection{Fonctionnement}
 Le but du \textit{parser} est de traiter les fichiers HTTP Archive générés par le \textit{crawler} et de déterminer le nombre de trackers pour chaque site. La première chose qu'il fait à son lancement est de vérifier que le dossier donné en argument est accessible en écriture. Il regarde ensuite si des dossiers "logs" ou "results" sont déjà présents et si ce n'est pas le cas, il les crée. S'ils sont déjà présents, le \textit{parser} avertit l'utilisateur qu'il va les utiliser afin d'y écrire des données. Concernant le dossier "results", il demande à l'utilisateur s'il souhaite continuer car des fichiers provenant de résultats calculés antérieurement pourraient être écrasés. Puis, le \textit{parser} ouvre un fichier de log ("log\_parser.txt" dans le sous-dossier "logs"). Ensuite, il charge l'ensemble des sites comme expliqué ci-dessus, il ouvre le fichier contenant la base de données de trackers Ghostery et charge l'ensemble des expressions régulières utilisées afin de détecter les trackers. L'analyse des fichiers HTTP Archive commence et exporte pour chaque site analysé de multiples informations telles qu'expliqué dans la sous-section précédente. Lorsque tous les fichiers ont été analysés, le \textit{parser} calcule les statistiques pour l'ensemble de l'analyse. Ensuite, il indique le nombre de fichiers ayant été correctement analysés et détaille les fichiers n'ayant pu être traités. Pour terminer, il ferme le fichier de log.
-
-\subsection{Format des résultats}
-Il existe deux types de résultats : les résultats détaillés pour chaque fichier HTTP Archive analysé et les résultats globaux de l'analyse.
-
-Les résultats globaux sont enregistrés dans le dossier "logs" alors que les résultats détaillés sont enregistrés dans le dossier "results".
-Ceci a été décidé par souci de simplicité car les résultats globaux sont ainsi directement accessibles et ne sont pas noyés dans le dossier contenant les résultats détaillés.
-
-\subsubsection{Crawler}
-Les résultats globaux dans le dossier "logs" :
-\begin{itemize}
-	\item \textbf{stats\_flash-cookies.csv} contient la liste des sites utilisant des cookies Flash, triés par ordre décroissant.
-	%\newline
-\end{itemize}
-
-\subsubsection{Parser}
-Les résultats globaux dans le dossier "logs" :
-\begin{itemize}
-	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé de trackers (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript avec ou sans paramètres chargés depuis un autre domaine, Flash chargés depuis un autre domaine, pixels espions et requêtes d'URL avec des paramètres).
-	\item \textbf{stats\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
-	\item \textbf{stats\_trackers.csv} contient la liste des trackers identifiés grâce à Ghostery, triés par ordre décroissant.
-	\newline
-\end{itemize}
-
-Les résultats détaillés pour chaque site dans le dossier "results" :
-\begin{itemize}
-	\item \textbf{<URL du site>\_cookies.csv} contient la liste des cookies créés par des réponses HTTP d'un domaine différent.
-	\item \textbf{<URL du site>\_flash.csv} contient la liste des fichiers Flash provenant d'un autre domaine.
-	\item \textbf{<URL du site>\_ghostery.csv} contient la liste des trackers détectés grâce à la base de données Ghostery.
-	\item \textbf{<URL du site>\_js.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers.
-	\item \textbf{<URL du site>\_js-query.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers et appelés avec des paramètres.
-	\item \textbf{<URL du site>\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
-	\item \textbf{<URL du site>\_parameters.csv} contient la liste des requêtes vers un domaine différent dont l'URL contient des paramètres.
-	\item \textbf{<URL du site>\_pixels.csv} contient la liste des pixels espions détectés depuis un autre domaine.
-	\item \textbf{<URL du site>\_urls.csv} contient la liste de l'URL de toutes les ressources chargées d'un domaine différent.
-	\newline
-\end{itemize}
 
 \section{Résultats}
 

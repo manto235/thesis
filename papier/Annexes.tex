@@ -1,5 +1,6 @@
 \appendix
 \chapter{Options de l'outil implémenté}
+\label{options_outil_implémenté}
 Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs arguments :
 \begin{itemize}
 	\item Requis : le mode (\textit{crawler} ou \textit{parser}).
@@ -18,4 +19,69 @@ Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs a
 	\newline
 	\item Requis pour le \textit{parser} : le fichier contenant la liste des trackers de Ghostery.
 	\item Optionnel pour le \textit{parser} : l'activation de l'impression de tous les trackers identifiés.
+\end{itemize}
+
+\chapter{Modifications dans l'extension NetExport}
+\section{harBuilder.js}
+\label{harBuilder}
+Lignes 200 à 211 :
+\begin{lstlisting}[frame=single]
+/*if (!timings._timeStamps)
+{
+	timings.comment = "_timeStamps field contains timing data generated using " +
+		"console.timeStamp() method. See Firebug documentation: " +
+		"http://getfirebug.com/wiki/index.php/Console_API";
+	timings._timeStamps = [];
+}
+
+timings._timeStamps.push({
+	time: stamp.time - this.startedDateTime,
+	label: label
+});*/
+\end{lstlisting}
+
+\section{automation.js}
+\label{automation}
+Ligne 171 :
+\begin{lstlisting}[frame=single]
+var fileName = name; /*+ "+" + now.getFullYear() + "-" +
+	f(now.getMonth()+1) + "-" + f(now.getDate()) + "+" + f(now.getHours()) + "-" +
+	f(now.getMinutes()) + "-" + f(now.getSeconds());*/
+\end{lstlisting}
+
+
+\chapter{Format des résultats}
+Il existe deux types de résultats : les résultats détaillés pour chaque fichier HTTP Archive analysé et les résultats globaux de l'analyse.
+
+Les résultats globaux sont enregistrés dans le dossier "logs" alors que les résultats détaillés sont enregistrés dans le dossier "results".
+Ceci a été décidé par souci de simplicité car les résultats globaux sont ainsi directement accessibles et ne sont pas noyés dans le dossier contenant les résultats détaillés.
+
+\section{Crawler}
+Les résultats globaux dans le dossier "logs" :
+\begin{itemize}
+	\item \textbf{stats\_flash-cookies.csv} contient la liste des sites utilisant des cookies Flash, triés par ordre décroissant.
+	%\newline
+\end{itemize}
+
+\section{Parser}
+Les résultats globaux dans le dossier "logs" :
+\begin{itemize}
+	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé de trackers (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript avec ou sans paramètres chargés depuis un autre domaine, Flash chargés depuis un autre domaine, pixels espions et requêtes d'URL avec des paramètres).
+	\item \textbf{stats\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
+	\item \textbf{stats\_trackers.csv} contient la liste des trackers identifiés grâce à Ghostery, triés par ordre décroissant.
+	\newline
+\end{itemize}
+
+Les résultats détaillés pour chaque site dans le dossier "results" :
+\begin{itemize}
+	\item \textbf{<URL du site>\_cookies.csv} contient la liste des cookies créés par des réponses HTTP d'un domaine différent.
+	\item \textbf{<URL du site>\_flash.csv} contient la liste des fichiers Flash provenant d'un autre domaine.
+	\item \textbf{<URL du site>\_ghostery.csv} contient la liste des trackers détectés grâce à la base de données Ghostery.
+	\item \textbf{<URL du site>\_js.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers.
+	\item \textbf{<URL du site>\_js-query.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers et appelés avec des paramètres.
+	\item \textbf{<URL du site>\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
+	\item \textbf{<URL du site>\_parameters.csv} contient la liste des requêtes vers un domaine différent dont l'URL contient des paramètres.
+	\item \textbf{<URL du site>\_pixels.csv} contient la liste des pixels espions détectés depuis un autre domaine.
+	\item \textbf{<URL du site>\_urls.csv} contient la liste de l'URL de toutes les ressources chargées d'un domaine différent.
+	\newline
 \end{itemize}
