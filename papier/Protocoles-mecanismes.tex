@@ -148,6 +148,27 @@ Le principe de même origine (\textit{same-origin principle}) peut être déclar
 \newline
 
 Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Plus concrètement, son but est de permettre aux cookies et au JavaScript de sites web de confiance variable de coexister silencieusement dans le navigateur de l'utilisateur sans interférer mutuellement. Ce principe est désormais implémenté dans les différents navigateurs mais il n'est pas appliqué de la même manière. En effet, le principe n'a ni été déclaré de manière générale ni appliqué de manière uniforme aux multiples façons dont un site web peut sauvegarder ou récupérer des données sur la machine d'un utilisateur.
+\newline
+
+Il n'est pas facile de déterminer quelles actions devraient être sujettes à un contrôle de sécurité \cite{zalewski2012tangled}. Il semble clair que certaines interactions, comme suivre un lien, devraient être permises sans restrictions spéciales étant donné qu'elles sont essentielles à la santé de tout l'écosystème. En effet, c'est le principe même sur lequel repose le Web avec les liens hypertextes. A l'opposé, d'autres interactions, comme modifier le contenu d'une page chargé dans une autre fenêtre, devraient subir un contrôle de sécurité.
+
+L'origine est définie par le triplet protocole-hôte-port. Différents exemples issus du site de Mozilla \footnote{Mozilla est le développeur du navigateur Firefox.} sont disponibles dans la \autoref{origin_sop}.
+
+\begin{figure}[h]
+	\centering
+		\begin{tabular}{|l|c|c|}
+			\hline
+			URL & Résultat & Raison \\
+			\hline
+			http://store.company.com/dir2/other.html		& Succès	& /						\\
+			http://store.company.com/dir/inner/another.html	& Succès	& /						\\
+			https://store.company.com/secure.html			& Echec		& Protocole différent	\\
+			http://store.company.com:81/dir/etc.html		& Echec		& Port différent		\\
+			http://news.company.com/dir/other.html			& Echec		& Hôte différent		\\
+			\hline
+		\end{tabular}
+	\caption{\label{origin_sop}Différents exemples d'URL et leur comparaison par rapport à \mbox{\textit{http://store.company.com/dir/page.html}} selon le principe de même origine \cite{same_origin_policy_mozilla}}
+\end{figure}
 
 \section{Conclusion}
 Comme nous avons pu le voir dans ce chapitre, le protocole HTTP a été amélioré au fil du temps grâce à de nouvelles fonctionnalités. La plus importante d'entre elles est la possiblité pour le serveur de garder de l'information entre des requêtes HTTP successives issues d'un client. Sans cette fonctionnalité, le Web tel qu'on le connaît aujourd'hui n'existerait pas. Cependant, lorsque ces mécanismes ont été mis en place, la situation était différente et les aspects liés à la vie privée n'étaient pas encore d'actualité. Il en résulte que ces mécanismes ne proposent pas de solution adéquate afin d'éviter certaines attaques et c'est la raison pour laquelle le respect de la vie privée est un thème qui a attiré davantage l'attention au fil du temps.

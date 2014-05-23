@@ -9,6 +9,10 @@ Les défauts de filtrage des scripts au niveau des serveurs sont communément ap
 Au niveau des navigateurs Web, les violations du principe de même origine sont dues à une mauvaise isolation des contenus des différents domaines. Certains domaines peuvent alors accéder aux informations appartenant à d'autres domaines alors qu'ils ne devraient pas y avoir accès.
 \newline
 
+Lorsqu'un attaquant désire compromettre une application, il est parfois plus facile d'attaquer les utilisateurs à travers leur navigateur Web que le serveur lui-même \cite{sullivan2011web}. Les navigateurs sont défendus par le principe de même origine mais la présence de failles dans le code d'un site peuvent permettre à l'attaquant de passer outre ce principe. La principale vulnérabilité des sites sont les attaques XSS. Celles-ci consistent en une vulnérabilité qui permet à un attaquant de placer son code au sein des pages d'une application Web vulnérable. Lorsqu'un visiteur visite l'une de ces pages, le code de l'attaquant est chargé avec les autres éléments de la page.
+
+La principale cause des vulnérabilités XSS vient du fait que l'application Web accepte n'importe quelles entrées des utilisateurs sans les vérifier. Cela est détectable facilement : si un utilisateur rentre une donnée contenant une portion de code dans le champ de recherche d'un site et que ce code est exécuté, le site est vulnérable aux attaques XSS. Ainsi, au moment de faire sa requête, l'utilisateur peut inclure un code inoffensif (par exemple, mettre le texte en gras) dans le champ de recherche et voir si l'affichage du site est modifié par rapport à une requête contenant uniquement du texte. Si la vulnérabilité est avérée, un attaquant pourrait très bien envoyer un code JavaScript qui va récupérer la valeur des cookies d'un utilisateur sur ce site.
+
 L'échec de l'adaptation de ce principe est une source importante de fuites de données. Il faut toutefois noter que s'il était largement appliqué, ce principe changerait énormément de fonctionnalités du Web incluant des choses simples telles que les liens hypertextes entre sites et le contenu intégré.
 \newline
 
