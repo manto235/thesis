@@ -132,7 +132,7 @@ Il en ressort que 17 sites sur les 100 ont utilisé le stockage local HTML5 pour
 Le champ d'entête \textit{ETag} est défini dans la RFC 2616 \cite{IETF_RFC2616}. Il permet de déterminer si l'élément présent en cache dans le navigateur correspond à celui présent sur le serveur. Il est choisi arbitrairement par le serveur et est placé dans les réponses HTTP. Lorsqu'un client fait une requête vers un serveur et qu'il possède une copie du fichier en cache avec son \textit{ETag}, le serveur va comparer les deux \textit{ETags}. Cela permet d'économiser de la bande passante car le serveur n'envoie pas l'élément si les deux \textit{ETags} correspondent. Un exemple est disponible à la \autoref{etag} \footnote{Exemple tiré de \url{http://www.w3.org/2005/MWI/BPWG/techs/CachingWithETag.html}}.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.55]{figures/Etag.png}
+	\includegraphics[scale=0.55]{figures/ETag.png}
 	\caption{\label{etag}Un exemple de requêtes et réponses HTTP utilisant l'\textit{ETag}.}
 \end{figure}
 \newline
