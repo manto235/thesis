@@ -54,7 +54,7 @@ Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5
 	\newline
 \end{itemize}
 
-Grâce aux attributs \textit{Domain} et \textit{Path}, le serveur peut décider à qui le client va renvoyer cette information. Par exemple, avec un attribut \textit{Domain=exemple.com} et un attribut \textit{Path=/}, le serveur demande au client de renvoyer le cookie à chaque chemin et sous-domaine de \textit{exemple.com}.
+Grâce aux attributs \textit{Domain} et \textit{Path}, le serveur peut décider à qui le client va renvoyer cette information. Par exemple, avec un attribut \textit{Domain=exemple.com} et un attribut \textit{Path=/}, le serveur demande au client de renvoyer le cookie dans chaque requête vers tout sous-domaine et chemin de \textit{exemple.com}.
 \newline
 
 Lorsqu'une requête est envoyée à un serveur et si l'URI présente dans cette requête correspond aux attributs \textit{Domain} et \textit{Path} d'un cookie enregistré chez le client, celui-ci l'ajoute à sa requête.

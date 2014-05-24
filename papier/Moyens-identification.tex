@@ -70,7 +70,8 @@ Désactiver tous les cookies tiers et garder les cookies d'origine de type sessi
 \label{cache}
 Le cache du navigateur permet d'enregistrer localement une copie des fichiers afin de ne pas devoir les recharger lors d'une visite ultérieure. Ce mécanisme est très utile car il permet d'économiser de la bande passante et du temps. Cependant, il donne la possibilité à des sites web de déterminer si leurs visiteurs ont visité un autre site auparavant.
 
-L'exploitation du cache à des fins de surveillance est détaillé par Felten et Schneider \cite{Felten:2000:TAW:352600.352606}.
+\subsection{Tracking par mesure du temps}
+Une méthode d'exploitation du cache à des fins de surveillance est détaillé par Felten et Schneider \cite{Felten:2000:TAW:352600.352606}.
 Le principe est assez simple : il exploite le fait qu'un fichier présent en cache sera chargé beaucoup plus rapidement qu'un fichier qui ne l'est pas. Donc en mesurant le temps d'accès au fichier, il est possible de déterminer si une personne a déjà visité le site web (ou plus précisément, la page) qui utilise ce fichier. En effet, rien n'empêche un site web de charger un fichier hébergé par un autre site.
 \newline
 
@@ -105,7 +106,7 @@ Cette attaque peut être menée dans différentes situations :
 \begin{itemize}
   \item Un site web qui veut en savoir davantage sur ses visiteurs.
   \item Une régie publicitaire pourrait inclure le code de mesure dans les bannières qu'elle distribue afin de faire des statistiques sur les sites web consultés par les visiteurs.\\Il est même possible de distribuer un code différent pour les catégoriser.
-  \item L'attaquant pourrait créer un site web de telle façon à ce qu'il apparaisse en tête des moteurs de recherche dans le but de faire des statistiques sur les personnes intéressées par un sujet particulier.
+  \item L'attaquant pourrait créer un site web de telle façon à ce qu'il apparaisse en tête des moteurs de recherche dans le but de faire des statistiques sur les personnes intéressées par un sujet particulier. Il faut noter que cette situation reste théorique et a peu de chances de fonctionner.
   \item L'attaquant pourrait envoyer un mail contenant le code HTML à sa victime.\\En le faisant ressembler à du spam, la victime ne remarquerait rien d'anormal et la mesure serait effectuée.
 \end{itemize}
 
@@ -113,6 +114,33 @@ Cette attaque peut être menée dans différentes situations :
 % Timing Attacks on Web Privacy (section 7) : contre-mesures actuelles sont inefficaces
 % Timing Attacks on Web Privacy (section 8) : solution possible
 
+\subsection{Stockage local HTML5}
+\label{cache_html5}
+Une nouveauté d'HTML5 est la possibilité de stocker localement des données pour un usage hors-ligne \cite{West:2012:APS:2038772.2038791}.
+Le stockage local pourrait servir de "super-cookie" car il permet de stocker jusqu'à 5MB de données. De plus, ces données sont dites persistantes car elles doivent être supprimées par l'utilisateur ou le site Web.
+\newline
+
+Dans une expérience portant à l'origine sur le traçage via les cookies Flash \cite{flash_cookies_privacy_2} (voir \autoref{flash}), les chercheurs ont ajouté cette nouvelle dimension apportée par l'HTML5.
+L'expérience réalisée une première fois en 2009 portait sur les cookies Flash et les cookies HTTP. Une expérience similaire a été réalisée à nouveau en 2011 en apportant également des informations relatives au stockage permis par l'HTML5.
+\newline
+
+Les analyses ont été réalisées sur le TOP 100 donné par Quantcast \footnote{Quantcast est une entreprise spécialisée dans la mesure d'audience et la publicité.} en juillet 2011.
+Il en ressort que 17 sites sur les 100 ont utilisé le stockage local HTML5 pour un total de 60 paires clé-valeur. Les chercheurs ont trouvé des correspondances entre le stockage local HTML5 et les cookies HTTP dans différents cas (\textit{twitter.com}, \textit{tmz.com}, \textit{squidoo.com}, \textit{nytimes.com}, \textit{hulu.com}, \textit{foxnews.com} et \textit{cnn.com}). Dans la plupart de ces cas, la valeur commune aux deux éléments était issue d'un service tiers (comme \textit{meebo.com}, \textit{kissanalytics.com} et \textit{polldaddy.com}).
+
+\subsection{ETags}
+\label{cache_etags}
+Le champ d'entête \textit{ETag} est défini dans la RFC 2616 \cite{IETF_RFC2616}. Il permet de déterminer si l'élément présent en cache dans le navigateur correspond à celui présent sur le serveur. Il est choisi arbitrairement par le serveur et est placé dans les réponses HTTP. Lorsqu'un client fait une requête vers un serveur et qu'il possède une copie du fichier en cache avec son \textit{ETag}, le serveur va comparer les deux \textit{ETags}. Cela permet d'économiser de la bande passante car le serveur n'envoie pas l'élément si les deux \textit{ETags} correspondent. Un exemple est disponible à la \autoref{etag} \footnote{Exemple tiré de \url{http://www.w3.org/2005/MWI/BPWG/techs/CachingWithETag.html}}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{figures/Etag.png}
+	\caption{\label{etag}Un exemple de requêtes et réponses HTTP utilisant l'\textit{ETag}.}
+\end{figure}
+\newline
+
+Dans l'expérience mentionnée dans la \autoref{cache_html5} et expliquée dans la \autoref{flash}, les chercheurs ont trouvé un cas de réapparition de cookie HTTP (un cookie HTTP a été supprimé par l'utilisateur puis un cookie identique a été recréé grâce au stockage local HTML5) sur \textit{hulu.com} à travers un service hébergé sur \textit{kissmetrics.com}. La technique a utilisé les ETags afin de sauvegarder les valeurs.
+\newline
+
+D'après les chercheurs, le tracking via l'entête ETag et le fait de pouvoir récréer des cookies à l'identique est particulièrement problématique car cette technique génère des valeurs de tracking uniques même si l'utilisateur bloque les cookies HTTP et Flash. En effet, afin d'empêcher ce traçage, l'utilisateur devrait vider son cache entre chaque site visité. De plus, en mode de navigation privée, l'utilisateur peut quand même être suivi durant une même session.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pixels espions}
@@ -240,6 +268,7 @@ Les cookies créés sont:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flash}
+\label{flash}
 Adobe Flash Player \cite{flash_website} est un logiciel qui permet de lire du contenu multimédia. Il est notamment utilisé pour la conception de jeux sur Internet ou pour le streaming audio/vidéo (il était auparavant utilisé par YouTube qui a désormais décidé de se tourner vers la technologie HTML 5 \cite{youtube_html5}).
 \newline
 
@@ -253,7 +282,7 @@ Flash peut être utilisé dans le tracking des utilisateurs car il utilise son p
   \newline
 \end{itemize}
 
-Ces caractéristiques font que les cookies Flash (ce sont des fichiers avec l'extension \textit{.sol}) sont plus persistants et méconnus des utilisateurs.
+Ces caractéristiques font que les cookies Flash (ce sont des fichiers avec l'extension \textit{.sol}) sont plus persistants et méconnus des utilisateurs. Pour supprimer les cookies Flash sans connaître leur emplacement, il faut se rendre sur une page dédiée \footnote{\url{http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager07.html}} du site d'Adobe \footnote{Adobe est le développeur de Flash Player.}.
 \newline
 
 Le répertoire utilisé pour les stocker sur Linux est :\\
@@ -261,19 +290,34 @@ Le répertoire utilisé pour les stocker sur Linux est :\\
 \begin{enumerate}
   \item macromedia.com : il contient les paramètres de chaque site utilisant Flash.
   \item \#SharedObjects : il contient les LSO (les cookies Flash).
-  \newline
+  %\newline
 \end{enumerate}
 
 Avec le contenu du répertoire \textit{macromedia.com}, on peut constater un autre risque de fuites concernant la vie privée : en analysant les traces laissées dans ce répertoire, il est possible de reconstituer une partie de l'historique de navigation de l'utilisateur. En effet, pour chaque domaine, un dossier est créé portant son nom et contenant un fichier de préférences \textit{settings.sol}. Simplement en regardant le nom des dossiers, il est possible de découvrir certains sites visités (voir \autoref{ls_macromedia.com}).
+
+Notez que le navigateur Google Chrome n'utilise pas ce répertoire car Flash est intégré au navigateur \cite{flash_chrome}. Il est donc possible de supprimer les cookies Flash dans les paramètres du navigateur ou en se rendant sur la page dédiée du site Adobe.
 \newline
 
-Dans une expérience réalisée en 2009 \cite{conf/aaaiss/SoltaniCMTH10}, il a été montré que dans le TOP 100 des sites (classement Quantcast\footnote{Quantcast est une entreprise spécialisée dans la mesure d'audience et la publicité.} - juillet 2009), 54 sites ont utilisé des cookies Flash. Ces 54 sites ont généré 157 fichiers LSO pour arriver à un total de 281 cookies individuels. 98\% de ces sites ont également créé des cookies HTTP (seuls \textit{wikipedia.org} et \textit{wikimedia.org} ne l'ont pas fait).
+Dans une expérience réalisée en 2009 \cite{conf/aaaiss/SoltaniCMTH10}, il a été montré que dans le TOP 100 des sites (classement Quantcast - juillet 2009), 54 sites ont utilisé des cookies Flash. Ces 54 sites ont généré 157 fichiers LSO pour arriver à un total de 281 cookies individuels. 98\% de ces sites ont également créé des cookies HTTP (seuls \textit{wikipedia.org} et \textit{wikimedia.org} ne l'ont pas fait) pour un total de 3602 cookies HTTP.
 
 Ensuite, les chercheurs ont analysé les noms de variables les plus fréquemment utilisés dans ces cookies. Il en est ressorti que "volume" était en première position, ce qui fait penser à une préférence de volume pour le streaming (ce qui est logique car Flash reste avant tout un lecteur multimédia). Juste derrière et dans la majorité des cas, les noms de variables reflétaient l'idée d'identifiant (\textit{userid}, \textit{user}, \textit{id},...). Il est donc clair que les cookies Flash sont utilisés pour tracer les utilisateurs.
 
 Le contenu des cookies Flash a été comparé avec le contenu des cookies HTTP. Sur les 100 sites, 31 montraient au moins un lien entre les cookies Flash et HTTP. Sur la totalité des 31 sites, 41 correspondances ont été trouvées.
 
-Les chercheurs ont également montré que les cookies Flash étaient utilisés pour faire réapparaître les cookies HTTP lorsqu'ils étaient supprimés. Ainsi, certains sites recréaient les cookies HTTP grâce aux cookies Flash. Donc même si l'utilisateur effaçait les cookies HTTP via les préférences de son navigateur, les cookies de certains sites avec leur valeur étaient de nouveau envoyés lors des visites sur ces sites.
+Les chercheurs ont également montré que les cookies Flash étaient utilisés pour faire réapparaître les cookies HTTP lorsqu'ils étaient supprimés. Ainsi, certains sites recréaient les cookies HTTP grâce aux cookies Flash. Donc même si l'utilisateur effaçait les cookies HTTP via les préférences de son navigateur, les cookies de certains sites avec leur valeur étaient de nouveau envoyés lors des visites sur ces sites. Il faut également noter que certains cookies HTTP étaient recréés par des cookies Flash tiers.
+\newline
+
+En 2011, l'expérience a été menée à nouveau \cite{flash_cookies_privacy_2}. Cette fois, les chercheurs se sont penchés également sur le stockage local HTML5 (voir la \autoref{cache_html5}). Les résultats sont les suivants : 5675 cookies HTTP ont été détectés (au lieu de 3602 en 2009). 20 sites ont placé 100 cookies ou plus et 7 sites en ont placé plus de 150. La plupart des noms de variables de ces cookies font penser à un identifiant unique de tracking. La plupart des cookies (4915) sont placés par un domaine tiers.
+
+Concernant les cookies Flash, ils sont en baisse car 100 ont été détectés (au lieu de 281 en 2009) sur 37 sites (au lieu de 54 en 2009).
+Deux sites (hulu.com et foxnews.com) utilisaient des valeurs communes dans leurs cookies Flash et HTTP, la valeur était également commune dans le stockage local HTML5.
+\newline
+
+Il faut noter qu'Adobe a condamné l'utilisation des LSO à des fins de tracking. L'entreprise incite les développeurs à utiliser la technologie Flash de manière responsable et de ne pas utiliser de technique qui permette d'utiliser le stockage local afin de récréer des cookies effacés par l'utilisateur sans leur consentement \footnote{La déclaration complète d'Adobe est disponible à l'URL suivante : \url{http://www.ftc.gov/policy/public-comments/comment-544506-00085}}. Ils détaillent également quelques nouveautés qui seront ajoutées aux prochaines versions de Flash (notamment le support de la navigation privée).
+\newline
+
+Avant la version 10.1 de Flash Player \cite{flash_private}, celui-ci ne prenait pas en compte les effets des sessions de navigation privée des navigateurs. Cela signifie que lorsqu'un utilisateur activait une session de navigation privée avec son navigateur, les cookies, fichiers en cache et l'historique de sa session étaient supprimés par le navigateur mais ce n'était pas le cas pour les cookies Flash. Depuis la version 10.1 de Flash Player, celui-ci garde les fichiers LSO de la navigation privée en mémoire sans les enregistrer sur le disque et n'accède pas non plus aux LSO existants. A la fin de la session de navigation privée, Flash Player efface les données en conformité avec les préférences du navigateur.
+
 
 \begin{figure}[h]
 	\centering
