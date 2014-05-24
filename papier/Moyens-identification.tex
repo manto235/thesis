@@ -240,8 +240,46 @@ Les cookies créés sont:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flash}
+Adobe Flash Player \cite{flash_website} est un logiciel qui permet de lire du contenu multimédia. Il est notamment utilisé pour la conception de jeux sur Internet ou pour le streaming audio/vidéo (il était auparavant utilisé par YouTube qui a désormais décidé de se tourner vers la technologie HTML 5 \cite{youtube_html5}).
+\newline
 
+Flash peut être utilisé dans le tracking des utilisateurs car il utilise son propre système de cookies : les LSO (Local Shared Objects) \cite{conf/aaaiss/SoltaniCMTH10}. Ces derniers sont même considérés plus invasifs que les cookies HTTP car ils possèdent certaines caractéristiques \cite{flash_lso} :
+\begin{itemize}
+  \item ils permettent de stocker plus d'informations (100KB au lieu de 4KB pour les cookies HTTP)
+  \item ils n'ont pas de date d'expiration par défaut
+  \item ils sont stockés dans un emplacement différent, ce qui implique que la plupart des utilisateurs ne savent pas les effacer facilement et qu'ils sont accessibles via différents navigateurs
+  \item ils ne sont pas contrôlés par le navigateur et celui-ci ne peut donc pas les effacer
+  \item ils permettent de stocker des types de données simples (String, Array et Date)
+  \newline
+\end{itemize}
 
+Ces caractéristiques font que les cookies Flash (ce sont des fichiers avec l'extension \textit{.sol}) sont plus persistants et méconnus des utilisateurs.
+\newline
+
+Le répertoire utilisé pour les stocker sur Linux est :\\
+\mbox{\textit{/home/<user>/.macromedia/Flash\_Player}}. Celui-ci abrite deux répertoires :
+\begin{enumerate}
+  \item macromedia.com : il contient les paramètres de chaque site utilisant Flash.
+  \item \#SharedObjects : il contient les LSO (les cookies Flash).
+  \newline
+\end{enumerate}
+
+Avec le contenu du répertoire \textit{macromedia.com}, on peut constater un autre risque de fuites concernant la vie privée : en analysant les traces laissées dans ce répertoire, il est possible de reconstituer une partie de l'historique de navigation de l'utilisateur. En effet, pour chaque domaine, un dossier est créé portant son nom et contenant un fichier de préférences \textit{settings.sol}. Simplement en regardant le nom des dossiers, il est possible de découvrir certains sites visités (voir \autoref{ls_macromedia.com}).
+\newline
+
+Dans une expérience réalisée en 2009 \cite{conf/aaaiss/SoltaniCMTH10}, il a été montré que dans le TOP 100 des sites (classement Quantcast\footnote{Quantcast est une entreprise spécialisée dans la mesure d'audience et la publicité.} - juillet 2009), 54 sites ont utilisé des cookies Flash. Ces 54 sites ont généré 157 fichiers LSO pour arriver à un total de 281 cookies individuels. 98\% de ces sites ont également créé des cookies HTTP (seuls \textit{wikipedia.org} et \textit{wikimedia.org} ne l'ont pas fait).
+
+Ensuite, les chercheurs ont analysé les noms de variables les plus fréquemment utilisés dans ces cookies. Il en est ressorti que "volume" était en première position, ce qui fait penser à une préférence de volume pour le streaming (ce qui est logique car Flash reste avant tout un lecteur multimédia). Juste derrière et dans la majorité des cas, les noms de variables reflétaient l'idée d'identifiant (\textit{userid}, \textit{user}, \textit{id},...). Il est donc clair que les cookies Flash sont utilisés pour tracer les utilisateurs.
+
+Le contenu des cookies Flash a été comparé avec le contenu des cookies HTTP. Sur les 100 sites, 31 montraient au moins un lien entre les cookies Flash et HTTP. Sur la totalité des 31 sites, 41 correspondances ont été trouvées.
+
+Les chercheurs ont également montré que les cookies Flash étaient utilisés pour faire réapparaître les cookies HTTP lorsqu'ils étaient supprimés. Ainsi, certains sites recréaient les cookies HTTP grâce aux cookies Flash. Donc même si l'utilisateur effaçait les cookies HTTP via les préférences de son navigateur, les cookies de certains sites avec leur valeur étaient de nouveau envoyés lors des visites sur ces sites.
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/ls_macromedia.com}
+	\caption{\label{ls_macromedia.com}Affichage des dossiers dans \textit{macromedia.com}}.
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Empreintes des navigateurs}
