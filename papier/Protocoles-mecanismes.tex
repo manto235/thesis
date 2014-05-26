@@ -144,6 +144,7 @@ Lors du chargement d'une page web, le navigateur effectue de multiples connexion
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Principe de même origine}
+\label{sop}
 Le principe de même origine (\textit{same-origin principle}) peut être déclaré comme suit : "\textit{seul le site qui enregistre des données dans le navigateur peut lire ou modifier ces données plus tard}" \cite{Jackson:2006:PBS:1135777.1135884}. Son but est d'isoler des sites en respectant leur capacité à lire ou modifier l'état du navigateur. Cela permet à un utilisateur de naviguer comme si chaque site et session étaient complètement indépendants.
 \newline
 
@@ -169,6 +170,8 @@ L'origine est définie par le triplet protocole-hôte-port. Différents exemples
 		\end{tabular}
 	\caption{\label{origin_sop}Différents exemples d'URL et leur comparaison par rapport à \mbox{\textit{http://store.company.com/dir/page.html}} selon le principe de même origine \cite{same_origin_policy_mozilla}}
 \end{figure}
+
+La simplicité du principe de même origine est à la fois une aubaine et une malédiction \cite{zalewski2012tangled}. Son mécanisme est facile à comprendre et pas trop compliqué à implémenter mais son inflexibilité peut être une limite pour les développeurs. Il est parfois trop vaste, rendant impossible l'isolation de pages à des utilisateurs différents (à moins de faire un sous-domaine pour chaque utilisateur) et il peut rendre le partage d'informations difficile pour des sites coopérant de façon légitime (entre \textit{login.exemple.com} et \textit{paiements.exemple.com} par exemple).
 
 \section{Conclusion}
 Comme nous avons pu le voir dans ce chapitre, le protocole HTTP a été amélioré au fil du temps grâce à de nouvelles fonctionnalités. La plus importante d'entre elles est la possiblité pour le serveur de garder de l'information entre des requêtes HTTP successives issues d'un client. Sans cette fonctionnalité, le Web tel qu'on le connaît aujourd'hui n'existerait pas. Cependant, lorsque ces mécanismes ont été mis en place, la situation était différente et les aspects liés à la vie privée n'étaient pas encore d'actualité. Il en résulte que ces mécanismes ne proposent pas de solution adéquate afin d'éviter certaines attaques et c'est la raison pour laquelle le respect de la vie privée est un thème qui a attiré davantage l'attention au fil du temps.
