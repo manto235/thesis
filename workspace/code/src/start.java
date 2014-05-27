@@ -55,7 +55,7 @@ public class start {
 
 				// Mode: parser
 				if(mode.equals("p")) {
-					if(checkRequiredArgsParser(cmd.hasOption("ghostery"))) {
+					//if(checkRequiredArgsParser(cmd.hasOption("ghostery"))) {
 						try {
 							// Check if the directory exists
 							if(!new File(directory).isDirectory()) {
@@ -63,7 +63,10 @@ public class start {
 								System.exit(1);
 							}
 							else {
-								String ghostery = parseFile(cmd.getOptionValue("ghostery"), "ghostery");
+								String ghostery = "";
+								if(cmd.hasOption("ghostery")) {
+									ghostery = parseFile(cmd.getOptionValue("ghostery"), "ghostery");
+								}
 								Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"), ghostery);
 							}
 						} catch (Exception e) {
@@ -71,7 +74,7 @@ public class start {
 							if(cmd.hasOption("debug")) e.printStackTrace();
 							System.exit(1);
 						}
-					}
+					//}
 				}
 				// Mode: crawler
 				else if(mode.equals("c")) {

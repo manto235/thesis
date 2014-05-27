@@ -58,6 +58,7 @@ public class Parser {
 	private static BufferedWriter logsFile;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
+	private static String ghosteryFile;
 	/**
 	 * The latest file among files of a website
 	 */
@@ -83,11 +84,12 @@ public class Parser {
 	private static Map<String, Integer> mimetypeSOA_allWebsites;
 	private static Map<String, Integer> mimetypeGhostery;
 
-	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghosteryFile) {
+	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghostery) {
 		debug = showDebug;
 		directory = directoryName;
 		showTrackers = trackers;
 		startTime = System.nanoTime();
+		ghosteryFile = ghostery;
 
 		// Show the status every 5 minutes
 		Runnable statusRunnable = new Runnable() {
@@ -143,20 +145,22 @@ public class Parser {
 		final ArrayList<File> filesList = loadFiles(directory);
 
 		// Load the regex from Ghostery
-		logMessage("Retrieving the database of trackers from Ghostery...", 1);
-		regexGhostery = new RegexGhostery(debug, ghosteryFile);
-		if(!regexGhostery.isSuccess()) {
-			logMessage("Error: the list of trackers could not be retrieved.", 1);
-			closeLogFile();
-			System.exit(1);
-		}
-		logMessage("Version of bugs: " + regexGhostery.getBugsVersion(), 2);
-		logMessage("Number of elements: " + regexGhostery.getRegex().size(), 2);
+		if(!ghosteryFile.equals("")) {
+			logMessage("Retrieving the database of trackers from Ghostery...", 1);
+			regexGhostery = new RegexGhostery(debug, ghosteryFile);
+			if(!regexGhostery.isSuccess()) {
+				logMessage("Error: the list of trackers could not be retrieved.", 1);
+				closeLogFile();
+				System.exit(1);
+			}
+			logMessage("Version of bugs: " + regexGhostery.getBugsVersion(), 2);
+			logMessage("Number of elements: " + regexGhostery.getRegex().size(), 2);
 
-		// Initialize the Map for the trackers statistics
-		trackersGhosteryStats = new HashMap<String, Integer>();
-		for(String trackerName : regexGhostery.getRegex().values()) {
-			trackersGhosteryStats.put(trackerName, 0);
+			// Initialize the Map for the trackers statistics
+			trackersGhosteryStats = new HashMap<String, Integer>();
+			for(String trackerName : regexGhostery.getRegex().values()) {
+				trackersGhosteryStats.put(trackerName, 0);
+			}
 		}
 
 		// Initialize the Map for the websites statistics
@@ -184,7 +188,7 @@ public class Parser {
 		}
 
 		logMessage("Info: the parsing of the files is done!", 1);
-		logMessage("Total number of trackers: " + totalTrackers, 2);
+		logMessage("Total number of saved elements: " + totalTrackers, 2);
 
 		// Stats
 		computeStats(directory);
@@ -523,7 +527,7 @@ public class Parser {
 			for (HarEntry entry : entriesList) {
 				String currentUrl = entry.getRequest().getUrl();
 				// Check if the URL is a tracker with the Ghostery database
-				if(checkRegexGhostery(currentUrl)) {
+				if(!ghosteryFile.equals("") && checkRegexGhostery(currentUrl)) {
 					trackersGhostery.add(currentUrl);
 					int value = 0;
 					if(mimetypeGhostery.containsKey(entry.getResponse().getContent().getMimeType())){
@@ -614,17 +618,19 @@ public class Parser {
 
 						urlsSOA_website.add(entry.getRequest().getUrl());
 
-						// CHECK : cookies
-						HarCookies cookies = entry.getResponse().getCookies();
-						for(HarCookie cookie : cookies.getCookies()) {
-							trackersCookies.add(currentUrl + "," + cookie.getDomain() + "," + cookie.getName() + "," + cookie.getValue() + "," + cookie.getPath());
-						}
-
 						// Type of the resource of the current URL
 						String type = entry.getResponse().getContent().getMimeType();
 
+						// CHECK : cookies
+						HarCookies cookies = entry.getResponse().getCookies();
+						if(cookies.getCookies().size() != 0) {
+							for(HarCookie cookie : cookies.getCookies()) {
+								trackersCookies.add(currentUrl + "," + cookie.getDomain() + "," + cookie.getName() + "," + cookie.getValue() + "," + cookie.getPath());
+							}
+						}
+
 						// CHECK : JS from another domain
-						if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
+						else if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
 							trackersJavaScript.add(currentUrl);
 							if(currentUrl.contains("?")) {
 								trackersJavaScriptWithQuery.add(currentUrl);
@@ -812,24 +818,26 @@ public class Parser {
 
 	public static void computeStats(String directoryName) {
 		try {
-			// TRACKERS
-			BufferedWriter trackersStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.csv"), false));
+			if(!ghosteryFile.equals("")) {
+				// TRACKERS
+				BufferedWriter trackersStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.csv"), false));
 
-			//statsTrackers.write("----- Statistics of trackers -----");
-			//statsTrackers.newLine();
-			//statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
-			//statsTrackers.newLine();
+				//statsTrackers.write("----- Statistics of trackers -----");
+				//statsTrackers.newLine();
+				//statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
+				//statsTrackers.newLine();
 
-			Map<String, Integer> sortedTrackersGhosteryStats = sortByValueInDescendingOrder(trackersGhosteryStats);
+				Map<String, Integer> sortedTrackersGhosteryStats = sortByValueInDescendingOrder(trackersGhosteryStats);
 
-			for(String name : sortedTrackersGhosteryStats.keySet()) {
-				int trackerCount = sortedTrackersGhosteryStats.get(name);
-				if(trackerCount != 0) {
-					trackersStatsFile.write(name + "," + trackerCount);
-					trackersStatsFile.newLine();
+				for(String name : sortedTrackersGhosteryStats.keySet()) {
+					int trackerCount = sortedTrackersGhosteryStats.get(name);
+					if(trackerCount != 0) {
+						trackersStatsFile.write(name + "," + trackerCount);
+						trackersStatsFile.newLine();
+					}
 				}
+				trackersStatsFile.close();
 			}
-			trackersStatsFile.close();
 
 			// MIMETYPE OF URLS OF DIFFERENT SOA
 			BufferedWriter mimetypeSOA_allWebsitesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_soa.csv"), false));
