@@ -621,16 +621,11 @@ public class Parser {
 						// Type of the resource of the current URL
 						String type = entry.getResponse().getContent().getMimeType();
 
-						// CHECK : cookies
+						// Cookies
 						HarCookies cookies = entry.getResponse().getCookies();
-						if(cookies.getCookies().size() != 0) {
-							for(HarCookie cookie : cookies.getCookies()) {
-								trackersCookies.add(currentUrl + "," + cookie.getDomain() + "," + cookie.getName() + "," + cookie.getValue() + "," + cookie.getPath());
-							}
-						}
 
 						// CHECK : JS from another domain
-						else if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
+						if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
 							trackersJavaScript.add(currentUrl);
 							if(currentUrl.contains("?")) {
 								trackersJavaScriptWithQuery.add(currentUrl);
@@ -675,6 +670,13 @@ public class Parser {
 								logMessage("Cannot get the image: " + entry.getRequest().getUrl(), 3);
 							} finally {
 								if(imageInputStream != null) imageInputStream.close();
+							}
+						}
+
+						// CHECK : cookies
+						else if(cookies.getCookies().size() != 0) {
+							for(HarCookie cookie : cookies.getCookies()) {
+								trackersCookies.add(currentUrl + "," + cookie.getDomain() + "," + cookie.getName() + "," + cookie.getValue() + "," + cookie.getPath());
 							}
 						}
 
@@ -852,16 +854,18 @@ public class Parser {
 			mimetypeSOA_allWebsitesFile.close();
 
 			// MIMETYPE OF GHOSTERY TRACKERS DETECTED
-			BufferedWriter mimetypeGhosteryFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_ghostery.csv"), false));
+			if(!ghosteryFile.equals("")) {
+				BufferedWriter mimetypeGhosteryFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_ghostery.csv"), false));
 
-			Map<String, Integer> sortedMimetypeGhostery = sortByValueInDescendingOrder(mimetypeGhostery);
+				Map<String, Integer> sortedMimetypeGhostery = sortByValueInDescendingOrder(mimetypeGhostery);
 
-			for(String name : sortedMimetypeGhostery.keySet()) {
-				int number = sortedMimetypeGhostery.get(name);
-				mimetypeGhosteryFile.write(name + "," + number);
-				mimetypeGhosteryFile.newLine();
+				for(String name : sortedMimetypeGhostery.keySet()) {
+					int number = sortedMimetypeGhostery.get(name);
+					mimetypeGhosteryFile.write(name + "," + number);
+					mimetypeGhosteryFile.newLine();
+				}
+				mimetypeGhosteryFile.close();
 			}
-			mimetypeGhosteryFile.close();
 
 			// WEBSITES DETAILED STATS
 			BufferedWriter websitesDetailedStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_detailed.csv"), false));
