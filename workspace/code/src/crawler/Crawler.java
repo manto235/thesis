@@ -58,7 +58,7 @@ public class Crawler {
 	//private static Map<String, Integer> firefoxCookiesPerWebsite;
 
 	public static void launchCrawler(final String directoryName, String ffprofile, String websitesFile,
-			int startIndex, int endIndex, int attempts, boolean showDebug, int restart) {
+			int startIndex, int endIndex, int attempts, boolean showDebug, int restart, int timeout) {
 		debug = showDebug;
 		String start = dateFormat.format(new Date()) + " - Launching crawler...\n"
 				+ "   directory: " + directoryName + "\n"
@@ -126,14 +126,14 @@ public class Crawler {
 
 		// Initialize the driver
 		logMessage("Initializing the driver...", 1);
-		initializeDriver(directoryName, ffprofile);
+		initializeDriver(directoryName, ffprofile, timeout);
 
 		for(Website website : websites.getWebsites()) {
 			// Restart Firefox
 			if(websitesVisited % restart == 0 && websitesVisited != 0) {
 				logMessage("Restarting Firefox...", 1);
 				driver.quit();
-				initializeDriver(directoryName, ffprofile);
+				initializeDriver(directoryName, ffprofile, timeout);
 			}
 
 			boolean success = false;
@@ -543,7 +543,7 @@ public class Crawler {
 	 * @param directoryName: the directory in which the files will be written.
 	 * @param ffprofile the Firefox profile to use
 	 */
-	public static void initializeDriver(String directoryName, String ffprofile) {
+	public static void initializeDriver(String directoryName, String ffprofile, int timeout) {
 		try {
 			// Configure it as a desired capability
 			FirefoxProfile profile = new ProfilesIni().getProfile(ffprofile);
@@ -576,7 +576,7 @@ public class Crawler {
 
 			// Start the browser up
 			driver = new FirefoxDriver(capabilities);
-			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
 
 			// Wait till Firebug is loaded
 			Thread.sleep(5000);

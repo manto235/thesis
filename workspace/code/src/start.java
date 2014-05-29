@@ -27,10 +27,11 @@ public class start {
 		options.addOption("end", true, "crawler (required): end index in the websites file");
 		options.addOption("attempts", true, "crawler (optional): number of attempts per website");
 		options.addOption("restart", true, "crawler (required): number of websites to visit before restarting Firefox");
+		options.addOption("timeout", true, "crawler (optional): timeout for the visit of the websites");
 
 		// Parser
 		options.addOption("trackers", false, "parser (optional): show all trackers (print a lot)");
-		options.addOption("ghostery", true, "parser (required): path to the Ghostery file");
+		options.addOption("ghostery", true, "parser (optional): path to the Ghostery file");
 
 
 		CommandLineParser parser = new PosixParser();
@@ -56,24 +57,24 @@ public class start {
 				// Mode: parser
 				if(mode.equals("p")) {
 					//if(checkRequiredArgsParser(cmd.hasOption("ghostery"))) {
-						try {
-							// Check if the directory exists
-							if(!new File(directory).isDirectory()) {
-								System.out.println("Directory not found! " + new File(directory).getCanonicalPath() + "\nCheck your -dir argument.");
-								System.exit(1);
-							}
-							else {
-								String ghostery = "";
-								if(cmd.hasOption("ghostery")) {
-									ghostery = parseFile(cmd.getOptionValue("ghostery"), "ghostery");
-								}
-								Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"), ghostery);
-							}
-						} catch (Exception e) {
-							System.out.println("An error occurred with the parser.");
-							if(cmd.hasOption("debug")) e.printStackTrace();
+					try {
+						// Check if the directory exists
+						if(!new File(directory).isDirectory()) {
+							System.out.println("Directory not found! " + new File(directory).getCanonicalPath() + "\nCheck your -dir argument.");
 							System.exit(1);
 						}
+						else {
+							String ghostery = "";
+							if(cmd.hasOption("ghostery")) {
+								ghostery = parseFile(cmd.getOptionValue("ghostery"), "ghostery");
+							}
+							Parser.launchParser(directory, cmd.hasOption("debug"), cmd.hasOption("trackers"), ghostery);
+						}
+					} catch (Exception e) {
+						System.out.println("An error occurred with the parser.");
+						if(cmd.hasOption("debug")) e.printStackTrace();
+						System.exit(1);
+					}
 					//}
 				}
 				// Mode: crawler
@@ -84,12 +85,16 @@ public class start {
 							int startIndex = parseStartIndex(cmd.getOptionValue("start"));
 							int endIndex = parseEndIndex(cmd.getOptionValue("end"));
 							int restart = parseRestartValue(cmd.getOptionValue("restart"));
-							int attempts = 1; // 1 by default
+							int attempts = 1; // 1 attempt by default
 							if(cmd.hasOption("attempts")) {
 								attempts = parseAttempts(cmd.getOptionValue("attempts"));
 							}
+							int timeout = 30; // 30 seconds by default
+							if(cmd.hasOption("timeout")) {
+								timeout = parseTimeout(cmd.getOptionValue("timeout"));
+							}
 
-							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, startIndex, endIndex, attempts, cmd.hasOption("debug"), restart);
+							Crawler.launchCrawler(directory, cmd.getOptionValue("ffprofile"), websites, startIndex, endIndex, attempts, cmd.hasOption("debug"), restart, timeout);
 						} catch (Exception e) {
 							System.out.println("An error occurred with the crawler.");
 							if(cmd.hasOption("debug")) e.printStackTrace();
@@ -233,6 +238,28 @@ public class start {
 			return Integer.parseInt(value);
 		} catch (Exception e) {
 			System.out.println("Restart value must be an integer!");
+			throw new Exception();
+		}
+	}
+
+	/**
+	 * Parses the timeout received as argument.
+	 * If the timeout is not an integer, a message is printed in the console.
+	 *
+	 * @param timeout the value of the timeout as a String
+	 * @return the value of the timeout as an Integer
+	 * @throws Exception
+	 */
+	public static int parseTimeout(String timeout) throws Exception {
+		try {
+			int value = Integer.parseInt(timeout);
+			if(value < 10) {
+				System.out.println("The timeout must be greater than 10 seconds");
+				throw new Exception();
+			}
+			return value;
+		} catch (Exception e) {
+			System.out.println("The timeout must be an integer!");
 			throw new Exception();
 		}
 	}
