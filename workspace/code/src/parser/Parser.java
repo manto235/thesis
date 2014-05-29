@@ -625,7 +625,7 @@ public class Parser {
 						HarCookies cookies = entry.getResponse().getCookies();
 
 						// CHECK : JS from another domain
-						if(type.equals("application/x-javascript") || type.equals("application/javascript")) {
+						if(type.equals("application/x-javascript") || type.equals("application/javascript") || type.equals("text/javascript")) {
 							trackersJavaScript.add(currentUrl);
 							if(currentUrl.contains("?")) {
 								trackersJavaScriptWithQuery.add(currentUrl);
@@ -683,7 +683,6 @@ public class Parser {
 						// CHECK : parameters
 						else if(currentUrl.contains("?")) {
 							trackersURLsParameters.add(currentUrl);
-							//System.out.println(new URL(currentUrl).getQuery());
 						}
 
 
@@ -713,9 +712,6 @@ public class Parser {
 			// Ghostery
 			int countGhostery = exportTrackers(website, "ghostery", trackersGhostery);
 
-			// Cookies
-			int countCookies = exportTrackers(website, "cookies", trackersCookies);
-
 			// JavaScript
 			int countJavaScript = exportTrackers(website, "js", trackersJavaScript);
 
@@ -728,26 +724,29 @@ public class Parser {
 			// Tracking pixels
 			int countTrackingPixels = exportTrackers(website, "pixels", trackersPixels);
 
+			// Cookies
+			int countCookies = exportTrackers(website, "cookies", trackersCookies);
+
 			// Other URLs with parameters
 			int countOtherURLsParameters = exportTrackers(website, "parameters", trackersURLsParameters);
 
 			countSuccesses++;
 			if(showTrackers) {
 				System.out.println("                             Number of Ghostery trackers: " + countGhostery);
-				System.out.println("                             Number of cookies: " + countCookies);
 				System.out.println("                             Number of JavaScript: " + countJavaScript);
 				System.out.println("                             Number of JavaScript with query: " + countJavaScriptWithQuery);
 				System.out.println("                             Number of Flash: " + countFlash);
 				System.out.println("                             Number of tracking pixels: " + countTrackingPixels);
+				System.out.println("                             Number of cookies: " + countCookies);
 				System.out.println("                             Number of other URLs with parameters: " + countOtherURLsParameters);
 			}
 
 			results[0] = countGhostery;
-			results[1] = countCookies;
-			results[2] = countJavaScript;
-			results[3] = countJavaScriptWithQuery;
-			results[4] = countFlash;
-			results[5] = countTrackingPixels;
+			results[1] = countJavaScript;
+			results[2] = countJavaScriptWithQuery;
+			results[3] = countFlash;
+			results[4] = countTrackingPixels;
+			results[5] = countCookies;
 			results[6] = countOtherURLsParameters;
 
 			int totalNumberTrackers = countGhostery + countCookies + countJavaScript + countJavaScriptWithQuery + countFlash + countTrackingPixels + countOtherURLsParameters;
