@@ -4,14 +4,6 @@
   "httpVersion": "HTTP/1.1",
   "cookies": [
 	{
-	  "name": "xcg",
-	  "value": "be",
-	  "max-age": "86400",
-	  "path": "/",
-	  "httpOnly": true,
-	  "domain": "gamespot.com"
-	},
-	{
 	  "name": "vguid",
 	  "value": "f9622018-1acd-0ce1-fca6-737a5a44c020",
 	  "expire": "0",
