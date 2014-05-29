@@ -14,11 +14,12 @@ Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs a
 	\item Requis pour le \textit{crawler} : le fichier contenant la liste des sites web à visiter.
 	\item Requis pour le \textit{crawler} : le début de l'intervalle des sites à visiter.
 	\item Requis pour le \textit{crawler} : la fin de l'intervalle des sites à visiter.
-	\item Requis pour le \textit{crawler} : le nombre maximal de tentatives par site web (\textit{timeout}).
-	\item Requis pour le \textit{crawler} : le nombre de sites à visiter avant le redémarrage de Firefox.
+	\item Requis pour le \textit{crawler} : le nombre de sites à visiter entre chaque redémarrage de Firefox.
+	\item Optionnel pour le \textit{crawler} : le nombre maximal de tentatives par site web (lors d'un échec dû à un \textit{timeout}). Par défaut : 1 tentative.
+	\item Optionnel pour le \textit{crawler} : la durée du timeout lors du chargement d'un site. Par défaut : 30 secondes.
 	\newline
-	\item Requis pour le \textit{parser} : le fichier contenant la liste des trackers de Ghostery.
-	\item Optionnel pour le \textit{parser} : l'activation de l'impression de tous les trackers identifiés.
+	\item Optionnel pour le \textit{parser} : le fichier contenant la liste des trackers de Ghostery.
+	\item Optionnel pour le \textit{parser} : l'affichage dans le terminal de tous les trackers identifiés pour chaque fichier analysé.
 \end{itemize}
 
 \chapter{Modifications dans l'extension NetExport}
