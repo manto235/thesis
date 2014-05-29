@@ -67,6 +67,7 @@ public class Crawler {
 				+ "   Firefox profile: " + ffprofile + "\n"
 				+ "   restart value: " + restart + "\n"
 				+ "   number of attempts per website: " + attempts + "\n"
+				+ "   timeout: " + timeout + " seconds\n"
 				+ "   debug: " + debug;
 		System.out.println(start);
 
