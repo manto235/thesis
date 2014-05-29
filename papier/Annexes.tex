@@ -28,15 +28,13 @@ Lignes 200 à 211 commentées :
 \begin{lstlisting}[frame=single]
 /*if (!timings._timeStamps)
 {
-	timings.comment = "_timeStamps field contains timing data generated using " +
-		"console.timeStamp() method. See Firebug documentation: " +
-		"http://getfirebug.com/wiki/index.php/Console_API";
-	timings._timeStamps = [];
+  timings.comment = "_timeStamps field contains timing data generated using " + "console.timeStamp() method. See Firebug documentation: " + "http://getfirebug.com/wiki/index.php/Console_API";
+  timings._timeStamps = [];
 }
 
 timings._timeStamps.push({
-	time: stamp.time - this.startedDateTime,
-	label: label
+  time: stamp.time - this.startedDateTime,
+  label: label
 });*/
 \end{lstlisting}
 
@@ -44,13 +42,12 @@ timings._timeStamps.push({
 \label{automation}
 Ligne 171 modifiée :
 \begin{lstlisting}[frame=single]
-var fileName = name; /*+ "+" + now.getFullYear() + "-" +
-	f(now.getMonth()+1) + "-" + f(now.getDate()) + "+" + f(now.getHours()) + "-" +
-	f(now.getMinutes()) + "-" + f(now.getSeconds());*/
+var fileName = name; /*+ "+" + now.getFullYear() + "-" + f(now.getMonth()+1) + "-" + f(now.getDate()) + "+" + f(now.getHours()) + "-" + f(now.getMinutes()) + "-" + f(now.getSeconds());*/
 \end{lstlisting}
 
 
 \chapter{Format des résultats}
+\label{format_resultats}
 Il existe deux types de résultats : les résultats détaillés pour chaque fichier HTTP Archive analysé et les résultats globaux de l'analyse.
 
 Les résultats globaux sont enregistrés dans le dossier "logs" alors que les résultats détaillés sont enregistrés dans le dossier "results".
@@ -66,17 +63,18 @@ Les résultats globaux dans le dossier "logs" :
 \section{Parser}
 Les résultats globaux dans le dossier "logs" :
 \begin{itemize}
-	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé de trackers (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript avec ou sans paramètres chargés depuis un autre domaine, Flash chargés depuis un autre domaine, pixels espions et requêtes d'URL avec des paramètres).
-	\item \textbf{stats\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
-	\item \textbf{stats\_trackers.csv} contient la liste des trackers identifiés grâce à Ghostery, triés par ordre décroissant.
+	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé d'éléments enregistrés (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript avec ou sans paramètres chargés depuis un autre domaine, Flash chargés depuis un autre domaine, pixels espions et requêtes d'URL avec des paramètres).
+	\item \textbf{stats\_mimetypes\_ghostery.csv} contient la liste des types d'éléments (\textit{mimetype}) des trackers détectés par Ghostery, triés par ordre décroissant (si Ghostery a été utilisé par le \textit{parser}).
+	\item \textbf{stats\_mimetypes\_soa.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
+	\item \textbf{stats\_trackers.csv} contient la liste des trackers identifiés grâce à Ghostery, triés par ordre décroissant (si Ghostery a été utilisé par le \textit{parser}).
 	\newline
 \end{itemize}
 
 Les résultats détaillés pour chaque site dans le dossier "results" :
 \begin{itemize}
-	\item \textbf{<URL du site>\_cookies.csv} contient la liste des cookies créés par des réponses HTTP d'un domaine différent.
+	\item \textbf{<URL du site>\_cookies.csv} contient la liste des cookies créés (avec leurs détails) par des réponses HTTP d'un domaine différent.
 	\item \textbf{<URL du site>\_flash.csv} contient la liste des fichiers Flash provenant d'un autre domaine.
-	\item \textbf{<URL du site>\_ghostery.csv} contient la liste des trackers détectés grâce à la base de données Ghostery.
+	\item \textbf{<URL du site>\_ghostery.csv} contient la liste des trackers détectés grâce à la base de données Ghostery (si Ghostery a été utilisé par le \textit{parser}).
 	\item \textbf{<URL du site>\_js.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers.
 	\item \textbf{<URL du site>\_js-query.csv} contient la liste des fichiers JavaScript provenant d'un domaine tiers et appelés avec des paramètres.
 	\item \textbf{<URL du site>\_mimetypes.csv} contient la liste des types d'éléments (\textit{mimetype}) chargés d'un domaine différent, triés par ordre décroissant.
