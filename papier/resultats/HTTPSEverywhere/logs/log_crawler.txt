@@ -1,0 +1,2383 @@
+23/05/2014 - 23:07:09 - Launching crawler...
+   directory: HTTPSEverywhere
+   websites file: top-1m.csv
+   start index: 1, end index: 1000
+   Firefox profile: https
+   restart value: 50
+   number of attempts per website: 3
+   debug: true
+Flash cookies folder: /etinfo/users/2009/antmarchal/.macromedia/Flash_Player/#SharedObjects/V2L9LH3V
+                        Number of Flash cookies found and deleted: 0
+Firefox cookies database: /etinfo/users/2009/antmarchal/.mozilla/firefox/c3r0kqxv.https/cookies.sqlite
+                        Number of Firefox cookies found and deleted: 9
+23/05/2014 - 23:07:10 - Loading the list of websites...
+                        Info: 1000 websites loaded
+23/05/2014 - 23:07:10 - Initializing the driver...
+                        Info: WebDriver is ready.
+23/05/2014 - 23:07:34 - Crawling website #1 - google.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:07:43 - Crawling website #2 - facebook.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:07:53 - Crawling website #3 - youtube.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:08:07 - Crawling website #4 - yahoo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:08:21 - Crawling website #5 - baidu.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:08:35 - Crawling website #6 - wikipedia.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:08:44 - Crawling website #7 - qq.com (attempt #1).
+             >>>>>>>>>> Error: website qq.com was not successfully loaded (timeout).
+23/05/2014 - 23:09:19 - Crawling website #7 - qq.com (attempt #2).
+             >>>>>>>>>> Error: website qq.com was not successfully loaded (timeout).
+23/05/2014 - 23:09:55 - Crawling website #7 - qq.com (attempt #3).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:10:26 - Crawling website #8 - taobao.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:10:40 - Crawling website #9 - twitter.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:11:00 - Crawling website #10 - amazon.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:11:11 - Crawling website #11 - linkedin.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:11:25 - Crawling website #12 - live.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:11:40 - Crawling website #13 - google.co.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:11:50 - Crawling website #14 - sina.com.cn (attempt #1).
+             >>>>>>>>>> Error: website sina.com.cn was not successfully loaded (timeout).
+23/05/2014 - 23:12:27 - Crawling website #14 - sina.com.cn (attempt #2).
+             >>>>>>>>>> Error: website sina.com.cn was not successfully loaded (timeout).
+23/05/2014 - 23:13:03 - Crawling website #14 - sina.com.cn (attempt #3).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:13:24 - Crawling website #15 - hao123.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:13:32 - Crawling website #16 - blogspot.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:13:40 - Crawling website #17 - weibo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:14:07 - Crawling website #18 - tmall.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:14:19 - Crawling website #19 - vk.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:14:29 - Crawling website #20 - wordpress.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:14:39 - Crawling website #21 - yahoo.co.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:14:55 - Crawling website #22 - sohu.com (attempt #1).
+             >>>>>>>>>> Error: website sohu.com was not successfully loaded (timeout).
+23/05/2014 - 23:15:31 - Crawling website #22 - sohu.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:15:59 - Crawling website #23 - yandex.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:16:10 - Crawling website #24 - ebay.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:16:21 - Crawling website #25 - google.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:16:31 - Crawling website #26 - bing.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:16:40 - Crawling website #27 - pinterest.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:16:51 - Crawling website #28 - google.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:17:00 - Crawling website #29 - 163.com (attempt #1).
+             >>>>>>>>>> Error: website 163.com was not successfully loaded (timeout).
+23/05/2014 - 23:17:37 - Crawling website #29 - 163.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:17:59 - Crawling website #30 - 360.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:18:19 - Crawling website #31 - google.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:18:28 - Crawling website #32 - ask.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:18:40 - Crawling website #33 - instagram.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:18:50 - Crawling website #34 - google.co.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:18:59 - Crawling website #35 - tumblr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:19:10 - Crawling website #36 - msn.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:19:32 - Crawling website #37 - google.com.br (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:19:45 - Crawling website #38 - mail.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:19:56 - Crawling website #39 - microsoft.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:20:07 - Crawling website #40 - xvideos.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:20:19 - Crawling website #41 - paypal.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:20:37 - Crawling website #42 - google.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:20:47 - Crawling website #43 - soso.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:20:57 - Crawling website #44 - adcash.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:21:08 - Crawling website #45 - google.es (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:21:18 - Crawling website #46 - google.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:21:27 - Crawling website #47 - imdb.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:21:39 - Crawling website #48 - apple.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:21:52 - Crawling website #49 - imgur.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:22:07 - Crawling website #50 - neobux.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:22:17 - Restarting Firefox...
+                        Info: WebDriver is ready.
+23/05/2014 - 23:22:37 - Crawling website #51 - craigslist.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:22:56 - Crawling website #52 - amazon.co.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:23:07 - Crawling website #53 - t.co (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:23:17 - Crawling website #54 - xhamster.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:23:29 - Crawling website #55 - stackoverflow.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:23:39 - Crawling website #56 - reddit.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:23:52 - Crawling website #57 - google.com.mx (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:24:02 - Crawling website #58 - google.com.hk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:24:11 - Crawling website #59 - cnn.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:24:29 - Crawling website #60 - google.ca (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:24:40 - Crawling website #61 - fc2.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:24:54 - Crawling website #62 - go.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:25:07 - Crawling website #63 - ifeng.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:25:37 - Crawling website #64 - bbc.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:25:57 - Crawling website #65 - vube.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:26:13 - Crawling website #66 - people.com.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:26:51 - Crawling website #67 - blogger.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:27:00 - Crawling website #68 - aliexpress.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:27:14 - Crawling website #69 - odnoklassniki.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:27:25 - Crawling website #70 - wordpress.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:27:35 - Crawling website #71 - alibaba.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:27:45 - Crawling website #72 - gmw.cn (attempt #1).
+             >>>>>>>>>> Error: website gmw.cn was not successfully loaded (timeout).
+23/05/2014 - 23:28:21 - Crawling website #72 - gmw.cn (attempt #2).
+             >>>>>>>>>> Error: website gmw.cn was not successfully loaded (timeout).
+23/05/2014 - 23:28:56 - Crawling website #72 - gmw.cn (attempt #3).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:29:27 - Crawling website #73 - adobe.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:29:39 - Crawling website #74 - huffingtonpost.com (attempt #1).
+             >>>>>>>>>> Error: website huffingtonpost.com was not successfully loaded (timeout).
+23/05/2014 - 23:30:15 - Crawling website #74 - huffingtonpost.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:30:30 - Crawling website #75 - google.com.tr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:30:40 - Crawling website #76 - xinhuanet.com (attempt #1).
+             >>>>>>>>>> Error: website xinhuanet.com was not successfully loaded (timeout).
+23/05/2014 - 23:31:16 - Crawling website #76 - xinhuanet.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:31:52 - Crawling website #77 - googleusercontent.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:32:01 - Crawling website #78 - youku.com (attempt #1).
+             >>>>>>>>>> Error: website youku.com was not successfully loaded (timeout).
+23/05/2014 - 23:32:37 - Crawling website #78 - youku.com (attempt #2).
+             >>>>>>>>>> Error: website youku.com was not successfully loaded (timeout).
+23/05/2014 - 23:33:12 - Crawling website #78 - youku.com (attempt #3).
+             >>>>>>>>>> Error: website youku.com was not successfully loaded (timeout).
+23/05/2014 - 23:33:48 - Crawling website #79 - godaddy.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:34:02 - Crawling website #80 - pornhub.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:34:13 - Crawling website #81 - akamaihd.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:34:24 - Crawling website #82 - thepiratebay.se (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:34:33 - Crawling website #83 - kickass.to (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:34:43 - Crawling website #84 - google.com.au (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:34:53 - Crawling website #85 - amazon.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:35:03 - Crawling website #86 - clkmon.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:35:13 - Crawling website #87 - ebay.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:35:24 - Crawling website #88 - alipay.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:35:36 - Crawling website #89 - google.pl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:35:45 - Crawling website #90 - espn.go.com (attempt #1).
+                        Number of Flash cookies found and deleted: 5
+23/05/2014 - 23:36:00 - Crawling website #91 - dailymotion.com (attempt #1).
+                        Number of Flash cookies found and deleted: 3
+23/05/2014 - 23:36:12 - Crawling website #92 - about.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:36:25 - Crawling website #93 - bp.blogspot.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:36:34 - Crawling website #94 - blogspot.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:36:43 - Crawling website #95 - netflix.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:36:53 - Crawling website #96 - vimeo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:37:04 - Crawling website #97 - dailymail.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:37:34 - Crawling website #98 - redtube.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:37:47 - Crawling website #99 - rakuten.co.jp (attempt #1).
+             >>>>>>>>>> Error: website rakuten.co.jp was not successfully loaded (timeout).
+23/05/2014 - 23:38:22 - Crawling website #99 - rakuten.co.jp (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:38:47 - Crawling website #100 - conduit.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:38:57 - Restarting Firefox...
+                        Info: WebDriver is ready.
+23/05/2014 - 23:39:14 - Crawling website #101 - ebay.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:39:25 - Crawling website #102 - xnxx.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:39:58 - Crawling website #103 - china.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:40:31 - Crawling website #104 - themeforest.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:40:44 - Crawling website #105 - indiatimes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:40:57 - Crawling website #106 - uol.com.br (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:41:18 - Crawling website #107 - livejasmin.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:41:29 - Crawling website #108 - amazon.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:41:41 - Crawling website #109 - dropbox.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:41:55 - Crawling website #110 - cnet.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:42:21 - Crawling website #111 - flickr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:42:35 - Crawling website #112 - pixnet.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:42:52 - Crawling website #113 - google.com.ar (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:43:02 - Crawling website #114 - aol.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:43:16 - Crawling website #115 - amazonaws.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:43:29 - Crawling website #116 - youporn.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:43:42 - Crawling website #117 - google.com.sa (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:43:52 - Crawling website #118 - sogou.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:44:05 - Crawling website #119 - booking.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:44:17 - Crawling website #120 - buzzfeed.com (attempt #1).
+             >>>>>>>>>> Error: website buzzfeed.com was not successfully loaded (timeout).
+23/05/2014 - 23:44:52 - Crawling website #120 - buzzfeed.com (attempt #2).
+             >>>>>>>>>> Error: website buzzfeed.com was not successfully loaded (timeout).
+23/05/2014 - 23:45:27 - Crawling website #120 - buzzfeed.com (attempt #3).
+             >>>>>>>>>> Error: website buzzfeed.com was not successfully loaded (timeout).
+23/05/2014 - 23:46:02 - Crawling website #121 - slideshare.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:46:17 - Crawling website #122 - google.com.eg (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:46:27 - Crawling website #123 - google.com.tw (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:46:37 - Crawling website #124 - m2newmedia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:46:46 - Crawling website #125 - ameblo.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:47:00 - Crawling website #126 - nytimes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:47:29 - Crawling website #127 - weather.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:47:49 - Crawling website #128 - secureserver.net (attempt #1).
+             >>>>>>>>>> Error: website secureserver.net was not successfully loaded (timeout).
+23/05/2014 - 23:48:25 - Crawling website #128 - secureserver.net (attempt #2).
+             >>>>>>>>>> Error: website secureserver.net was not successfully loaded (timeout).
+23/05/2014 - 23:49:00 - Crawling website #128 - secureserver.net (attempt #3).
+             >>>>>>>>>> Error: website secureserver.net was not successfully loaded (timeout).
+23/05/2014 - 23:49:35 - Crawling website #129 - canadaalltax.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:49:44 - Crawling website #130 - globo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:49:52 - Crawling website #131 - google.nl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:50:00 - Crawling website #132 - onclickads.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:50:13 - Crawling website #133 - fiverr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:50:29 - Crawling website #134 - wikia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:50:44 - Crawling website #135 - outbrain.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:50:56 - Crawling website #136 - yelp.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:51:10 - Crawling website #137 - flipkart.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:51:24 - Crawling website #138 - mozilla.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:51:36 - Crawling website #139 - adf.ly (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:51:50 - Crawling website #140 - wikimedia.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:52:00 - Crawling website #141 - hootsuite.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:52:10 - Crawling website #142 - directrev.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:52:21 - Crawling website #143 - google.com.pk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:52:30 - Crawling website #144 - wikihow.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:52:42 - Crawling website #145 - livejournal.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:52:56 - Crawling website #146 - answers.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:53:08 - Crawling website #147 - w3schools.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:53:18 - Crawling website #148 - deviantart.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:53:30 - Crawling website #149 - blogfa.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:53:40 - Crawling website #150 - google.co.th (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:53:50 - Restarting Firefox...
+                        Info: WebDriver is ready.
+23/05/2014 - 23:54:08 - Crawling website #151 - google.co.za (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:54:17 - Crawling website #152 - bbc.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+23/05/2014 - 23:54:32 - Crawling website #153 - theguardian.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:55:00 - Crawling website #154 - etsy.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:55:08 - Crawling website #155 - stumbleupon.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:55:19 - Crawling website #156 - pconline.com.cn (attempt #1).
+             >>>>>>>>>> Error: website pconline.com.cn was not successfully loaded (timeout).
+23/05/2014 - 23:55:55 - Crawling website #156 - pconline.com.cn (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:56:06 - Crawling website #157 - livedoor.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:56:23 - Crawling website #158 - gameforge.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:56:34 - Crawling website #159 - torrentz.eu (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:56:43 - Crawling website #160 - badoo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:56:54 - Crawling website #161 - files.wordpress.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:57:04 - Crawling website #162 - avg.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:57:15 - Crawling website #163 - bankofamerica.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:57:29 - Crawling website #164 - forbes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:57:40 - Crawling website #165 - indeed.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:57:49 - Crawling website #166 - spiegel.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:58:09 - Crawling website #167 - hostgator.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:58:27 - Crawling website #168 - aweber.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:58:39 - Crawling website #169 - ask.fm (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:58:48 - Crawling website #170 - foxnews.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:59:06 - Crawling website #171 - google.co.ve (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:59:17 - Crawling website #172 - bet365.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:59:26 - Crawling website #173 - chase.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:59:39 - Crawling website #174 - mediafire.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+23/05/2014 - 23:59:51 - Crawling website #175 - sourceforge.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:00:03 - Crawling website #176 - 4shared.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:00:17 - Crawling website #177 - reference.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:00:47 - Crawling website #178 - naver.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:01:01 - Crawling website #179 - github.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:01:12 - Crawling website #180 - mailchimp.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:01:23 - Crawling website #181 - addthis.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:01:33 - Crawling website #182 - gmail.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:01:43 - Crawling website #183 - so.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:02:02 - Crawling website #184 - archive.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:02:18 - Crawling website #185 - espncricinfo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 5
+24/05/2014 - 00:02:36 - Crawling website #186 - loading-delivery1.com (attempt #1).
+                        Number of Flash cookies found and deleted: 4
+24/05/2014 - 00:02:48 - Crawling website #187 - soundcloud.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:02:56 - Crawling website #188 - zillow.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:03:06 - Crawling website #189 - stackexchange.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:03:17 - Crawling website #190 - google.gr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:03:27 - Crawling website #191 - xcar.com.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:04:03 - Crawling website #192 - liveinternet.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:04:13 - Crawling website #193 - businessinsider.com (attempt #1).
+             >>>>>>>>>> Error: website businessinsider.com was not successfully loaded (timeout).
+24/05/2014 - 00:04:48 - Crawling website #193 - businessinsider.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:05:20 - Crawling website #194 - google.com.co (attempt #1).
+                        Number of Flash cookies found and deleted: 3
+24/05/2014 - 00:05:31 - Crawling website #195 - shutterstock.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:05:45 - Crawling website #196 - salesforce.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:06:00 - Crawling website #197 - walmart.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:06:22 - Crawling website #198 - google.co.id (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:06:32 - Crawling website #199 - ettoday.net (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:07:06 - Crawling website #200 - google.be (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:07:17 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 00:07:35 - Crawling website #201 - onet.pl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:07:49 - Crawling website #202 - statcounter.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:08:04 - Crawling website #203 - zol.com.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:08:28 - Crawling website #204 - skype.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:08:45 - Crawling website #205 - wix.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:08:59 - Crawling website #206 - google.com.vn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:09:10 - Crawling website #207 - google.com.my (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:09:19 - Crawling website #208 - allegro.pl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:09:33 - Crawling website #209 - tripadvisor.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:09:43 - Crawling website #210 - nicovideo.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:09:57 - Crawling website #211 - google.com.ng (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:10:07 - Crawling website #212 - tube8.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:10:16 - Crawling website #213 - google.com.ua (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:10:24 - Crawling website #214 - java.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:10:33 - Crawling website #215 - softonic.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:10:45 - Crawling website #216 - popads.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:10:56 - Crawling website #217 - wordreference.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:11:05 - Crawling website #218 - bleacherreport.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:11:24 - Crawling website #219 - google.se (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:11:36 - Crawling website #220 - gamer.com.tw (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:11:48 - Crawling website #221 - wellsfargo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:12:01 - Crawling website #222 - bild.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:12:25 - Crawling website #223 - aili.com (attempt #1).
+             >>>>>>>>>> Error: website aili.com was not successfully loaded (timeout).
+24/05/2014 - 00:13:00 - Crawling website #223 - aili.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:13:20 - Crawling website #224 - pandora.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:13:31 - Crawling website #225 - weebly.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:13:44 - Crawling website #226 - mashable.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:13:58 - Crawling website #227 - google.ro (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:14:08 - Crawling website #228 - photobucket.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:14:24 - Crawling website #229 - wsj.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:14:44 - Crawling website #230 - google.at (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:14:53 - Crawling website #231 - china.com.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:15:25 - Crawling website #232 - doublepimp.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:15:37 - Crawling website #233 - amazon.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:15:49 - Crawling website #234 - yaolan.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:15:58 - Crawling website #235 - nba.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:16:06 - Crawling website #236 - telegraph.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:16:17 - Crawling website #237 - goo.ne.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:16:28 - Crawling website #238 - google.dz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:16:36 - Crawling website #239 - taringa.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:16:50 - Crawling website #240 - media.tumblr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:16:59 - Crawling website #241 - mmbang.com (attempt #1).
+             >>>>>>>>>> Error: website mmbang.com was not successfully loaded (timeout).
+24/05/2014 - 00:17:34 - Crawling website #241 - mmbang.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:17:56 - Crawling website #242 - ups.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:18:05 - Crawling website #243 - zedo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:18:20 - Crawling website #244 - mama.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:18:45 - Crawling website #245 - avito.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:18:56 - Crawling website #246 - naver.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:19:11 - Crawling website #247 - chinaz.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:19:34 - Crawling website #248 - baomihua.com (attempt #1).
+             >>>>>>>>>> Error: website baomihua.com was not successfully loaded (timeout).
+24/05/2014 - 00:20:09 - Crawling website #248 - baomihua.com (attempt #2).
+             >>>>>>>>>> Error: website baomihua.com was not successfully loaded (timeout).
+24/05/2014 - 00:20:45 - Crawling website #248 - baomihua.com (attempt #3).
+             >>>>>>>>>> Error: website baomihua.com was not successfully loaded (timeout).
+24/05/2014 - 00:21:20 - Crawling website #249 - php.net (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:21:29 - Crawling website #250 - warriorforum.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:21:41 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 00:21:59 - Crawling website #251 - leboncoin.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:22:07 - Crawling website #252 - rt.com (attempt #1).
+             >>>>>>>>>> Error: website rt.com was not successfully loaded (timeout).
+24/05/2014 - 00:22:43 - Crawling website #252 - rt.com (attempt #2).
+             >>>>>>>>>> Error: website rt.com was not successfully loaded (timeout).
+24/05/2014 - 00:23:18 - Crawling website #252 - rt.com (attempt #3).
+             >>>>>>>>>> Error: website rt.com was not successfully loaded (timeout).
+24/05/2014 - 00:23:53 - Crawling website #253 - dmm.co.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:24:06 - Crawling website #254 - twitch.tv (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:24:17 - Crawling website #255 - google.com.pe (attempt #1).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 00:24:32 - Crawling website #256 - google.com.ph (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:24:42 - Crawling website #257 - coccoc.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:24:55 - Crawling website #258 - ikea.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:25:04 - Crawling website #259 - 9gag.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:25:17 - Crawling website #260 - codecanyon.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:25:28 - Crawling website #261 - acesse.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:25:38 - Crawling website #262 - google.com.sg (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:25:48 - Crawling website #263 - caijing.com.cn (attempt #1).
+             >>>>>>>>>> Error: website caijing.com.cn was not successfully loaded (timeout).
+24/05/2014 - 00:26:23 - Crawling website #263 - caijing.com.cn (attempt #2).
+             >>>>>>>>>> Error: website caijing.com.cn was not successfully loaded (timeout).
+24/05/2014 - 00:26:58 - Crawling website #263 - caijing.com.cn (attempt #3).
+             >>>>>>>>>> Error: website caijing.com.cn was not successfully loaded (timeout).
+24/05/2014 - 00:27:34 - Crawling website #264 - infusionsoft.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:27:49 - Crawling website #265 - suning.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:28:11 - Crawling website #266 - ndtv.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:28:41 - Crawling website #267 - goodreads.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:28:54 - Crawling website #268 - snapdeal.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:29:14 - Crawling website #269 - myntra.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:29:23 - Crawling website #270 - google.ch (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:29:33 - Crawling website #271 - 39.net (attempt #1).
+             >>>>>>>>>> Error: website 39.net was not successfully loaded (timeout).
+24/05/2014 - 00:30:09 - Crawling website #271 - 39.net (attempt #2).
+             >>>>>>>>>> Error: website 39.net was not successfully loaded (timeout).
+24/05/2014 - 00:30:45 - Crawling website #271 - 39.net (attempt #3).
+             >>>>>>>>>> Error: website 39.net was not successfully loaded (timeout).
+24/05/2014 - 00:31:21 - Crawling website #272 - marca.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:31:49 - Crawling website #273 - google.cl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:32:01 - Crawling website #274 - comcast.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:32:14 - Crawling website #275 - gmx.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:32:22 - Crawling website #276 - goodgamestudios.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:32:30 - Crawling website #277 - amazon.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:32:41 - Crawling website #278 - usps.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:32:53 - Crawling website #279 - wp.pl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:33:08 - Crawling website #280 - tianya.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:33:28 - Crawling website #281 - rediff.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:33:37 - Crawling website #282 - disqus.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:33:50 - Crawling website #283 - youyuan.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:34:01 - Crawling website #284 - kaskus.co.id (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:34:23 - Crawling website #285 - haiwainet.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:34:41 - Crawling website #286 - douban.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:34:49 - Crawling website #287 - google.pt (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:34:58 - Crawling website #288 - hurriyet.com.tr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:35:15 - Crawling website #289 - usatoday.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:35:31 - Crawling website #290 - rambler.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:35:52 - Crawling website #291 - meetup.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:36:06 - Crawling website #292 - fedex.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:36:16 - Crawling website #293 - bluehost.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:36:30 - Crawling website #294 - tmz.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:36:39 - Crawling website #295 - goal.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:36:47 - Crawling website #296 - samsung.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:36:55 - Crawling website #297 - constantcontact.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:37:10 - Crawling website #298 - microsoftonline.com (attempt #1).
+             >>>>>>>>>> Error: website microsoftonline.com was not successfully loaded (timeout).
+24/05/2014 - 00:37:45 - Crawling website #298 - microsoftonline.com (attempt #2).
+             >>>>>>>>>> Error: website microsoftonline.com was not successfully loaded (timeout).
+24/05/2014 - 00:38:20 - Crawling website #298 - microsoftonline.com (attempt #3).
+             >>>>>>>>>> Error: website microsoftonline.com was not successfully loaded (timeout).
+24/05/2014 - 00:38:55 - Crawling website #299 - fbcdn.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:39:04 - Crawling website #300 - rutracker.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:39:13 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 00:39:31 - Crawling website #301 - bitly.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:39:44 - Crawling website #302 - mercadolivre.com.br (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:39:54 - Crawling website #303 - domaintools.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:40:04 - Crawling website #304 - uploaded.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:40:14 - Crawling website #305 - time.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:40:29 - Crawling website #306 - google.co.kr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:40:39 - Crawling website #307 - google.com.bd (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:40:48 - Crawling website #308 - gateable.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:40:57 - Crawling website #309 - hulu.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:41:12 - Crawling website #310 - enet.com.cn (attempt #1).
+             >>>>>>>>>> Error: website enet.com.cn was not successfully loaded (timeout).
+24/05/2014 - 00:41:47 - Crawling website #310 - enet.com.cn (attempt #2).
+             >>>>>>>>>> Error: website enet.com.cn was not successfully loaded (timeout).
+24/05/2014 - 00:42:23 - Crawling website #310 - enet.com.cn (attempt #3).
+                        Number of Flash cookies found and deleted: 3
+24/05/2014 - 00:42:39 - Crawling website #311 - washingtonpost.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:42:53 - Crawling website #312 - reuters.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:43:10 - Crawling website #313 - nih.gov (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:43:26 - Crawling website #314 - nbcnews.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:43:45 - Crawling website #315 - hp.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:43:53 - Crawling website #316 - jabong.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:44:01 - Crawling website #317 - google.cz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:44:11 - Crawling website #318 - extratorrent.cc (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:44:26 - Crawling website #319 - moz.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:44:36 - Crawling website #320 - ign.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:44:53 - Crawling website #321 - olx.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:45:05 - Crawling website #322 - ucoz.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:45:16 - Crawling website #323 - web.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:45:29 - Crawling website #324 - milliyet.com.tr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:45:45 - Crawling website #325 - chaturbate.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:46:04 - Crawling website #326 - detik.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:46:15 - Crawling website #327 - free.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:46:26 - Crawling website #328 - 4dsply.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:46:36 - Crawling website #329 - ixxx.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:46:50 - Crawling website #330 - kooora.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:47:04 - Crawling website #331 - scribd.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:47:21 - Crawling website #332 - y8.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:47:34 - Crawling website #333 - ehow.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:47:49 - Crawling website #334 - icicibank.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:48:05 - Crawling website #335 - speedtest.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:48:18 - Crawling website #336 - mobile01.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:48:33 - Crawling website #337 - github.io (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:48:43 - Crawling website #338 - huanqiu.com (attempt #1).
+             >>>>>>>>>> Error: website huanqiu.com was not successfully loaded (timeout).
+24/05/2014 - 00:49:18 - Crawling website #338 - huanqiu.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:49:34 - Crawling website #339 - pchome.net (attempt #1).
+             >>>>>>>>>> Error: website pchome.net was not successfully loaded (timeout).
+24/05/2014 - 00:50:10 - Crawling website #339 - pchome.net (attempt #2).
+             >>>>>>>>>> Error: website pchome.net was not successfully loaded (timeout).
+24/05/2014 - 00:50:45 - Crawling website #339 - pchome.net (attempt #3).
+             >>>>>>>>>> Error: website pchome.net was not successfully loaded (timeout).
+24/05/2014 - 00:51:21 - Crawling website #340 - zeobit.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:51:30 - Crawling website #341 - ebay.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:51:40 - Crawling website #342 - thefreecamsecret.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:51:52 - Crawling website #343 - mlb.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:52:07 - Crawling website #344 - varzesh3.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:52:20 - Crawling website #345 - beeg.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:52:31 - Crawling website #346 - webmd.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:52:44 - Crawling website #347 - zendesk.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:52:57 - Crawling website #348 - repubblica.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:53:25 - Crawling website #349 - cnzz.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:53:55 - Crawling website #350 - gsmarena.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:54:08 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 00:54:26 - Crawling website #351 - youjizz.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:54:39 - Crawling website #352 - bitauto.com (attempt #1).
+             >>>>>>>>>> Error: website bitauto.com was not successfully loaded (timeout).
+24/05/2014 - 00:55:14 - Crawling website #352 - bitauto.com (attempt #2).
+             >>>>>>>>>> Error: website bitauto.com was not successfully loaded (timeout).
+24/05/2014 - 00:55:50 - Crawling website #352 - bitauto.com (attempt #3).
+             >>>>>>>>>> Error: website bitauto.com was not successfully loaded (timeout).
+24/05/2014 - 00:56:25 - Crawling website #353 - hdfcbank.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 00:56:36 - Crawling website #354 - quikr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:56:46 - Crawling website #355 - libero.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:56:57 - Crawling website #356 - motherless.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:57:12 - Crawling website #357 - orange.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:57:24 - Crawling website #358 - goo.gl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:57:33 - Crawling website #359 - iqiyi.com (attempt #1).
+             >>>>>>>>>> Error: website iqiyi.com was not successfully loaded (timeout).
+24/05/2014 - 00:58:09 - Crawling website #359 - iqiyi.com (attempt #2).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 00:58:27 - Crawling website #360 - xing.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:58:37 - Crawling website #361 - clickbank.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:58:51 - Crawling website #362 - clicksvenue.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:59:01 - Crawling website #363 - google.no (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:59:10 - Crawling website #364 - amazon.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:59:32 - Crawling website #365 - zippyshare.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:59:40 - Crawling website #366 - daum.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 00:59:55 - Crawling website #367 - google.ie (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:00:05 - Crawling website #368 - force.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:00:19 - Crawling website #369 - feedly.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:00:29 - Crawling website #370 - babylon.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:00:39 - Crawling website #371 - google.co.hu (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:00:49 - Crawling website #372 - ameba.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:00:59 - Crawling website #373 - gome.com.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:01:24 - Crawling website #374 - cj.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:01:38 - Crawling website #375 - groupon.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:01:53 - Crawling website #376 - getresponse.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:02:07 - Crawling website #377 - americanexpress.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:02:21 - Crawling website #378 - cloudfront.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:02:30 - Crawling website #379 - thefreedictionary.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:02:41 - Crawling website #380 - histats.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:02:52 - Crawling website #381 - bestbuy.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:03:02 - Crawling website #382 - google.ae (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:03:11 - Crawling website #383 - bloomberg.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:03:27 - Crawling website #384 - intoday.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:03:41 - Crawling website #385 - list-manage.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:03:52 - Crawling website #386 - jrj.com.cn (attempt #1).
+             >>>>>>>>>> Error: website jrj.com.cn was not successfully loaded (timeout).
+24/05/2014 - 01:04:27 - Crawling website #386 - jrj.com.cn (attempt #2).
+             >>>>>>>>>> Error: website jrj.com.cn was not successfully loaded (timeout).
+24/05/2014 - 01:05:03 - Crawling website #386 - jrj.com.cn (attempt #3).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:05:40 - Crawling website #387 - abril.com.br (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:06:10 - Crawling website #388 - wideinfo.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:06:24 - Crawling website #389 - pof.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:06:33 - Crawling website #390 - irctc.co.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:06:41 - Crawling website #391 - xywy.com (attempt #1).
+             >>>>>>>>>> Error: website xywy.com was not successfully loaded (timeout).
+24/05/2014 - 01:07:16 - Crawling website #391 - xywy.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:07:27 - Crawling website #392 - rbc.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:07:47 - Crawling website #393 - elpais.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:08:05 - Crawling website #394 - blogspot.mx (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:08:15 - Crawling website #395 - gizmodo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:08:28 - Crawling website #396 - google.az (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:08:38 - Crawling website #397 - udn.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:09:06 - Crawling website #398 - homedepot.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:09:21 - Crawling website #399 - ci123.com (attempt #1).
+             >>>>>>>>>> Error: website ci123.com was not successfully loaded (timeout).
+24/05/2014 - 01:09:56 - Crawling website #399 - ci123.com (attempt #2).
+             >>>>>>>>>> Error: website ci123.com was not successfully loaded (timeout).
+24/05/2014 - 01:10:32 - Crawling website #399 - ci123.com (attempt #3).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:10:43 - Crawling website #400 - retailmenot.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:10:55 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 01:11:12 - Crawling website #401 - cpmterra.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:11:24 - Crawling website #402 - quora.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:11:37 - Crawling website #403 - target.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:12:12 - Crawling website #404 - ebay.com.au (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:12:24 - Crawling website #405 - lifehacker.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:12:37 - Crawling website #406 - sharelive.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:12:50 - Crawling website #407 - jqw.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:13:21 - Crawling website #408 - lady8844.com (attempt #1).
+             >>>>>>>>>> Error: website lady8844.com was not successfully loaded (timeout).
+24/05/2014 - 01:13:56 - Crawling website #408 - lady8844.com (attempt #2).
+             >>>>>>>>>> Error: website lady8844.com was not successfully loaded (timeout).
+24/05/2014 - 01:14:31 - Crawling website #408 - lady8844.com (attempt #3).
+             >>>>>>>>>> Error: website lady8844.com was not successfully loaded (timeout).
+24/05/2014 - 01:15:07 - Crawling website #409 - sahibinden.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:15:24 - Crawling website #410 - ad6media.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:15:34 - Crawling website #411 - xuite.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:15:56 - Crawling website #412 - ebay.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:16:07 - Crawling website #413 - techcrunch.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:16:24 - Crawling website #414 - surveymonkey.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:16:41 - Crawling website #415 - seznam.cz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:16:51 - Crawling website #416 - trulia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:17:21 - Crawling website #417 - subscene.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:17:32 - Crawling website #418 - b5m.com (attempt #1).
+             >>>>>>>>>> Error: website b5m.com was not successfully loaded (timeout).
+24/05/2014 - 01:18:07 - Crawling website #418 - b5m.com (attempt #2).
+             >>>>>>>>>> Error: website b5m.com was not successfully loaded (timeout).
+24/05/2014 - 01:18:42 - Crawling website #418 - b5m.com (attempt #3).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:18:53 - Crawling website #419 - in.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:19:01 - Crawling website #420 - okcupid.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:19:12 - Crawling website #421 - kakaku.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:19:20 - Crawling website #422 - yandex.ua (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:19:29 - Crawling website #423 - dell.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:19:42 - Crawling website #424 - battle.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:19:53 - Crawling website #425 - capitalone.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:20:07 - Crawling website #426 - freelancer.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:20:20 - Crawling website #427 - tinyurl.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:20:32 - Crawling website #428 - hstpnetwork.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:20:41 - Crawling website #429 - mysearchdial.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:20:52 - Crawling website #430 - naukri.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:21:22 - Crawling website #431 - elmundo.es (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:21:31 - Crawling website #432 - odesk.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:21:41 - Crawling website #433 - intuit.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:22:13 - Crawling website #434 - xgo.com.cn (attempt #1).
+             >>>>>>>>>> Error: website xgo.com.cn was not successfully loaded (timeout).
+24/05/2014 - 01:22:49 - Crawling website #434 - xgo.com.cn (attempt #2).
+             >>>>>>>>>> Error: website xgo.com.cn was not successfully loaded (timeout).
+24/05/2014 - 01:23:24 - Crawling website #434 - xgo.com.cn (attempt #3).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:23:51 - Crawling website #435 - hardsextube.com (attempt #1).
+             >>>>>>>>>> Error: website hardsextube.com was not successfully loaded (timeout).
+24/05/2014 - 01:24:26 - Crawling website #435 - hardsextube.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:24:38 - Crawling website #436 - hudong.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:25:14 - Crawling website #437 - accuweather.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:25:30 - Crawling website #438 - ck101.com (attempt #1).
+             >>>>>>>>>> Error: website ck101.com was not successfully loaded (timeout).
+24/05/2014 - 01:26:06 - Crawling website #438 - ck101.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:26:20 - Crawling website #439 - xe.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:26:33 - Crawling website #440 - privatehomeclips.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:26:46 - Crawling website #441 - tagged.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:26:59 - Crawling website #442 - google.co.il (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:27:09 - Crawling website #443 - istockphoto.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:27:26 - Crawling website #444 - nydailynews.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:27:52 - Crawling website #445 - petflow.com (attempt #1).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 01:28:09 - Crawling website #446 - google.dk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:28:20 - Crawling website #447 - uimserv.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:28:29 - Crawling website #448 - engadget.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:28:55 - Crawling website #449 - sh.st (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:29:10 - Crawling website #450 - issuu.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:29:21 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 01:29:43 - Crawling website #451 - t-online.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:30:00 - Crawling website #452 - abcnews.go.com (attempt #1).
+             >>>>>>>>>> Error: website abcnews.go.com was not successfully loaded (timeout).
+24/05/2014 - 01:30:36 - Crawling website #452 - abcnews.go.com (attempt #2).
+             >>>>>>>>>> Error: website abcnews.go.com was not successfully loaded (timeout).
+24/05/2014 - 01:31:11 - Crawling website #452 - abcnews.go.com (attempt #3).
+             >>>>>>>>>> Error: website abcnews.go.com was not successfully loaded (timeout).
+24/05/2014 - 01:31:47 - Crawling website #453 - babytree.com (attempt #1).
+             >>>>>>>>>> Error: website babytree.com was not successfully loaded (timeout).
+24/05/2014 - 01:32:22 - Crawling website #453 - babytree.com (attempt #2).
+             >>>>>>>>>> Error: website babytree.com was not successfully loaded (timeout).
+24/05/2014 - 01:32:58 - Crawling website #453 - babytree.com (attempt #3).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:33:22 - Crawling website #454 - v1.cn (attempt #1).
+             >>>>>>>>>> Error: website v1.cn was not successfully loaded (timeout).
+24/05/2014 - 01:33:58 - Crawling website #454 - v1.cn (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:34:24 - Crawling website #455 - drudgereport.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:34:44 - Crawling website #456 - snapdo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:34:56 - Crawling website #457 - google.cn (attempt #1).
+             >>>>>>>>>> Error: website google.cn was not successfully loaded (timeout).
+24/05/2014 - 01:35:31 - Crawling website #457 - google.cn (attempt #2).
+             >>>>>>>>>> Error: website google.cn was not successfully loaded (timeout).
+24/05/2014 - 01:36:06 - Crawling website #457 - google.cn (attempt #3).
+             >>>>>>>>>> Error: website google.cn was not successfully loaded (timeout).
+24/05/2014 - 01:36:41 - Crawling website #458 - google.fi (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:36:50 - Crawling website #459 - blackhatworld.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:37:02 - Crawling website #460 - probux.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:37:14 - Crawling website #461 - livescore.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:37:27 - Crawling website #462 - gazeta.pl (attempt #1).
+             >>>>>>>>>> Error: website gazeta.pl was not successfully loaded (timeout).
+24/05/2014 - 01:38:03 - Crawling website #462 - gazeta.pl (attempt #2).
+             >>>>>>>>>> Error: website gazeta.pl was not successfully loaded (timeout).
+24/05/2014 - 01:38:38 - Crawling website #462 - gazeta.pl (attempt #3).
+             >>>>>>>>>> Error: website gazeta.pl was not successfully loaded (timeout).
+24/05/2014 - 01:39:14 - Crawling website #463 - taboola.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:39:25 - Crawling website #464 - att.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:39:46 - Crawling website #465 - w3.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:40:01 - Crawling website #466 - evernote.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:40:14 - Crawling website #467 - searchfun.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:40:26 - Crawling website #468 - latimes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:40:39 - Crawling website #469 - yesky.com (attempt #1).
+             >>>>>>>>>> Error: website yesky.com was not successfully loaded (timeout).
+24/05/2014 - 01:41:14 - Crawling website #469 - yesky.com (attempt #2).
+             >>>>>>>>>> Error: website yesky.com was not successfully loaded (timeout).
+24/05/2014 - 01:41:49 - Crawling website #469 - yesky.com (attempt #3).
+             >>>>>>>>>> Error: website yesky.com was not successfully loaded (timeout).
+24/05/2014 - 01:42:24 - Crawling website #470 - trovigo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:42:33 - Crawling website #471 - amazon.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:42:44 - Crawling website #472 - jimdo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:42:56 - Crawling website #473 - joomla.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:43:09 - Crawling website #474 - lefigaro.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:43:27 - Crawling website #475 - blogspot.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:43:38 - Crawling website #476 - lenovo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:43:57 - Crawling website #477 - oracle.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:44:10 - Crawling website #478 - upworthy.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:44:22 - Crawling website #479 - digg.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:44:34 - Crawling website #480 - shareasale.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:44:46 - Crawling website #481 - cntv.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:44:59 - Crawling website #482 - ku6.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:45:30 - Crawling website #483 - ero-advertising.com (attempt #1).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 01:45:39 - Crawling website #484 - eyny.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:45:53 - Crawling website #485 - lemonde.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:46:10 - Crawling website #486 - ig.com.br (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:46:39 - Crawling website #487 - elance.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:46:49 - Crawling website #488 - youdao.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:46:57 - Crawling website #489 - adnxs.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:47:05 - Crawling website #490 - pcbaby.com.cn (attempt #1).
+             >>>>>>>>>> Error: website pcbaby.com.cn was not successfully loaded (timeout).
+24/05/2014 - 01:47:41 - Crawling website #490 - pcbaby.com.cn (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:47:59 - Crawling website #491 - bestusefuldownloads.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:48:07 - Crawling website #492 - pch.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:48:23 - Crawling website #493 - rapidgator.net (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:48:34 - Crawling website #494 - expedia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:48:48 - Crawling website #495 - commentcamarche.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:49:03 - Crawling website #496 - twoo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:49:14 - Crawling website #497 - clixsense.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:49:28 - Crawling website #498 - justdial.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:49:39 - Crawling website #499 - steampowered.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:49:50 - Crawling website #500 - xda-developers.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:50:06 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 01:50:24 - Crawling website #501 - 4399.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:50:39 - Crawling website #502 - mercadolibre.com.ar (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:50:49 - Crawling website #503 - zing.vn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:51:07 - Crawling website #504 - match.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:51:23 - Crawling website #505 - mywebsearch.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:51:34 - Crawling website #506 - taleo.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:51:43 - Crawling website #507 - doubleclick.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:51:53 - Crawling website #508 - plugrush.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:52:05 - Crawling website #509 - eazel.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:52:16 - Crawling website #510 - corriere.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:52:38 - Crawling website #511 - chip.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:52:58 - Crawling website #512 - timeanddate.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:53:12 - Crawling website #513 - twimg.com (attempt #1).
+             >>>>>>>>>> Error: website twimg.com was not successfully loaded (timeout).
+24/05/2014 - 01:53:47 - Crawling website #513 - twimg.com (attempt #2).
+             >>>>>>>>>> Error: website twimg.com was not successfully loaded (timeout).
+24/05/2014 - 01:54:22 - Crawling website #513 - twimg.com (attempt #3).
+             >>>>>>>>>> Error: website twimg.com was not successfully loaded (timeout).
+24/05/2014 - 01:54:57 - Crawling website #514 - houzz.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:55:09 - Crawling website #515 - gc.ca (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:55:21 - Crawling website #516 - ria.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:55:46 - Crawling website #517 - lenta.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:56:01 - Crawling website #518 - fotolia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:56:14 - Crawling website #519 - rednet.cn (attempt #1).
+             >>>>>>>>>> Error: website rednet.cn was not successfully loaded (timeout).
+24/05/2014 - 01:56:49 - Crawling website #519 - rednet.cn (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:57:13 - Crawling website #520 - bloglovin.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:57:21 - Crawling website #521 - newegg.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:57:42 - Crawling website #522 - doorblog.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:57:57 - Crawling website #523 - gutefrage.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:58:13 - Crawling website #524 - typepad.com (attempt #1).
+             >>>>>>>>>> Error: website typepad.com was not successfully loaded (timeout).
+24/05/2014 - 01:58:48 - Crawling website #524 - typepad.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:59:07 - Crawling website #525 - google.sk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:59:17 - Crawling website #526 - kijiji.ca (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:59:28 - Crawling website #527 - myfreecams.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 01:59:40 - Crawling website #528 - leadpages.net (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 01:59:59 - Crawling website #529 - webmoney.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:00:15 - Crawling website #530 - youm7.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:00:40 - Crawling website #531 - 2345.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:01:10 - Crawling website #532 - urbandictionary.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:01:22 - Crawling website #533 - ning.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:01:37 - Crawling website #534 - 2ch.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:01:49 - Crawling website #535 - onlinesbi.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:02:00 - Crawling website #536 - seesaa.net (attempt #1).
+             >>>>>>>>>> Error: website seesaa.net was not successfully loaded (timeout).
+24/05/2014 - 02:02:36 - Crawling website #536 - seesaa.net (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:02:50 - Crawling website #537 - backpage.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:03:00 - Crawling website #538 - swagbucks.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:03:11 - Crawling website #539 - citibank.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:03:23 - Crawling website #540 - delta-search.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:03:36 - Crawling website #541 - semrush.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:03:48 - Crawling website #542 - exoclick.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:03:58 - Crawling website #543 - 0427d7.se (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:04:06 - Crawling website #544 - srv123.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:04:15 - Crawling website #545 - ce.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:04:29 - Crawling website #546 - kinopoisk.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:04:37 - Crawling website #547 - eonline.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:04:46 - Crawling website #548 - siteadvisor.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:04:56 - Crawling website #549 - firedrive.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:05:04 - Crawling website #550 - informer.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:05:14 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 02:05:33 - Crawling website #551 - who.is (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:05:47 - Crawling website #552 - bodybuilding.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:06:20 - Crawling website #553 - citrixonline.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:06:30 - Crawling website #554 - voc.com.cn (attempt #1).
+             >>>>>>>>>> Error: website voc.com.cn was not successfully loaded (timeout).
+24/05/2014 - 02:07:07 - Crawling website #554 - voc.com.cn (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:07:20 - Crawling website #555 - hatena.ne.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:07:52 - Crawling website #556 - tukif.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:08:07 - Crawling website #557 - bhaskar.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:08:24 - Crawling website #558 - tractionize.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:08:34 - Crawling website #559 - altervista.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:08:46 - Crawling website #560 - ebay.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:08:59 - Crawling website #561 - chexun.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:09:23 - Crawling website #562 - steamcommunity.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:09:31 - Crawling website #563 - verizonwireless.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:09:46 - Crawling website #564 - habrahabr.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:09:59 - Crawling website #565 - examiner.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:10:22 - Crawling website #566 - iplt20.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:10:41 - Crawling website #567 - vnexpress.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:11:06 - Crawling website #568 - marketwatch.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:11:26 - Crawling website #569 - shaadi.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:11:42 - Crawling website #570 - sberbank.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:11:56 - Crawling website #571 - free-tv-video-online.me (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:12:08 - Crawling website #572 - hubspot.com (attempt #1).
+             >>>>>>>>>> Error: website hubspot.com was not successfully loaded (timeout).
+24/05/2014 - 02:12:43 - Crawling website #572 - hubspot.com (attempt #2).
+             >>>>>>>>>> Error: website hubspot.com was not successfully loaded (timeout).
+24/05/2014 - 02:13:18 - Crawling website #572 - hubspot.com (attempt #3).
+             >>>>>>>>>> Error: website hubspot.com was not successfully loaded (timeout).
+24/05/2014 - 02:13:53 - Crawling website #573 - likes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:14:06 - Crawling website #574 - gigacircle.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:14:39 - Crawling website #575 - yellowpages.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:14:52 - Crawling website #576 - 17ok.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:15:13 - Crawling website #577 - hotels.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:15:28 - Crawling website #578 - theblaze.com (attempt #1).
+             >>>>>>>>>> Error: website theblaze.com was not successfully loaded (timeout).
+24/05/2014 - 02:16:07 - Crawling website #578 - theblaze.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:16:28 - Crawling website #579 - tabelog.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:16:52 - Crawling website #580 - movie4k.to (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:17:08 - Crawling website #581 - blogspot.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:17:17 - Crawling website #582 - iminent.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:17:28 - Crawling website #583 - vice.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:17:48 - Crawling website #584 - azlyrics.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:18:03 - Crawling website #585 - 9gag.tv (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:18:14 - Crawling website #586 - hupu.com (attempt #1).
+             >>>>>>>>>> Error: website hupu.com was not successfully loaded (timeout).
+24/05/2014 - 02:18:49 - Crawling website #586 - hupu.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:19:07 - Crawling website #587 - mobile.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:19:22 - Crawling website #588 - media-fire.org (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:19:32 - Crawling website #589 - watchseries.lt (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:19:45 - Crawling website #590 - nhl.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:20:01 - Crawling website #591 - life.com.tw (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:20:18 - Crawling website #592 - drtuber.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:20:27 - Crawling website #593 - blogspot.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:20:36 - Crawling website #594 - adultfriendfinder.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:20:49 - Crawling website #595 - asos.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:21:19 - Crawling website #596 - pixiv.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:21:35 - Crawling website #597 - cbssports.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:21:43 - Crawling website #598 - kompas.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:21:51 - Crawling website #599 - hubpages.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:22:00 - Crawling website #600 - youth.cn (attempt #1).
+             >>>>>>>>>> Error: website youth.cn was not successfully loaded (timeout).
+24/05/2014 - 02:22:35 - Crawling website #600 - youth.cn (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:22:53 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 02:23:11 - Crawling website #601 - cbslocal.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:23:27 - Crawling website #602 - opensiteexplorer.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:23:40 - Crawling website #603 - gawker.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:23:53 - Crawling website #604 - ileehoo.com (attempt #1).
+             >>>>>>>>>> Error: website ileehoo.com was not successfully loaded (timeout).
+24/05/2014 - 02:24:28 - Crawling website #604 - ileehoo.com (attempt #2).
+             >>>>>>>>>> Error: website ileehoo.com was not successfully loaded (timeout).
+24/05/2014 - 02:25:03 - Crawling website #604 - ileehoo.com (attempt #3).
+             >>>>>>>>>> Error: website ileehoo.com was not successfully loaded (timeout).
+24/05/2014 - 02:25:38 - Crawling website #605 - kayak.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:25:52 - Crawling website #606 - duckduckgo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:26:03 - Crawling website #607 - shopify.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:26:15 - Crawling website #608 - onlylady.com (attempt #1).
+             >>>>>>>>>> Error: website onlylady.com was not successfully loaded (timeout).
+24/05/2014 - 02:26:50 - Crawling website #608 - onlylady.com (attempt #2).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:27:07 - Crawling website #609 - as.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:27:29 - Crawling website #610 - npr.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:27:46 - Crawling website #611 - sakura.ne.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:28:06 - Crawling website #612 - facenama.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:28:18 - Crawling website #613 - gotomeeting.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:28:36 - Crawling website #614 - independent.co.uk (attempt #1).
+             >>>>>>>>>> Error: website independent.co.uk was not successfully loaded (timeout).
+24/05/2014 - 02:29:16 - Crawling website #614 - independent.co.uk (attempt #2).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 02:29:36 - Crawling website #615 - 58.com (attempt #1).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 02:29:49 - Crawling website #616 - ashleyrnadison.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:29:59 - Crawling website #617 - fifa.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:30:11 - Crawling website #618 - amazon.es (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:30:22 - Crawling website #619 - yandex.com.tr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:30:33 - Crawling website #620 - qone8.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:30:42 - Crawling website #621 - focus.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:30:59 - Crawling website #622 - moneycontrol.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:31:16 - Crawling website #623 - monster.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:31:42 - Crawling website #624 - oneindia.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:32:01 - Crawling website #625 - slate.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:32:23 - Crawling website #626 - addmefast.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:32:33 - Crawling website #627 - mercadolibre.com.mx (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:32:43 - Crawling website #628 - stockstar.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:33:00 - Crawling website #629 - ouedkniss.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:33:15 - Crawling website #630 - webs.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:33:27 - Crawling website #631 - mysearchresults.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:33:39 - Crawling website #632 - mgid.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:33:50 - Crawling website #633 - yoka.com (attempt #1).
+             >>>>>>>>>> Error: website yoka.com was not successfully loaded (timeout).
+24/05/2014 - 02:34:26 - Crawling website #633 - yoka.com (attempt #2).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:34:45 - Crawling website #634 - indianrail.gov.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:34:59 - Crawling website #635 - macys.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:35:34 - Crawling website #636 - irs.gov (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:35:51 - Crawling website #637 - empowernetwork.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:36:04 - Crawling website #638 - ca.gov (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:36:19 - Crawling website #639 - hypergames.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:36:31 - Crawling website #640 - outlook.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:36:41 - Crawling website #641 - priceline.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:36:53 - Crawling website #642 - ya.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:37:05 - Crawling website #643 - eventbrite.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:37:18 - Crawling website #644 - blogspot.gr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:37:27 - Crawling website #645 - cnbc.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:37:47 - Crawling website #646 - iflscience.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:38:05 - Crawling website #647 - wiktionary.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:38:16 - Crawling website #648 - 51fanli.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:38:37 - Crawling website #649 - zoho.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:38:49 - Crawling website #650 - mirror.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:39:08 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 02:39:27 - Crawling website #651 - m-w.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:39:41 - Crawling website #652 - realtor.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:39:53 - Crawling website #653 - prntscr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:40:04 - Crawling website #654 - agoda.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:40:20 - Crawling website #655 - installerapplicationusa.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:40:29 - Crawling website #656 - foursquare.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:40:47 - Crawling website #657 - vk.me (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:41:00 - Crawling website #658 - soku.com (attempt #1).
+             >>>>>>>>>> Error: website soku.com was not successfully loaded (timeout).
+24/05/2014 - 02:41:36 - Crawling website #658 - soku.com (attempt #2).
+             >>>>>>>>>> Error: website soku.com was not successfully loaded (timeout).
+24/05/2014 - 02:42:11 - Crawling website #658 - soku.com (attempt #3).
+             >>>>>>>>>> Error: website soku.com was not successfully loaded (timeout).
+24/05/2014 - 02:42:46 - Crawling website #659 - google.kz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:42:55 - Crawling website #660 - mihanblog.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:43:10 - Crawling website #661 - espnfc.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:43:21 - Crawling website #662 - nordstrom.com (attempt #1).
+                        Number of Flash cookies found and deleted: 4
+24/05/2014 - 02:43:30 - Crawling website #663 - pcgames.com.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:43:39 - Crawling website #664 - liveleak.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:43:48 - Crawling website #665 - google.com.kw (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:43:58 - Crawling website #666 - jd.com (attempt #1).
+             >>>>>>>>>> Error: website jd.com was not successfully loaded (timeout).
+24/05/2014 - 02:44:33 - Crawling website #666 - jd.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:45:02 - Crawling website #667 - r10.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:45:14 - Crawling website #668 - scoop.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:45:27 - Crawling website #669 - sfgate.com (attempt #1).
+             >>>>>>>>>> Error: website sfgate.com was not successfully loaded (timeout).
+24/05/2014 - 02:46:02 - Crawling website #669 - sfgate.com (attempt #2).
+             >>>>>>>>>> Error: website sfgate.com was not successfully loaded (timeout).
+24/05/2014 - 02:46:38 - Crawling website #669 - sfgate.com (attempt #3).
+             >>>>>>>>>> Error: website sfgate.com was not successfully loaded (timeout).
+24/05/2014 - 02:47:13 - Crawling website #670 - chinatimes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:47:36 - Crawling website #671 - howstuffworks.com (attempt #1).
+             >>>>>>>>>> Error: website howstuffworks.com was not successfully loaded (timeout).
+24/05/2014 - 02:48:11 - Crawling website #671 - howstuffworks.com (attempt #2).
+             >>>>>>>>>> Error: website howstuffworks.com was not successfully loaded (timeout).
+24/05/2014 - 02:48:47 - Crawling website #671 - howstuffworks.com (attempt #3).
+             >>>>>>>>>> Error: website howstuffworks.com was not successfully loaded (timeout).
+24/05/2014 - 02:49:22 - Crawling website #672 - website-unavailable.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:49:31 - Crawling website #673 - allrecipes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:49:43 - Crawling website #674 - squarespace.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:49:55 - Crawling website #675 - haber7.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:50:08 - Crawling website #676 - lequipe.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:50:16 - Crawling website #677 - usmagazine.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:50:39 - Crawling website #678 - avast.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:50:50 - Crawling website #679 - clarin.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:51:13 - Crawling website #680 - mynet.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:51:27 - Crawling website #681 - linkbucks.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:51:37 - Crawling website #682 - blogspot.com.tr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:51:46 - Crawling website #683 - nfl.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:52:20 - Crawling website #684 - rottentomatoes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:52:55 - Crawling website #685 - ustream.tv (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 02:53:09 - Crawling website #686 - eastday.com (attempt #1).
+             >>>>>>>>>> Error: website eastday.com was not successfully loaded (timeout).
+24/05/2014 - 02:53:45 - Crawling website #686 - eastday.com (attempt #2).
+             >>>>>>>>>> Error: website eastday.com was not successfully loaded (timeout).
+24/05/2014 - 02:54:20 - Crawling website #686 - eastday.com (attempt #3).
+             >>>>>>>>>> Error: website eastday.com was not successfully loaded (timeout).
+24/05/2014 - 02:54:55 - Crawling website #687 - dreamstime.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:55:08 - Crawling website #688 - all-free-download.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:55:18 - Crawling website #689 - flipora.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:55:30 - Crawling website #690 - lockerdome.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:55:41 - Crawling website #691 - wetransfer.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:55:54 - Crawling website #692 - etao.com (attempt #1).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 02:56:23 - Crawling website #693 - glassdoor.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:56:35 - Crawling website #694 - dict.cc (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:56:46 - Crawling website #695 - hidemyass.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:56:58 - Crawling website #696 - europa.eu (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:57:06 - Crawling website #697 - worldstarhiphop.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:57:24 - Crawling website #698 - lowes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:57:37 - Crawling website #699 - ehowenespanol.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:57:52 - Crawling website #700 - viadeo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:58:03 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 02:58:23 - Crawling website #701 - southwest.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:58:54 - Crawling website #702 - mega.co.nz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:59:06 - Crawling website #703 - terra.com.br (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:59:22 - Crawling website #704 - deezer.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:59:31 - Crawling website #705 - diply.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:59:40 - Crawling website #706 - 123rf.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 02:59:54 - Crawling website #707 - virgilio.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:00:06 - Crawling website #708 - overstock.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:00:21 - Crawling website #709 - allocine.fr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:00:35 - Crawling website #710 - slickdeals.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:00:51 - Crawling website #711 - optmd.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:01:02 - Crawling website #712 - tokobagus.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:01:16 - Crawling website #713 - news.com.au (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:01:41 - Crawling website #714 - linksynergy.com (attempt #1).
+             >>>>>>>>>> Error: website linksynergy.com was not successfully loaded (timeout).
+24/05/2014 - 03:02:16 - Crawling website #714 - linksynergy.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:02:24 - Crawling website #715 - it168.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:02:53 - Crawling website #716 - wired.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:03:12 - Crawling website #717 - google.bg (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:03:25 - Crawling website #718 - mbc.net (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:03:58 - Crawling website #719 - coupons.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:04:15 - Crawling website #720 - lanacion.com.ar (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:04:46 - Crawling website #721 - filehippo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:04:59 - Crawling website #722 - over-blog.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:05:08 - Crawling website #723 - sunporno.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:05:19 - Crawling website #724 - wunderground.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:05:37 - Crawling website #725 - people.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:05:58 - Crawling website #726 - foxsports.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:06:12 - Crawling website #727 - jvzoo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:06:20 - Crawling website #728 - zappos.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:06:28 - Crawling website #729 - babycenter.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:06:41 - Crawling website #730 - wow.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:06:51 - Crawling website #731 - appimat.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:07:01 - Crawling website #732 - sex.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:07:15 - Crawling website #733 - persianblog.ir (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:07:27 - Crawling website #734 - leo.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:07:37 - Crawling website #735 - turbobit.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:07:47 - Crawling website #736 - adscale.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:07:57 - Crawling website #737 - custhelp.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:08:11 - Crawling website #738 - tomshardware.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:08:42 - Crawling website #739 - jquery.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:08:55 - Crawling website #740 - sears.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:09:08 - Crawling website #741 - vesti.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:09:29 - Crawling website #742 - cracked.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:09:46 - Crawling website #743 - theverge.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:09:55 - Crawling website #744 - youtube-mp3.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:10:06 - Crawling website #745 - google.lk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:10:15 - Crawling website #746 - pixlr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:10:25 - Crawling website #747 - spankwire.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:10:38 - Crawling website #748 - airtel.in (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:10:52 - Crawling website #749 - p5w.net (attempt #1).
+             >>>>>>>>>> Error: website p5w.net was not successfully loaded (timeout).
+24/05/2014 - 03:11:28 - Crawling website #749 - p5w.net (attempt #2).
+             >>>>>>>>>> Error: website p5w.net was not successfully loaded (timeout).
+24/05/2014 - 03:12:03 - Crawling website #749 - p5w.net (attempt #3).
+             >>>>>>>>>> Error: website p5w.net was not successfully loaded (timeout).
+24/05/2014 - 03:12:38 - Crawling website #750 - prestashop.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:12:52 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 03:13:11 - Crawling website #751 - reverso.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:13:22 - Crawling website #752 - 24h.com.vn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:13:43 - Crawling website #753 - entrepreneur.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:13:58 - Crawling website #754 - google.co.nz (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:14:08 - Crawling website #755 - amung.us (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:14:19 - Crawling website #756 - pinimg.com (attempt #1).
+             >>>>>>>>>> Error: website pinimg.com was not successfully loaded (timeout).
+24/05/2014 - 03:14:54 - Crawling website #756 - pinimg.com (attempt #2).
+             >>>>>>>>>> Error: website pinimg.com was not successfully loaded (timeout).
+24/05/2014 - 03:15:29 - Crawling website #756 - pinimg.com (attempt #3).
+             >>>>>>>>>> Error: website pinimg.com was not successfully loaded (timeout).
+24/05/2014 - 03:16:04 - Crawling website #757 - viralnova.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:16:26 - Crawling website #758 - nike.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:16:38 - Crawling website #759 - csdn.net (attempt #1).
+             >>>>>>>>>> Error: website csdn.net was not successfully loaded (timeout).
+24/05/2014 - 03:17:13 - Crawling website #759 - csdn.net (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:17:31 - Crawling website #760 - softpedia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:17:45 - Crawling website #761 - imageshack.us (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:18:04 - Crawling website #762 - mp3skull.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:18:15 - Crawling website #763 - aparat.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:18:32 - Crawling website #764 - templatemonster.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:18:47 - Crawling website #765 - rightmove.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:18:57 - Crawling website #766 - farsnews.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:19:34 - Crawling website #767 - renren.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:19:48 - Crawling website #768 - ancestry.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:20:09 - Crawling website #769 - narod.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:20:22 - Crawling website #770 - kdnet.net (attempt #1).
+             >>>>>>>>>> Error: website kdnet.net was not successfully loaded (timeout).
+24/05/2014 - 03:20:58 - Crawling website #770 - kdnet.net (attempt #2).
+             >>>>>>>>>> Error: website kdnet.net was not successfully loaded (timeout).
+24/05/2014 - 03:21:34 - Crawling website #770 - kdnet.net (attempt #3).
+             >>>>>>>>>> Error: website kdnet.net was not successfully loaded (timeout).
+24/05/2014 - 03:22:10 - Crawling website #771 - qtrax.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:22:20 - Crawling website #772 - hespress.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:22:33 - Crawling website #773 - appledaily.com.tw (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:22:46 - Crawling website #774 - heise.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:23:01 - Crawling website #775 - klikbca.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:23:16 - Crawling website #776 - popmog.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:23:31 - Crawling website #777 - interia.pl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:23:48 - Crawling website #778 - tudou.com (attempt #1).
+             >>>>>>>>>> Error: website tudou.com was not successfully loaded (timeout).
+24/05/2014 - 03:24:23 - Crawling website #778 - tudou.com (attempt #2).
+             >>>>>>>>>> Error: website tudou.com was not successfully loaded (timeout).
+24/05/2014 - 03:24:58 - Crawling website #778 - tudou.com (attempt #3).
+             >>>>>>>>>> Error: website tudou.com was not successfully loaded (timeout).
+24/05/2014 - 03:25:33 - Crawling website #779 - streamcloud.eu (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:25:42 - Crawling website #780 - gulfup.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:25:53 - Crawling website #781 - sapo.pt (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:26:22 - Crawling website #782 - leagueoflegends.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:26:35 - Crawling website #783 - traidnt.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:26:49 - Crawling website #784 - idnes.cz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:27:07 - Crawling website #785 - pcmag.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:27:18 - Crawling website #786 - shopclues.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:27:28 - Crawling website #787 - fhserve.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:27:37 - Crawling website #788 - systweak.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:27:45 - Crawling website #789 - gismeteo.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:27:59 - Crawling website #790 - mapquest.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:28:13 - Crawling website #791 - milanuncios.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:28:23 - Crawling website #792 - chron.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:28:49 - Crawling website #793 - majesticseo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 03:29:07 - Crawling website #794 - primewire.ag (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:29:22 - Crawling website #795 - gamefaqs.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:29:34 - Crawling website #796 - ted.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:29:46 - Crawling website #797 - yts.re (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:29:57 - Crawling website #798 - gfycat.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:30:07 - Crawling website #799 - qinbei.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:30:42 - Crawling website #800 - zeroredirect1.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:30:52 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 03:31:13 - Crawling website #801 - biblegateway.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:31:26 - Crawling website #802 - online.sh.cn (attempt #1).
+             >>>>>>>>>> Error: website online.sh.cn was not successfully loaded (timeout).
+24/05/2014 - 03:32:01 - Crawling website #802 - online.sh.cn (attempt #2).
+             >>>>>>>>>> Error: website online.sh.cn was not successfully loaded (timeout).
+24/05/2014 - 03:32:36 - Crawling website #802 - online.sh.cn (attempt #3).
+             >>>>>>>>>> Error: website online.sh.cn was not successfully loaded (timeout).
+24/05/2014 - 03:33:11 - Crawling website #803 - jeuxvideo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:33:25 - Crawling website #804 - hongkiat.com (attempt #1).
+             >>>>>>>>>> Error: website hongkiat.com was not successfully loaded (timeout).
+24/05/2014 - 03:34:00 - Crawling website #804 - hongkiat.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:34:21 - Crawling website #805 - google.com.ec (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:34:31 - Crawling website #806 - sape.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:34:42 - Crawling website #807 - s2d6.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:34:52 - Crawling website #808 - almasryalyoum.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:35:07 - Crawling website #809 - savefrom.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:35:22 - Crawling website #810 - amazon.ca (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:35:32 - Crawling website #811 - olx.pl (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:35:43 - Crawling website #812 - immobilienscout24.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:35:56 - Crawling website #813 - bongacams.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:36:10 - Crawling website #814 - mercadolibre.com.ve (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:36:40 - Crawling website #815 - linkwithin.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:36:49 - Crawling website #816 - alarabiya.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:36:58 - Crawling website #817 - magentocommerce.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:37:08 - Crawling website #818 - kickstarter.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:37:17 - Crawling website #819 - getbootstrap.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:37:34 - Crawling website #820 - nuvid.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:37:45 - Crawling website #821 - mackolik.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:37:56 - Crawling website #822 - nifty.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:38:05 - Crawling website #823 - screencast.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:38:13 - Crawling website #824 - gap.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:38:44 - Crawling website #825 - bestblackhatforum.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:38:58 - Crawling website #826 - google.com.do (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:39:08 - Crawling website #827 - buenosearch.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:39:23 - Crawling website #828 - ibm.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:39:37 - Crawling website #829 - porn.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:39:51 - Crawling website #830 - ccb.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:40:01 - Crawling website #831 - graphicriver.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:40:14 - Crawling website #832 - fatakat.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:40:27 - Crawling website #833 - awesomehp.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:40:37 - Crawling website #834 - whitepages.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:40:57 - Crawling website #835 - basecamp.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:41:09 - Crawling website #836 - tabnak.ir (attempt #1).
+             >>>>>>>>>> Error: website tabnak.ir was not successfully loaded (timeout).
+24/05/2014 - 03:41:46 - Crawling website #836 - tabnak.ir (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:42:24 - Crawling website #837 - nikkei.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:42:48 - Crawling website #838 - imagebam.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:42:56 - Crawling website #839 - ovh.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:43:15 - Crawling website #840 - putlocker.bz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:43:37 - Crawling website #841 - nownews.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:44:09 - Crawling website #842 - autohome.com.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:44:46 - Crawling website #843 - tradedoubler.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:44:59 - Crawling website #844 - smh.com.au (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:45:17 - Crawling website #845 - plaintube.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:45:32 - Crawling website #846 - payoneer.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:45:44 - Crawling website #847 - google.com.ly (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:45:54 - Crawling website #848 - appisys.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:46:04 - Crawling website #849 - cam4.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:46:24 - Crawling website #850 - biglobe.ne.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:46:34 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 03:46:53 - Crawling website #851 - rtbpop.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:47:01 - Crawling website #852 - icmwebserv.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:47:10 - Crawling website #853 - novinky.cz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:47:26 - Crawling website #854 - searchengineland.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:47:41 - Crawling website #855 - welt.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:48:06 - Crawling website #856 - tutsplus.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:48:37 - Crawling website #857 - behance.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:48:48 - Crawling website #858 - sitepoint.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:49:00 - Crawling website #859 - dafont.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:49:10 - Crawling website #860 - myfitnesspal.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:49:23 - Crawling website #861 - gazeta.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:49:41 - Crawling website #862 - linternaute.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:50:00 - Crawling website #863 - bhphotovideo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:50:15 - Crawling website #864 - yandex.kz (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:50:26 - Crawling website #865 - libertagia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 03:50:38 - Crawling website #866 - distractify.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:51:09 - Crawling website #867 - instructables.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:51:21 - Crawling website #868 - subito.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:51:51 - Crawling website #869 - sahadan.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:52:01 - Crawling website #870 - united.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:52:15 - Crawling website #871 - bestadbid.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:52:25 - Crawling website #872 - app111.com (attempt #1).
+             >>>>>>>>>> Error: website app111.com was not successfully loaded (timeout).
+24/05/2014 - 03:53:00 - Crawling website #872 - app111.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:53:29 - Crawling website #873 - sky.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:53:37 - Crawling website #874 - infobae.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:53:54 - Crawling website #875 - makemytrip.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:54:11 - Crawling website #876 - staples.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:54:23 - Crawling website #877 - digikala.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:54:38 - Crawling website #878 - hm.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:54:48 - Crawling website #879 - fool.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:55:05 - Crawling website #880 - bravotube.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:55:22 - Crawling website #881 - android.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:55:33 - Crawling website #882 - businessweek.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:56:03 - Crawling website #883 - zulily.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:56:34 - Crawling website #884 - prothom-alo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:56:51 - Crawling website #885 - sporx.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:57:11 - Crawling website #886 - comcast.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:57:31 - Crawling website #887 - openadserving.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:57:40 - Crawling website #888 - skysports.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:57:52 - Crawling website #889 - zergnet.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:58:03 - Crawling website #890 - ad4game.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:58:13 - Crawling website #891 - avira.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:58:26 - Crawling website #892 - delta.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:58:36 - Crawling website #893 - nairaland.com (attempt #1).
+             >>>>>>>>>> Error: website nairaland.com was not successfully loaded (timeout).
+24/05/2014 - 03:59:11 - Crawling website #893 - nairaland.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:59:21 - Crawling website #894 - ad2games.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 03:59:31 - Crawling website #895 - ltn.com.tw (attempt #1).
+             >>>>>>>>>> Error: website ltn.com.tw was not successfully loaded (timeout).
+24/05/2014 - 04:00:06 - Crawling website #895 - ltn.com.tw (attempt #2).
+             >>>>>>>>>> Error: website ltn.com.tw was not successfully loaded (timeout).
+24/05/2014 - 04:00:41 - Crawling website #895 - ltn.com.tw (attempt #3).
+             >>>>>>>>>> Error: website ltn.com.tw was not successfully loaded (timeout).
+24/05/2014 - 04:01:16 - Crawling website #896 - zanox.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:01:29 - Crawling website #897 - keezmovies.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:01:38 - Crawling website #898 - gumtree.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:01:50 - Crawling website #899 - foodnetwork.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:02:20 - Crawling website #900 - google.rs (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:02:33 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 04:02:53 - Crawling website #901 - gazzetta.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:03:08 - Crawling website #902 - feelcars.com (attempt #1).
+             >>>>>>>>>> Error: website feelcars.com was not successfully loaded (timeout).
+24/05/2014 - 04:03:43 - Crawling website #902 - feelcars.com (attempt #2).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 04:03:57 - Crawling website #903 - 123srv.com (attempt #1).
+                        Number of Flash cookies found and deleted: 2
+24/05/2014 - 04:04:06 - Crawling website #904 - webhostingtalk.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:04:19 - Crawling website #905 - mixi.jp (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:04:36 - Crawling website #906 - nypost.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:04:56 - Crawling website #907 - dmm.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:05:20 - Crawling website #908 - thedailybeast.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:05:33 - Crawling website #909 - pingdom.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:05:48 - Crawling website #910 - letitbit.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:06:00 - Crawling website #911 - pastebin.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:06:13 - Crawling website #912 - xtube.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:06:26 - Crawling website #913 - box.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:06:58 - Crawling website #914 - eztv.it (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:07:09 - Crawling website #915 - jobrapido.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:07:20 - Crawling website #916 - cy-pr.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:07:31 - Crawling website #917 - thehindu.com (attempt #1).
+             >>>>>>>>>> Error: website thehindu.com was not successfully loaded (timeout).
+24/05/2014 - 04:08:08 - Crawling website #917 - thehindu.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:08:23 - Crawling website #918 - firstpost.com (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 04:08:53 - Crawling website #919 - mysql.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:09:05 - Crawling website #920 - disney.go.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:09:16 - Crawling website #921 - premierleague.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:09:53 - Crawling website #922 - webssearches.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:10:05 - Crawling website #923 - seekingalpha.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:10:19 - Crawling website #924 - india.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:10:32 - Crawling website #925 - ticketmaster.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:10:48 - Crawling website #926 - eluniversal.com.mx (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:11:00 - Crawling website #927 - 500px.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:11:08 - Crawling website #928 - dantri.com.vn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:11:35 - Crawling website #929 - tistory.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:11:48 - Crawling website #930 - workercn.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:12:12 - Crawling website #931 - abc.es (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:12:20 - Crawling website #932 - aizhan.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:12:29 - Crawling website #933 - nbcsports.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:12:37 - Crawling website #934 - orf.at (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:12:46 - Crawling website #935 - indiamart.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:12:54 - Crawling website #936 - cnmo.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:13:16 - Crawling website #937 - billdesk.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:13:26 - Crawling website #938 - beytoote.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:13:42 - Crawling website #939 - keepvid.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:13:53 - Crawling website #940 - elegantthemes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:14:03 - Crawling website #941 - video-one.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:14:20 - Crawling website #942 - wetter.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:14:44 - Crawling website #943 - css-tricks.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:14:58 - Crawling website #944 - starbaby.cn (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:15:29 - Crawling website #945 - nouvelobs.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:15:48 - Crawling website #946 - woothemes.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:15:58 - Crawling website #947 - faithtap.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:16:13 - Crawling website #948 - searchengines.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:16:27 - Crawling website #949 - usbank.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:16:42 - Crawling website #950 - spotify.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:16:57 - Restarting Firefox...
+                        Info: WebDriver is ready.
+24/05/2014 - 04:17:18 - Crawling website #951 - nokia.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:17:33 - Crawling website #952 - z5x.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:17:45 - Crawling website #953 - gamespot.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:18:11 - Crawling website #954 - careerbuilder.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:18:24 - Crawling website #955 - mystart.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:18:35 - Crawling website #956 - bankmellat.ir (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:18:47 - Crawling website #957 - sexlog.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:19:02 - Crawling website #958 - 104.com.tw (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:19:10 - Crawling website #959 - pravda.com.ua (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:19:28 - Crawling website #960 - gtmetrix.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:19:40 - Crawling website #961 - asus.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:19:54 - Crawling website #962 - picmonkey.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:20:06 - Crawling website #963 - idealo.de (attempt #1).
+                        Number of Flash cookies found and deleted: 1
+24/05/2014 - 04:20:20 - Crawling website #964 - popcash.net (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:20:32 - Crawling website #965 - postimg.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:20:41 - Crawling website #966 - pr-cy.ru (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:20:54 - Crawling website #967 - zimbio.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:21:07 - Crawling website #968 - state.gov (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:21:20 - Crawling website #969 - haberturk.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:21:51 - Crawling website #970 - wpmudev.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:22:09 - Crawling website #971 - ubuntu.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:22:19 - Crawling website #972 - sulekha.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:22:39 - Crawling website #973 - change.org (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:22:54 - Crawling website #974 - bookmyshow.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:23:07 - Crawling website #975 - nate.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:23:24 - Crawling website #976 - qianlong.com (attempt #1).
+             >>>>>>>>>> Error: website qianlong.com was not successfully loaded (timeout).
+24/05/2014 - 04:23:59 - Crawling website #976 - qianlong.com (attempt #2).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:24:12 - Crawling website #977 - tripadvisor.co.uk (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:24:22 - Crawling website #978 - lpcloudbox328.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:24:31 - Crawling website #979 - verizon.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:24:43 - Crawling website #980 - sueddeutsche.de (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:24:59 - Crawling website #981 - cbsnews.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:25:15 - Crawling website #982 - pchome.com.tw (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:25:36 - Crawling website #983 - google.hr (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:25:45 - Crawling website #984 - tinypic.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:26:19 - Crawling website #985 - chaseswing.eu (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:26:31 - Crawling website #986 - nationalgeographic.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:27:01 - Crawling website #987 - weheartit.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:27:14 - Crawling website #988 - aftonbladet.se (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:27:44 - Crawling website #989 - kohls.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:28:03 - Crawling website #990 - zazzle.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:28:19 - Crawling website #991 - lacaixa.es (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:28:29 - Crawling website #992 - souq.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:28:49 - Crawling website #993 - forgeofempires.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:29:01 - Crawling website #994 - horoscopedays.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:29:12 - Crawling website #995 - mpnrs.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:29:21 - Crawling website #996 - pantip.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:29:35 - Crawling website #997 - ew.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:29:44 - Crawling website #998 - ezinearticles.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:29:58 - Crawling website #999 - pornerbros.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:30:13 - Crawling website #1000 - admngronline.com (attempt #1).
+                        Number of Flash cookies found and deleted: 0
+24/05/2014 - 04:30:22 - Info: the crawling of the websites is done!
+24/05/2014 - 04:30:22 - Terminating now...
+24/05/2014 - 04:30:22 - Error: the driver was not halted successfully.
+
+The 73 following website(s) timed out:
+qq.com
+sina.com.cn
+sohu.com
+163.com
+gmw.cn
+huffingtonpost.com
+xinhuanet.com
+youku.com
+rakuten.co.jp
+buzzfeed.com
+secureserver.net
+pconline.com.cn
+businessinsider.com
+aili.com
+mmbang.com
+baomihua.com
+rt.com
+caijing.com.cn
+39.net
+microsoftonline.com
+enet.com.cn
+huanqiu.com
+pchome.net
+bitauto.com
+iqiyi.com
+jrj.com.cn
+xywy.com
+ci123.com
+lady8844.com
+b5m.com
+xgo.com.cn
+hardsextube.com
+ck101.com
+abcnews.go.com
+babytree.com
+v1.cn
+google.cn
+gazeta.pl
+yesky.com
+pcbaby.com.cn
+twimg.com
+rednet.cn
+typepad.com
+seesaa.net
+voc.com.cn
+hubspot.com
+theblaze.com
+hupu.com
+youth.cn
+ileehoo.com
+onlylady.com
+independent.co.uk
+yoka.com
+soku.com
+jd.com
+sfgate.com
+howstuffworks.com
+eastday.com
+linksynergy.com
+p5w.net
+pinimg.com
+csdn.net
+kdnet.net
+tudou.com
+online.sh.cn
+hongkiat.com
+tabnak.ir
+app111.com
+nairaland.com
+ltn.com.tw
+feelcars.com
+thehindu.com
+qianlong.com
+
+The 28 following website(s) failed:
+youku.com
+buzzfeed.com
+secureserver.net
+baomihua.com
+rt.com
+caijing.com.cn
+39.net
+microsoftonline.com
+pchome.net
+bitauto.com
+lady8844.com
+abcnews.go.com
+google.cn
+gazeta.pl
+yesky.com
+twimg.com
+hubspot.com
+ileehoo.com
+soku.com
+sfgate.com
+howstuffworks.com
+eastday.com
+p5w.net
+pinimg.com
+kdnet.net
+tudou.com
+online.sh.cn
+ltn.com.tw
+----------------------------------------
