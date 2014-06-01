@@ -38,7 +38,7 @@ La troisième solution, qui est la dernière implémentée, consiste à utiliser
 Le taux de réussite de l'export des données des sites s'est grandement amélioré. Néanmoins, certains sites ne sont toujours pas chargés correctement.
 Une hypothèse est que certains sites sont hébergés sur des serveurs lointains et leurs éléments prennent alors plus de temps à charger. Ainsi, lorsque ces sites contiennent une grande quantité d'éléments, le pilote renvoie une exception de type \textit{timeout} et le chargement du site est finalement en échec.
 
-Afin de vérifier cette htpothèse, une série de tests a été mise en place. Le test consistait à faire varier la valeur du timeout et de vérifier si cela influençait le nombre de sites en échec avec le \textit{crawler}. Celui-ci a donc été lancé sur le TOP 500 avec des valeurs de timeout différentes.
+Afin de vérifier cette hypothèse, une série de tests a été mise en place. Le test consistait à faire varier la valeur du timeout et de vérifier si cela influençait le nombre de sites en échec avec le \textit{crawler}. Celui-ci a donc été lancé sur le TOP 500 avec des valeurs de timeout différentes.
 Le graphique est visible à la \autoref{graphique_timeout} et il montre que cette hypothèse est vérifiée.
 \newline
 
