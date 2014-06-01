@@ -23,7 +23,8 @@ Lors du lancement du \textit{crawler}, l'utilisateur peut spécifier plusieurs a
 \end{itemize}
 
 \chapter{Modifications dans l'extension NetExport}
-\section{harBuilder.js}
+\label{modifications_extensions}
+\section*{harBuilder.js}
 \label{harBuilder}
 Lignes 200 à 211 commentées :
 \begin{lstlisting}[frame=single]
@@ -39,7 +40,7 @@ timings._timeStamps.push({
 });*/
 \end{lstlisting}
 
-\section{automation.js}
+\section*{automation.js}
 \label{automation}
 Ligne 171 modifiée :
 \begin{lstlisting}[frame=single]
@@ -54,14 +55,14 @@ Il existe deux types de résultats : les résultats détaillés pour chaque fich
 Les résultats globaux sont enregistrés dans le dossier "logs" alors que les résultats détaillés sont enregistrés dans le dossier "results".
 Ceci a été décidé par souci de simplicité car les résultats globaux sont ainsi directement accessibles et ne sont pas noyés dans le dossier contenant les résultats détaillés.
 
-\section{Crawler}
+\section*{Crawler}
 Les résultats globaux dans le dossier "logs" :
 \begin{itemize}
 	\item \textbf{stats\_flash-cookies.csv} contient la liste des sites utilisant des cookies Flash, triés par ordre décroissant.
 	%\newline
 \end{itemize}
 
-\section{Parser}
+\section*{Parser}
 Les résultats globaux dans le dossier "logs" :
 \begin{itemize}
 	\item \textbf{stats\_detailed.csv} contient la liste des sites avec le nombre détaillé d'éléments enregistrés (trackers connus identifiés avec l'aide de Ghostery, réponses HTTP créant un cookie, fichiers JavaScript avec ou sans paramètres chargés depuis un autre domaine, Flash chargés depuis un autre domaine, pixels espions et requêtes d'URL avec des paramètres).
@@ -88,7 +89,7 @@ Les résultats détaillés pour chaque site dans le dossier "results" :
 \chapter{Trackers détectés par Ghostery pour les principaux types MIME}
 \label{ghostery_mimetypes}
 
-\underline{\textbf{image/gif} :}\\
+\underline{\textbf{image/gif} (Images .gif) :}\\
  http://apx.moatads.com/pixel.gif?e=17\&i=AOL2\&cm=1\&bq=2\&f=[...]\\
  http://ums.adtech.de/mapuser/providerid=1037;userid=16c29fb9-8d[...]\\
  http://pixel.rubiconproject.com/tap.php?v=11581\&nid=2395\&put=[...]
@@ -108,12 +109,12 @@ Les résultats détaillés pour chaque site dans le dossier "results" :
  http://j.adlooxtracking.com/ads/js/tfa\_ebuzz\_creaebz.js\\
  http://tacoda.at.atwola.com/rtx/r.js?cmd=ADG\&si=1808\&pu=http\%3A//www.h[...]
 
-\underline{\textbf{text/html} :}\\
+\underline{\textbf{text/html} (HTML) :}\\
  https://www.facebook.com/plugins/like.php?action=like\&app\_id=46744042133\&[...]\\
  http://ads.tw.adsonar.com/adserving/getAds.jsp?previousPlacementIds=\&placem[...]\\
  http://rma-api.gravity.com/v1/beacons/log?cbust=955-45\&site\_guid=95ec266b24[...]
 
-\underline{\textbf{application/x-unknown-content-type} :}\\
+\underline{\textbf{application/x-unknown-content-type} (Type inconnu) :}\\
  http://dtm.cb2.com/dmm/casale/match?fpc=2437\&pnid=19998\&trid=476302305[...]\\
  http://at.atwola.com/addyn/3.0/5113.1/221794/0/-1/noperf=1;alias=93314234;cf[...]\\
  http://pixel.quantserve.com/pixel;r=962460299;a=p-6fTutip1SMLM2;labels=[...]

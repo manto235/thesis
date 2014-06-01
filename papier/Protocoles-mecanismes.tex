@@ -28,7 +28,7 @@ Une première solution consistait à forcer l'authentification du client (comme 
 Une seconde solution était d'utiliser les différents types d'entêtes \emph{Accept-*}. Par exemple, un client aurait pu utiliser l'entête \emph{Accept-Language} pour indiquer la langue dans laquelle il voulait visiter le site. Cependant, cela fournit des possibilités assez limitées car cet entête est réglé par le navigateur et l'utilisateur aurait été dans l'impossibilité d'indiquer une langue différente pour chaque site visité sans devoir effectuer une manipulation conséquente.
 
 Une autre solution, qui est la plus largement adoptée, est l'utilisation d'un cookie HTTP. Elle est expliquée plus en détail dans la section suivante.
-\newline
+%\newline
 
 Des exemples de requête et réponse HTTP sont disponibles dans la \autoref{http_request_example}.
 
@@ -41,7 +41,7 @@ Une première description informelle sur les cookies a été publiée sur le sit
 Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les entêtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}.
 
 Notez que certains navigateurs actuels enregistrent désormais ces cookies dans une base de données. C'est notamment le cas pour Firefox 3 qui enregistre ses cookies dans une base de données SQLite.
-\newline
+%\newline
 
 Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un entête \textit{Set-Cookie}. Le client a le choix d'ignorer cet entête. S'il l'accepte, l'information présente dans l'entête peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
 Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5.2.1 à 5.2.6 de la RFC 6265) \cite{IETF_RFC6265} :
@@ -61,7 +61,7 @@ Lorsqu'une requête est envoyée à un serveur et si l'URI présente dans cette 
 Habituellement, le client est coopératif et renvoie l'information du cookie qui est stocké par le navigateur. Ainsi, dans chaque requête ultérieure qu'il fait vers le serveur, le client indique cette information dans un entête \textit{Cookie}. Le serveur peut choisir de renvoyer un nouveau cookie dans ses réponses, ce qui remplacera automatiquement l'ancien cookie. Il peut également supprimer un cookie en renvoyant un entête \textit{Set-Cookie} avec une date d'expiration dans le passé. Le cookie sera supprimé seulement si les attributs \textit{Path} et \textit{Domain} dans l'entête \textit{Set-Cookie} correspondent aux valeurs utilisées lorsque le cookie a été créé.
 \newline
 
-Il y a un contrat implicite entre le client et le serveur : ce dernier repose sur le client afin de sauvegarder son état. Le serveur compte sur le client pour lui retourner son état lors de la prochaine requête. Un cookie est donc une donnée que le serveur et le client se renvoient l'un et l'autre. La quantité d'informations est généralement petite et son contenu est à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné ni la valeur qu'il représente.
+Il y a un contrat implicite entre le client et le serveur : le serveur compte sur le client pour lui retourner son état lors de la prochaine requête. Un cookie est donc une donnée que le serveur et le client se renvoient l'un à l'autre. La quantité d'informations est généralement petite et à la discrétion du serveur. En effet, la plupart du temps, analyser le contenu du cookie ne révèle ni à quoi il est destiné ni la valeur qu'il représente.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,7 +76,7 @@ Le principe de cache sur le protocole HTTP est défini dans la RFC 2616 \cite{IE
   \newline
 \end{itemize}
 
-Lorsque l'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, les administrateurs d'un site web peuvent paramétrer la mise en cache de certains éléments grâce à l'entête \textit{Cache-Control}. Celui-ci est utilisé pour spécifier des directives qui doivent être respectées par tous les mécanismes de cache le long de la chaîne requête-réponse. Grâce à ces directives, il est possible de spécifier explicitement pour chaque fichier comment il doit être traité vis-à-vis de la mise en cache \cite{IETF_RFC2616}.
+Lorsqu'on navigue sur Internet, le cache du navigateur enregistre certaines ressources (images, feuilles de style, fichiers JavaScript, etc.) afin de ne pas devoir les recharger depuis le serveur lors des visites ultérieures. Par ailleurs, les administrateurs d'un site web peuvent paramétrer la mise en cache de certains éléments grâce à l'entête \textit{Cache-Control}. Celui-ci est utilisé pour spécifier des directives qui doivent être respectées par tous les mécanismes de cache le long de la chaîne requête-réponse. Grâce à ces directives, il est possible de spécifier explicitement comment chaque fichier doit être traité vis-à-vis de la mise en cache \cite{IETF_RFC2616}.
 %\begin{multicols}{2}
 %\begin{itemize}
 %  \item public
@@ -111,11 +111,11 @@ Et la réponse HTTP associée :
 \begin{singlespacing}
 \lstinputlisting{examples/http_response1_distrowatch}
 \end{singlespacing}
-A la ligne 9, l'on peut voir un entête \textit{Set-Cookie}. Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur "8407". Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.\\
+A la ligne 9, on peut voir un entête \textit{Set-Cookie}. Un cookie dont le nom est \textit{"NewLastSeen"} est donc créé avec la valeur "8407". Lors d'une prochaine visite sur le site, ce cookie sera alors renvoyé automatiquement dans la requête HTTP par le navigateur.\\
 On peut également voir un entête \textit{Cache-Control} à la ligne 7.
 \newline
 
-Voici maintenant une seconde requête vers le même site lors de la même session. L'on peut remarquer que le navigateur envoie le cookie enregistré précédemment car la requête HTTP contient maintenant un entête \textit{Cookie} visible à la ligne 7 qui n'était pas présent dans la première requête :
+Voici maintenant une seconde requête vers le même site lors de la même session. On voit que le navigateur envoie le cookie enregistré précédemment car la requête HTTP contient maintenant un entête \textit{Cookie} visible à la ligne 7 qui n'était pas présent dans la première requête :
 
 \begin{singlespacing}
 \lstinputlisting{examples/http_request2_distrowatch}
@@ -124,36 +124,36 @@ Voici maintenant une seconde requête vers le même site lors de la même sessio
 Quant à la réponse HTTP, elle reste identique.
 \newline
 
-Dans la seconde requête, l'on peut voir que le navigateur envoie 5 cookies alors qu'un seul n'a été enregistré via la réponse HTTP analysée auparavant.\\
+Dans la seconde requête, le navigateur envoie 5 cookies alors qu'un seul a été enregistré via la réponse HTTP analysée auparavant.\\
 Ceci s'explique par le fait que les cookies \textit{\_\_utmX} proviennent de Google Analytics \cite{Google_Analytics_cookies} et servent à analyser la navigation des visiteurs du site.
 \newline
 
-Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés : si l'on regarde dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \textit{\_\_utmc} n'apparaît plus car il a été supprimé à la fin de sa session de navigation (suite à sa date d'expiration, voir \autoref{google_analytics}) et que la capture d'écran a été effectuée lors d'une session ultérieure.
+Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cookies envoyés. Dans les préférences du navigateur, on peut remarquer que 4 cookies sont présents pour l'hôte \textit{distrowatch.com} (\autoref{cookies_distrowatch}). Le cookie \textit{\_\_utmc} n'apparaît plus car il a été supprimé à la fin de la session de navigation (suite à sa date d'expiration, voir \autoref{google_analytics}) et que la capture d'écran a été effectuée lors d'une session ultérieure.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.7]{figures/cookies_distrowatch.png}
+	\includegraphics[scale=0.7]{figures/cookies_distrowatch_NB.png}
 	\caption{\label{cookies_distrowatch}Les cookies enregistrés pour l'hôte \textit{distrowatch.com} dans Firefox.}
 \end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Comment le Web est-il censé fonctionner ?}
-Lors du chargement d'une page web, le navigateur effectue de multiples connexions afin de récupérer l'ensemble des ressources de la page. Aux débuts du World Wide Web, toutes les ressources d'une page appartenaient généralement à une même personne/groupe. A l'heure actuelle, la situation a fortement changé : il est fréquent de voir des ressources chargées depuis des domaines tiers (régies publicitaires, CDN,...). Le navigateur effectue donc des connexions vers des serveurs différents (cela permet notamment de passer outre la limitation du nombre de connexions HTTP vers un même domaine \cite{IETF_RFC2616}) mais en contrepartie, cela permet aux serveurs en question d'enregistrer des données sur le client suite aux requêtes qu'il effectue.
+Lors du chargement d'une page web, le navigateur effectue de multiples connexions afin de récupérer l'ensemble des ressources de la page. Aux débuts du World Wide Web, toutes les ressources d'une page appartenaient généralement à une même personne/groupe. A l'heure actuelle, la situation a fortement changé : il est fréquent de voir des ressources chargées depuis des domaines tiers (régies publicitaires, CDN,...). Le navigateur effectue donc des connexions vers des serveurs différents (cela permet notamment de passer outre la limitation du nombre de connexions HTTP vers un même domaine \cite{IETF_RFC2616}). En contrepartie, cela permet aux serveurs en question d'enregistrer des données sur le client suite aux requêtes qu'il effectue.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Principe de même origine}
 \label{sop}
-Le principe de même origine (\textit{same-origin principle}) peut être déclaré comme suit : "\textit{seul le site qui enregistre des données dans le navigateur peut lire ou modifier ces données plus tard}" \cite{Jackson:2006:PBS:1135777.1135884}. Son but est d'isoler des sites en respectant leur capacité à lire ou modifier l'état du navigateur. Cela permet à un utilisateur de naviguer comme si chaque site et session étaient complètement indépendants.
+Le principe de même origine (\textit{same-origin principle}) peut être déclaré comme suit : "\textit{seul le site qui enregistre des données dans le navigateur peut lire ou modifier ces données plus tard}" \cite{Jackson:2006:PBS:1135777.1135884}. Son but est d'isoler des sites en respectant leur capacité à lire ou modifier l'état du navigateur. Cela permet à un utilisateur de naviguer comme si chaque site et chaque session étaient complètement indépendants.
 \newline
 
-Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Plus concrètement, son but est de permettre aux cookies et au JavaScript de sites web de confiance variable de coexister silencieusement dans le navigateur de l'utilisateur sans interférer mutuellement. Ce principe est désormais implémenté dans les différents navigateurs mais il n'est pas appliqué de la même manière. En effet, le principe n'a ni été déclaré de manière générale ni appliqué de manière uniforme aux multiples façons dont un site web peut sauvegarder ou récupérer des données sur la machine d'un utilisateur.
+Lors du développement de Netscape Navigator 2, une décision importante a été prise concernant le principe de même origine. Celui-ci interdit des sites web de domaines différents d'interagir entre eux au niveau du cache du navigateur, sauf dans des cas précis. Plus concrètement, son but est de permettre aux cookies et au JavaScript de sites web de confiance variable de coexister silencieusement dans le navigateur de l'utilisateur, sans interférer mutuellement. Ce principe est désormais implémenté dans les différents navigateurs mais il n'est pas appliqué de la même manière. En effet, le principe n'a ni été déclaré de manière générale ni appliqué de manière uniforme aux multiples façons dont un site web peut sauvegarder ou récupérer des données sur la machine d'un utilisateur.
 \newline
 
-Il n'est pas facile de déterminer quelles actions devraient être sujettes à un contrôle de sécurité \cite{zalewski2012tangled}. Il semble clair que certaines interactions, comme suivre un lien, devraient être permises sans restrictions spéciales étant donné qu'elles sont essentielles à la santé de tout l'écosystème. En effet, c'est le principe même sur lequel repose le Web avec les liens hypertextes. A l'opposé, d'autres interactions, comme modifier le contenu d'une page chargé dans une autre fenêtre, devraient subir un contrôle de sécurité.
+Il n'est pas facile de déterminer quelles actions devraient être sujettes à un contrôle de sécurité \cite{zalewski2012tangled}. Il semble clair que certaines interactions, comme suivre un lien, devraient être permises sans restrictions spéciales étant donné qu'elles sont essentielles à la santé de l'environnement Web. En effet, c'est le principe même sur lequel repose le Web avec les liens hypertextes. A l'opposé, d'autres interactions, comme modifier le contenu d'une page chargé dans une autre fenêtre, devraient subir un contrôle de sécurité.
 
-L'origine est définie par le triplet protocole-hôte-port. Différents exemples issus du site de Mozilla \footnote{Mozilla est le développeur du navigateur Firefox.} sont disponibles dans la \autoref{origin_sop}.
+L'origine telle que définie selon le principe de même origine est le triplet protocole-hôte-port. Différents exemples issus du site de Mozilla \footnote{Mozilla est le développeur du navigateur Firefox.} sont disponibles dans la \autoref{origin_sop}.
 
 \begin{figure}[h]
 	\centering
@@ -168,7 +168,7 @@ L'origine est définie par le triplet protocole-hôte-port. Différents exemples
 			http://news.company.com/dir/other.html			& Echec		& Hôte différent		\\
 			\hline
 		\end{tabular}
-	\caption{\label{origin_sop}Différents exemples d'URL et leur comparaison par rapport à \mbox{\textit{http://store.company.com/dir/page.html}} selon le principe de même origine \cite{same_origin_policy_mozilla}}
+	\caption{\label{origin_sop}Différents exemples d'URL et leur comparaison par rapport à \mbox{\textit{http://store.company.com/dir/page.html}} selon le principe de même origine \cite{same_origin_policy_mozilla}.}
 \end{figure}
 
 La simplicité du principe de même origine est à la fois une aubaine et une malédiction \cite{zalewski2012tangled}. Son mécanisme est facile à comprendre et pas trop compliqué à implémenter mais son inflexibilité peut être une limite pour les développeurs. Il est parfois trop vaste, rendant impossible l'isolation de pages à des utilisateurs différents (à moins de faire un sous-domaine pour chaque utilisateur) et il peut rendre le partage d'informations difficile pour des sites coopérant de façon légitime (entre \textit{login.exemple.com} et \textit{paiements.exemple.com} par exemple).

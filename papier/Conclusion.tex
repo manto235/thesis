@@ -1,1 +1,20 @@
 \chapter{Conclusion}
+Il est incontestable que la vie privée sur Internet est un sujet d'actualité. Un nombre croissant d'utilisateurs émettent le souhait d'un meilleur respect de leur vie privée. Actuellement, on peut considérer que celle-ci est malmenée principalement pour des raisons financières. Des organisations n'hésitent pas à déployer des moyens afin de s'enrichir grâce à certaines informations précieuses.
+\newline
+
+Afin de comprendre les techniques utilisées pour effectuer ce tracking, il est nécessaire de comprendre les rudiments du fonctionnement du Web. Celui-ci a été amélioré avec le temps mais malgré cela, les mécanismes qui le composent ne sont parfois plus adaptés à l'environnement actuel. Nous avons vu les techniques principalement utilisées dans le traçage des utilisateurs. Étant nombreuses et variées, elles permettent d'apporter des informations différentes sur l'utilisateur et certaines sont considérées comme étant plus agressives que d'autres vis-à-vis du respect de la vie privée. Nous avons également constaté que certaines techniques sont moins utilisées avec le temps alors que d'autres sont en plein essor.
+\newline
+
+Dans le but de découvrir comment le traçage des utilisateurs est opéré sur le Web, un outil a été développé. Afin de déterminer si une ressource chargée joue le rôle de tracker, l'outil repose sur deux méthodes différentes : la première utilise une base de données de trackers connue tandis que l'autre repose sur des critères établis d'après les techniques généralement utilisées à des fins de tracking. Ces deux méthodes ne rapportent pas le même nombre de trackers pour chaque site mais chacune a des avantages et des inconvénients.
+\newline
+
+L'outil a ensuite été lancé sur le TOP 1000 des sites les plus visités au monde. Une analyse des résultats a notamment permis de montrer que l'outil était fiable et a mis au jour des erreurs contenues dans les réponses HTTP reçues des serveurs. Néanmoins, la meilleure chose que cette analyse a apporté est une image globale du niveau de traçage sur l'ensemble de ces sites. Cette première analyse a d'ailleurs servi de référence pour des expériences réalisées ultérieurement.
+\newline
+
+En plus de la cartographie fournie par les résultats de l'outil, celui-ci a permis de tester une série d'extensions destinées à protéger la vie privée des utilisateurs lorsqu'ils naviguent sur Internet. Ces expériences ont montré que certaines extensions apportent une meilleure protection que d'autres. Un classement a été établi dans le but de montrer une vue globale du niveau de protection que procurent ces extensions. Les expériences ont également permis de constater que les mentalités changent avec notamment une diminution non négligeable du nombre de trackers constatée avec l'activation de l'entête Do Not Track. Le non-respect de cet entête n'implique pas d'effets contraignants mais certains sites décident néanmoins de respecter le choix de leurs visiteurs.
+\newline
+
+L'outil développé pour ce mémoire fournit une bonne base pour l'analyse du niveau de traçage sur Internet mais il peut être amélioré. Le \textit{crawler} montre un taux de réussite meilleur avec des timeout plus longs mais certains sites restent toujours en échec. Il serait intéressant de comprendre pour quelles raisons. Concernant le \textit{parser}, les critères pourraient être raffinés notamment en procédant à l'analyse des scripts importés depuis un autre domaine. En effet, certains scripts importés de domaines tiers sont inoffensifs mais néanmoins considérés comme des trackers. Analyser leur comportement permettrait de réduire le taux de faux positifs.
+\newline
+
+Ce mémoire offre une bonne vue d'ensemble des techniques utilisées dans le traçage des utilisateurs mais les techniques envisageables sont si nombreuses qu'il n'était malheureusement pas possible de toutes les inclure ni de les expliquer en détail. Néanmoins, ce travail offre une base solide pour toute personne souhaitant s'intéresser au respect de la vie privée.

@@ -1,0 +1,27 @@
+\begin{tabular}{ c | p{5cm} | c | c || c | }
+   Rang & Répartition des trackers & \# & \% & Evolution \\
+   \hline
+   \hline
+   1 &  &  &  &  \\
+   2 &  &  &  &  \\
+   3 &  &  &  &  \\
+   4 &  &  &  &  \\
+   5 &  &  &  &  \\
+   6 &  &  &  &  \\
+   \hline
+    & TOTAL &  & - & \\
+   \hline
+\end{tabular}
+\\[1cm]
+
+\begin{tabular}{ c | p{5cm} | c | c | c | }
+   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   \hline
+   \hline
+   1 &  &  &  &  \\
+   2 &  &  &  &  \\
+   3 &  &  &  &  \\
+   4 &  &  &  &  \\
+   5 &  &  &  &  \\
+   \hline
+\end{tabular}
