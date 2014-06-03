@@ -123,6 +123,7 @@ public class start {
 	 * @param websites
 	 * @param start
 	 * @param end
+	 * @param restart
 	 * @return true if no required argument is missing, false otherwise
 	 */
 	public static boolean checkRequiredArgsCrawler(boolean ffprofile, boolean websites, boolean start, boolean end, boolean restart) {

@@ -59,21 +59,9 @@ public class Parser {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 	private static RegexGhostery regexGhostery;
 	private static String ghosteryFile;
-	/**
-	 * The latest file among files of a website
-	 */
 	private static Map<String, Integer> filesLatest;
-	/**
-	 * The occurrences found of a tracker (Ghostery)
-	 */
 	private static Map<String, Integer> trackersGhosteryStats;
-	/**
-	 * The detailed numbers of trackers found on a website
-	 */
 	private static Map<String, int[]> websitesDetailedStats;
-	/**
-	 * The cache of the URLs' SOA
-	 */
 	private static Map<String, String> cacheSOA;
 	private static long startTime;
 	private static int filesAnalyzed = 0;
@@ -84,6 +72,14 @@ public class Parser {
 	private static Map<String, Integer> mimetypeSOA_allWebsites;
 	private static Map<String, Integer> mimetypeGhostery;
 
+	/**
+	 * Starts the parser
+	 *
+	 * @param directoryName
+	 * @param showDebug
+	 * @param trackers
+	 * @param ghostery
+	 */
 	public static void launchParser(String directoryName, boolean showDebug, boolean trackers, String ghostery) {
 		debug = showDebug;
 		directory = directoryName;
@@ -244,7 +240,7 @@ public class Parser {
 	}
 
 	/**
-	 * Check if the directories exist and create them if needed
+	 * Checks if the directories exist and creates them if needed
 	 *
 	 * @param directoryName the directory to check
 	 * @return true if the directories exists (or have been created), false otherwise
@@ -786,6 +782,12 @@ public class Parser {
 		return false;
 	}
 
+	/**
+	 * Orders a Map in a descending order
+	 *
+	 * @param mapToSort the map to sort
+	 * @return a LinkedHashMap containing the values of the map
+	 */
 	public static LinkedHashMap<String, Integer> sortByValueInDescendingOrder (Map<String, Integer> mapToSort) {
 		List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(mapToSort.entrySet());
 		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
@@ -803,6 +805,14 @@ public class Parser {
 		return sortedMap;
 	}
 
+	/**
+	 * Exports the trackers found in a file
+	 *
+	 * @param website name of the website
+	 * @param type type of the tracker
+	 * @param data data to write
+	 * @return the number of trackers
+	 */
 	public static int exportTrackers (String website, String type, ArrayList<String> data) {
 		try {
 			BufferedWriter file = new BufferedWriter(new FileWriter(new File(directory+"/results/" + website + "_" + type + ".csv"), false));
@@ -817,16 +827,16 @@ public class Parser {
 		return data.size();
 	}
 
+	/**
+	 * Writes the statistics in several files
+	 *
+	 * @param directoryName
+	 */
 	public static void computeStats(String directoryName) {
 		try {
 			if(!ghosteryFile.equals("")) {
 				// TRACKERS
 				BufferedWriter trackersStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_trackers.csv"), false));
-
-				//statsTrackers.write("----- Statistics of trackers -----");
-				//statsTrackers.newLine();
-				//statsTrackers.write("> Number of trackers entities: " + trackersStats.size());
-				//statsTrackers.newLine();
 
 				Map<String, Integer> sortedTrackersGhosteryStats = sortByValueInDescendingOrder(trackersGhosteryStats);
 
@@ -838,7 +848,21 @@ public class Parser {
 					}
 				}
 				trackersStatsFile.close();
+
+
+				// MIMETYPE OF GHOSTERY TRACKERS DETECTED
+				BufferedWriter mimetypeGhosteryFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_ghostery.csv"), false));
+
+				Map<String, Integer> sortedMimetypeGhostery = sortByValueInDescendingOrder(mimetypeGhostery);
+
+				for(String name : sortedMimetypeGhostery.keySet()) {
+					int number = sortedMimetypeGhostery.get(name);
+					mimetypeGhosteryFile.write(name + "," + number);
+					mimetypeGhosteryFile.newLine();
+				}
+				mimetypeGhosteryFile.close();
 			}
+
 
 			// MIMETYPE OF URLS OF DIFFERENT SOA
 			BufferedWriter mimetypeSOA_allWebsitesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_soa.csv"), false));
@@ -852,24 +876,9 @@ public class Parser {
 			}
 			mimetypeSOA_allWebsitesFile.close();
 
-			// MIMETYPE OF GHOSTERY TRACKERS DETECTED
-			if(!ghosteryFile.equals("")) {
-				BufferedWriter mimetypeGhosteryFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_mimetypes_ghostery.csv"), false));
-
-				Map<String, Integer> sortedMimetypeGhostery = sortByValueInDescendingOrder(mimetypeGhostery);
-
-				for(String name : sortedMimetypeGhostery.keySet()) {
-					int number = sortedMimetypeGhostery.get(name);
-					mimetypeGhosteryFile.write(name + "," + number);
-					mimetypeGhosteryFile.newLine();
-				}
-				mimetypeGhosteryFile.close();
-			}
 
 			// WEBSITES DETAILED STATS
 			BufferedWriter websitesDetailedStatsFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_detailed.csv"), false));
-
-			//Map<String, Integer> sortedWebsitesDetailedStats = sortByValueInDescendingOrder(websitesDetailedStats);
 
 			for(String name : websitesDetailedStats.keySet()) {
 				int[] numbers = websitesDetailedStats.get(name);
@@ -916,8 +925,8 @@ public class Parser {
 	}
 
 	/**
-	 * 	Closes the logs file.<br>
-	 *  If a problem occurs, prints a message in the console.
+	 * Closes the logs file.<br>
+	 * If a problem occurs, prints a message in the console.
 	 */
 	public static void closeLogFile() {
 		try {

@@ -6,13 +6,18 @@ import java.nio.file.attribute.*;
 
 import static java.nio.file.FileVisitResult.*;
 
-
 public class CounterAndDeleterFileVisitor extends SimpleFileVisitor<Path> {
 
 	private final PathMatcher matcher;
 	private int numMatches = 0;
 	private Path root;
 
+	/**
+	 * Counts and deletes files in a given directory
+	 *
+	 * @param startDirectory the root directory of the file visitor
+	 * @param pattern the pattern of the files to delete
+	 */
 	CounterAndDeleterFileVisitor(Path startDirectory, String pattern) {
 		matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
 		root = startDirectory;

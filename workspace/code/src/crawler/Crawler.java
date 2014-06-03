@@ -55,8 +55,20 @@ public class Crawler {
 	private static String flashCookiesPath;
 	private static Map<String, Integer> flashCookiesPerWebsite;
 	private static String firefoxCookiesDB;
-	//private static Map<String, Integer> firefoxCookiesPerWebsite;
 
+	/**
+	 * Starts the crawler
+	 *
+	 * @param directoryName
+	 * @param ffprofile
+	 * @param websitesFile
+	 * @param startIndex
+	 * @param endIndex
+	 * @param attempts
+	 * @param showDebug
+	 * @param restart
+	 * @param timeout
+	 */
 	public static void launchCrawler(final String directoryName, String ffprofile, String websitesFile,
 			int startIndex, int endIndex, int attempts, boolean showDebug, int restart, int timeout) {
 		debug = showDebug;
@@ -156,13 +168,6 @@ public class Crawler {
 					logMessage("Number of Flash cookies found and deleted: " + flashCookies, 2);
 					flashCookiesPerWebsite.put(website.getUrl(), flashCookies);
 
-					// Firefox cookies
-					//int firefoxCookies = countAndDeleteFirefoxCookies();
-					//int firefoxCookies = driver.manage().getCookies().size();
-					//driver.manage().deleteAllCookies(); // Maybe not necessary because of Selenium's FirefoxDriver
-					//logMessage("Number of Firefox cookies found: " + firefoxCookies, 2);
-					//firefoxCookiesPerWebsite.put(website.getUrl(), firefoxCookies);
-
 					// Wait till HAR is exported
 					try {
 						System.out.println("                        Waiting 8 seconds"
@@ -207,7 +212,6 @@ public class Crawler {
 			// The website failed after several attempts
 			if(attempt >= attempts && !success) {
 				websitesFailed.add(website.getUrl());
-				//websitesTimeout.remove(website.getUrl());
 				// Note: Keep the website in the timed out list: can distinguish between the fails and timeouts in the failed list.
 			}
 		}
@@ -216,6 +220,11 @@ public class Crawler {
 		System.exit(0);
 	}
 
+	/**
+	 * Writes the statistics about the cookies
+	 *
+	 * @param directoryName
+	 */
 	private static void writeCookiesStats(String directoryName) {
 		try {
 			// Flash cookies
@@ -232,17 +241,6 @@ public class Crawler {
 			}
 			flashCookiesFile.close();
 
-			// Firefox cookies
-			/*BufferedWriter firefoxCookiesFile = new BufferedWriter(new FileWriter(new File(directoryName+"/logs/stats_firefox-cookies.csv"), false));
-
-			Map<String, Integer> sortedFirefoxCookiesStats = sortByValueInDescendingOrder(firefoxCookiesPerWebsite);
-
-			for(String name : sortedFirefoxCookiesStats.keySet()) {
-				int trackerCount = sortedFirefoxCookiesStats.get(name);
-				firefoxCookiesFile.write(name + "," + trackerCount);
-				firefoxCookiesFile.newLine();
-			}
-			firefoxCookiesFile.close();*/
 		} catch (IOException e) {
 			logMessage("Error: cannot write the statistics files about the cookies!", 3);
 			if(debug) e.printStackTrace();
@@ -250,7 +248,7 @@ public class Crawler {
 	}
 
 	/**
-	 * Check if the directories exist and create them if needed
+	 * Checks if the directories exist and creates them if needed
 	 *
 	 * @param directoryName the directory to check
 	 * @return true if the directories exists (or have been created), false otherwise
@@ -260,7 +258,6 @@ public class Crawler {
 
 		File directory = new File(directoryName);
 		File logsDirectory = new File(directoryName + "/logs/");
-		//File resultsDirectory = new File(directoryName + "/results/");
 
 		// The directory does not exist: create both the directory and the subdirectories
 		if(!directory.isDirectory()) {
@@ -278,13 +275,6 @@ public class Crawler {
 			else {
 				directoriesOK = false;
 			}
-			// Results subdirectory
-			/*if(resultsDirectory.mkdirs()) {
-				System.out.println("      a subdirectory named \"results\" has also been created.");
-			}
-			else {
-				directoriesOK = false;
-			}*/
 		}
 		// The directory already exists: check if the subdirectories also exists
 		else {
@@ -300,30 +290,14 @@ public class Crawler {
 			else {
 				System.out.println("Info: the logs will be saved in the subdirectory named \"logs\".");
 			}
-			// Results subdirectory
-			/*if(!resultsDirectory.isDirectory()) {
-				if(resultsDirectory.mkdirs()) {
-					System.out.println("Info: a subdirectory named \"results\" has been created.");
-				}
-				else {
-					directoriesOK = false;
-				}
-			}
-			else {
-				System.out.println("Info: the results will be saved in the subdirectory named \"results\".\n"
-						+ "BE CAREFUL THAT FILES MAY BE OVERWRITTEN!");
-				System.out.print("Continue? ");
-				String value = scanner.next();
-				if(!(value.equals("yes") || value.equals("y"))) {
-					System.exit(1);
-				}
-			}*/
 		}
 
 		return directoriesOK;
 	}
 
-	// Get the Flash cookies folder
+	/**
+	 * Gets the Flash cookies folder
+	 */
 	private static void findAndInitializeFlashCookiesStats() {
 		String baseFlashFolder = System.getProperty("user.home") + "/.macromedia/Flash_Player/#SharedObjects/";
 		File allFolders[] = new File(baseFlashFolder).listFiles(new FileFilter() {
@@ -387,7 +361,11 @@ public class Crawler {
 		logMessage("Number of Flash cookies found and deleted: " + countAndDeleteFlashCookies(), 2);
 	}
 
-	// Get the Firefox cookies folder
+	/**
+	 * Gets the Firefox cookies folder
+	 *
+	 * @param ffprofile the Firefox profile
+	 */
 	private static void findAndInitializeFirefoxCookiesStats(String ffprofile) {
 		String baseFirefoxFolder = System.getProperty("user.home") + "/.mozilla/firefox/";
 
@@ -409,71 +387,18 @@ public class Crawler {
 			if(debug) e.printStackTrace();
 		}
 
-		/*ArrayList<String[]> profiles = new ArrayList<String[]>();
-		try {
-			BufferedReader profilesReader = new BufferedReader(new FileReader(baseFirefoxFolder + "profiles.ini"));
-			String line;
-			while ((line = profilesReader.readLine()) != null) {
-				if(line.startsWith("[Profile")) {
-					line = profilesReader.readLine();
-					String[] profile = new String[2];
-					profile[0] = line.substring(5, line.length()); // Name
-					line = profilesReader.readLine(); // Skip IsRelative
-					line = profilesReader.readLine();
-					profile[1] = line.substring(5, line.length()); // Path
-					System.out.println("name: " + profile[0] + " - folder: " + profile[1]);
-					profiles.add(profile);
-				}
-			}
-			profilesReader.close();
-		} catch (Exception e) {
-			logMessage("Error: cannot find Firefox profiles!", 3);
-			if(debug) e.printStackTrace();
-		}*/
-
-		/*String profileFolder = null;
-
-		System.out.println("Profiles found for Firefox");
-		while(profileFolder == null) {
-			// Show the folders
-			int i = 0;
-			System.out.println("-1) exit");
-			for(String[] profile : profiles) {
-				System.out.println(" " + i + ") " + "Name: " + profile[0] + " (folder: " + profile[1] + ")");
-				i++;
-			}
-			// Ask which one to choose
-			System.out.print("Which one to choose? ");
-			int value = 0;
-			boolean isInteger = false;
-			try {
-				value = scanner.nextInt();
-				isInteger = true;
-			} catch (java.util.InputMismatchException ime) {
-				System.out.println("Please write a number!");
-				scanner.nextLine(); // Clean the buffer
-			}
-			if(isInteger) {
-				if(value == -1) {
-					System.exit(1);
-				}
-				else if(value < 0 || value > profiles.size()-1) {
-					System.out.println("Wrong choice!");
-				}
-				else {
-					profileFolder = profiles.get(value)[1];
-				}
-			}
-		}*/
-
 		firefoxCookiesDB = baseFirefoxFolder + profileFolder + "/cookies.sqlite";
 		logMessage("Firefox cookies database: " + firefoxCookiesDB, 0);
-		//firefoxCookiesPerWebsite = new HashMap<String, Integer>();
 
 		// Delete the Firefox cookies before starting the crawler
 		logMessage("Number of Firefox cookies found and deleted: " + countAndDeleteFirefoxCookies(), 2);
 	}
 
+	/**
+	 * Counts and deletes the Flash cookies
+	 *
+	 * @return the number of Flash cookies deleted
+	 */
 	public static int countAndDeleteFlashCookies() {
 		Path directory = Paths.get(flashCookiesPath);
 		String pattern = "*.sol";
@@ -488,24 +413,12 @@ public class Crawler {
 		return fileVisitor.done();
 	}
 
-	public static LinkedHashMap<String, Integer> sortByValueInDescendingOrder (Map<String, Integer> mapToSort) {
-		List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(mapToSort.entrySet());
-		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
-			@Override
-			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-				return o2.getValue().compareTo(o1.getValue());
-			}
-		});
-
-		LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
-		for(Map.Entry<String, Integer> entry: entries){
-			sortedMap.put(entry.getKey(), entry.getValue());
-		}
-
-		return sortedMap;
-	}
-
 	// Cannot use this method while Firefox is running because the cookies.sqlite database is updated at the exit of Firefox.
+	/**
+	 * Counts and deletes the Firefox cookies
+	 *
+	 * @return the number of Firefox cookies deleted
+	 */
 	public static int countAndDeleteFirefoxCookies() {
 		int count = 0;
 		try {
@@ -539,9 +452,32 @@ public class Crawler {
 	}
 
 	/**
+	 * Orders a Map in a descending order
+	 *
+	 * @param mapToSort the map to sort
+	 * @return a LinkedHashMap containing the values of the map
+	 */
+	public static LinkedHashMap<String, Integer> sortByValueInDescendingOrder (Map<String, Integer> mapToSort) {
+		List<Map.Entry<String, Integer>> entries = new LinkedList<Map.Entry<String, Integer>>(mapToSort.entrySet());
+		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+				return o2.getValue().compareTo(o1.getValue());
+			}
+		});
+
+		LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
+		for(Map.Entry<String, Integer> entry: entries){
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+
+		return sortedMap;
+	}
+
+	/**
 	 * Initialize the driver.
 	 *
-	 * @param directoryName: the directory in which the files will be written.
+	 * @param directoryName the directory in which the files will be written.
 	 * @param ffprofile the Firefox profile to use
 	 */
 	public static void initializeDriver(String directoryName, String ffprofile, int timeout) {
@@ -599,6 +535,7 @@ public class Crawler {
 	/**
 	 * Deletes the useless files.
 	 * These are the files generated when visiting the "about:blank" page when retrying another attempt.
+	 *
 	 * @param directoryName the name of the directory containing the files
 	 */
 	public static void deleteUselessFiles(String directoryName) {
@@ -686,8 +623,8 @@ public class Crawler {
 	}
 
 	/**
-	 * 	Closes the logs file.<br>
-	 *  If a problem occurs, prints a message in the console.
+	 * Closes the logs file.<br>
+	 * If a problem occurs, prints a message in the console.
 	 */
 	public static void closeLogFile() {
 		try {
