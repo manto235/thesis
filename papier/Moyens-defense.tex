@@ -8,7 +8,7 @@ Certaines extensions de navigateurs ont été développées afin de préserver l
 Dans cette section, plusieurs de ces extensions disponibles pour Firefox vont être testées selon une expérience ponctuelle (voir \autoref{experience_ponctuelle}).
 \newline
 
-Le \textit{crawler} a chaque fois été configuré pour analyser sur le TOP 1000 du classement Alexa \cite{AlexaTop} du 16 mai 2014. La méthodologie pour la préparation de chaque analyse est la suivante:
+Le \textit{crawler} a chaque fois été configuré pour analyser le TOP 1000 du classement Alexa \cite{AlexaTop} du 16 mai 2014. La méthodologie pour la préparation de chaque analyse est la suivante:
 \begin{itemize}
   \item chaque profil Firefox est créé expressément pour chaque analyse
   \item les extensions Firebug et NetExport sont installées
@@ -26,13 +26,13 @@ Pour terminer, le \textit{parser} traite les fichiers HTTP Archive afin de fourn
 Le but de chaque expérience est de déterminer si le nombre de trackers détectés par le \textit{parser} est effectivement en baisse grâce aux extensions installées. L'ensemble de ces différentes expériences permettra ensuite de déterminer quelle protection semble la meilleure.
 \newline
 
-Pour chaque expérience, seul les analyses utilisant la base de données Ghostery ont été réalisées. Suite à la discussion portant sur les deux types d'analyses (\autoref{discussion_analyses}), il semble que les analyses utilisant les données issues de Ghostery soient les plus pertinentes pour les tests d'extensions de Firefox.
+Pour chaque expérience, seules les analyses utilisant la base de données Ghostery ont été réalisées. Suite à la discussion portant sur les deux types d'analyses (\autoref{discussion_analyses}), il semble que les analyses utilisant les données issues de Ghostery soient les plus pertinentes pour les tests d'extensions de Firefox.
 \newline
 
 Les résultats sont toujours présentés dans un même modèle de tableau :\\
 
 \begin{tabular}{ c | p{6cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery et critères triés &  &  & Pourcentage \\
@@ -49,7 +49,7 @@ Notez que la somme des pourcentages de répartition des trackers dans le tableau
 Afin de ne pas surcharger ce chapitre de graphiques, les types MIME des éléments détectés par la base de données Ghostery n'ont pas été inclus mais leurs résultats sont énoncés dans les analyses de chaque expérience. Les types \textit{application/x-javascript}, \textit{application/javascript} et \textit{text/javascript} ont été rassemblés sous le nom \textit{JavaScript} car ils représentent le même type de trackers. Ils sont présentés sous cette forme :\\
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & Types MIME triés &  &  & Pourcentage \\
@@ -59,11 +59,11 @@ Afin de ne pas surcharger ce chapitre de graphiques, les types MIME des élémen
 \end{tabular}
 \\[1cm]
 
-Etant donné que seuls les 5 premiers types MIME sont présents dans le tableau, il est normal que la somme des pourcentages n'atteigne pas 100\%.
+Étant donné que seuls les 5 premiers types MIME sont présents dans le tableau, il est normal que la somme des pourcentages n'atteigne pas 100\%.
 \newpage
 
 \subsection{Données de référence}
-Pour rappel, voici les données de référence du chapitre précédent (Figures \ref{exp_normal_ghostery} et \ref{exp_normal_ghostery_mimetype}), mises sour forme de tableaux :\\
+Pour rappel, voici les données de référence du chapitre précédent (Figures \ref{exp_normal_ghostery} et \ref{exp_normal_ghostery_mimetype}), mises sous forme de tableaux :\\
 
 \begin{tabular}{ c | p{5cm} | c | c | }
    Rang & Répartition des trackers & \# & \% \\
@@ -100,7 +100,7 @@ Adblock Plus \footnote{\url{https://adblockplus.org/}} est une extension disponi
 Adblock propose des listes par défaut régulièrement mises à jour. Certaines concernent les publicités indésirables de façon générale et d'autres sont spécifiques à des langues. Plusieurs miroirs existent et proposent de bloquer des types précis d'éléments (modules de réseaux sociaux par exemple). Un de ces miroirs connus est Fanboy \footnote{\url{https://www.fanboy.co.nz/}}, il propose plusieurs listes dont certaines bloquent des éléments qui tracent les utilisateurs. Les listes ont généralement une durée de vie de 4 jours.
 
 \subsubsection{Configuration de l'extension}
-Etant donné que les résultats peuvent varier en fonction des filtres installés, trois expériences ont été réalisées avec cette extension.
+Étant donné que les résultats peuvent varier en fonction des filtres installés, trois expériences ont été réalisées avec cette extension.
 
 La première utilise les paramètres par défaut : le filtre de base (Easylist) et un filtre basé sur la langue.
 
@@ -120,7 +120,7 @@ Notez que des profils Firefox différents ont été configurés pour réaliser l
 L'extension a laissé passer 2584 trackers connus de la base de données Ghostery et 1631 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 2584 & 61,30 & - 89,51\% \\
@@ -136,7 +136,7 @@ L'extension a laissé passer 2584 trackers connus de la base de données Ghoster
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & JavaScript & 1136 & 43,96 & - 83,68\% \\
@@ -164,7 +164,7 @@ Deux baisses flagrantes sont constatées pour les pixels de traçage et les trac
 L'extension a laissé passer 2572 trackers connus de la base de données Ghostery et 1555 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 2572 & 62,32 & - 89,56\% \\
@@ -180,7 +180,7 @@ L'extension a laissé passer 2572 trackers connus de la base de données Ghoster
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & JavaScript & 1134 & 44,09 & - 83,70\% \\
@@ -204,7 +204,7 @@ Le fait de bloquer les publicités dites acceptables par les développeurs d'Adb
 L'extension a laissé passer 2197 trackers connus de la base de données Ghostery et 1441 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 2197 & 60,39 & - 91,08\% \\
@@ -220,7 +220,7 @@ L'extension a laissé passer 2197 trackers connus de la base de données Ghoster
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & JavaScript & 764 & 34,77 & - 89,02\% \\
@@ -253,7 +253,7 @@ L'extension n'a pas été configurée, les paramètres par défaut ont été lai
 L'extension a laissé passer 9341 trackers connus de la base de données Ghostery et 2882 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 9341 & 76,42 & - 62,07\% \\
@@ -269,7 +269,7 @@ L'extension a laissé passer 9341 trackers connus de la base de données Ghoster
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & JavaScript & 3441 & 36,84 & - 50,55\% \\
@@ -281,12 +281,12 @@ L'extension a laissé passer 9341 trackers connus de la base de données Ghoster
 \end{tabular}
 \\[.3cm]
 
-L'extension offre une protection relativement moyenne car elle ne bloque que 58,43\% des trackers par rapport à l'expérience de référence. Elle bloque cependant 65,02\% de pixels de traçage et 62,07\% des trackers connus par Ghostery. Dans ces derniers, ce sont les pixels de traçage (71,51\%) et les URL avec une chaîne de requête qui sont proportionnellement les plus bloqués (71,01\% pour le type HTML et 67,82\% pour les types inconnus). Quant aux codes JavaScript, ils sont en tête avec 3441 trackers bloqués.
+L'extension offre une protection relativement moyenne car elle ne bloque que 58,43\% des trackers par rapport à l'expérience de référence. Elle bloque cependant 65,02\% de pixels de traçage et 62,07\% des trackers connus par Ghostery. Dans ces derniers, ce sont les pixels de traçage (71,51\%) et les URL avec une chaîne de requête qui sont proportionnellement les plus bloqués (71,01\% pour le type HTML et 67,82\% pour les types inconnus). Quant aux codes JavaScript, ils sont en tête trackers bloqués avec un nombre de 3441.
 
 %%%%%%%%%%
 \subsection{Ghostery}
 \subsubsection{Présentation}
-Ghostery \footnote{\url{https://www.ghostery.com}} est une extension disponible pour Firefox, Google Chrome, Opera et Safari. Son fonctionnement repose sur une base de données de trackers alimentée par les retours des utilisateurs de l'extension. Cette base de données est régulièrement mise à jour. Evidon, la société qui possède Ghostery, a fait momentanément parler d'elle car elle a des contrats avec certaines entreprises. Certains lui reprochaient alors de vendre les informations reçues des utilisateurs via son programme Ghostrank. Sur leur site, les développeurs de Ghostery assurent ne pas vendre d'informations personnelles. Il faut noter qu'il est possible d'utiliser Ghostery sans activer Ghostrank.
+Ghostery \footnote{\url{https://www.ghostery.com}} est une extension disponible pour Firefox, Google Chrome, Opera et Safari. Son fonctionnement repose sur une base de données de trackers alimentée par les retours des utilisateurs de l'extension. Cette base de données est régulièrement mise à jour. Evidon, la société qui possède Ghostery, a fait momentanément parler d'elle car elle a des contrats avec des entreprises du domaine publicitaire. Certains lui reprochaient alors de vendre les informations reçues des utilisateurs via son programme Ghostrank. Sur leur site, les développeurs de Ghostery assurent ne pas vendre d'informations personnelles. Il est possible de désactiver Ghostrank.
 
 \subsubsection{Configuration de l'extension}
 L'extension a été activée avec tous les trackers et tous les cookies sélectionnés.
@@ -301,7 +301,7 @@ L'extension a été activée avec tous les trackers et tous les cookies sélecti
 L'extension a laissé passer 471 trackers connus de la base de données Ghostery et 1753 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & JavaScript avec paramètres & 553 & 14,53 & - 48,75\% \\
@@ -317,7 +317,7 @@ L'extension a laissé passer 471 trackers connus de la base de données Ghostery
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & Images .png & 111 & 23,57 & - 88,53\% \\
@@ -329,16 +329,17 @@ L'extension a laissé passer 471 trackers connus de la base de données Ghostery
 \end{tabular}
 \\[.3cm]
 
-Les résultats de l'analyse ont été assez étonnants car ils montrent qu'une partie des trackers n'est pas bloquée par Ghostery alors qu'ils sont bien présents dans la base de données. Ils sont détectés par le \textit{parser} qui utilise la même base de données. Une analyse plus poussée sur les liens non bloqués a été effectuée. Le constat était que Ghostery ne bloque pas les trackers du site visité (les trackers "first-party"). Après une recherche, la justification a été trouvé sur un billet de blog \footnote{\url{https://purplebox.ghostery.com/post/1016021484}} des développeurs de l'extension. La raison principale est que bloquer ces trackers peut entraîner des interférences lors de l'utilisation des fonctionnalités du site.
+Les résultats de l'analyse ont été assez étonnants car ils montrent qu'une partie des trackers n'est pas bloquée par Ghostery alors qu'ils sont bien présents dans la base de données. Ils sont détectés par le \textit{parser} qui utilise la même base de données. Une analyse plus poussée sur les liens non bloqués a été effectuée. Le constat est que Ghostery ne bloque pas les trackers du site visité (les trackers "first-party"). Après une recherche, la justification a été trouvé sur un billet de blog \footnote{\url{https://purplebox.ghostery.com/post/1016021484}} des développeurs de l'extension. La raison principale est que bloquer ces trackers peut entraîner des interférences lors de l'utilisation des fonctionnalités du site.
+\newline
 
 Néanmoins, l'extension offre une bonne protection car elle bloque 92,44\% des trackers. Les principaux trackers non bloqués sur les sites visités sont les images .png et .jpeg (respectivement 23,57\% et 19,53\%), suivies des JavaScript (18,26\%) et des images .gif (13,16\%).
-Concernant les autres critères, les pixels de traçage sont relativement bien bloqués avec un taux de 83,50\%, cela signifie que 200 pixels passent quand même à côté de la base de données Ghostery.
+Concernant les autres critères, les pixels de traçage sont les mieux bloqués avec un taux de 83,50\%, cela signifie que 200 pixels passent quand même à côté de la base de données Ghostery.
 
 %%%%%%%%%%
 \subsection{HTTPS Everywhere}
 \subsubsection{Présentation}
-HTTPS Everywhere \footnote{\url{https://www.eff.org/https-everywhere}} est une extension disponible pour Firefox, Google Chrome, Opera et Android. Firefox dispose d'une version stable tandis que les autres n'ont accès qu'à une version beta. Le but de cette extension est d'utiliser les connexions HTTPS dès que cela est possible. L'extension repose sur une liste afin de savoir quand passer d'une connexion HTTP vers une connection HTTPS. Par défaut, l'extension contient une liste de règles prédéfinies pour chaque site mais il est également possible de créer ses propres règles.
-Grâce à l'utilisation de connections sécurisées, l'extension protège l'utilisateur de certaines attaques. Dès qu'une connection sécurisée peut être établie vers un site, HTTPS Everywhere le fait. Il peut cependant arriver que certaines requêtes vers un site soient en HTTP alors que d'autres sont en HTTPS. L'extension n'est pas en mesure de protéger l'utilisateur si le site ne propose pas de connection HTTPS pour toutes ses ressources.
+HTTPS Everywhere \footnote{\url{https://www.eff.org/https-everywhere}} est une extension disponible pour Firefox, Google Chrome, Opera et Android. Firefox dispose d'une version stable tandis que les autres n'ont accès qu'à une version bêta. Le but de cette extension est d'utiliser les connexions HTTPS dès que cela est possible. L'extension repose sur une liste afin de savoir quand passer d'une connexion HTTP vers une connexion HTTPS. Par défaut, l'extension contient une liste de règles prédéfinies pour chaque site mais il est également possible de créer ses propres règles.
+Grâce à l'utilisation de connections sécurisées, l'extension protège l'utilisateur de certaines attaques. Dès qu'une connexion sécurisée peut être établie vers un site, HTTPS Everywhere le fait. Il peut cependant arriver que certaines requêtes vers un site soient en HTTP alors que d'autres sont en HTTPS. L'extension n'est pas en mesure de protéger l'utilisateur si le site ne propose pas de connexion HTTPS pour toutes ses ressources.
 
 \subsubsection{Configuration de l'extension}
 L'extension a été installée avec ses paramètres par défaut. SSL Observatory n'a pas été activé et aucune règle supplémentaire n'a été ajoutée.
@@ -353,7 +354,7 @@ L'extension a été installée avec ses paramètres par défaut. SSL Observatory
 L'extension a laissé passer 19388 trackers connus de la base de données Ghostery et 4259 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 19388 & 81,99 & - 21,27\% \\
@@ -369,7 +370,7 @@ L'extension a laissé passer 19388 trackers connus de la base de données Ghoste
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & Images .gif & 5817 & 30,00 & - 21,98\% \\
@@ -405,7 +406,7 @@ Aucun paramètre de configuration n'est disponible pour cette extension.
 L'extension a laissé passer 21670 trackers connus de la base de données Ghostery et 4343 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 21670 & 83,30 & - 12,01\% \\
@@ -421,7 +422,7 @@ L'extension a laissé passer 21670 trackers connus de la base de données Ghoste
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & JavaScript & 6484 & 29,92 & - 6,83\% \\
@@ -440,10 +441,10 @@ Priv3 a pour objectif de bloquer les trackers de 4 plateformes de réseaux socia
 \subsection{Privacy Badger}
 \subsubsection{Présentation}
 Privacy Badger \footnote{\url{https://www.eff.org/privacybadger}} est une extension disponible pour Firefox et Google Chrome, elle est actuellement en version alpha. Son but est de bloquer les trackers de domaines tiers grâce à l'analyse de leur comportement. 
-Lors de l'envoi d'une requête, un entête Do Not Track est ajouté et l'extension évalue la probabilité d'être tracké grâce à des heuristiques. L'extension enregistre diverses informations afin d'affiner son fonctionnement en fonction des sites visités. Il faut donc un certain temps pour que l'utilisateur soit mieux protégé.
+Lors de l'envoi d'une requête, un entête Do Not Track est ajouté et l'extension évalue la probabilité d'être traqué grâce à des heuristiques. L'extension enregistre diverses informations afin d'affiner son fonctionnement en fonction des sites visités. Il faut donc un certain temps pour que l'utilisateur soit mieux protégé.
 
-L'extension contient aussi une liste blanche pour certains domaines qui fournissent des ressources tierces essentielles. A long terme, les développeurs espèrent se séparer de cette liste grâce aux promesses des domaines tiers de respecter Do Not Track. Le but de Privacy Badger n'est pas de bloquer les publicités mais de prévenir les invasions indésirables dans la vie privée des utilisateurs. 
-Actuellement, seul le tracking provenant de tiers est bloqué. Dans le futur, les développeurs comptent également ajouter des protections pour les sites visités et ils vont ajouter des contre-mesures pour bloquer les fingerprinters dans une prochaine version.
+L'extension contient aussi une liste blanche pour certains domaines qui fournissent des ressources tierces essentielles. A long terme, les développeurs espèrent se séparer de cette liste grâce aux promesses des gestionnaires de sites de respecter Do Not Track. Le but de Privacy Badger n'est pas de bloquer les publicités mais de prévenir les invasions indésirables dans la vie privée des utilisateurs. 
+Actuellement, seul le tracking provenant de tiers est bloqué. Dans le futur, les développeurs comptent également ajouter des protections pour les sites visités et ils vont implémenter des contre-mesures pour bloquer les fingerprinters dans une prochaine version.
 
 \subsubsection{Configuration de l'extension}
 L'extension est restée configurée avec les paramètres par défaut.
@@ -458,7 +459,7 @@ L'extension est restée configurée avec les paramètres par défaut.
 L'extension a laissé passer 16215 trackers connus de la base de données Ghostery et 3884 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 16215 & 80,68 & - 34,16\% \\
@@ -474,7 +475,7 @@ L'extension a laissé passer 16215 trackers connus de la base de données Ghoste
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & JavaScript & 5490 & 33,86 & - 21,11\% \\
@@ -486,12 +487,13 @@ L'extension a laissé passer 16215 trackers connus de la base de données Ghoste
 \end{tabular}
 \\[.3cm]
 
-L'extension bloque un peu moins d'un tiers des trackers. Les trackers connus de Ghostery sont en tête des trackers bloqués avec un nombre de 16215 mais ils ne représentent qu'une baisse de 34,16\% alors que les pixels de traçage sont mieux bloqués avec une baisse de 45,46\%. Le taux de détection de fichiers Flash est en hausse, cela s'explique par un nombre plus important de fichiers analysés (9 fichiers supplémentaires) par le \textit{parser}.
+L'extension bloque un peu moins d'un tiers des trackers. Les trackers connus de Ghostery sont en tête des trackers détectés avec un nombre de 16215 mais ils ne représentent qu'une baisse de 34,16\% alors que les pixels de traçage sont mieux bloqués avec une baisse de 45,46\%. Le taux de détection de fichiers Flash est en hausse, cela s'explique par un nombre plus important de fichiers analysés (9 fichiers supplémentaires) par le \textit{parser}. Les résultats de cette expérience sont faibles mais l'extension est encore en version alpha et il serait intéressant de refaire un test sur une prochaine version pour constater s'il y a une amélioration. Cette extension se basant sur le comportement des sites, elle mérite une attention particulière.
 
 
 %%%%%%%%%%
 \subsection{Adblock \& Ghostery}
 \subsubsection{Configuration des extensions}
+Adblock a été configuré avec le blocage des publicités jugées acceptables et la liste Fanboy Ultimate a été installée (de manière similaire à la troisième expérience d'Adblock). Ghostery a été configuré pour bloquer tous les trackers et tous les cookies (comme lors de l'expérience n'impliquant que Ghostery).
 
 \subsubsection{Résultats - \autoref{exp-AdblockGhostery-ghostery}}
 \begin{figure}[!h]
@@ -503,7 +505,7 @@ L'extension bloque un peu moins d'un tiers des trackers. Les trackers connus de 
 Les extensions ont laissé passer 448 trackers connus de la base de données Ghostery et 1457 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & JavaScript avec paramètres & 509 & 26,72 & - 52,83\% \\
@@ -519,7 +521,7 @@ Les extensions ont laissé passer 448 trackers connus de la base de données Gho
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & Images .jpeg & 176 & 39,29 & - 74,23\% \\
@@ -531,7 +533,7 @@ Les extensions ont laissé passer 448 trackers connus de la base de données Gho
 \end{tabular}
 \\[.3cm]
 
-Cette expérience avait pour but de tester ensemble les deux extensions ayant les meilleurs résultats. Il en ressort que les extensions combinées apportent des résultats encore meilleurs car on atteint un taux de blocage de 93,52\%. Ceci s'explique par le fait qu'Adblock bloque plus de trackers non bloqués par Ghostery, notamment les pixels de traçage et les réponses HTTP qui créent un cookie tiers. D'un autre côté, Ghostery bloque des trackers qui ne sont pas présents dans les listes d'Adblock. Ces deux effets font que le nombre global de trackers diminue davantage afin d'atteindre le meilleur taux de protection.
+Cette expérience avait pour but de tester ensemble les deux extensions ayant les meilleurs résultats. Il en ressort que les extensions combinées apportent des résultats encore meilleurs car on atteint un taux de blocage de 93,52\% (contre 87,63\% pour Adblock et 92,44\% pour Ghostery). Ceci s'explique par le fait qu'Adblock arrête plus de trackers qui ne sont pas détectés par Ghostery, notamment les pixels de traçage et les réponses HTTP qui créent un cookie tiers. D'un autre côté, Ghostery bloque des trackers qui ne sont pas présents dans les listes d'Adblock. Ces deux effets font que le nombre global de trackers diminue davantage afin d'atteindre le meilleur taux de protection.
 
 
 \section{Do Not Track}
@@ -552,7 +554,7 @@ Le but de cette expérience était de voir si les sites respectent cet entête e
 Do Not Track a laissé passer 22533 trackers connus de la base de données Ghostery et 4737 éléments ont été identifiés comme trackers selon les critères de l'outil.\\
 
 \begin{tabular}{ c | p{5cm} | c | c || c | }
-   Rang & Répartition des trackers & \# & \% & Evolution \\
+   Rang & Répartition des trackers & \# & \% & Évolution \\
    \hline
    \hline
    1 & Ghostery & 22533 & 82,63 & - 8,50\% \\
@@ -568,7 +570,7 @@ Do Not Track a laissé passer 22533 trackers connus de la base de données Ghost
 \\[1cm]
 
 \begin{tabular}{ c | p{5cm} | c | c | c | }
-   Rang & Types MIME (Ghostery) & \# & \% & Evolution\\
+   Rang & Types MIME (Ghostery) & \# & \% & Évolution\\
    \hline
    \hline
    1 & Images .gif & 6597 & 29,28 & - 11,52\% \\
@@ -581,6 +583,7 @@ Do Not Track a laissé passer 22533 trackers connus de la base de données Ghost
 \\[.3cm]
 
 Certains sites semblent respecter ce souhait car le nombre total de trackers détectés est en baisse de 7,25\%. Comme pour les autres expériences, les pourcentages en hausse dans l'évolution par rapport aux chiffres de référence proviennent d'un nombre légèrement plus élevé de fichiers analysés.
+
 Activer l'entête Do Not Track ne permet pas de se protéger de manière efficace contre les trackers mais il a l'avantage d'être très simple à activer. De plus, cela montre un signe encourageant de la part de certains sites qui commencent à prendre conscience que les utilisateurs désirent un meilleur respect de leur vie privée lorsqu'ils naviguent sur Internet.
 
 
@@ -588,10 +591,10 @@ Activer l'entête Do Not Track ne permet pas de se protéger de manière efficac
 D'autres extensions relatives à la protection de la vie privée sont intéressantes mais n'avaient pas de raisons d'être testées avec l'outil. Elles sont néanmoins présentées dans cette section à titre d'information.
 
 \subsection{BetterPrivacy}
-BetterPrivacy \footnote{\url{https://addons.mozilla.org/fr/firefox/addon/betterprivacy/}} est une extension qui a pour but de supprimer les cookies Flash après chaque session de navigation. La raison pour laquelle elle n'a pas été testée est que le \textit{crawler} effectue l'ensemble des visites de sites au sein d'une même session. L'extension n'aurait donc pas pu être testé dans les conditions optimales d'utilisation.
+BetterPrivacy \footnote{\url{https://addons.mozilla.org/fr/firefox/addon/betterprivacy/}} est une extension qui a pour but de supprimer les cookies Flash après chaque session de navigation. La raison pour laquelle elle n'a pas été testée est que le \textit{crawler} effectue l'ensemble des visites de sites au sein d'une même session. L'extension n'aurait donc pas pu être testée dans ses conditions optimales d'utilisation.
 
 \subsection{NoScript}
-NoScript \footnote{\url{http://noscript.net/}} est une extension disponible pour Firefox qui a pour but de n'autoriser l'exécution que des scripts provenant de sites de confiance. Le test de cette extension n'aurait pas eu beaucoup de valeurs car il elle aurait bloqué l'ensemble des scripts, ce qui n'aurait pas été représentatif d'une utilisation normale d'Internet.
+NoScript \footnote{\url{http://noscript.net/}} est une extension disponible pour Firefox qui a pour but de n'autoriser l'exécution que des scripts provenant de sites de confiance. Le test de cette extension n'aurait pas eu beaucoup de valeur car celle-ci aurait bloqué l'ensemble des scripts, ce qui n'aurait pas été représentatif d'une utilisation normale d'Internet.
 
 \section{Résultats}
 \label{results_plugins}
@@ -599,13 +602,13 @@ NoScript \footnote{\url{http://noscript.net/}} est une extension disponible pour
 \begin{figure}[!h]
 	\hspace{-2cm}
 	\includegraphics[scale=.54]{resultats/ANALYSES/Images/Comparaisons-Ghostery.png}
-	\caption{\label{exp-DNT-ghostery}Comparaison des différents expériences (avec la base Ghostery).}
+	\caption{\label{comparaisons-ghostery}Comparaison des différents expériences (avec la base Ghostery).}
 \end{figure}
 
 \begin{figure}[!h]
 	\hspace{-2cm}
 	\includegraphics[scale=.6]{resultats/ANALYSES/Images/Comparaisons-NoG.png}
-	\caption{\label{exp-DNT-ghostery}Comparaison des différents expériences (sans la base Ghostery).}
+	\caption{\label{comparaisons-nog}Comparaison des différents expériences (sans la base Ghostery).}
 \end{figure}
 
 Seule l'analyse utilisant la base de données Ghostery a été utilisée pour le calcul des résultats pour la raison évoquée dans la \autoref{extensions_navigateurs}. Cependant, ces deux tableaux permettent de constater que les deux types d'analyses fournissent proportionnellement les mêmes résultats sur les différentes expériences.

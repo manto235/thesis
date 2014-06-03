@@ -40,8 +40,9 @@ Une première description informelle sur les cookies a été publiée sur le sit
 
 Un cookie est un petit fichier stocké en clair sur le disque dur de l'utilisateur par le navigateur. Il fait le lien entre la session de l'utilisateur et les données enregistrées par le site web (dans une base de données par exemple). Les cookies sont transmis dans les entêtes des requêtes et des réponses HTTP \cite{IETF_RFC6265}.
 
-Notez que certains navigateurs actuels enregistrent désormais ces cookies dans une base de données. C'est notamment le cas pour Firefox 3 qui enregistre ses cookies dans une base de données SQLite.
-%\newline
+Notez que certains navigateurs actuels enregistrent désormais ces cookies dans une base de données.\\
+C'est notamment le cas pour Firefox 3 qui enregistre ses cookies dans une base de données SQLite.
+\newline
 
 Dans sa réponse à une requête, un serveur peut envoyer des informations arbitraires (le cookie) dans un entête \textit{Set-Cookie}. Le client a le choix d'ignorer cet entête. S'il l'accepte, l'information présente dans l'entête peut contenir n'importe quoi et c'est elle qui permet au serveur de continuer là où il en était. Il peut s'agir d'un identifiant relatif à l'utilisateur, une clé dans une base de données,...
 Le serveur peut ajouter des attributs afin de configurer les cookies (sections 5.2.1 à 5.2.6 de la RFC 6265) \cite{IETF_RFC6265} :
@@ -132,7 +133,7 @@ Il n'est pas nécessaire d'analyser les requêtes échangées pour voir les cook
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.7]{figures/cookies_distrowatch_NB.png}
+	\includegraphics[scale=0.6]{figures/cookies_distrowatch.png}
 	\caption{\label{cookies_distrowatch}Les cookies enregistrés pour l'hôte \textit{distrowatch.com} dans Firefox.}
 \end{figure}
 

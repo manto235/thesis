@@ -19,10 +19,16 @@ Le \textit{crawler} a été lancé avec les paramètres suivants :
 \end{itemize}
 
 \subsection{Premières constatations}
-Le graphique de la \autoref{Exp1_crawler_fails} montre que l'efficacité du \textit{crawler} reste relativement stable tout au long de l'expérience, on peut voir qu'au maximum 90 sites sur 1000 sont en échec, soit un taux d'échec toujours inférieur à 9\%.
+Le graphique de la \autoref{Exp1_crawler_fails} montre que l'efficacité du \textit{crawler} reste relativement stable tout au long de l'expérience car on peut voir qu'au maximum 90 sites sur 1000 sont en échec, soit un taux d'échec toujours inférieur à 9\%.
 Notez que l'implémentation finale du \textit{crawler} a un peu changé depuis cette expérience. Lors de celle-ci, quand un site atteignait le nombre maximum de tentatives et qu'il était placé dans la liste des sites en échec, il était également retiré de la liste des sites ayant eu besoin d'au moins un nouvel essai suite à un timeout. Ceci explique des situations telles qu'au début du mois de mai où le nombre d'échecs est haut et le nombre de sites ayant été une fois en timeout est beaucoup plus bas.
 
-La deuxième partie de l'expérience consistait à lancer le \textit{parser} afin d'analyser les fichiers générés lors du passage de \textit{crawler} sur les sites.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=.6]{Exp_40jours/Exp1_crawler_fails.png}
+	\caption{\label{Exp1_crawler_fails}Nombre de sites en échecs avec le \textit{crawler}.}
+\end{figure}
+
+La deuxième partie de l'expérience consistait à lancer le \textit{parser} afin d'analyser les fichiers générés lors du passage du \textit{crawler} sur les sites.
 Le pourcentage de fichiers correctement analysés est représenté à la \autoref{Exp1_parser_success_rate}. On peut voir que du début de l'expérience jusqu'au 21 avril, le pourcentage de réussite est en moyenne de 99,73\%. A partir du 22 avril et jusqu'à la fin de l'expérience, il passe à 98,71\%, cela représente une dizaine de fichiers.
 Croyant d'abord à une erreur lors de l'exécution du \textit{parser}, les analyses ont été reconduites une seconde fois mais n'ont pas montré de résultat différent.
 Après analyse des fichiers de log du \textit{parser}, on remarque que ce sont généralement les mêmes sites qui sont en échec.
@@ -31,13 +37,7 @@ Ainsi, sur les 16 jours (du 22 avril jusqu'au 7 mai), on peut remarquer certains
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.6]{Exp_40jours/Exp1_crawler_fails_NB.png}
-	\caption{\label{Exp1_crawler_fails}Nombre de sites en échecs avec le \textit{crawler}.}
-\end{figure}
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[scale=.6]{Exp_40jours/Exp1_parser_success_rate_NB.png}
+	\includegraphics[scale=.6]{Exp_40jours/Exp1_parser_success_rate.png}
 	\caption{\label{Exp1_parser_success_rate}Le pourcentage de réussite du \textit{parser}.}
 \end{figure}
 
@@ -82,8 +82,10 @@ Ainsi, sur les 16 jours (du 22 avril jusqu'au 7 mai), on peut remarquer certains
 
 La constatation que certains sites sont en échec pendant la période complète des 16 jours (alors qu'ils ne l'étaient pas avant le 22 avril) et que certains sites sont en échec sur une courte période (2-3 jours) fait penser que ces échecs résultent d'une erreur située sur les sites eux-mêmes.
 
-Une recherche approfondie a été effectuée et celle-ci a confirmé l'hypothèse selon laquelle l'erreur provient des données reçues des serveurs. Le \textit{parser} parcourt l'ensemble de chaque fichier HTTP Archive, celui-ci étant constitué de requêtes et réponses HTTP. La source des problèmes résulte d'une erreur dans certaines de ces réponses HTTP car elles ne respectent pas le standard défini par les RFC. Plus précisément, les erreurs proviennent de champs non reconnus dans les réponses HTTP ou de valeurs erronées.
+Une recherche approfondie a été effectuée et celle-ci a confirmé l'hypothèse selon laquelle l'erreur provient des données reçues des serveurs. Le \textit{parser} parcourt l'ensemble de chaque fichier HTTP Archive, celui-ci étant constitué de requêtes et réponses HTTP. La source des problèmes résulte d'une erreur dans certaines de ces réponses HTTP car elles ne respectent pas le standard défini par les RFC.
+\\
 
+Plus précisément, les erreurs proviennent de champs non reconnus dans les réponses HTTP ou de valeurs erronées.
 Quelques exemples provenant des fichiers HTTP Archive ont été ajoutés afin d'illustrer les erreurs rencontrées.
 
 \begin{figure}[h]
@@ -99,6 +101,7 @@ L'attribut \textit{priority} n'existe pas dans l'entête \textit{Set-Cookie} d'a
 	\caption{\label{bad_field_baidu}Réponse HTTP de \textit{Baidu} avec un attribut "domian".}
 \end{figure}
 Dans la \autoref{bad_field_baidu}, Baidu envoie une réponse HTTP qui contient une faute de frappe. En effet, au lieu de trouver un attribut "domain" (RFC 6265, section 5.2.3 \cite{IETF_RFC6265}), on constate la présence d'un attribut "domian". De plus, un autre attribut "domain" est déjà présent.
+\newline
 
 \begin{figure}[h]
 	\centering
@@ -115,6 +118,12 @@ Le nombre total de trackers semble rester stable, il est en moyenne de 30080 (\a
 
 Des fluctuations dans le nombre total de trackers sont visibles car l'affichage des publicités sur les sites est généralement dynamique. Si une personne se rend sur une page puis la recharge, il est possible que les publicités soient différentes et proviennent d'autres régies publicitaires.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.56]{Exp_40jours/Exp1_parser_total_trackers.png}
+	\caption{\label{Exp1_parser_total_trackers}Nombre total de trackers sur l'ensemble de l'analyse.}
+\end{figure}
+
 \newpage
 \section{Expérience 2 : étude ponctuelle}
 \label{experience_ponctuelle}
@@ -129,12 +138,6 @@ Le \textit{crawler} a été lancé avec les paramètres suivants :
 	\item Firefox était redémarré tous les 50 sites
 	\item Firefox était dépourvu de toute extension (autre que Firebug et NetExport)
 \end{itemize}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=.56]{Exp_40jours/Exp1_parser_total_trackers_NB.png}
-	\caption{\label{Exp1_parser_total_trackers}Nombre total de trackers sur l'ensemble de l'analyse.}
-\end{figure}
 
 Les 36 sites suivants ont été en échec, ce qui signifie qu'aucun fichier HTTP Archive n'a été généré pour eux :
 \begin{multicols}{3}
@@ -221,23 +224,23 @@ La répartition des trackers par catégorie et pour les deux analyses est dispon
 Concernant les cookies Flash, 79 sites ont créé au moins un fichier \textit{.sol}. Le site en ayant créé le plus (10 fichiers .sol) est \textit{espncricinfo.com}. En deuxième position, on trouve \textit{espn.go.com} avec 8 fichiers .sol créés lors de la visite du site. Les deux sites suivants sont \textit{nordstrom.com} et \textit{loading-delivery1.com} avec 4 fichiers .sol créés. Les 75 autres sites ont créé 3 cookies (9 sites), 2 cookies (9 sites) et 1 cookie (57 sites).
 
 \subsubsection{Analyse avec la base de données Ghostery}
-Comme on peut le constater sur la \autoref{exp_normal_ghostery}, la majorité des trackers détectés le sont par Ghostery (84\%). Ceci est normal car un premier tri est effectué avec l'aide de la base de données Ghostery. En deuxième position, viennent les URL externes appelées avec des paramètres (1754, soit 6\%) et en troisième position, les pixels de traçage de domaines tiers. Il apparaît qu'une partie non négligeable des pixels de traçage n'est pas détectée par Ghostery. Leur nombre est de 1197, ce qui réprésente 4\% de l'ensemble des trackers détectés par l'outil. Il y a également 1001 réponses HTTP provenant de sites externes (3\%) qui créent un cookie tiers. Les codes JavaScript appelés avec des paramètres ont été détectés 611 fois (2\%). Enfin, peu de fichiers Flash sont détectés par l'outil car ils représentent 1\% des éléments détectés, soit 249 éléments.
+Comme on peut le constater sur la \autoref{exp_normal_ghostery}, la majorité des trackers détectés le sont par Ghostery (84\%). Ceci est normal car un premier tri est effectué avec l'aide de la base de données Ghostery. En deuxième position, viennent les URL externes appelées avec des paramètres (1350, soit 4,59\%) et en troisième position, les pixels de traçage de domaines tiers. Il apparaît qu'une partie non négligeable des pixels de traçage n'est pas détectée par Ghostery. Leur nombre est de 1212, ce qui représente 4,12\% de l'ensemble des trackers détectés par l'outil. Les codes JavaScript appelés avec des paramètres ont été détectés 1079 fois (3,67\%). Il y a également 888 réponses HTTP provenant de sites externes (3,02\%) qui créent un cookie tiers. Enfin, peu de fichiers Flash sont détectés par l'outil car ils représentent 0,84\% des éléments détectés, soit 246 éléments. Au total, 29402 trackers ont donc été détectés.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.56]{resultats/ANALYSES/Images/Normal-Ghostery.png}
+	\includegraphics[scale=.6]{resultats/ANALYSES/Images/Normal-Ghostery.png}
 	\caption{\label{exp_normal_ghostery}Répartition des trackers par catégorie (avec Ghostery).}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.59]{resultats/ANALYSES/Images/Normal-Ghostery-mimetype.png}
+	\includegraphics[scale=.6]{resultats/ANALYSES/Images/Normal-Ghostery-mimetype.png}
 	\caption{\label{exp_normal_ghostery_mimetype}Répartition des types de trackers détectés par Ghostery.}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=.59]{resultats/ANALYSES/Images/Normal-NoG.png}
+	\includegraphics[scale=.6]{resultats/ANALYSES/Images/Normal-NoG.png}
 	\caption{\label{exp_normal_nog}Répartition des trackers par catégorie (sans Ghostery).}
 \end{figure}
 
@@ -246,32 +249,41 @@ Lorsqu'une ressource est détectée comme étant un tracker par Ghostery, le \te
 Ceci montre que les principaux trackers importés de sites tiers sont les pixels de traçage ainsi que les codes écrits en JavaScript.
 %\newline
 
-Au vu des deux graphiques (Figures \ref{exp_normal_ghostery} et \ref{exp_normal_ghostery_mimetype}), l'origine principale des trackers est la présence d'images \textit{.gif} jouant le rôle de pixels de tracking et de l'inclusion de codes JavaScript. Elles représentent la majorité des éléments détectés par Ghostery et elles sont respectivement au nombre de 1212 et 1079 d'après les critères opérant après le premier tri effectué par Ghostery.
+Au vu des deux graphiques (Figures \ref{exp_normal_ghostery} et \ref{exp_normal_ghostery_mimetype}), l'origine principale des trackers est la présence d'images \textit{.gif} jouant le rôle de pixels de tracking et de l'inclusion de codes JavaScript. Ces trackers représentent la majorité des éléments détectés par Ghostery et ils sont respectivement au nombre de 1212 et 1079 d'après les critères opérant après le premier tri effectué par Ghostery.
 
 \subsubsection{Analyse sans la base de données Ghostery}
 La \autoref{exp_normal_nog} reprend l'ensemble des trackers détectés lors de l'analyse effectuée sans la prise en compte de la base de données Ghostery. Pour rappel, seuls les éléments chargés depuis un domaine tiers sont présents dans ce graphique.
 
-La plus grande portion du graphique (32\%) se compose des créations de cookie. La seconde (29\%) est constituée des pixels de traçage et le trio de tête se termine par les codes JavaScript chargés avec des paramètres (18\%). Les URL appelées avec des paramètres représentent 18\% des trackers détectés et les fichiers Flash sont au nombre de 670 (3\%).
+La plus grande portion du graphique (32,28\%) se compose des créations de cookies tiers. La seconde (29\%) est constituée des pixels de traçage et le trio de tête se termine par les codes JavaScript chargés avec des paramètres (18,45\%). Les URL appelées avec des paramètres sont juste derrière avec 17,78\% des trackers détectés et les fichiers Flash représentent (2,49\%). Au total, 26923 trackers ont été repérés.
 
 \subsection{Discussion sur les résultats des deux types d'analyse}
 \label{discussion_analyses}
 On remarque que le nombre de trackers détectés est plus élevé pour l'analyse ayant utilisé la base de données Ghostery (29402 contre 26923).
 Ceci s'explique par plusieurs raisons.
+\newline
 
 La première est que les images issues de domaines tiers et connues comme étant des trackers sont détectées par Ghostery mais ne le sont pas par les autres critères. Une telle détection n'est pas envisageable sans l'aide d'une base de données car il est impossible de savoir ce qu'il se passe du côté du serveur. Par contre, les pixels espions sont détectés grâce à leur particularité.
+\newline
+\newpage
 
-La seconde raison porte sur les codes JavaScript. Seuls les codes JavaScript appelés avec une requête HTTP dont l'URI possède une chaîne de requête sont considérés comme des trackers. Il existe également des trackers JavaScript qui n'ont pas de chaîne de requête mais les considérer systématiquement comme des trackers provoquerait beaucoup de faux positifs. La solution idéale serait d'analyser le comportement de ces scripts afin de déterminer si ce sont des trackers ou non.
+La seconde raison porte sur les codes JavaScript. Seuls les codes JavaScript appelés avec une requête HTTP dont l'URI possède une chaîne de requête sont considérés comme des trackers par les critères définis. Il existe également des trackers JavaScript qui n'ont pas de chaîne de requête mais les considérer systématiquement comme des trackers provoquerait beaucoup de faux positifs. La solution idéale serait d'analyser le comportement de ces scripts afin de déterminer si ce sont des trackers ou non.
 \newline
 
 A l'inverse, le nombre de trackers détectés par l'analyse n'utilisant pas la base de données Ghostery peut parfois être supérieur dans certaines catégories. En effet, les critères retiennent toutes les ressources Flash et les URL possédant un champ de requête. Cependant, tous ces éléments ne sont pas des trackers même si force est de constater que la plupart en sont.
 \newline
 
-L'utilisation d'une base de données permet de détecter des éléments qui ne seraient pas suspectés d'être des trackers. Cependant, elle peut également passer à côté de beaucoup de trackers qui ne sont pas renseignés dans cette base.
+L'utilisation d'une base de données permet de détecter des éléments qui ne seraient pas suspectés d'être des trackers. Cependant, elle peut également passer à côté de trackers qui ne sont pas renseignés dans cette base.
 
 Cela est d'ailleurs flagrant avec la détection des pixels espions. Malgré l'utilisation de la base de données Ghostery, 1212 pixels de traçage ont été détectés par les critères définis au sein du \textit{parser}.
 \newline
 
-Chaque type d'analyse a ses avantages et ses inconvénients : celle utilisant la base de données Ghostery a peu (voire pas) de faux positifs mais passe à côté de certains trackers absents de sa base de données alors que l'analyse n'utilisant pas cette base peut renfermer plus de faux positifs mais détecte aussi plus de trackers de certaines catégories.
+Chaque analyse a ses avantages et ses inconvénients : celle qui n'utiliserait que la base de données Ghostery aurait peu (voire pas) de faux positifs mais passe à côté de certains trackers absents de sa base de données alors que l'analyse n'utilisant pas cette base peut renfermer plus de faux positifs mais détecte aussi plus de trackers de certaines catégories.
+\newline
+
+L'outil développé pour ce mémoire propose deux types d'analyses : le premier utilise la base de données Ghostery et applique les critères définis sur les ressources n'ayant pas été détectées par la base de données. Le second ne repose que sur les critères définis.
+
+Un expérimentateur choisissant le premier type d'analyse bénéficiera donc des avantages de l'utilisation de la base de données mais également des critères définis.
+\newpage
 
 \subsection{Sites renfermant le plus de trackers détectés}
 Le TOP 10 des sites en nombre de trackers détectés pour les deux analyses sont :\\
@@ -314,7 +326,9 @@ Sur un total de 24626 trackers :
 \end{itemize}
 \end{multicols}
 
-Quand on sait que \textit{DoubleClick} appartient à \textit{Google}, cela fait 4856 trackers provenant du géant mondial. Cela représente un peu moins de 20\% des trackers détectés au total par la base de données Ghostery. Le second est \textit{AppNexus} avec 5,60\% (1379 trackers), il s'agit d'une plateforme fonctionnant sous le modèle RDB \footnote{RDB (Real Time Bidding) est un système qui permet à des annonceurs de placer leurs publicités selon un système d'enchères. Il repose sur une plateforme d'achat et vente de publicités en temps réel.}. Ensuite, on trouve Facebook et Adobe quasiment ex aequo avec respectivement 2,81\% (691 trackers) et 2,78\% (685 trackers). Pour terminer, il y a 2 autres entreprises au dessus de la barre des 2\%, 7 entreprises entre 1 et 2\% et les autres (plus de 500 entreprises) avec un pourcentage inférieur à 1\%.
+Quand on sait que \textit{DoubleClick} appartient à \textit{Google}, cela fait 4856 trackers provenant du géant mondial. Cela représente un peu moins de 20\% des trackers détectés au total par la base de données Ghostery. Le second est \textit{AppNexus} avec 5,60\% (1379 trackers), il s'agit d'une plateforme fonctionnant sous le modèle RDB \footnote{RDB (Real Time Bidding) est un système qui permet à des annonceurs de placer leurs publicités selon un système d'enchères. Il repose sur une plateforme d'achat et vente de publicités en temps réel.}.
+\\
+Ensuite, on trouve Facebook et Adobe quasiment ex \ae{}quo avec respectivement 2,81\% (691 trackers) et 2,78\% (685 trackers). Pour terminer, il y a 2 autres entreprises au dessus de la barre des 2\%, 7 entreprises entre 1 et 2\% et les autres (plus de 500 entreprises) avec un pourcentage inférieur à 1\%.
 \newline
 
 Il faut également noter qu'AppNexus utilise différents services dont principalement ceux de Google (en 2010, il semblerait que Google comptait pour 50\% \footnote{D'après un expert de l'industrie publicitaire (\url{http://techcrunch.com/2010/11/30/google-temporarily-blocks-appnexus-from-its-ad-exchange/})}). Il est donc possible que cela permette à Google d'amasser encore plus de statistiques grâce à cet intermédiaire. Cette répartition montre que de grands groupes tracent massivement les utilisateurs mais qu'il existe énormément de petites entreprises qui tracent également les utilisateurs mais dans une moindre mesure. 
